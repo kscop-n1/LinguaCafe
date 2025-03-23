@@ -503,3 +503,7 @@
         color: var(--v-text-base);
     }
 }
+
+#app.dark .v-tooltip__content {
+    color: var(--v-textDark-base) !important;
+}

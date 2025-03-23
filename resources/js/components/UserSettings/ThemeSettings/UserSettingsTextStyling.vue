@@ -7,7 +7,7 @@
         <v-card outlined class="rounded-lg mt-2" :loading="loading">
             <v-container class="pa-8" v-if="textStyling">
                 <!-- Switch buttons (small screen) -->
-                <div id="option-select-inputs" class="w-100 d-flex justify-space-between flex-wrap mb-4">
+                <div id="option-select-inputs" class="d-flex justify-space-between mb-4">
                     <div class="text-option-input">
                         <label class="mb-0">
                             Word level
@@ -21,10 +21,40 @@
                             single-line
                             hide-details
                             :items="levels"
+                            :disabled="levelLock === 1"
                             @change="selectedLevelInputChanged"
                         ></v-select>
                     </div>
 
+                    <div class="pt-1">
+                        <v-tooltip bottom color="primary">
+                            <template v-slot:activator="{ on, attrs }">
+                                <div v-bind="attrs"
+                                v-on="on">
+                                <v-btn-toggle
+                                    v-model="levelLock"
+                                    mandatory
+                                    rounded
+                                    dense
+                                    class="w-auto"
+                                >
+                                    <v-btn 
+                                        small 
+                                        class="" 
+                                    >
+                                        <v-icon>mdi-link-variant-off</v-icon> Selected level
+                                    </v-btn>
+                                    <v-btn 
+                                        small 
+                                        class="" 
+                                    >
+                                        <v-icon>mdi-link-variant</v-icon> Every level
+                                    </v-btn>
+                                </v-btn-toggle></div>
+                            </template>
+                            <span>Apply changes to either every word level inside the selected theme, or just the selected word level.</span>
+                        </v-tooltip>
+                    </div>
                 </div>
 
                 <!-- Horizontal padding -->
@@ -39,7 +69,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('paddingHorizontal')"
                     ></v-slider>
                 </div>
 
@@ -55,7 +85,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('paddingTop')"
                     ></v-slider>
                 </div>
 
@@ -71,7 +101,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('paddingBottom')"
                     ></v-slider>
                 </div>
 
@@ -96,7 +126,7 @@
                         density="compact"
                         class="d-inline-block mt-0"
                         label="For spaceless languages only"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('horizontalPaddingSpacelessLanguagesOnly')"
                     >
                     </v-checkbox>
                 </div>
@@ -113,7 +143,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('borderWidth')"
                     ></v-slider>
                 </div>
 
@@ -129,7 +159,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('borderRadius')"
                     ></v-slider>
                 </div>
 
@@ -152,7 +182,7 @@
                             'dotted',
                             'dashed',
                         ]"
-                        @change="updateSampleTextStyling"
+                        @change="settingChanged('borderStyle')"
                     ></v-select>
                 </div>
 
@@ -168,7 +198,7 @@
                             density="compact"
                             class="d-inline-block mt-0"
                             label="Top"
-                            @change="updateSampleTextStyling"
+                            @change="settingChanged('borderTop')"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -177,7 +207,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Bottom"
-                            @change="updateSampleTextStyling"
+                            @change="settingChanged('borderBottom')"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -186,7 +216,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Sides"
-                            @change="updateSampleTextStyling"
+                            @change="settingChanged('borderSides')"
                         >
                         </v-checkbox>
                     </div>
@@ -204,7 +234,7 @@
                             density="compact"
                             class="d-inline-block mt-0"
                             label="Bold"
-                            @change="updateSampleTextStyling"
+                            @change="settingChanged('bold')"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -213,7 +243,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Italic"
-                            @change="updateSampleTextStyling"
+                            @change="settingChanged('italic')"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -222,7 +252,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Wavy underline (removes borders)"
-                            @change="updateSampleTextStyling"
+                            @change="settingChanged('wavyUnderline')"
                         >
                         </v-checkbox>
                     </div>
@@ -272,7 +302,7 @@
                                     dense
                                     hide-details
                                     maxlength="7"
-                                    @input="updateSampleTextStyling"
+                                    @input="settingChanged('borderColor')"
                                 ></v-text-field>
                             </td>
                             <td>
@@ -318,7 +348,7 @@
                                     dense
                                     hide-details
                                     maxlength="7"
-                                    @input="updateSampleTextStyling"
+                                    @input="settingChanged('textColor')"
                                 ></v-text-field>
                             </td>
                             <td>
@@ -364,7 +394,7 @@
                                     dense
                                     hide-details
                                     maxlength="7"
-                                    @input="updateSampleTextStyling"
+                                    @input="settingChanged('backgroundColor')"
                                 ></v-text-field>
                             </td>
                             <td>
@@ -389,7 +419,7 @@
                                         hide-details
                                         thumb-label="always"
                                         :thumb-size="24"
-                                        @change="updateSampleTextStyling"
+                                        @change="settingChanged('backgroundTransparency')"
                                     ></v-slider>
                                 </div>
                             </td>
@@ -425,6 +455,7 @@
                 loading: false,
                 resetTextStylingDialog: false,
                 selectedLevelIndex: 0,
+                levelLock: 0,
                 textStyling: null,
                 themes: ['light', 'dark', 'eink'],
                 levels: [
@@ -530,11 +561,24 @@
             },
             resetColor(colorName) {
                 this.textStyling[this.selectedTheme][this.selectedLevel][colorName] = JSON.parse(JSON.stringify(defaultTextThemes[this.selectedTheme][this.selectedLevel][colorName]));
-                this.updateSampleTextColors()
+                this.settingChanged(colorName)
             },
             colorChanged(color, colorName) {
                 this.textStyling[this.selectedTheme][this.selectedLevel][colorName] = color
-                this.updateSampleTextColors()
+                this.settingChanged(colorName)
+            },
+            settingChanged(settingName) {
+                if (this.levelLock === 1) {
+                    this.copySettingToEveryLevel(settingName)
+                }
+
+                this.updateSampleTextStyling()
+            },
+            copySettingToEveryLevel(settingName) {
+                const newValue = this.textStyling[this.selectedTheme][this.selectedLevel][settingName]
+                this.levels.forEach((level) => {
+                    this.textStyling[this.selectedTheme][level][settingName] = newValue
+                })
             },
             // updates the currently selected theme/word level settings
             updateSampleTextStyling() {
@@ -543,9 +587,7 @@
                 this.levels.forEach((level) => {
                     Object.assign(this.highlightedStyling, TextStylingService.getCssSettingObject(this.textStyling, this.selectedTheme, level))
                 })
-            
-
-                
+                        
                 this.textStyling = JSON.parse(JSON.stringify(this.textStyling))
                 this.$emit('update', this.textStyling)
             },

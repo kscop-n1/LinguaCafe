@@ -10,6 +10,7 @@
                 <b>New features:</b>
                 <ul>
                     <li>Added attachable images for words and phrases.</li>
+                    <li>Added an option to apply changes to every word level at the same time in the text styling settings.</li>
                 </ul>
 
                 <b>Bug fixes:</b>
