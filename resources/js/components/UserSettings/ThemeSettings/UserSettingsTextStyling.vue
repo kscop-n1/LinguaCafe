@@ -297,7 +297,7 @@
                             v-model="textStyling[selectedTheme][selectedLevel].borderTop"
                             hide-details
                             density="compact"
-                            class="d-inline-block mt-0"
+                            class="d-inline-block mt-0 ml-1"
                             label="Top"
                             @change="settingChanged('borderTop')"
                         >
@@ -350,7 +350,7 @@
                             v-model="textStyling[selectedTheme][selectedLevel].bold"
                             hide-details
                             density="compact"
-                            class="d-inline-block mt-0"
+                            class="d-inline-block mt-0 ml-1"
                             label="Bold"
                             @change="settingChanged('bold')"
                         >
