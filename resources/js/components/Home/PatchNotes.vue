@@ -16,6 +16,8 @@
                 <b>Bug fixes:</b>
                 <ul>
                     <li>Fixed spaces around symbols(punctuation marks, quote marks, parentheses) in text.</li>
+                    <li>Fixed missing spaces while copy-pasting from the review page's example sentence.</li>
+                    <li>Fixed minor plain text mode issues.</li>
                 </ul>
 
                 <b>Other changes:</b>
