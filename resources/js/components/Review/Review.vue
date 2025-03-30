@@ -211,8 +211,8 @@
                                         <div class="phrase-words" :style="{'font-size': (settings.fontSize) + 'px'}">
                                             <span
                                                 v-for="(word, wordIndex) in exampleSentence.words" :key="wordIndex"
-                                                :class="{'selected-font': true, 'mr-2': word.spaceAfter}"
-                                            >{{ word.word }}</span>
+                                                :class="{'selected-font': true}"
+                                            >{{ word.word }}<span v-if="word.spaceAfter">&nbsp;</span></span>
                                         </div>
                                     </template>
                                 </div>
