@@ -18,6 +18,8 @@
                     <li>Fixed spaces around symbols(punctuation marks, quote marks, parentheses) in text.</li>
                     <li>Fixed missing spaces while copy-pasting from the review page's example sentence.</li>
                     <li>Fixed minor plain text mode issues.</li>
+                    <li>DeepL character usage.</li>
+                    <li>Admin API page won't display an empty DeepL character usage section when the default API key is used.</li>
                 </ul>
 
                 <b>Other changes:</b>
