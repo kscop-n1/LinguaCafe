@@ -79,3 +79,4 @@ services:
         networks:
             - linguacafe
         platform: ${PLATFORM:-}
+        APP_ENV: "production"

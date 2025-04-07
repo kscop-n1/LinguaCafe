@@ -2,6 +2,7 @@ from bottle import route, request, response, run, BaseRequest, HTTPResponse
 BaseRequest.MEMFILE_MAX = 1024 * 1024 * 100
 from spacy.language import Language
 import sys
+import os
 import json
 import pykakasi
 import spacy
@@ -693,4 +694,9 @@ def model_remove():
             continue
     return HTTPResponse(status=500, body="Error: Model directory could not be removed in 5 retries")
 
-run(host='0.0.0.0', port=8678, reloader=False, debug=False)
+if 'APP_ENV' in os.environ and os.environ['APP_ENV'] == 'production':
+    print('Production server started')
+    run(host='0.0.0.0', port=8678, reloader=False, debug=False)
+else:
+    print('Development server started')
+    run(host='0.0.0.0', port=8678, reloader=True, debug=True)

@@ -89,3 +89,4 @@ services:
             - linguacafedev
         environment:
             PYTHONPATH: "/var/www/html/storage/app/model"
+            APP_ENV: "local"

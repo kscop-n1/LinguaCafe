@@ -26,6 +26,7 @@
                 <ul>
                     <li>Theme user settings now has one single theme selection dropdown instead of two for different sections. Its default value now will be the currently selected theme.</li>
                     <li>Users won't be forced to log in again after 2 hours.</li>
+                    <li>The laravel and the python servers will now run automatically in dev or production environments based on the docker compose files.</li>
                 </ul>
             </v-card-text>
         </v-card>
