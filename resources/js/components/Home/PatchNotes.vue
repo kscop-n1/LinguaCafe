@@ -5,7 +5,7 @@
         </div>
 
         <v-card outlined class="rounded-lg mb-8">
-            <v-card-title>v0.15<v-spacer /> 2025.??.??.</v-card-title>
+            <v-card-title>v0.15-beta<v-spacer /> 2025.04.13.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
                 <ul>
@@ -18,8 +18,7 @@
                     <li>Fixed spaces around symbols(punctuation marks, quote marks, parentheses) in text.</li>
                     <li>Fixed missing spaces while copy-pasting from the review page's example sentence.</li>
                     <li>Fixed minor plain text mode issues.</li>
-                    <li>DeepL character usage.</li>
-                    <li>Admin API page won't display an empty DeepL character usage section when the default API key is used.</li>
+                    <li>Admin API page was displaying an empty DeepL character usage section when the default API key was used.</li>
                 </ul>
 
                 <b>Other changes:</b>
