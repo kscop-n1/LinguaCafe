@@ -108,13 +108,14 @@ class TextBlockService
     /* 
         Sends the raw text to python tokenizer service, and stores the result.
     */
-    public function tokenizeRawText() {
+    public function tokenizeRawText($tokenizers) {
         $text = $this->rawText;
         $text = preg_replace("/ {2,}/", " ", str_replace(["\r\n", "\r", "\n"], " NEWLINE ", $text));
 
         $this->tokenizedWords = Http::post($this->pythonService . ':8678/tokenizer', [
             'raw_text' => $text,
             'language' => $this->language,
+            'tokenizer' => in_array($this->language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
         ]);
 
         $this->tokenizedWords = json_decode($this->tokenizedWords);

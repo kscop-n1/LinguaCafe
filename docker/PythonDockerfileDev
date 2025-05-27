@@ -10,6 +10,8 @@ RUN apt-get update -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
+
 RUN addgroup --gid 1000 laravel \
     && adduser --ingroup laravel --disabled-password --gecos "" --shell /bin/sh laravel
 USER laravel
@@ -29,12 +31,14 @@ RUN pip install -U --no-cache-dir \
         bottle \
 #spacy
         spacy \
+        stanza \
 #chinese reading
         pinyin \
 #subtitle file parser
         pysub-parser \
 #website text parser
-        newspaper3k
+        newspaper3k \ 
+        stanza
 
 RUN python3 -m spacy download de_core_news_sm \
     && python3 -m spacy download nb_core_news_sm \

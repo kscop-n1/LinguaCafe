@@ -88,5 +88,5 @@ services:
         networks:
             - linguacafedev
         environment:
-            PYTHONPATH: "/var/www/html/storage/app/model"
+            PYTHONPATH: "/var/www/html/storage/app/packages/stanza:/var/www/html/storage/app/packages/language_models/stanza:/var/www/html/storage/app/packages/language_models/spacy"
             APP_ENV: "local"

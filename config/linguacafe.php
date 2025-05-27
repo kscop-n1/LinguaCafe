@@ -3,8 +3,45 @@
 return [
     'my_memory_url' => 'https://api.mymemory.translated.net/',
     'languages' => [
+        'tokenizers' => [
+            'spacy' => [
+                'Chinese',
+                'Croatian',
+                'Danish',
+                'Czech',
+                'Dutch',
+                'English',
+                'Finnish',
+                'French',
+                'German',
+                'Greek',
+                'Italian',
+                'Japanese',
+                'Korean',
+                'Latin',
+                'Macedonian',
+                'Norwegian',
+                'Polish',
+                'Portuguese',
+                'Romanian',
+                'Russian',
+                'Slovenian',
+                'Spanish',
+                'Swedish',
+                'Thai',
+                'Turkish',
+                'Ukrainian',
+                'Welsh',
+            ],
+
+            'stanza' => [
+                'Bulgarian',
+            ],
+        ],
+
         // A list of the supported languages that can be read with linguacafe. 
         'supported_languages' => [
+            'Bulgarian',
             // Catalan will need a dictionary
             // 'Catalan',
             'Chinese',
@@ -39,6 +76,7 @@ return [
         ],
 
         'supported_languages_with_required_install' => [
+            'Bulgarian',
             "Chinese",
             "Japanese",
             "Korean",
@@ -47,7 +85,7 @@ return [
             "Thai",
             "Ukrainian",
         ],
-
+        
         'languages_without_spaces' => [
             'chinese',
             'japanese',

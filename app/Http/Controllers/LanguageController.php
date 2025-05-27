@@ -81,10 +81,11 @@ class LanguageController extends Controller {
 
     public function installLanguage(InstallLanguageRequest $request) {
         $installableLanguages = config('linguacafe.languages.supported_languages_with_required_install');
+        $tokenizers = config('linguacafe.languages.tokenizers');
         $language = $request->post('language');
 
         try {
-            $installResult = $this->languageService->installLanguage($language, $installableLanguages);
+            $installResult = $this->languageService->installLanguage($language, $installableLanguages, $tokenizers);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

@@ -328,11 +328,11 @@ class ChapterService {
     }
 
     // processes a chapter's raw text, and returns the amount of words in the chapter
-    public function processChapterText($userId, $chapterId) {
+    public function processChapterText($userId, $chapterId, $tokenizers) {
         DB::disableQueryLog();
         $bookId = null;
 
-        DB::transaction(function() use(&$bookId, $userId, $chapterId) {
+        DB::transaction(function() use(&$bookId, $userId, $chapterId, $tokenizers) {
             // retrieve chapter
             $chapter = Chapter
                 ::lockForUpdate()
@@ -349,7 +349,7 @@ class ChapterService {
             
             if ($chapter->type == 'text') {
                 $textBlock->rawText = $chapter->raw_text;
-                $textBlock->tokenizeRawText();
+                $textBlock->tokenizeRawText($tokenizers);
                 $timeStamps = [];
             } else {
                 $textBlock->rawText = $chapter->raw_text;

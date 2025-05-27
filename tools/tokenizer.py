@@ -22,39 +22,10 @@ import lxml.html
 import importlib
 import shutil
 import subprocess
+import PackageManagerService
 from newspaper import Article
 
-# create emtpy sapce models
-multi_nlp = None
-japanese_nlp = None
-hiraganaConverter = None
-norwegian_nlp = None
-german_nlp = None
-korean_nlp = None
-spanish_nlp = None
-chinese_nlp = None
-dutch_nlp = None
-finnish_nlp = None
-french_nlp = None
-italian_nlp = None
-swedish_nlp = None
-ukrainian_nlp = None
-russian_nlp = None
-greek_nlp = None
-english_nlp = None
-thai_nlp = None
-turkish_nlp = None
-catalan_nlp = None
-croatian_nlp = None
-danish_nlp = None
-lithuanian_nlp = None
-macedonian_nlp = None
-polish_nlp = None
-portuguese_nlp = None
-romanian_nlp = None
-slovenian_nlp = None
-
-
+packageManagerService = PackageManagerService.PackageManagerService()
 
 @Language.component("custom_sentence_splitter")
 def custom_sentence_splitter(doc):    
@@ -64,202 +35,6 @@ def custom_sentence_splitter(doc):
             doc[token.i+1].is_sent_start = True
         else:
             doc[token.i+1].is_sent_start = False
-    return doc
-
-
-def getTokenizerDoc(language, words):
-    # load the tokenizer model for the first time
-    if language == 'german':
-        global german_nlp
-        if german_nlp == None:
-            german_nlp = spacy.load("de_core_news_sm", disable = ['ner'])
-            german_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = german_nlp(words)
-        
-    if language == 'japanese':
-        global japanese_nlp
-        global hiraganaConverter
-        if japanese_nlp == None:
-            japanese_nlp = spacy.load("ja_core_news_sm", disable = ['ner', 'parser'])
-            japanese_nlp.add_pipe("custom_sentence_splitter", first=True)
-            hiraganaConverter = pykakasi.kakasi()
-        doc = japanese_nlp(words)
-
-    if language == 'korean':
-        global korean_nlp
-        if korean_nlp == None:
-            korean_nlp = spacy.load("ko_core_news_sm", disable = ['ner', 'parser'])
-            korean_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = korean_nlp(words)
-
-    if language == 'norwegian':
-        global norwegian_nlp
-        if norwegian_nlp == None:
-            norwegian_nlp = spacy.load("nb_core_news_sm", disable = ['ner', 'parser'])
-            norwegian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = norwegian_nlp(words)
-
-    if language == 'spanish':
-        global spanish_nlp
-        if spanish_nlp == None:
-            spanish_nlp = spacy.load("es_core_news_sm", disable = ['ner', 'parser'])
-            spanish_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = spanish_nlp(words)
-
-    if language == 'chinese':
-        global chinese_nlp
-        if chinese_nlp == None:
-            chinese_nlp = spacy.load("zh_core_web_sm", disable = ['ner', 'parser'])
-            chinese_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = chinese_nlp(words)
-    
-    if language == 'dutch':
-        global dutch_nlp
-        if dutch_nlp == None:
-            dutch_nlp = spacy.load("nl_core_news_sm", disable = ['ner', 'parser'])
-            dutch_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = dutch_nlp(words)
-    
-    if language == 'finnish':
-        global finnish_nlp
-        if finnish_nlp == None:
-            finnish_nlp = spacy.load("fi_core_news_sm", disable = ['ner', 'parser'])
-            finnish_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = finnish_nlp(words)
-    
-    if language == 'french':
-        global french_nlp
-        if french_nlp == None:
-            french_nlp = spacy.load("fr_core_news_sm", disable = ['ner', 'parser'])
-            french_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = french_nlp(words)
-    
-    if language == 'italian':
-        global italian_nlp
-        if italian_nlp == None:
-            italian_nlp = spacy.load("it_core_news_sm", disable = ['ner', 'parser'])
-            italian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = italian_nlp(words)
-
-    if language == 'russian':
-        global russian_nlp
-        if russian_nlp == None:
-            russian_nlp = spacy.load("ru_core_news_sm", disable = ['ner', 'parser'])
-            russian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = russian_nlp(words)
-
-    if language == 'swedish':
-        global swedish_nlp
-        if swedish_nlp == None:
-            swedish_nlp = spacy.load("sv_core_news_sm", disable = ['ner', 'parser'])
-            swedish_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = swedish_nlp(words)
-
-    if language == 'ukrainian':
-        global ukrainian_nlp
-        if ukrainian_nlp == None:
-            ukrainian_nlp = spacy.load("uk_core_news_sm", disable = ['ner', 'parser'])
-            ukrainian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = ukrainian_nlp(words)
-
-    if language == 'english':
-        global english_nlp
-        if english_nlp == None:
-            english_nlp = spacy.load("en_core_web_sm", disable = ['ner', 'parser'])
-            english_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = english_nlp(words)
-
-    if language == 'greek':
-        global greek_nlp
-        if greek_nlp == None:
-            greek_nlp = spacy.load("el_core_news_sm", disable = ['ner', 'parser'])
-            greek_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = greek_nlp(words)
-
-    if language == 'thai':
-        global thai_nlp
-        if thai_nlp is None:
-            import spacy_thai
-            thai_nlp = spacy_thai.load()
-            thai_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = thai_nlp(words)
-
-    if language == 'turkish':
-        global turkish_nlp
-        if turkish_nlp is None:
-            turkish_nlp = spacy.load("tr_core_news_md", disable = ['ner', 'parser'])
-            turkish_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = turkish_nlp(words)
-
-    if language == 'catalan':
-        global catalan_nlp
-        if catalan_nlp is None:
-            catalan_nlp = spacy.load("ca_core_news_sm", disable = ['ner', 'parser'])
-            catalan_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = catalan_nlp(words)
-    
-    if language == 'croatian':
-        global croatian_nlp
-        if croatian_nlp is None:
-            croatian_nlp = spacy.load("hr_core_news_sm", disable = ['ner', 'parser'])
-            croatian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = croatian_nlp(words)
-
-    if language == 'danish':
-        global danish_nlp
-        if danish_nlp is None:
-            danish_nlp = spacy.load("da_core_news_sm", disable = ['ner', 'parser'])
-            danish_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = danish_nlp(words)
-
-    if language == 'lithuanian':
-        global lithuanian_nlp
-        if lithuanian_nlp is None:
-            lithuanian_nlp = spacy.load("lt_core_news_sm", disable = ['ner', 'parser'])
-            lithuanian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = lithuanian_nlp(words)
-
-    if language == 'macedonian':
-        global macedonian_nlp
-        if macedonian_nlp is None:
-            macedonian_nlp = spacy.load("mk_core_news_sm", disable = ['ner', 'parser'])
-            macedonian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = macedonian_nlp(words)
-
-    if language == 'polish':
-        global polish_nlp
-        if polish_nlp is None:
-            polish_nlp = spacy.load("pl_core_news_sm", disable = ['ner', 'parser'])
-            polish_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = polish_nlp(words)
-
-    if language == 'portuguese':
-        global portuguese_nlp
-        if portuguese_nlp is None:
-            portuguese_nlp = spacy.load("pt_core_news_sm", disable = ['ner', 'parser'])
-            portuguese_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = portuguese_nlp(words)
-
-    if language == 'romanian':
-        global romanian_nlp
-        if romanian_nlp is None:
-            romanian_nlp = spacy.load("ro_core_news_sm", disable = ['ner', 'parser'])
-            romanian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = romanian_nlp(words)
-    
-    if language == 'slovenian':
-        global slovenian_nlp
-        if slovenian_nlp is None:
-            slovenian_nlp = spacy.load("sl_core_news_sm", disable = ['ner', 'parser'])
-            slovenian_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = slovenian_nlp(words)
-        
-    if language in ('welsh', 'czech', 'latin'):
-        global multi_nlp
-        if multi_nlp == None:
-            multi_nlp = spacy.load("xx_ent_wiki_sm", disable = ['ner'])
-            multi_nlp.add_pipe("custom_sentence_splitter", first=True)
-        doc = multi_nlp(words)
     return doc
 
 # used for splitting and parsing text
@@ -280,17 +55,24 @@ def get_separable_lemma(token):
     return token.lemma_
 
 # Tokenizes a text with spacy.
-def tokenizeText(text, language, sentenceIndexStart = 0):
-    global hiraganaConverter
-    tokenizedWords = list()
-
+def tokenizeText(text, language, tokenizer, sentenceIndexStart = 0):
 
     # Mark thai new sentences. It is required because thai sentence indexing does not work in spacy.
     if language == 'thai':
         text = text.replace(' ', ' THAINEWSENTENCE ')
         
-    doc = getTokenizerDoc(language, text)
+    language_model = packageManagerService.get_language_model(language, tokenizer)
+    doc = language_model(text)
 
+    if tokenizer == 'stanza':
+        return transformStanzaTokenizedList(doc)
+    
+    if tokenizer == 'spacy':
+        return transformSpacyTokenizedList(doc)
+
+def transformSpacyTokenizedList(doc):
+    global hiraganaConverter
+    tokenizedWords = list()
     thaiSentenceIndex = 0
     space_before = False
     for sentenceIndex, sentence in enumerate(doc.sents):
@@ -373,6 +155,37 @@ def tokenizeText(text, language, sentenceIndexStart = 0):
 
     return tokenizedWords
 
+def transformStanzaTokenizedList(doc):
+    tokenizedWords = list()
+    sentenceIndex = 0
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word == " " or word == "" or word == " ":
+                space_before = True
+                continue
+            else:
+                space_before = False
+                
+            tokenizedWords.append(
+                {
+                    "w": word.text,
+                    "r": "",
+                    "l": word.lemma,
+                    "lr": "",
+                    "pos": word.upos,
+                    "si": sentenceIndex,
+                    "g": "",
+                    "ip": False,
+                    "sb": space_before,
+                    "sa": len(word.parent.spaces_after),
+                }
+            )
+
+        sentenceIndex += 1
+
+    return tokenizedWords
+
+
 # loads an .epub file
 def loadBook(file, sortMethod):
     # rp and rt tags are used in adding prononciation over words, we need to remove the content of the tags
@@ -410,14 +223,15 @@ def tokenizer():
     # start = time.time()
     rawText = request.json.get('raw_text')
     language = request.json.get('language')
+    tokenizer = request.json.get('tokenizer')
 
     if type(rawText) == str:
-        jsonWords = tokenizeText(rawText, language)
+        jsonWords = tokenizeText(rawText, language, tokenizer)
         return json.dumps(jsonWords)
     else:
         tokenizedText = list()
         for text in rawText:
-            tokenizedText.append(tokenizeText(text, language))
+            tokenizedText.append(tokenizeText(text, language, tokenizer))
         return json.dumps(tokenizedText)
 
 @route('/tokenizer/subtitle', method='POST')
@@ -626,73 +440,100 @@ model_name: dict[str, str] = {
     "spacy-thai": "Thai",
 }
 
-@route('/models/install', method = 'POST')
-def model_install():
-    """Installs the given language model from Spacy.
-    Valid languages are 'ja', 'ko', 'ru', 'uk', 'zh'.
-    Thai and vietnamese support can be added later."""
-    response.headers['Content-Type'] = 'application/json'
-    lang = request.json.get('language')
-    try:
-        subprocess.check_output(
-            [
-                "pip",
-                "install",
-                "--target=/var/www/html/storage/app/model",
-                model_url[lang],
-            ]
-        )
-        if lang == "Thai":
-            subprocess.check_output([
-                "pip",
-                "install",
-                "--target=/var/www/html/storage/app/model",
-                "tzdata"])
-        # https://stackoverflow.com/questions/78634235
-        if lang == "Turkish":
-            subprocess.check_output([
-                "pip",
-                "install",
-                "--target=/var/www/html/storage/app/model",
-                "numpy<2.0.0",
-                "--upgrade"])
-        importlib.invalidate_caches()
+# @route('/models/install', method = 'POST')
+# def model_install():
+#     """Installs the given language model from Spacy.
+#     Valid languages are 'ja', 'ko', 'ru', 'uk', 'zh'.
+#     Thai and vietnamese support can be added later."""
+#     response.headers['Content-Type'] = 'application/json'
+#     lang = request.json.get('language')
+#     try:
+#         subprocess.check_output(
+#             [
+#                 "pip",
+#                 "install",
+#                 "--target=/var/www/html/storage/app/model",
+#                 model_url[lang],
+#             ]
+#         )
+#         if lang == "Thai":
+#             subprocess.check_output([
+#                 "pip",
+#                 "install",
+#                 "--target=/var/www/html/storage/app/model",
+#                 "tzdata"])
+#         # https://stackoverflow.com/questions/78634235
+#         if lang == "Turkish":
+#             subprocess.check_output([
+#                 "pip",
+#                 "install",
+#                 "--target=/var/www/html/storage/app/model",
+#                 "numpy<2.0.0",
+#                 "--upgrade"])
+#         importlib.invalidate_caches()
+#         return HTTPResponse(status=200, body="Language and dependencies installed correctly")
+#     except subprocess.CalledProcessError as e:
+#         return HTTPResponse(status=500, body=f"Error: {e}")
+
+
+# @route('/models/list', method = 'GET')
+# def model_installed():
+#     """Returns the list of all installed python packages"""
+#     response.headers['Content-Type'] = 'application/json'
+    # try:
+    #     result = subprocess.run(
+    #         ["pip", "list"], capture_output=True, text=True, check=True
+    #     )
+    #     installed = result.stdout.splitlines()[2:]
+    #     package_names = [pkg.split()[0] for pkg in installed if pkg.strip()]
+    #     installed_models = [model_name[lang] for lang in package_names if lang in model_name]
+    #     return json.dumps(installed_models)
+    # except subprocess.CalledProcessError as e:
+    #     return HTTPResponse(status=200, body=f"Error: {e}")
+
+
+# @route('/models/remove', method = 'DELETE')
+# def model_remove():
+#     """Removes all the contents of the model directory"""
+#     retries = 0
+#     while retries < 5:
+#         try:
+#             response.headers['Content-Type'] = 'application/json'
+#             shutil.rmtree("/var/www/html/storage/app/model")
+#             return HTTPResponse(status=200, body="Model directoy removed successfully")
+#         except FileNotFoundError:
+#             return HTTPResponse(status=202, body="No local files to be deleted")
+#         except subprocess.CalledProcessError:
+#             retries += 1
+#             continue
+#     return HTTPResponse(status=500, body="Error: Model directory could not be removed in 5 retries")
+
+installedLanguages = list()
+
+@route('/packages/uninstall-all', method = 'DELETE')
+def remove_models():
+    packageManagerService.delete_installed_packages()
+    return PlainTextResponse(content="Installed packages removed correctly")
+
+@route('/packages/languages/install', method = 'POST')
+def install_language_model():
+    language = request.json.get('language')
+    tokenizer = request.json.get('tokenizer')
+    if tokenizer is None or language is None:
+        return HTTPResponse(status=422, body="Error: missing parameter")
+
+
+
+    if packageManagerService.install_language_model(language, tokenizer):
         return HTTPResponse(status=200, body="Language and dependencies installed correctly")
-    except subprocess.CalledProcessError as e:
+    else:
         return HTTPResponse(status=500, body=f"Error: {e}")
 
-
-@route('/models/list', method = 'GET')
-def model_installed():
-    """Returns the list of all installed python packages"""
-    response.headers['Content-Type'] = 'application/json'
-    try:
-        result = subprocess.run(
-            ["pip", "list"], capture_output=True, text=True, check=True
-        )
-        installed = result.stdout.splitlines()[2:]
-        package_names = [pkg.split()[0] for pkg in installed if pkg.strip()]
-        installed_models = [model_name[lang] for lang in package_names if lang in model_name]
-        return json.dumps(installed_models)
-    except subprocess.CalledProcessError as e:
-        return HTTPResponse(status=200, body=f"Error: {e}")
+@route('/packages/list', method = 'GET')
+def list_installed_packages():
+    return packageManagerService.list_installed_packages()
 
 
-@route('/models/remove', method = 'DELETE')
-def model_remove():
-    """Removes all the contents of the model directory"""
-    retries = 0
-    while retries < 5:
-        try:
-            response.headers['Content-Type'] = 'application/json'
-            shutil.rmtree("/var/www/html/storage/app/model")
-            return HTTPResponse(status=200, body="Model directoy removed successfully")
-        except FileNotFoundError:
-            return HTTPResponse(status=202, body="No local files to be deleted")
-        except subprocess.CalledProcessError:
-            retries += 1
-            continue
-    return HTTPResponse(status=500, body="Error: Model directory could not be removed in 5 retries")
 
 if 'APP_ENV' in os.environ and os.environ['APP_ENV'] == 'production':
     print('Production server started')

@@ -58,20 +58,24 @@ class LanguageService {
     }
     
     public function getInstalledLanguages() {
-        $installedLanguages = Http::get($this->pythonService . ':8678/models/list');
-        $installedLanguages = json_decode($installedLanguages);
-        
+        $installedPackages = Http::get($this->pythonService . ':8678/packages/list');
+        $installedPackages = json_decode($installedPackages);
+
+        $installedLanguages = array_merge($installedPackages->spacy_models, $installedPackages->stanza_models);
+
         return $installedLanguages;
     }
 
-    public function installLanguage($language, $installableLanguages) {
+    public function installLanguage($language, $installableLanguages, $tokenizers) {
         if (!in_array($language, $installableLanguages, true)) {
             throw new \Exception('This language does not require install.');
         }
 
-        $installResult = Http::post($this->pythonService . ':8678/models/install', [
-            'language' => $language,
-        ]);
+        $installResult = Http::timeout(60*20)
+            ->post($this->pythonService . ':8678/packages/languages/install', [
+                'language' => $language,
+                'tokenizer' => in_array($language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
+            ]);
 
         // Download KanjiVG
         if ($language == 'Japanese') {
@@ -115,7 +119,7 @@ class LanguageService {
         Storage::deleteDirectory('images/kanjivg');
 
         // delete python language models
-        $uninstallResult = Http::delete($this->pythonService . ':8678/models/remove');
+        $uninstallResult = Http::delete($this->pythonService . ':8678/packages/uninstall-all');
 
         return $uninstallResult;
     }
