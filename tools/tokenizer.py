@@ -1,51 +1,28 @@
 from bottle import route, request, response, run, BaseRequest, HTTPResponse
 BaseRequest.MEMFILE_MAX = 1024 * 1024 * 100
-from spacy.language import Language
 import sys
 import os
 import json
-import pykakasi
-import spacy
 import time
 import re
 import ebooklib 
 import html
 import pinyin
 from ebooklib import epub
-from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import TranscriptsDisabled
 from urllib import parse
-from pysubparser import parser
-from pysubparser.cleaners import formatting
 import lxml_html_clean
 import lxml.html
-import importlib
-import shutil
-import subprocess
-import PackageManagerService
 from newspaper import Article
 
-packageManagerService = PackageManagerService.PackageManagerService()
+import PackageManagerService
+import YoutubeService
 
-@Language.component("custom_sentence_splitter")
-def custom_sentence_splitter(doc):    
-    punctuations = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
-    for token in doc[:-1]:
-        if token.text in punctuations:
-            doc[token.i+1].is_sent_start = True
-        else:
-            doc[token.i+1].is_sent_start = False
-    return doc
+packageManagerService = PackageManagerService.PackageManagerService()
+youtubeService = YoutubeService.YoutubeService()
 
 # used for splitting and parsing text
 sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
 duplicateRemovalRegex = '(TMP_ST){2,}'
-
-alphabetRegex = {
-    'norwegian': r'([^a-zA-ZéóæøåÉÆØÅÓ])',
-    'german': r'([^a-zA-ZäÄöÖüÜßẞ])',
-    'spanish': r'([^a-zA-ZñÑ])'
-}
 
 # used for german separable verbs
 def get_separable_lemma(token):
@@ -362,53 +339,22 @@ def importSubtitles():
     return json.dumps(chunks)
 
 @route('/tokenizer/get-youtube-subtitle-list', method='POST')
-def getYoutubeSubtitles():
+def getYoutubeSubtitleList():
     response.headers['Content-Type'] = 'application/json'
+
     url = request.json.get('url')
-    
     parsedUrl = parse.urlparse(url)
     videoId = parse.parse_qs(parsedUrl.query)['v'][0]
 
-    try:
-        subtitles = YouTubeTranscriptApi.list_transcripts(videoId)
-    except TranscriptsDisabled: 
-        return json.dumps(list())
-
-    subtitleList = list()
-    for subtitle in subtitles:
-        subtitleList.append({
-            'language': subtitle.language, 
-            'languageLowerCase': subtitle.language.lower(), 
-            'languageCode': subtitle.language_code, 
-            'text': '\n'.join(line['text'] for line in subtitle.fetch())
-        })
-
-    
-    return json.dumps(subtitleList)
+    return json.dumps(youtubeService.getYoutubeSubtitleList(videoId))
 
 @route('/tokenizer/get-subtitle-file-content', method='POST')
-def getYoutubeSubtitles():
+def getYoutubeSubtitleContent():
     response.headers['Content-Type'] = 'application/json'
-    fileName = request.json.get('fileName')
-    subtitleContent = list()
     
-    subtitles = parser.parse(fileName)
-    subtitles = formatting.clean(subtitles)
-    for subtitle in subtitles:
-        start = str(subtitle.start).split('.')[0]
-        end = str(subtitle.end).split('.')[0]
-        subtitleContent.append({
-            'text': str(subtitle.text),
-            'start': start,
-            'end': end
-        })
+    fileName = request.json.get('fileName')
 
-    # try:
-    # except TranscriptsDisabled: 
-    #     return json.dumps(list())
-
-
-    return json.dumps(subtitleContent)
+    return json.dumps(youtubeService.getYoutubeSubtitleContent(fileName))
 
 @route('/tokenizer/get-website-text', method='POST')
 def getWebsiteText():
@@ -418,97 +364,6 @@ def getWebsiteText():
     article.parse()
 
     return json.dumps(article.text);
-
-# Language model management
-model_url: dict[str, str] = {
-    "Japanese": "https://github.com/explosion/spacy-models/releases/download/ja_core_news_sm-3.7.0/ja_core_news_sm-3.7.0-py3-none-any.whl",
-    "Korean": "https://github.com/explosion/spacy-models/releases/download/ko_core_news_sm-3.7.0/ko_core_news_sm-3.7.0-py3-none-any.whl",
-    "Russian": "https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.7.0/ru_core_news_sm-3.7.0-py3-none-any.whl",
-    "Ukrainian": "https://github.com/explosion/spacy-models/releases/download/uk_core_news_sm-3.7.0/uk_core_news_sm-3.7.0-py3-none-any.whl",
-    "Chinese": "https://github.com/explosion/spacy-models/releases/download/zh_core_web_sm-3.7.0/zh_core_web_sm-3.7.0-py3-none-any.whl",
-    "Turkish": "https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl",
-    "Thai": "spacy_thai",
-}
-
-model_name: dict[str, str] = {
-    "ja-core-news-sm": "Japanese",
-    "ko-core-news-sm": "Korean",
-    "ru-core-news-sm": "Russian",
-    "uk-core-news-sm": "Ukrainian",
-    "zh-core-web-sm": "Chinese",
-    "tr-core-news-md": "Turkish",
-    "spacy-thai": "Thai",
-}
-
-# @route('/models/install', method = 'POST')
-# def model_install():
-#     """Installs the given language model from Spacy.
-#     Valid languages are 'ja', 'ko', 'ru', 'uk', 'zh'.
-#     Thai and vietnamese support can be added later."""
-#     response.headers['Content-Type'] = 'application/json'
-#     lang = request.json.get('language')
-#     try:
-#         subprocess.check_output(
-#             [
-#                 "pip",
-#                 "install",
-#                 "--target=/var/www/html/storage/app/model",
-#                 model_url[lang],
-#             ]
-#         )
-#         if lang == "Thai":
-#             subprocess.check_output([
-#                 "pip",
-#                 "install",
-#                 "--target=/var/www/html/storage/app/model",
-#                 "tzdata"])
-#         # https://stackoverflow.com/questions/78634235
-#         if lang == "Turkish":
-#             subprocess.check_output([
-#                 "pip",
-#                 "install",
-#                 "--target=/var/www/html/storage/app/model",
-#                 "numpy<2.0.0",
-#                 "--upgrade"])
-#         importlib.invalidate_caches()
-#         return HTTPResponse(status=200, body="Language and dependencies installed correctly")
-#     except subprocess.CalledProcessError as e:
-#         return HTTPResponse(status=500, body=f"Error: {e}")
-
-
-# @route('/models/list', method = 'GET')
-# def model_installed():
-#     """Returns the list of all installed python packages"""
-#     response.headers['Content-Type'] = 'application/json'
-    # try:
-    #     result = subprocess.run(
-    #         ["pip", "list"], capture_output=True, text=True, check=True
-    #     )
-    #     installed = result.stdout.splitlines()[2:]
-    #     package_names = [pkg.split()[0] for pkg in installed if pkg.strip()]
-    #     installed_models = [model_name[lang] for lang in package_names if lang in model_name]
-    #     return json.dumps(installed_models)
-    # except subprocess.CalledProcessError as e:
-    #     return HTTPResponse(status=200, body=f"Error: {e}")
-
-
-# @route('/models/remove', method = 'DELETE')
-# def model_remove():
-#     """Removes all the contents of the model directory"""
-#     retries = 0
-#     while retries < 5:
-#         try:
-#             response.headers['Content-Type'] = 'application/json'
-#             shutil.rmtree("/var/www/html/storage/app/model")
-#             return HTTPResponse(status=200, body="Model directoy removed successfully")
-#         except FileNotFoundError:
-#             return HTTPResponse(status=202, body="No local files to be deleted")
-#         except subprocess.CalledProcessError:
-#             retries += 1
-#             continue
-#     return HTTPResponse(status=500, body="Error: Model directory could not be removed in 5 retries")
-
-installedLanguages = list()
 
 @route('/packages/uninstall-all', method = 'DELETE')
 def remove_models():
@@ -532,8 +387,6 @@ def install_language_model():
 @route('/packages/list', method = 'GET')
 def list_installed_packages():
     return packageManagerService.list_installed_packages()
-
-
 
 if 'APP_ENV' in os.environ and os.environ['APP_ENV'] == 'production':
     print('Production server started')
