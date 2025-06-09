@@ -4,59 +4,19 @@ import sys
 import os
 import json
 import time
-import re
-import ebooklib 
 import html
-import pinyin
-from ebooklib import epub
 from urllib import parse
-import lxml_html_clean
-import lxml.html
 from newspaper import Article
 
 import PackageManagerService
 import YoutubeService
 import TokenizerService
+import EbookService
 
 packageManagerService = PackageManagerService.PackageManagerService()
 youtubeService = YoutubeService.YoutubeService()
 tokenizerService = TokenizerService.TokenizerService(packageManagerService)
-
-# used for german separable verbs
-def get_separable_lemma(token):
-    prefix = [c.text for c in token.children if c.dep_ == 'svp']
-    if len(prefix) > 0:
-        return prefix[0] + token.lemma_
-    return token.lemma_
-
-# loads an .epub file
-def loadBook(file, sortMethod):
-    # rp and rt tags are used in adding prononciation over words, we need to remove the content of the tags
-    cleaner = lxml_html_clean.Cleaner(allow_tags=[''], remove_unknown_tags=False, kill_tags = ['rp','rt'], page_structure=False)
-    content = ''
-    book = epub.read_epub(file)
-    items = list(book.get_items())
-
-    # select sorting method for chapters
-    if sortMethod == 'spine':
-        sortedItems = list()
-        for item in enumerate(book.spine):
-            sortedItems.append(book.get_item_with_id(item[1][0]))
-    else:
-        sortedItems = items
-
-    for item in sortedItems:
-        if item.get_type() == ebooklib.ITEM_DOCUMENT:
-            # clean_html cannot be passed bytes but it cannot be passed a str
-            # with explicit encoding either. So you must convert it to a string
-            # and then use RegEx to remove the encoding declaration
-            content_str = item.get_content().decode()
-            content_str = re.sub(r'<\?xml[^>]+\?>', '', content_str, count=1)
-            epubPage = cleaner.clean_html(content_str)
-            # needed to removed extra div created by cleaner...
-            epubPage = lxml.html.fromstring(epubPage).text_content()
-            content += epubPage
-    return str(content)
+ebookService = EbookService.EbookService()
 
 # responds to http requests from the main PHP site
 @route('/tokenizer/tokenize-text', method='POST')
@@ -93,35 +53,18 @@ def cutAndTokenizeText():
 # returns a raw text and a tokenized text 
 # of n .epub file cut into chunks
 @route('/tokenizer/import-book', method='POST')
-def importBook():
+def loadEbookIntoChunks():
     response.headers['Content-Type'] = 'application/json'
-    chunkSize = request.json.get('chunkSize')
-    textProcessingMethod = request.json.get('textProcessingMethod')
+    
     importFile = request.json.get('importFile')
     language = request.json.get('language')
+    chunkSize = request.json.get('chunkSize')
+    textProcessingMethod = request.json.get('textProcessingMethod')
     chapterSortMethod = request.json.get('chapterSortMethod')
     
-    # load book
-    content = loadBook(importFile, chapterSortMethod)
-    content = content.replace('\r\n', ' NEWLINE ')
-    content = content.replace('\n', ' NEWLINE ')
+    bookTextChunks = ebookService.loadEbookIntoChunks(importFile, language,  chunkSize, textProcessingMethod, chapterSortMethod)
 
-    # split text into sentences
-    for sentenceEnding in sentenceEndings:
-        content = content.replace(sentenceEnding, sentenceEnding + 'TMP_ST')
-    sentences = content.split('TMP_ST')
-
-    # split book into chunks
-    chunks = list()
-    for sentenceIndex, sentence in enumerate(sentences):
-        if (len(chunks) == 0 or len(chunks[-1].replace(' NEWLINE ', '')) > chunkSize):
-            chunks.append('')
-
-        chunks[-1] += sentences[sentenceIndex]
-        chunks[-1] = chunks[-1].replace(' NEWLINE ', '\r\n')
-        chunks[-1] = chunks[-1].replace('\xa0', ' ')
-
-    return json.dumps(chunks)
+    return json.dumps(bookTextChunks)
 
 # cuts the text given in post data into chunks
 @route('/tokenizer/import-subtitles', method='POST')

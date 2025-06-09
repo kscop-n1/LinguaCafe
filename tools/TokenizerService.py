@@ -165,7 +165,7 @@ class TokenizerService:
                     gender = token.morph.get("Gender")
 
                 if language == 'german' and token.pos_ == 'VERB':
-                    lemma = get_separable_lemma(token)
+                    lemma = self.get_separable_lemma(token)
                 
                 if language == 'thai':
                     if word == 'THAINEWSENTENCE':
@@ -206,3 +206,9 @@ class TokenizerService:
                     )
 
         return tokenizedWords
+    
+    def get_separable_lemma(self, token):
+        prefix = [c.text for c in token.children if c.dep_ == 'svp']
+        if len(prefix) > 0:
+            return prefix[0] + token.lemma_
+        return token.lemma_
