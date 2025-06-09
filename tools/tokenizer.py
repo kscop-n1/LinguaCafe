@@ -8,10 +8,10 @@ import html
 from urllib import parse
 from newspaper import Article
 
-import PackageManagerService
-import YoutubeService
-import TokenizerService
-import EbookService
+from services import PackageManagerService
+from services import YoutubeService
+from services import TokenizerService
+from services import EbookService
 
 packageManagerService = PackageManagerService.PackageManagerService()
 youtubeService = YoutubeService.YoutubeService()

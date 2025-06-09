@@ -1,6 +1,6 @@
 from spacy.language import Language
 import spacy
-import TokenizerConfig
+from . import TokenizerConfig
 import importlib
 import subprocess
 import json
