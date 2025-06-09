@@ -99,7 +99,7 @@ class PackageManagerService:
         shutil.rmtree("/var/www/html/storage/app/packages")
 
     def load_language_model(self, language, tokenizer):
-        if 'stanza_' + language in self.loaded_language_models:
+        if tokenizer + '_' + language in self.loaded_language_models:
             return
 
         if tokenizer == 'stanza':
@@ -118,7 +118,10 @@ class PackageManagerService:
                 self.loaded_language_models['spacy_' + language] = spacy.load(config.spacy_models['multi'], disable = disabled_parameters)
         
             self.loaded_language_models['spacy_' + language].add_pipe("custom_sentence_splitter", first=True)
+        
+        print('language model loaded:' + language)
     
     def get_language_model(self, language, tokenizer):
         self.load_language_model(language, tokenizer)
+        print('language model retrieved:' + language)
         return self.loaded_language_models[tokenizer + '_' + language]

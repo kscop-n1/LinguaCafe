@@ -353,7 +353,7 @@ class ChapterService {
                 $timeStamps = [];
             } else {
                 $textBlock->rawText = $chapter->raw_text;
-                $timeStamps = $textBlock->tokenizeRawSubtitles();
+                $timeStamps = $textBlock->tokenizeRawSubtitles($tokenizers);
             }
             
             $textBlock->processTokenizedWords();

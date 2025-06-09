@@ -16,13 +16,11 @@ from newspaper import Article
 
 import PackageManagerService
 import YoutubeService
+import TokenizerService
 
 packageManagerService = PackageManagerService.PackageManagerService()
 youtubeService = YoutubeService.YoutubeService()
-
-# used for splitting and parsing text
-sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
-duplicateRemovalRegex = '(TMP_ST){2,}'
+tokenizerService = TokenizerService.TokenizerService(packageManagerService)
 
 # used for german separable verbs
 def get_separable_lemma(token):
@@ -30,138 +28,6 @@ def get_separable_lemma(token):
     if len(prefix) > 0:
         return prefix[0] + token.lemma_
     return token.lemma_
-
-# Tokenizes a text with spacy.
-def tokenizeText(text, language, tokenizer, sentenceIndexStart = 0):
-
-    # Mark thai new sentences. It is required because thai sentence indexing does not work in spacy.
-    if language == 'thai':
-        text = text.replace(' ', ' THAINEWSENTENCE ')
-        
-    language_model = packageManagerService.get_language_model(language, tokenizer)
-    doc = language_model(text)
-
-    if tokenizer == 'stanza':
-        return transformStanzaTokenizedList(doc)
-    
-    if tokenizer == 'spacy':
-        return transformSpacyTokenizedList(doc)
-
-def transformSpacyTokenizedList(doc):
-    global hiraganaConverter
-    tokenizedWords = list()
-    thaiSentenceIndex = 0
-    space_before = False
-    for sentenceIndex, sentence in enumerate(doc.sents):
-        for token in sentence:
-            word = str(token.text)
-            if word == " " or word == "" or word == " ":
-                space_before = True
-                continue
-            else:
-                space_before = False
-
-            # get lemma
-            lemma = token.lemma_
-            
-            # get hiragana reading
-            reading = list()
-            lemmaReading = list()
-            if language == 'japanese':
-                result = hiraganaConverter.convert(token.text)
-                for x in result:
-                    reading.append(x['hira'])
-                
-                result = hiraganaConverter.convert(token.lemma_)
-                for x in result:
-                    lemmaReading.append(x['hira'])
-            
-                reading = ''.join(reading)
-                lemmaReading = ''.join(lemmaReading)
-
-            # get pinyin reading
-            if language == 'chinese':
-                reading = pinyin.get(word)
-                lemmaReading = pinyin.get(lemma)
-
-            # get gender
-            gender = ''
-            if language in ('norwegian', 'german'):
-                gender = token.morph.get("Gender")
-
-            if language == 'german' and token.pos_ == 'VERB':
-                lemma = get_separable_lemma(token)
-            
-            if language == 'thai':
-                if word == 'THAINEWSENTENCE':
-                    thaiSentenceIndex = thaiSentenceIndex + 1
-                    continue
-                else:
-                    if word == 'NEWLINE':
-                        thaiSentenceIndex = thaiSentenceIndex + 1
-
-                    tokenizedWords.append(
-                        {
-                            "w": word,
-                            "r": reading,
-                            "l": lemma,
-                            "lr": lemmaReading,
-                            "pos": token.pos_,
-                            "si": thaiSentenceIndex + sentenceIndexStart,
-                            "g": gender,
-                            "ip": token.is_punct,
-                            "sb": space_before,
-                            "sa": bool(token.whitespace_),
-                        }
-                    )
-            else:
-                tokenizedWords.append(
-                    {
-                        "w": word,
-                        "r": reading,
-                        "l": lemma,
-                        "lr": lemmaReading,
-                        "pos": token.pos_,
-                        "si": sentenceIndex + sentenceIndexStart,
-                        "g": gender,
-                        "ip": token.is_punct,
-                        "sb": space_before,
-                        "sa": bool(token.whitespace_),
-                    }
-                )
-
-    return tokenizedWords
-
-def transformStanzaTokenizedList(doc):
-    tokenizedWords = list()
-    sentenceIndex = 0
-    for sentence in doc.sentences:
-        for word in sentence.words:
-            if word == " " or word == "" or word == " ":
-                space_before = True
-                continue
-            else:
-                space_before = False
-                
-            tokenizedWords.append(
-                {
-                    "w": word.text,
-                    "r": "",
-                    "l": word.lemma,
-                    "lr": "",
-                    "pos": word.upos,
-                    "si": sentenceIndex,
-                    "g": "",
-                    "ip": False,
-                    "sb": space_before,
-                    "sa": len(word.parent.spaces_after),
-                }
-            )
-
-        sentenceIndex += 1
-
-    return tokenizedWords
-
 
 # loads an .epub file
 def loadBook(file, sortMethod):
@@ -193,59 +59,36 @@ def loadBook(file, sortMethod):
     return str(content)
 
 # responds to http requests from the main PHP site
-@route('/tokenizer', method='POST')
-def tokenizer():
+@route('/tokenizer/tokenize-text', method='POST')
+def tokenizeText():
     response.headers['Content-Type'] = 'application/json'
 
     # start = time.time()
-    rawText = request.json.get('raw_text')
+    text = request.json.get('raw_text')
     language = request.json.get('language')
     tokenizer = request.json.get('tokenizer')
 
-    if type(rawText) == str:
-        jsonWords = tokenizeText(rawText, language, tokenizer)
-        return json.dumps(jsonWords)
-    else:
-        tokenizedText = list()
-        for text in rawText:
-            tokenizedText.append(tokenizeText(text, language, tokenizer))
-        return json.dumps(tokenizedText)
+    return json.dumps(tokenizerService.tokenizePlainText(text, language, tokenizer))
 
-@route('/tokenizer/subtitle', method='POST')
-def subtitleTokenizer():
+@route('/tokenizer/tokenize-subtitles', method='POST')
+def tokenizeSubtitles():
     response.headers['Content-Type'] = 'application/json'
     subtitles = json.loads(request.json.get('subtitles'))
     language = request.json.get('language')
+    tokenizer = request.json.get('tokenizer')
+    
+    return json.dumps(tokenizerService.tokenizeSubtitles(subtitles, language, tokenizer))
 
-    # split the text into chunks
-    tokenizedText = list()
-    timeStamps = list()
+# cuts the text given in post data into chunks
+@route('/tokenizer/cut-and-tokenize-text', method='POST')
+def cutAndTokenizeText():
+    response.headers['Content-Type'] = 'application/json'
+    text = request.json.get('text')
+    language = request.json.get('language')
+    chunkSize = request.json.get('chunkSize')
+    
+    return json.dumps(tokenizerService.cutAndTokenizePlainText(text, language, chunkSize))
 
-    currentChunkSentenceIndex = 0
-    for subtitleIndex, subtitle in enumerate(subtitles):
-        print(subtitles)
-        # tokenize text
-        text = subtitles[subtitleIndex]['text'].replace('\r\n', ' NEWLINE ')
-        text = text.replace('\n', ' NEWLINE ')
-
-        # tokenize text
-        tokenizedSubtitle = tokenizeText(text, language, currentChunkSentenceIndex)
-
-        # set new sentence index
-        currentChunkSentenceIndex = tokenizedSubtitle[-1]['si'] + 1
-
-        # add timestamp to chunk array
-        timeStamps.append({
-            'start': subtitles[subtitleIndex]['start'],
-            'end': subtitles[subtitleIndex]['end'],
-            'sentenceIndexStart': tokenizedSubtitle[0]['si'],
-            'sentenceIndexEnd': tokenizedSubtitle[-1]['si']
-        })
-                    
-        ## add tokenized text to processed chunk
-        tokenizedText = tokenizedText + tokenizedSubtitle
-
-    return json.dumps({'tokenizedText': tokenizedText, 'timeStamps': timeStamps})
 
 # returns a raw text and a tokenized text 
 # of n .epub file cut into chunks
@@ -281,62 +124,14 @@ def importBook():
     return json.dumps(chunks)
 
 # cuts the text given in post data into chunks
-@route('/tokenizer/import-text', method='POST')
-def importText():
-    response.headers['Content-Type'] = 'application/json'
-    chunkSize = request.json.get('chunkSize')
-    importText = request.json.get('importText')
-    language = request.json.get('language')
-    
-    # load text
-    text = importText.replace('\r\n', ' NEWLINE ')
-    text = text.replace('\n', ' NEWLINE ')
-
-    # split text into sentences
-    for sentenceEnding in sentenceEndings:
-        text = text.replace(sentenceEnding, sentenceEnding + 'TMP_ST')
-    sentences = text.split('TMP_ST')
-
-    # split book into chunks
-    chunks = list()
-    for sentenceIndex, sentence in enumerate(sentences):
-        if (len(chunks) == 0 or len(chunks[-1].replace(' NEWLINE ', '')) > chunkSize):
-            chunks.append('')
-
-        chunks[-1] += sentences[sentenceIndex]
-        chunks[-1] = chunks[-1].replace(' NEWLINE ', '\r\n')
-        chunks[-1] = chunks[-1].replace('\xa0', ' ')
-
-    return json.dumps(chunks)
-
-# cuts the text given in post data into chunks
 @route('/tokenizer/import-subtitles', method='POST')
-def importSubtitles():
+def cutSubtitlesIntoChunks():
     response.headers['Content-Type'] = 'application/json'
-    chunkSize = request.json.get('chunkSize')
     subtitles = json.loads(request.json.get('subtitles'))
     language = request.json.get('language')
+    chunkSize = request.json.get('chunkSize')
 
-    # split the text into chunks
-    chunks = list()
-    currentChunkSize = 0
-    for subtitleIndex, subtitle in enumerate(subtitles):
-        if (len(chunks) == 0 or currentChunkSize > chunkSize):
-            currentChunkSize = 0
-            chunks.append([])
-
-    
-        text = subtitles[subtitleIndex]['text'].replace('\r\n', ' NEWLINE ')
-        text = text.replace('\n', ' NEWLINE ')
-
-        # increase current chunk size
-        currentChunkSize += len(text.replace(' NEWLINE ', ''))
-        
-        # add subtitle to raw chunk
-        chunks[-1].append(subtitle)
-
-    print(chunks)
-    return json.dumps(chunks)
+    return json.dumps(tokenizerService.cutSubtitlesIntoChunks(subtitles, language, chunkSize))
 
 @route('/tokenizer/get-youtube-subtitle-list', method='POST')
 def getYoutubeSubtitleList():
@@ -376,8 +171,6 @@ def install_language_model():
     tokenizer = request.json.get('tokenizer')
     if tokenizer is None or language is None:
         return HTTPResponse(status=422, body="Error: missing parameter")
-
-
 
     if packageManagerService.install_language_model(language, tokenizer):
         return HTTPResponse(status=200, body="Language and dependencies installed correctly")

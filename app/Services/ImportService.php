@@ -47,9 +47,9 @@ class ImportService {
         $selectedLanguage = Auth::user()->selected_language;
 
         // tokenize book
-        $chunks = Http::post($this->pythonService . ':8678/tokenizer/import-text', [
+        $chunks = Http::post($this->pythonService . ':8678/tokenizer/cut-and-tokenize-text', [
             'language' => $selectedLanguage,
-            'importText' => $importText,
+            'text' => $importText,
             'chunkSize' => $chunkSize
         ]);
         

@@ -112,7 +112,7 @@ class TextBlockService
         $text = $this->rawText;
         $text = preg_replace("/ {2,}/", " ", str_replace(["\r\n", "\r", "\n"], " NEWLINE ", $text));
 
-        $this->tokenizedWords = Http::post($this->pythonService . ':8678/tokenizer', [
+        $this->tokenizedWords = Http::timeout(60*5)->post($this->pythonService . ':8678/tokenizer/tokenize-text', [
             'raw_text' => $text,
             'language' => $this->language,
             'tokenizer' => in_array($this->language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
@@ -121,10 +121,11 @@ class TextBlockService
         $this->tokenizedWords = json_decode($this->tokenizedWords);
     }
 
-    public function tokenizeRawSubtitles() {
-        $tokenizerResponse = Http::post($this->pythonService . ':8678/tokenizer/subtitle', [
+    public function tokenizeRawSubtitles($tokenizers) {
+        $tokenizerResponse = Http::timeout(60*5)->post($this->pythonService . ':8678/tokenizer/tokenize-subtitles', [
             'subtitles' => $this->rawText,
             'language' => $this->language,
+            'tokenizer' => in_array($this->language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
         ]);
         
         $tokenizerResponse = json_decode($tokenizerResponse);
