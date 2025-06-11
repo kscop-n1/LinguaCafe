@@ -12,8 +12,9 @@
         'libre_translate_code' => null|string, // libre translate code if supported, otherwise null
         'my_memory_code' => null|string, // mymemory code if supported, otherwise null
         'website_import_support' => bool,
-        'jellyfin_code' => null|string, // jellyfin code if supported, otherwise null
-        'database_dictionary_table_name' => null|string,
+        'jellyfin_code' => null|string, // jellyfin code if linguacafe_support is true, otherwise null. should be added if missing
+        'database_dictionary_table_name' => null|string, // database table slug if linguacafe_support is true, otherwise null. must be added if missing
+        'dict_cc_code' => null|string, // dict cc code if supported, otherwise null
     ];
 
 
@@ -41,6 +42,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'sq',
+        'dict_cc_code' => 'SQ',
     ],
     'arabic' => [
         'linguacafe_support' => false,
@@ -53,6 +55,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
+        'dict_cc_code' => null,
     ],
     // 'belarusian' => [
     //     'website_import_support' => true,
@@ -68,6 +71,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'bs',
+        'dict_cc_code' => 'BS',
     ],
     'brazilian portuguese' => [
         'linguacafe_support' => false,
@@ -80,6 +84,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
+        'dict_cc_code' => null,
     ],
     'bulgarian' => [
         'linguacafe_support' => true,
@@ -92,6 +97,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'bg',
+        'dict_cc_code' => 'BG',
     ],
     'catalan' => [
         'linguacafe_support' => false,
@@ -104,6 +110,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'ca',
+        'dict_cc_code' => null,
     ],
     'chinese' => [
         'linguacafe_support' => true,
@@ -116,6 +123,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'chi',
         'database_dictionary_table_name' => 'zh',
+        'dict_cc_code' => null,
     ],
     'croatian' => [
         'linguacafe_support' => true,
@@ -128,6 +136,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'hrv',
         'database_dictionary_table_name' => 'hr',
+        'dict_cc_code' => 'HR',
     ],
     'czech' => [
         'linguacafe_support' => true,
@@ -140,6 +149,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => 'cze',
         'database_dictionary_table_name' => 'cs',
+        'dict_cc_code' => 'CS',
     ],
     'danish' => [
         'linguacafe_support' => true,
@@ -152,6 +162,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'dan',
         'database_dictionary_table_name' => 'da',
+        'dict_cc_code' => 'DA',
     ],
     'dutch' => [
         'linguacafe_support' => true,
@@ -164,6 +175,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'dut',
         'database_dictionary_table_name' => 'nl',
+        'dict_cc_code' => 'NL',
     ],
     'english' => [
         'linguacafe_support' => true,
@@ -176,6 +188,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'eng',
         'database_dictionary_table_name' => 'en',
+        'dict_cc_code' => 'EN',
     ],
     'esperanto' => [
         'linguacafe_support' => false,
@@ -188,6 +201,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'eo',
+        'dict_cc_code' => 'EO',
     ],
     'estonian' => [
         'linguacafe_support' => false,
@@ -200,6 +214,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
+        'dict_cc_code' => null,
     ],
     'finnish' => [
         'linguacafe_support' => true,
@@ -212,6 +227,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'fin',
         'database_dictionary_table_name' => 'fi',
+        'dict_cc_code' => 'FI',
     ],
     'french' => [
         'linguacafe_support' => true,
@@ -224,6 +240,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'fre',
         'database_dictionary_table_name' => 'fr',
+        'dict_cc_code' => 'FR',
     ],
     'german' => [
         'linguacafe_support' => true,
@@ -236,6 +253,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'ger',
         'database_dictionary_table_name' => 'de',
+        'dict_cc_code' => 'DE',
     ],
     'greek' => [
         'linguacafe_support' => true,
@@ -248,6 +266,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'gre',
         'database_dictionary_table_name' => 'el',
+        'dict_cc_code' => 'EL',
     ],
     // 'hebrew' => [
     //     'website_import_support' => true,
@@ -266,6 +285,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'hu',
+        'dict_cc_code' => 'HU',
     ],
     'icelandic' => [
         'linguacafe_support' => false,
@@ -278,6 +298,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'is',
+        'dict_cc_code' => 'IS',
     ],
     'indonesian' => [
         'linguacafe_support' => false,
@@ -290,6 +311,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
+        'dict_cc_code' => null,
     ],
     'italian' => [
         'linguacafe_support' => true,
@@ -302,6 +324,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'ita',
         'database_dictionary_table_name' => 'it',
+        'dict_cc_code' => 'IT',
     ],
     'japanese' => [
         'linguacafe_support' => true,
@@ -314,6 +337,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'jpn',
         'database_dictionary_table_name' => 'jp',
+        'dict_cc_code' => null,
     ],
     'korean' => [
         'linguacafe_support' => true,
@@ -326,6 +350,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'kor',
         'database_dictionary_table_name' => 'ko',
+        'dict_cc_code' => null,
     ],
     'latin' => [
         'linguacafe_support' => true,
@@ -338,6 +363,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => 'lat',
         'database_dictionary_table_name' => 'la',
+        'dict_cc_code' => 'LA',
     ],
     'latvian' => [
         'linguacafe_support' => false,
@@ -350,6 +376,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
+        'dict_cc_code' => null,
     ],
     'lithuanian' => [
         'linguacafe_support' => false,
@@ -362,6 +389,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'lit',
         'database_dictionary_table_name' => 'lt',
+        'dict_cc_code' => null,
     ],
     'macedonian' => [
         'linguacafe_support' => true,
@@ -374,6 +402,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'mac',
         'database_dictionary_table_name' => 'mk',
+        'dict_cc_code' => null,
     ],
     'norwegian' => [
         'linguacafe_support' => true,
@@ -386,6 +415,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'nor',
         'database_dictionary_table_name' => 'no',
+        'dict_cc_code' => 'NO',
     ],
     // 'persian' => [
     //     'website_import_support' => true,
@@ -401,6 +431,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'pol',
         'database_dictionary_table_name' => 'pl',
+        'dict_cc_code' => 'PL',
     ],
     'portuguese' => [
         'linguacafe_support' => true,
@@ -413,6 +444,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'por',
         'database_dictionary_table_name' => 'pt',
+        'dict_cc_code' => 'PT',
     ],
     'romanian' => [
         'linguacafe_support' => true,
@@ -425,6 +457,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'rum', // rum is not a misspell
         'database_dictionary_table_name' => 'ro',
+        'dict_cc_code' => 'RO',
     ],
     'russian' => [
         'linguacafe_support' => true,
@@ -437,6 +470,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'rus',
         'database_dictionary_table_name' => 'ru',
+        'dict_cc_code' => 'RU',
     ],
     'serbian' => [
         'linguacafe_support' => false,
@@ -449,6 +483,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'sr',
+        'dict_cc_code' => 'SR',
     ],
     'slovak' => [
         'linguacafe_support' => false,
@@ -461,6 +496,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'sk',
+        'dict_cc_code' => 'SK',
     ],
     'slovenian' => [
         'linguacafe_support' => true,
@@ -473,6 +509,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'slv',
         'database_dictionary_table_name' => 'sl',
+        'dict_cc_code' => null,
     ],
     'spanish' => [
         'linguacafe_support' => true,
@@ -485,6 +522,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'spa',
         'database_dictionary_table_name' => 'es',
+        'dict_cc_code' => 'ES',
     ],
     // 'swahili' => [
     //     'website_import_support' => true,
@@ -500,6 +538,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'swe',
         'database_dictionary_table_name' => 'sv',
+        'dict_cc_code' => 'SV',
     ],
     'thai' => [
         'linguacafe_support' => true,
@@ -512,6 +551,7 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => 'tha',
         'database_dictionary_table_name' => 'th',
+        'dict_cc_code' => null,
     ],
     'turkish' => [
         'linguacafe_support' => true,
@@ -524,6 +564,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'tur',
         'database_dictionary_table_name' => 'tr',
+        'dict_cc_code' => 'TR',
     ],
     'ukrainian' => [
         'linguacafe_support' => true,
@@ -536,6 +577,7 @@ return [
         'website_import_support' => true,
         'jellyfin_code' => 'ukr',
         'database_dictionary_table_name' => 'ua',
+        'dict_cc_code' => null,
     ],
     // 'vietnamese' => [
     //     'website_import_support' => true,
@@ -551,5 +593,6 @@ return [
         'website_import_support' => false,
         'jellyfin_code' => 'wel',
         'database_dictionary_table_name' => 'cy',
+        'dict_cc_code' => null,
     ],
 ];
