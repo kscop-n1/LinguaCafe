@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Dictionaries\CreateCustomApiDictionaryRequest;
 use App\Models\Dictionary;
 use Illuminate\Http\Request;
@@ -285,10 +286,12 @@ class DictionaryController extends Controller
 
     public function getDictionaryFileInformation(GetDictionaryFileInformationRequest $request) {
         $dictionaryFile = $request->file('dictionaryFile');
-        $dictCcLanguageCodes = config('linguacafe.languages.dict_cc_language_codes');
-        $databaseLanguageCodes = config('linguacafe.languages.database_name_language_codes');
-        $supportedSourceLanguages = config('linguacafe.languages.supported_languages');
-        
+
+        $languageConfigs = LanguageConfig::all();
+        $dictCcLanguageCodes = $languageConfigs->whereNotNull('dictCcCode')->pluck('name', 'dictCcCode')->toArray();
+        $databaseLanguageCodes = $languageConfigs->whereNotNull('databaseDictionaryTableName')->pluck('databaseDictionaryTableName', 'name')->toArray();
+        $supportedSourceLanguages = $languageConfigs->where('linguacafeSupport', '=', true)->pluck('name')->toArray();
+
         try {
             $dictionariesFound = $this->dictionaryImportService->getDictionaryFileInformation(
                 $dictionaryFile, 
