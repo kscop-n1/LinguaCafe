@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class LanguageConfig
 {
     public function __construct(
-        public string $language,
+        public string $name,
         public ?string $databaseDictionaryTableName,
         public bool $linguacafeSupport,
         public bool $installRequired,
@@ -31,7 +31,7 @@ class LanguageConfig
         return $this->installRequired;
     }
     
-    public function hasSpaceSeparatedWords(): bool
+    public function hasSpaces(): bool
     {
         return $this->wordsSeparatedBySpaces;
     }
@@ -80,10 +80,14 @@ class LanguageConfig
         return $languageObjects;
     }
 
-    public static function load(string $language): self
+    public static function load(string $language): ?self
     {
         $languages = config('languages');
         $language = Str::lower($language);
+
+        if (!isset($languages[$language])) {
+            return null;
+        }
         
         return self::create($language, $languages[$language]);
     }
@@ -91,7 +95,7 @@ class LanguageConfig
     private static function create(string $language, array $configData): self
     {
         return new self(
-            language: $language,
+            name: $language,
             databaseDictionaryTableName: $configData['database_dictionary_table_name'],
             linguacafeSupport: $configData['linguacafe_support'],
             installRequired: $configData['install_required'],
