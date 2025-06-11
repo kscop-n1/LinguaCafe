@@ -3,7 +3,6 @@ import spacy
 from . import TokenizerConfig
 import importlib
 import subprocess
-import json
 import os
 import shutil
 
@@ -95,8 +94,9 @@ class PackageManagerService:
                 return False
         return True
 
-    def delete_installed_packages():
-        shutil.rmtree("/var/www/html/storage/app/packages")
+    def delete_installed_packages(self):
+        if os.path.isdir("/var/www/html/storage/app/packages"):
+            shutil.rmtree("/var/www/html/storage/app/packages")
 
     def load_language_model(self, language, tokenizer):
         if tokenizer + '_' + language in self.loaded_language_models:

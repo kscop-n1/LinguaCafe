@@ -106,7 +106,7 @@ def getWebsiteText():
 @route('/packages/uninstall-all', method = 'DELETE')
 def remove_models():
     packageManagerService.delete_installed_packages()
-    return PlainTextResponse(content="Installed packages removed correctly")
+    return HTTPResponse(status=200, body="Installed packages removed correctly")
 
 @route('/packages/languages/install', method = 'POST')
 def install_language_model():

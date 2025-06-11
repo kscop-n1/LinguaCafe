@@ -110,7 +110,7 @@ class LanguageService {
             Reset selected language to the default spanish, 
             so the user won't have a language selected that has been uninstalled.
         */
-        if (in_array(ucfirst($user->selected_language), $installableLanguages)) {
+        if (in_array($user->selected_language, $installableLanguages)) {
             $user->selected_language = 'spanish';
             $user->save();
         }

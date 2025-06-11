@@ -1,13 +1,13 @@
 class TokenizerConfig:
     def __init__(self):
         self.spacy_urls = {
-            "Japanese": "https://github.com/explosion/spacy-models/releases/download/ja_core_news_sm-3.7.0/ja_core_news_sm-3.7.0-py3-none-any.whl",
-            "Korean": "https://github.com/explosion/spacy-models/releases/download/ko_core_news_sm-3.7.0/ko_core_news_sm-3.7.0-py3-none-any.whl",
-            "Russian": "https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.7.0/ru_core_news_sm-3.7.0-py3-none-any.whl",
-            "Ukrainian": "https://github.com/explosion/spacy-models/releases/download/uk_core_news_sm-3.7.0/uk_core_news_sm-3.7.0-py3-none-any.whl",
-            "Chinese": "https://github.com/explosion/spacy-models/releases/download/zh_core_web_sm-3.7.0/zh_core_web_sm-3.7.0-py3-none-any.whl",
-            "Turkish": "https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl",
-            "Thai": "spacy_thai",
+            "japanese": "https://github.com/explosion/spacy-models/releases/download/ja_core_news_sm-3.7.0/ja_core_news_sm-3.7.0-py3-none-any.whl",
+            "korean": "https://github.com/explosion/spacy-models/releases/download/ko_core_news_sm-3.7.0/ko_core_news_sm-3.7.0-py3-none-any.whl",
+            "russian": "https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.7.0/ru_core_news_sm-3.7.0-py3-none-any.whl",
+            "ukrainian": "https://github.com/explosion/spacy-models/releases/download/uk_core_news_sm-3.7.0/uk_core_news_sm-3.7.0-py3-none-any.whl",
+            "chinese": "https://github.com/explosion/spacy-models/releases/download/zh_core_web_sm-3.7.0/zh_core_web_sm-3.7.0-py3-none-any.whl",
+            "turkish": "https://huggingface.co/turkish-nlp-suite/tr_core_news_md/resolve/main/tr_core_news_md-1.0-py3-none-any.whl",
+            "thai": "spacy_thai",
         }
 
         self.spacy_models = {
@@ -40,16 +40,16 @@ class TokenizerConfig:
         }
 
         self.spacy_model_name = {
-            "ja-core-news-sm": "Japanese",
-            "ko-core-news-sm": "Korean",
-            "ru-core-news-sm": "Russian",
-            "uk-core-news-sm": "Ukrainian",
-            "zh-core-web-sm": "Chinese",
-            "tr-core-news-md": "Turkish",
-            "spacy-thai": "Thai",
+            "ja-core-news-sm": "japanese",
+            "ko-core-news-sm": "korean",
+            "ru-core-news-sm": "russian",
+            "uk-core-news-sm": "ukrainian",
+            "zh-core-web-sm": "chinese",
+            "tr-core-news-md": "turkish",
+            "spacy-thai": "thai",
         }
 
         self.stanza_model_name = {
-            "bg": "Bulgarian",
-            "vi": "Vietnamese",
+            "bg": "bulgarian",
+            "vi": "vietnamese",
         }
