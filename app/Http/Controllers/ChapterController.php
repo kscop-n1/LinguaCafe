@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Services\ChapterService;
 
 // request classes
@@ -65,13 +66,12 @@ class ChapterController extends Controller {
     }
 
     public function getChapterForReader(GetChapterForReaderRequest $request) {        
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $user = Auth::user();
+        $language = LanguageConfig::load($user->selected_language);
         $chapterId = $request->chapterId;
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
         
         try {
-            $chapter = $this->chapterService->getChapterForReader($userId, $language, $languagesWithoutSpaces, $chapterId);
+            $chapter = $this->chapterService->getChapterForReader($user, $language, $chapterId);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }

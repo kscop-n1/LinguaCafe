@@ -3,16 +3,18 @@
 namespace App\Services;
 
 use App\Models\Book;
-use App\Models\Phrase;
+use App\Models\User;
 
+use App\Models\Phrase;
 use App\Models\Chapter;
 use App\Services\BookService;
-use App\Services\GoalService;
 
+use App\Services\GoalService;
 use App\Models\EncounteredWord;
-use App\Enums\ChapterProcessingStatusEnum;
 use App\Services\TextBlockService;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Language\LanguageConfig;
+use App\Enums\ChapterProcessingStatusEnum;
 
 
 class ChapterService {
@@ -122,11 +124,11 @@ class ChapterService {
         return $chapter;
     }
 
-    public function getChapterForReader($userId, $language, $languagesWithoutSpaces, $chapterId) {
+    public function getChapterForReader(User $user, LanguageConfig $language, $chapterId) {
         $chapter = Chapter
             ::where('id', $chapterId)
-            ->where('user_id', $userId)
-            ->where('language', $language)
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
             ->first();
         
@@ -136,12 +138,12 @@ class ChapterService {
 
         $book = Book
             ::where('id', $chapter->book_id)
-            ->where('user_id', $userId)
+            ->where('user_id', $user->id)
             ->first();
 
         $chapters = Chapter
             ::select(['id', 'name', 'read_count', 'word_count', 'unique_word_ids', 'processing_status'])
-            ->where('user_id', $userId)
+            ->where('user_id', $user->id)
             ->where('book_id', $book->id)
             ->get();
 
@@ -150,7 +152,7 @@ class ChapterService {
         // get chapter word counts
         $uniqueWordsForWordCounts = EncounteredWord
             ::select(['id', 'word', 'stage', 'image'])
-            ->where('user_id', $userId)
+            ->where('user_id', $user->id)
             ->where('language', $chapter->language)
             ->get()
             ->keyBy('id')
@@ -171,7 +173,7 @@ class ChapterService {
             $chapters[$i]->wordCount = $chapters[$i]->getWordCounts($uniqueWordsForWordCounts);
         }
 
-        $textBlock = new TextBlockService($userId, $language);
+        $textBlock = new TextBlockService($user->id, $language->name);
         $textBlock->setProcessedWords($words);
         $textBlock->collectUniqueWords();
         $textBlock->prepareTextForReader();
@@ -188,7 +190,7 @@ class ChapterService {
         $data->chapterName = $chapter->name;
         $data->bookId = $book->id;
         $data->language = $chapter->language;
-        $data->languageSpaces = !in_array($language, $languagesWithoutSpaces, true);
+        $data->languageSpaces = $language->hasSpaces();
         $data->chapters = $chapters;
         $data->wordCount = $chapter->word_count;
         
