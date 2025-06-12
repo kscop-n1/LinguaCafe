@@ -388,8 +388,8 @@ class VocabularyService {
         return $data;
     }
 
-    public function exportToCsv($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $fields, $languagesWithoutSpaces) {    
-        $words = $this->buildSearchRequest($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation)->get();
+    public function exportToCsv($userId, LanguageConfig $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $fields) {    
+        $words = $this->buildSearchRequest($userId, $language->name, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation)->get();
 
         // create csv file
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
@@ -406,7 +406,7 @@ class VocabularyService {
         $csv->insertOne($csvArray);
 
         // insert data to csv
-        $phraseWordDelimiter = in_array($language, $languagesWithoutSpaces, true) ? '' : ' ';
+        $phraseWordDelimiter = $language->hasSpaces() ? ' ' : '';
         foreach($words as $word) {
             $csvArray = [];
             foreach ($fields as $field) {

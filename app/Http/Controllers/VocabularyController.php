@@ -222,7 +222,7 @@ class VocabularyController extends Controller {
 
     public function exportToCsv(ExportToCsvRequest $request) {
         $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $language = LanguageConfig::load(Auth::user()->selected_language);
         $text = $request->post('text');
         $bookId = $request->post('book');
         $chapterId = $request->post('chapter');
@@ -231,7 +231,6 @@ class VocabularyController extends Controller {
         $orderBy = $request->post('orderBy');
         $translation = $request->post('translation');
         $fields = $request->post('fields');
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
 
         try {
             $csv = $this->vocabularyService->exportToCsv(
@@ -244,8 +243,7 @@ class VocabularyController extends Controller {
                 $phrases,
                 $orderBy,
                 $translation,
-                $fields,
-                $languagesWithoutSpaces
+                $fields
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
