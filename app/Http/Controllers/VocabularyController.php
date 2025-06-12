@@ -201,7 +201,7 @@ class VocabularyController extends Controller {
 
     public function searchVocabulary(SearchVocabularyRequest $request) {
         $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $language = LanguageConfig::load(Auth::user()->selected_language);
         $text = $request->text;
         $bookId = $request->book;
         $chapterId = $request->chapter;
@@ -210,10 +210,9 @@ class VocabularyController extends Controller {
         $orderBy = $request->orderBy;
         $translation = $request->translation;
         $page = $request->page; 
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
 
         try {
-            $searchResults = $this->vocabularyService->searchVocabulary($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $page, $languagesWithoutSpaces);
+            $searchResults = $this->vocabularyService->searchVocabulary($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $page);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }

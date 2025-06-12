@@ -356,16 +356,16 @@ class VocabularyService {
         return true;
     }
 
-    public function searchVocabulary($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $page, $languagesWithoutSpaces) {
+    public function searchVocabulary($userId, LanguageConfig $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $page) {
         // get books and chapters
-        $books = Book::where('user_id', $userId)->where('language', $language)->get();
+        $books = Book::where('user_id', $userId)->where('language', $language->name)->get();
         $bookIndex = -1;
         for ($i = 0; $i < count($books); $i++) {
             $books[$i]->chapters = Chapter
                 ::select(['id', 'name'])
                 ->where('user_id', $userId)
                 ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
-                ->where('language', $language)
+                ->where('language', $language->name)
                 ->where('book_id', $books[$i]->id)
                 ->get();
             
@@ -374,7 +374,7 @@ class VocabularyService {
             }
         }
 
-        $search = $this->buildSearchRequest($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation);
+        $search = $this->buildSearchRequest($userId, $language->name, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation);
 
         $data = new \stdClass();
         $data->wordCount = $search->count();
@@ -383,7 +383,7 @@ class VocabularyService {
         $data->bookIndex = $bookIndex;
         $data->pageCount = ceil($data->wordCount / $this->itemsPerPage);
         $data->currentPage = $page;
-        $data->languageSpaces = !in_array($language, $languagesWithoutSpaces, true);
+        $data->languageSpaces = $language->hasSpaces();
 
         return $data;
     }
