@@ -4,22 +4,23 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\Book;
+use App\Models\Phrase;
 use App\Models\Chapter;
 use App\Models\EncounteredWord;
-use App\Models\Phrase;
+use App\Helpers\Language\LanguageConfig;
 
 class ReviewService {
     
     public function __construct() {
     }
 
-    public function getReviewItems($userId, $language, $bookId, $chapterId, $practiceMode, $languagesWithoutSpaces) {
+    public function getReviewItems($userId, LanguageConfig $language, $bookId, $chapterId, $practiceMode) {
         // check if book exists
         if ($bookId !== -1) {
             $book = Book
                 ::where('user_id', $userId)
                 ->where('id', $bookId)
-                ->where('language', $language)
+                ->where('language', $language->name)
                 ->first();
             
             if (!$book) {
@@ -33,7 +34,7 @@ class ReviewService {
                 ::where('user_id', $userId)
                 ->where('book_id', $bookId)
                 ->where('id', $chapterId)
-                ->where('language', $language)
+                ->where('language', $language->name)
                 ->first();
             
             if (!$chapter) {
@@ -44,12 +45,12 @@ class ReviewService {
         // base query
         $reviewWords = EncounteredWord
             ::where('user_id', $userId)
-            ->where('language', $language)
+            ->where('language', $language->name)
             ->where('stage', '<', '0');
 
         $reviewPhrases = Phrase
             ::where('user_id', $userId)
-            ->where('language', $language)
+            ->where('language', $language->name)
             ->where('stage', '<', '0');
 
         // practice mode
