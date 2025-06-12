@@ -13,11 +13,12 @@ use App\Models\Chapter;
 use App\Models\Radical;
 use App\Models\EncounteredWord;
 use App\Models\ExampleSentence;
-use App\Enums\ChapterProcessingStatusEnum;
+use App\Services\TextBlockService;
 
 // services
-use App\Services\TextBlockService;
 use Illuminate\Support\Facades\DB;;
+use App\Helpers\Language\LanguageConfig;
+use App\Enums\ChapterProcessingStatusEnum;
 
 class VocabularyService {
     private $itemsPerPage;
@@ -59,10 +60,10 @@ class VocabularyService {
         return true;
     }
 
-    public function createPhrase($userId, $language, $words, $stage, $reading, $translation, $languagesWithoutSpaces) {
+    public function createPhrase($userId, LanguageConfig $language, $words, $stage, $reading, $translation) {
         $phrase = new Phrase();
         $phrase->user_id = $userId;
-        $phrase->language = $language;
+        $phrase->language = $language->name;
         $phrase->stage = $stage;
         $phrase->reading = $reading;
         $phrase->translation = $translation;
@@ -76,10 +77,10 @@ class VocabularyService {
             throw new \Exception('Words parameter must not be empty!');
         }
 
-        if (in_array($language, $languagesWithoutSpaces, true)) {
-            $phrase->words_searchable = implode('', $words);
-        } else {
+        if ($language->hasSpaces()) {
             $phrase->words_searchable = implode(' ', $words);
+        } else {
+            $phrase->words_searchable = implode('', $words);
         }
         
         $phrase->save();
@@ -87,7 +88,7 @@ class VocabularyService {
         // update phrase ids in chapter texts
         $chapterIds = Chapter
                 ::where('user_id', $userId)
-                ->where('language', $language)
+                ->where('language', $language->name)
                 ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
                 ->pluck('id')
                 ->toArray();
@@ -99,7 +100,7 @@ class VocabularyService {
                     ::lockForUpdate()
                     ->where('id', $chapterId)
                     ->where('user_id', $userId)
-                    ->where('language', $language)
+                    ->where('language', $language->name)
                     ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
                     ->first();
     
@@ -108,7 +109,7 @@ class VocabularyService {
                 if (count(array_intersect($uniqueWords, $phraseWords)) === count($phraseWords)) {
                     $words = $chapter->getProcessedText();
     
-                    $textBlock = new TextBlockService($userId, $language);
+                    $textBlock = new TextBlockService($userId, $language->name);
                     $textBlock->setProcessedWords($words);
                     $textBlock->collectUniqueWords();
                     $phraseIdsChanged = $textBlock->updatePhraseIds($phrase);
@@ -125,7 +126,7 @@ class VocabularyService {
         // update phrase ids in example sentences
         $exampleSentences = ExampleSentence
             ::where('user_id', $userId)
-            ->where('language', $language)
+            ->where('language', $language->name)
             ->get();
 
         DB::beginTransaction();
@@ -135,7 +136,7 @@ class VocabularyService {
                 continue;
             }
 
-            $textBlock = new TextBlockService($userId, $language);
+            $textBlock = new TextBlockService($userId, $language->name);
             $textBlock->setProcessedWords(json_decode($exampleSentence->words));
             $textBlock->collectUniqueWords();
             $textBlock->updatePhraseIds($phrase);

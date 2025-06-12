@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Services\TempFileService;
 
 // services
 use App\Services\VocabularyService;
-use App\Services\TempFileService;
+use Illuminate\Support\Facades\Auth;
 
 // request classes
-use App\Http\Requests\Vocabulary\GetUniqueWordRequest;
-use App\Http\Requests\Vocabulary\UpdateWordRequest;
-use App\Http\Requests\Vocabulary\CreatePhraseRequest;
-use App\Http\Requests\Vocabulary\UpdatePhraseRequest;
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Vocabulary\GetPhraseRequest;
-use App\Http\Requests\Vocabulary\DeletePhraseRequest;
-use App\Http\Requests\Vocabulary\GetExampleSentenceRequest;
-use App\Http\Requests\Vocabulary\CreateOrUpdateExampleSentenceRequest;
-use App\Http\Requests\Vocabulary\SearchVocabularyRequest;
+use App\Http\Requests\Vocabulary\UpdateWordRequest;
 use App\Http\Requests\Vocabulary\ExportToCsvRequest;
 use App\Http\Requests\Vocabulary\SearchKanjiRequest;
-use App\Http\Requests\Vocabulary\GetKanjiDetailsRequest;
+use App\Http\Requests\Vocabulary\CreatePhraseRequest;
+use App\Http\Requests\Vocabulary\DeletePhraseRequest;
+use App\Http\Requests\Vocabulary\UpdatePhraseRequest;
+use App\Http\Requests\Vocabulary\GetUniqueWordRequest;
 use App\Http\Requests\Vocabulary\ImportFromCsvRequest;
+use App\Http\Requests\Vocabulary\GetKanjiDetailsRequest;
+use App\Http\Requests\Vocabulary\SearchVocabularyRequest;
+use App\Http\Requests\Vocabulary\GetExampleSentenceRequest;
+use App\Http\Requests\Vocabulary\CreateOrUpdateExampleSentenceRequest;
 
 class VocabularyController extends Controller {
     private $vocabularyService;
@@ -106,15 +107,14 @@ class VocabularyController extends Controller {
 
     public function createPhrase(CreatePhraseRequest $request) {
         $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $language = LanguageConfig::load(Auth::user()->selected_language);
         $words = json_decode($request->words);
         $stage = $request->stage;
         $reading = is_null($request->reading) ? '' : $request->reading;
         $translation = is_null($request->translation) ? '' : $request->translation;
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
 
         try {
-            $phraseId = $this->vocabularyService->createPhrase($userId, $language, $words, $stage, $reading, $translation, $languagesWithoutSpaces);
+            $phraseId = $this->vocabularyService->createPhrase($userId, $language, $words, $stage, $reading, $translation);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
