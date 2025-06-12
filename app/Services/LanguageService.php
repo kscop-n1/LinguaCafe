@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
+use App\Helpers\Language\LanguageConfig;
 
 class LanguageService {
     // stores the python service container's name
@@ -66,19 +67,19 @@ class LanguageService {
         return $installedLanguages;
     }
 
-    public function installLanguage($language, $installableLanguages, $tokenizers) {
-        if (!in_array($language, $installableLanguages, true)) {
+    public function installLanguage(LanguageConfig $language) {
+        if (!$language->requiresInstall()) {
             throw new \Exception('This language does not require install.');
         }
 
         $installResult = Http::timeout(60*20)
             ->post($this->pythonService . ':8678/packages/languages/install', [
-                'language' => $language,
-                'tokenizer' => in_array($language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
+                'language' => $language->name,
+                'tokenizer' => $language->tokenizer,
             ]);
 
         // Download KanjiVG
-        if ($language == 'Japanese') {
+        if ($language->name == 'japanese') {
             $filePath = Storage::path('temp/kanjivg.zip');
             $extractPath = Storage::path('temp/kanjivg');
             File::delete($filePath);
