@@ -2,19 +2,20 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Client\Pool;
 use League\Csv\Reader;
-
-// models
-use App\Models\Dictionary;
 use App\Models\Setting;
 use App\Models\DeeplCache;
-use App\Models\ImportedDictionary;
+use App\Models\Dictionary;
 use App\Models\VocabularyJmdict;
+use Illuminate\Http\Client\Pool;
+
+// models
+use App\Models\ImportedDictionary;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
+use App\Helpers\Language\LanguageConfig;
 
 class DictionaryService {
 
@@ -360,11 +361,13 @@ class DictionaryService {
     {
         $deeplApiKey = Setting::where('name', 'deeplApiKey')->first()->decode();
         $deeplHost = Setting::where('name', 'deeplHost')->first()->decode();
-        $deeplLanguageCodes = config('linguacafe.languages.deepl_language_codes');
 
         // DeepL does not support 'EN-US' for source language 
         // and 'PT-PT' for language, so I replace them
-        $sourceLanguageCode = $deeplLanguageCodes[$dictionary->source_language];
+        $sourceLanguage = LanguageConfig::load($dictionary->source_language);
+        $targetLanguage = LanguageConfig::load($dictionary->target_language);
+        $sourceLanguageCode = $sourceLanguage->deeplCode;
+        
         if ($sourceLanguageCode === 'EN-US') {
             $sourceLanguageCode = 'EN';
         }
@@ -379,28 +382,28 @@ class DictionaryService {
         ])->post($deeplHost . '/translate', [
             'text' => [$term],
             "source_lang" => $sourceLanguageCode,
-            "target_lang" => $deeplLanguageCodes[$dictionary->target_language],
+            "target_lang" => $targetLanguage->deeplCode,
         ]);
     }
 
     private function buildMyMemoryRequest(Pool $pool, Dictionary $dictionary, string $term): void
     {
-        $myMemoryLanguageCodes = config('linguacafe.languages.my_memory_supported_target_languages');
-        $sourceLanguageCode = $myMemoryLanguageCodes[$dictionary->source_language];
-        $targetLanguageCode = $myMemoryLanguageCodes[$dictionary->target_language];
-        $pool->get('https://api.mymemory.translated.net/get?q=' . urlencode($term) . '!&langpair=' . $sourceLanguageCode . '|' . $targetLanguageCode);
+        $sourceLanguage = LanguageConfig::load($dictionary->source_language);
+        $targetLanguage = LanguageConfig::load($dictionary->target_language);
+        
+        $pool->get('https://api.mymemory.translated.net/get?q=' . urlencode($term) . '!&langpair=' . $sourceLanguage->libreTranslateCode . '|' . $targetLanguage->libreTranslateCode);
     }
 
     private function buildLibreTranslateRequest(Pool $pool, Dictionary $dictionary, string $term): void
     {
-        $myMemoryLanguageCodes = config('linguacafe.languages.libre_translate_language_codes');
-        $sourceLanguageCode = $myMemoryLanguageCodes[$dictionary->source_language];
-        $targetLanguageCode = $myMemoryLanguageCodes[$dictionary->target_language];
+        $sourceLanguage = LanguageConfig::load($dictionary->source_language);
+        $targetLanguage = LanguageConfig::load($dictionary->target_language);
+
         $libreTranslateHost = json_decode(Setting::where('name', 'libreTranslateHost')->first()->value);
         $pool->post($libreTranslateHost, [
             'q' => $term,
-            'source' => $sourceLanguageCode,
-            'target' => $targetLanguageCode,
+            'source' => $sourceLanguage->libreTranslateCode,
+            'target' => $targetLanguage->libreTranslateCode,
         ]);
     }
 
