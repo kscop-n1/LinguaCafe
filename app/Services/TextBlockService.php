@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Log;
+use App\Helpers\Language\LanguageConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -108,24 +108,27 @@ class TextBlockService
     /* 
         Sends the raw text to python tokenizer service, and stores the result.
     */
-    public function tokenizeRawText($tokenizers) {
+    public function tokenizeRawText() {
         $text = $this->rawText;
         $text = preg_replace("/ {2,}/", " ", str_replace(["\r\n", "\r", "\n"], " NEWLINE ", $text));
+        $languageConfig = LanguageConfig::load($this->language);
 
         $this->tokenizedWords = Http::timeout(60*5)->post($this->pythonService . ':8678/tokenizer/tokenize-text', [
             'raw_text' => $text,
             'language' => $this->language,
-            'tokenizer' => in_array($this->language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
+            'tokenizer' => $languageConfig->tokenizer,
         ]);
 
         $this->tokenizedWords = json_decode($this->tokenizedWords);
     }
 
-    public function tokenizeRawSubtitles($tokenizers) {
+    public function tokenizeRawSubtitles() {
+        $languageConfig = LanguageConfig::load($this->language);
+
         $tokenizerResponse = Http::timeout(60*5)->post($this->pythonService . ':8678/tokenizer/tokenize-subtitles', [
             'subtitles' => $this->rawText,
             'language' => $this->language,
-            'tokenizer' => in_array($this->language, $tokenizers['spacy'], true) ? 'spacy' : 'stanza',
+            'tokenizer' => $languageConfig->tokenizer,
         ]);
         
         $tokenizerResponse = json_decode($tokenizerResponse);

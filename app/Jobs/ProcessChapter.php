@@ -56,7 +56,6 @@ class ProcessChapter implements ShouldQueue
 
     public function handle() {
         try {
-            $tokenizers = config('linguacafe.languages.tokenizers');
             $this->startedAt = Carbon::now();
 
             $chapter = Chapter::query()
@@ -65,7 +64,7 @@ class ProcessChapter implements ShouldQueue
                 ->first();
 
             // process chapter text
-            $this->chapterService->processChapterText($this->userId, $this->chapterId, $tokenizers);
+            $this->chapterService->processChapterText($this->userId, $this->chapterId);
             
             // index phrases that were created while the job was running
             $phrases = Phrase
