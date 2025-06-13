@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -15,20 +16,18 @@ class LanguageService {
         $this->pythonService = env('PYTHON_CONTAINER_NAME', 'linguacafe-python-service');
     }
 
-    public function selectLanguage($user, $language) {
+    public function selectLanguage(User $user, LanguageConfig $language) {
         $installedLanguages = $this->getInstalledLanguages();
-        $installableLanguages = config('linguacafe.languages.supported_languages_with_required_install');
-
         /*
             This is an extra protection, to avoid switching to not installed
             languages. Since this should never happen in the software, it does not
             throw an exception.
         */
-        if (in_array($language, $installableLanguages, true) && !in_array($language, $installedLanguages, true)) {
+        if ($language->requiresInstall() && !in_array($language->name, $installedLanguages, true)) {
             return false;
         }
 
-        $user->selected_language = strtolower($language);
+        $user->selected_language = $language->name;
         $user->save();
         
         return true;
