@@ -72,7 +72,7 @@ class PackageManagerService:
                     ]
                 )
                 
-                if language == "Thai":
+                if language == "thai":
                     subprocess.check_output([
                         "pip",
                         "install",
@@ -80,7 +80,7 @@ class PackageManagerService:
                         "tzdata"])
 
                 # https://stackoverflow.com/questions/78634235
-                if language == "Turkish":
+                if language == "turkish":
                     subprocess.check_output([
                         "pip",
                         "install",
@@ -110,12 +110,12 @@ class PackageManagerService:
             disabled_parameters = ['ner'] if language in ('welsh', 'czech', 'latin', 'german') else ['ner', 'parser']
 
             if language in ('welsh', 'czech', 'latin'):
-                self.loaded_language_models['spacy_' + language] = spacy.load(config.spacy_models[language], disable = disabled_parameters)
+                self.loaded_language_models['spacy_' + language] = spacy.load(config.spacy_models['multi'], disable = disabled_parameters)
             elif language == 'thai': 
                 import spacy_thai
                 self.loaded_language_models['spacy_' + language] = spacy_thai.load()
             else:
-                self.loaded_language_models['spacy_' + language] = spacy.load(config.spacy_models['multi'], disable = disabled_parameters)
+                self.loaded_language_models['spacy_' + language] = spacy.load(config.spacy_models[language], disable = disabled_parameters)
         
             self.loaded_language_models['spacy_' + language].add_pipe("custom_sentence_splitter", first=True)
         
