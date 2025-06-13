@@ -512,7 +512,7 @@ class TextBlockService
     public function prepareTextForReader() {
         $tokensWithNoSpaceBefore = config('linguacafe.tokens_with_no_space_before');
         $tokensWithNoSpaceAfter = config('linguacafe.tokens_with_no_space_after');
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
+        $hasSpaces = LanguageConfig::load($this->language)->hasSpaces();
 
         $this->words = [];
         $encounteredWords = DB::table('encountered_words')
@@ -543,7 +543,7 @@ class TextBlockService
                 );
             } elseif (!isset($word->space_before) && !isset($word->is_punct)) {
                 // Default to legacy hardcoded spaces without punctuation checks
-                $word->spaceAfter = !in_array($this->language, $languagesWithoutSpaces, true);
+                $word->spaceAfter = $hasSpaces;
             }
 
             if ($wordIndex < $maxWordIndex && in_array($this->processedWords[$wordIndex + 1]->word, $tokensWithNoSpaceBefore, true) ||
