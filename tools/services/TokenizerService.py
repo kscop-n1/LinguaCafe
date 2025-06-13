@@ -1,4 +1,4 @@
-import json
+import pykakasi
 
 class TokenizerService:
     def __init__(self, packageManagerService):
@@ -78,7 +78,7 @@ class TokenizerService:
         return chunks
         
     def tokenizeString(self, text, language, tokenizer, sentenceIndexStart = 0):
-
+        print("tokenizeString: " + language + tokenizer + ' ' + text)
         # Mark thai new sentences. It is required because thai sentence indexing does not work in spacy.
         if language == 'thai':
             text = text.replace(' ', ' THAINEWSENTENCE ')
@@ -123,7 +123,10 @@ class TokenizerService:
         return tokenizedWords
         
     def transformSpacyDoc(self, doc, language, sentenceIndexStart):
-        global hiraganaConverter
+        if language == 'japanese':
+            global hiraganaConverter
+            hiraganaConverter = pykakasi.kakasi()
+        
         tokenizedWords = list()
         thaiSentenceIndex = 0
         space_before = False
@@ -205,6 +208,7 @@ class TokenizerService:
                         }
                     )
 
+                print ("token" + word)
         return tokenizedWords
     
     def get_separable_lemma(self, token):
