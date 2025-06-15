@@ -387,7 +387,7 @@
         },
         data: function() {
             return {
-                databaseNameLanguageCodes: null,
+                databaseNameLanguageCodes: {},
                 configFileLoading: true,
                 stepperPage: 1,
                 importing: false,
@@ -472,33 +472,33 @@
             };
         },
         mounted: function() {
-            axios.all([
-                axios.get('/config/get/linguacafe.languages.supported_languages'),
-                axios.get('/config/get/linguacafe.languages.supported_target_languages'),
-                axios.get('/config/get/linguacafe.languages.database_name_language_codes')
-            ]).then(axios.spread((response1, response2, response3) => {
+            axios.get('/config/languages').then((response) => {
                 this.configFileLoading = false;
+                
+                response.data.forEach((language) => {
+                    if (language.linguacafeSupport) {
+                        this.sourceLanguages.push({
+                            name: language.name,
+                            selected: false
+                        })
+                    }
 
-                // add supported source languages
-                for (let languageIndex = 0; languageIndex < response1.data.length; languageIndex++) {
-                    this.sourceLanguages.push({
-                        name: response1.data[languageIndex].toLowerCase(),
-                        selected: false
-                    });
-                }
-
-                // add supported target languages
-                for (let languageIndex = 0; languageIndex < response2.data.length; languageIndex++) {
                     this.targetLanguages.push({
-                        name: response2.data[languageIndex].toLowerCase(),
+                        name: language.name,
                         selected: false
-                    });
-                }
+                    })
+
+                    if (language.databaseDictionaryTableName !== null) {
+                        this.databaseNameLanguageCodes[language.name] = language.databaseDictionaryTableName
+                    }
+                })
 
                 // update database name
-                this.databaseNameLanguageCodes = response3.data;
                 this.updateDatabaseName();
-            }));
+
+                console.log('source languages', this.sourceLanguages)
+                console.log('target languages', this.targetLanguages)
+            });
         },
         methods: {
             updateDatabaseName() {
