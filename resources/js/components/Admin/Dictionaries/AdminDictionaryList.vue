@@ -1,5 +1,5 @@
 <template>
-    <div id="admin-dictionary-settings" class="pb-16">
+    <div id="admin-dictionary-list" class="pb-16">
         <!-- Dialogs -->
         <admin-dictionary-import-dialog 
             v-if="importDialog"
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-    import {formatNumber} from './../../helper.js';
+    import {formatNumber} from './../../../helper.js';
     export default {
         data: function() {
             return {

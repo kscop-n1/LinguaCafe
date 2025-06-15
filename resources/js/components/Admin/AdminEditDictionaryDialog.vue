@@ -35,174 +35,83 @@
                         filled
                         dense
                         rounded
-                        :disabled="(dictionary.type === 'custom_api' && dictionary.database_table_name === 'API') || dictionary.name === 'JMDict'"
+                        :disabled="dictionary.name === 'JMDict'"
                         placeholder="Dictionary name"
                         maxlength="16"
                     ></v-text-field>
 
                     <!-- Source language -->
-                    <template>
-                        <label class="font-weight-bold">
-                            Source language
-                            
-                            <!-- Source language info box -->
-                            <v-menu offset-y nudge-top="-12px">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
-                                </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
-                                    The language that you are learning.
-                                </v-card>
-                            </v-menu>
-                        </label>
-
-                        <!-- My memory source language -->
-                        <v-select
-                            v-if="dictionary.type === 'my_memory'"
-                            v-model="dictionary.source_language"
-                            :items="supportedMyMemoryLanguages"
-                            item-value="name"
-                            item-text="name"
-                            placeholder="Language"
-                            dense
-                            filled
-                            rounded
-                        >
-                            <template v-slot:selection="{ item, index }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                            <template v-slot:item="{ item }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                        </v-select>
-
-                        <!-- Other  source language -->
-                        <v-select
-                            v-else
-                            v-model="dictionary.source_language"
-                            :items="supportedSourceLanguages"
-                            item-value="name"
-                            placeholder="Language"
-                            dense
-                            filled
-                            rounded
-                            :disabled="dictionary.database_table_name === 'API' || dictionary.name === 'JMDict'"
-                        >
-                            <template v-slot:selection="{ item, index }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                            <template v-slot:item="{ item }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                        </v-select>
-                    </template>
-
-                    <!-- Target DeepL language -->
-                    <template v-if="dictionary.database_table_name === 'API' && dictionary.name.includes('DeepL')">
-                        <label class="font-weight-bold">
-                            Target language
-
-                            <!-- Target language info box -->
-                            <v-menu offset-y nudge-top="-12px">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
-                                </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
-                                    The language that the dictionary translates to. For example if it's a German -> English 
-                                    dictionary, you should select English as the target language. Target language has no function, 
-                                    it's just a visual help to arrange your dictionaries.
-                                </v-card>
-                            </v-menu>
-                        </label>
+                    <label class="font-weight-bold">
+                        Source language
                         
-                        <v-select
-                            v-model="dictionary.target_language"
-                            :items="supportedDeeplTargetLanguages"
-                            item-value="name"
-                            placeholder="Language"
-                            dense
-                            filled
-                            rounded
-                        >
-                            <template v-slot:selection="{ item, index }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
+                        <!-- Source language info box -->
+                        <v-menu offset-y nudge-top="-12px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
                             </template>
-                            <template v-slot:item="{ item }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                        </v-select>
-                    </template>
+                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                                The language that you are learning.
+                            </v-card>
+                        </v-menu>
+                    </label>
+
+                    <!-- Source language -->
+                    <v-select
+                        v-model="dictionary.source_language"
+                        :items="languages"
+                        item-value="name"
+                        placeholder="Language"
+                        dense
+                        filled
+                        rounded
+                        disabled
+                    >
+                        <template v-slot:selection="{ item, index }">
+                            <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
+                            <span class="text-capitalize">{{ item.name }}</span>
+                        </template>
+                        <template v-slot:item="{ item }">
+                            <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
+                            <span class="text-capitalize">{{ item.name }}</span>
+                        </template>
+                    </v-select>
 
                     <!-- Target language -->
-                    <template v-else-if="dictionary.type === 'my_memory'">
-                        <label class="font-weight-bold">
-                            Target language
-                        </label>
+                    <label class="font-weight-bold">
+                        Target language
 
-                        <v-select
-                            v-model="dictionary.target_language"
-                            :items="supportedMyMemoryLanguages"
-                            item-value="name"
-                            item-text="name"
-                            placeholder="Language"
-                            dense
-                            filled
-                            rounded
-                        >
-                            <template v-slot:selection="{ item, index }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
+                        <!-- Target language info box -->
+                        <v-menu offset-y nudge-top="-12px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
                             </template>
-                            <template v-slot:item="{ item }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                        </v-select>
-                    </template>
-
-                    <!-- Target language -->
-                    <template v-else>
-                        <label class="font-weight-bold">
-                            Target language
-
-                            <!-- Target language info box -->
-                            <v-menu offset-y nudge-top="-12px">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
-                                </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
-                                    The language that the dictionary translates to. For example if it's a German -> English 
-                                    dictionary, you should select English as the target language. Target language has no function, 
-                                    it's just a visual help to arrange your dictionaries.
-                                </v-card>
-                            </v-menu>
-                        </label>
-
-                        <v-select
-                            v-model="dictionary.target_language"
-                            :items="supportedTargetLanguages"
-                            item-value="name"
-                            placeholder="Language"
-                            dense
-                            filled
-                            rounded
-                        >
-                            <template v-slot:selection="{ item, index }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                            <template v-slot:item="{ item }">
-                                <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
-                                <span class="text-capitalize">{{ item.name }}</span>
-                            </template>
-                        </v-select>
-                    </template>
+                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                                The language that the dictionary translates to. For example if it's a German -> English 
+                                dictionary, you should select English as the target language. Target language has no function, 
+                                it's just a visual help to arrange your dictionaries.
+                            </v-card>
+                        </v-menu>
+                    </label>
+                    
+                    <v-select
+                        v-model="dictionary.target_language"
+                        :items="languages"
+                        item-value="name"
+                        placeholder="Language"
+                        dense
+                        filled
+                        rounded
+                        disabled
+                    >
+                        <template v-slot:selection="{ item, index }">
+                            <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
+                            <span class="text-capitalize">{{ item.name }}</span>
+                        </template>
+                        <template v-slot:item="{ item }">
+                            <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
+                            <span class="text-capitalize">{{ item.name }}</span>
+                        </template>
+                    </v-select>
 
                     <!-- Display color -->
                     <label class="font-weight-bold">Display color</label>
@@ -288,55 +197,25 @@
                 loading: true,
                 saveResult: '',
                 colorPicker: false,
-                supportedSourceLanguages: [],
-                supportedTargetLanguages: [],
-                supportedDeeplTargetLanguages: [],
-                supportedMyMemoryLanguages: [],
+                languages: [],
                 dictionary: null,
             };
         },
         mounted: function() {
             axios.all([
-                axios.get('/config/get/linguacafe.languages.supported_languages'),
-                axios.get('/config/get/linguacafe.languages.supported_target_languages'),
-                axios.get('/config/get/linguacafe.languages.deepl_supported_target_languages'),
                 axios.get('/dictionaries/get/' + this.$props.dictionaryId),
-                axios.get('/config/get/linguacafe.languages.my_memory_supported_target_languages'),
-            ]).then(axios.spread((response1, response2, response3, response4, response5) => {
+                axios.get('/config/languages'),
+            ]).then(axios.spread((response1, response2) => {
                 this.loading = false;
-                this.dictionary = response4.data;
+                this.dictionary = response1.data;
 
                 // add supported source languages
-                for (let languageIndex = 0; languageIndex < response1.data.length; languageIndex++) {
-                    this.supportedSourceLanguages.push({
-                        name: response1.data[languageIndex].toLowerCase(),
+                response2.data.forEach((language) => {
+                    this.languages.push({
+                        name: language.name,
                         selected: false
                     });
-                }
-
-                // add supported target languages
-                for (let languageIndex = 0; languageIndex < response2.data.length; languageIndex++) {
-                    this.supportedTargetLanguages.push({
-                        name: response2.data[languageIndex].toLowerCase(),
-                        selected: false
-                    });
-                }
-
-                // add supported deepl target languages
-                for (let languageIndex = 0; languageIndex < response3.data.length; languageIndex++) {
-                    this.supportedDeeplTargetLanguages.push({
-                        name: response3.data[languageIndex].toLowerCase(),
-                        selected: false
-                    });
-                }
-
-                // add supported mymemory languages
-                Object.keys(response5.data).forEach((languageName) => {
-                    this.supportedMyMemoryLanguages.push({
-                        name: languageName.toLowerCase(),
-                        selected: false
-                    });
-                });
+                })
             }));
         },
         methods: {

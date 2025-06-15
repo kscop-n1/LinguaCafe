@@ -134,6 +134,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     // home
     Route::post('/statistics/get', [App\Http\Controllers\HomeController::class, 'getStatistics']);
     Route::get('/config/get/{configPath}', [App\Http\Controllers\HomeController::class, 'getConfig']);
+    Route::get('/config/languages', [App\Http\Controllers\HomeController::class, 'getLanguageConfig']);
 
     // user manual
     Route::get('/manual/get-menu-tree', [App\Http\Controllers\HomeController::class, 'getUserManualTree']);

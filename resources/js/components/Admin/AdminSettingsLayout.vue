@@ -20,7 +20,7 @@
                 <admin-language-settings></admin-language-settings>
             </v-tab-item>
             <v-tab-item :value="3">
-                <admin-dictionary-settings :language="$props.language"></admin-dictionary-settings>
+                <admin-dictionary-list :language="$props.language"></admin-dictionary-list>
             </v-tab-item>
             <v-tab-item :value="4">
                 <admin-font-type-settings></admin-font-type-settings>
