@@ -186,33 +186,30 @@
                 
                 var url = '/books/update';
                 var form = new FormData();
-                form.set('bookName',this.name);
+                form.set('name',this.name);
                 
                 if (this.$props.bookId === -1) {
                     url = '/books/create';
                 } else {
-                    form.set('bookId', this.$props.bookId);
+                    url = `/books/update/${this.$props.bookId}`;
                 }
                 
                 if (this.editImage) {
-                    form.set('bookCover', this.image);
+                    form.set('cover', this.image);
                 }
 
                 axios.post(url, form).catch((e) => {
                     this.saveResult = 'error';
                     this.saving = false;
+                }).catch((error) => {
+                    this.saveResult = 'error';
                 }).then((response) => {
                     this.saving = false;
-                    if (response.status === 200) {
-                        this.saveResult = 'success';
-
-                        setTimeout(() => {
-                            this.$emit('book-saved');
-                            this.close();
-                        }, 750);
-                    } else {
-                        this.saveResult = 'error';
-                    }
+                    
+                    setTimeout(() => {
+                        this.$emit('book-saved');
+                        this.close();
+                    }, 750);
                 });
             },
             close() {

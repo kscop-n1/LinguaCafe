@@ -192,10 +192,10 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // books
     Route::post('/books', [App\Http\Controllers\BookController::class, 'getBooks']);
-    Route::get ('/books/get-word-counts/{bookId}', [App\Http\Controllers\BookController::class, 'getBookWordCounts']);
+    Route::get ('/books/get-word-counts/{book}', [App\Http\Controllers\BookController::class, 'getBookWordCounts']);
     Route::post('/books/create', [App\Http\Controllers\BookController::class, 'createBook']);
-    Route::post('/books/update', [App\Http\Controllers\BookController::class, 'updateBook']);
-    Route::post('/books/delete', [App\Http\Controllers\BookController::class, 'deleteBook']);
+    Route::post('/books/update/{book}', [App\Http\Controllers\BookController::class, 'updateBook']);
+    Route::delete('/books/delete/{book}', [App\Http\Controllers\BookController::class, 'deleteBook']);
 
     // chapters
     Route::post('/chapters', [App\Http\Controllers\ChapterController::class, 'getChaptersForBook']);

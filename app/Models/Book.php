@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Enums\ChapterProcessingStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use stdClass;
 
 class Book extends Model
 {
@@ -18,9 +19,10 @@ class Book extends Model
         'language',
     ];
 
-    function getWordCounts($userId, $words) {
+    function getWordCounts(User $user, array $words): stdClass
+    {
         $chapters = Chapter
-            ::where('user_id', $userId)
+            ::where('user_id', $user->id)
             ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
             ->where('book_id', $this->id)
             ->get();
@@ -37,6 +39,7 @@ class Book extends Model
             }
         }
 
+        // TODO: replace \stdClass with DTO or plain array
         $wordCounts = new \stdClass();
         $wordCounts->total = $this->word_count;
         $wordCounts->unique = count($bookUniqueWordIds);

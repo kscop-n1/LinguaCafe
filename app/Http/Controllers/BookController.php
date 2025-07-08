@@ -2,91 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\Book;
 
 // request classes
-use App\Http\Requests\Books\GetBookWordCountsRequest;
+use App\Services\BookService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Books\CreateBookRequest;
-use App\Http\Requests\Books\UpdateBookRequest;
-use App\Http\Requests\Books\DeleteBookRequest;
 
 // services
-use App\Services\BookService;
+use App\Http\Requests\Books\UpdateBookRequest;
 
-class BookController extends Controller {
-    private $bookService;
-
-    public function __construct(BookService $bookService) {
-        $this->bookService = $bookService;
+class BookController extends Controller
+{
+    public function __construct(private BookService $bookService)
+    {
+        //
     }
 
-    public function getBooks() {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        
-        $books = $this->bookService->getBooks($userId, $language);
+    public function getBooks()
+    {
+        $user = Auth::user();
+
+        $books = $this->bookService->getBooks($user);
 
         return response()->json($books, 200);
     }
 
-    public function getBookWordCounts($bookId, GetBookWordCountsRequest $request) {
-        $userId = Auth::user()->id;
+    public function getBookWordCounts(Book $book) {
+        $user = Auth::user();
 
-        try {
-            $wordCounts = $this->bookService->getBookWordCounts($userId, $bookId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $wordCounts = $this->bookService->getBookWordCounts($user, $book);
 
         return response()->json($wordCounts, 200);
     }
 
     public function createBook(CreateBookRequest $request) {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $bookName = $request->post('bookName');
-        $bookCoverFile = $request->file('bookCover');
+        $user = Auth::user();
+        $name = $request->validated('name');
+        $bookCoverFile = $request->file('cover');
         
-        try {
-            $this->bookService->createBook($userId, $language, $bookName, $bookCoverFile);
-        } catch (\Throwable $e) {
-            abort(500, $e->getMessage());
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->bookService->createBook($user, $name, $bookCoverFile);
         
-        return response()->json('Book has been successfully created.', 200);
+        return response()->noContent();
     }
 
-    public function updateBook(UpdateBookRequest $request) {
-        $userId = Auth::user()->id;
-        $bookId = $request->post('bookId');
-        $bookName = $request->post('bookName');
-        $bookCoverFile = $request->file('bookCover');
+    public function updateBook(UpdateBookRequest $request, Book $book) {
+        $user = Auth::user();
+        $name = $request->validated('name');
+        $bookCoverFile = $request->file('cover');
         
-        try {
-            $this->bookService->updateBook($userId, $bookId, $bookName, $bookCoverFile);
-        } catch (\Throwable $e) {
-            abort(500, $e->getMessage());
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->bookService->updateBook($user, $book, $name, $bookCoverFile);
         
-        return response()->json('Book has been successfully updated.', 200);
+        return response()->noContent();
     }
 
-    public function deleteBook(DeleteBookRequest $request) {
-        $bookId = $request->post('bookId');
-        $userId = Auth::user()->id;
+    public function deleteBook(Book $book) {
+        $user = Auth::user();
 
-        try {
-            $this->bookService->deleteBook($userId, $bookId);
-        } catch (\Throwable $e) {
-            abort(500, $e->getMessage());
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->bookService->deleteBook($user, $book);
         
-        return response()->json('Book has been successfully deleted.', 200);
+        return response()->noContent();
     }
 }

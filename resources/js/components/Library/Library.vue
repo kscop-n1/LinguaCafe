@@ -233,16 +233,10 @@
                 this.deleteBookDialog.bookName = book.name;
             },
             deleteBook() {
-                axios.post('/books/delete', {
-                    'bookId': this.deleteBookDialog.bookId,
-                }).catch((e) => {
+                axios.delete(`/books/delete/${this.deleteBookDialog.bookId}`).catch(() => {
                     this.errorDialog.active = true;
-                }).then((response) => {
-                    if (response.status === 200) {
-                        this.loadBooks();
-                    } else {
-                        this.errorDialog.active = true;
-                    }
+                }).then(() => {
+                    this.loadBooks();
                 });
             },
             openBook(bookId) {

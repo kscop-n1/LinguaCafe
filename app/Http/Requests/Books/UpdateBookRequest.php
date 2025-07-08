@@ -24,9 +24,8 @@ class UpdateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'bookId' => 'required|numeric|gte:0',
-            'bookName' => 'required|string|max:128',
-            'bookCover' => 'file|mimes:jpg,jpeg,png,webp'
+            'name' => 'required|string|max:128',
+            'cover' => 'file|mimes:jpg,jpeg,png,webp'
         ];
     }
 }
