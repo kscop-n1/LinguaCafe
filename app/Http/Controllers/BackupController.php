@@ -8,14 +8,8 @@ use Illuminate\Support\Facades\Artisan;
 class BackupController extends Controller
 {
     public function createBackup() {
-        try {
-            $exitCode = Artisan::call('app:create-backup');
-        } catch(\Exception $e) {
-            abort(500, 'An error has occurred while exporting the database.');
-        }
+        Artisan::call('app:create-backup');
 
-        return response()->json([
-            'exitCode' =>  $exitCode,
-        ], 200);
+        return response()->noContent();
     }
 }
