@@ -5,6 +5,25 @@
         </div>
 
         <v-card outlined class="rounded-lg mb-8">
+            <v-card-title>v0.16<v-spacer /> 2025.??.??.</v-card-title>
+            <v-card-text>
+                <b>New features:</b>
+                <ul>
+                </ul>
+
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed invisible word count display in chapters where the number was too long.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Lot of backend code has been refactored.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card outlined class="rounded-lg mb-8">
             <v-card-title>v0.15-beta<v-spacer /> 2025.04.13.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
