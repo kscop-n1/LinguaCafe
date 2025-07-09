@@ -96,27 +96,31 @@ class TokenizerService:
         tokenizedWords = list()
         sentenceIndex = 0
         for sentence in doc.sentences:
-            for word in sentence.words:
-                if word == " " or word == "" or word == " ":
-                    space_before = True
-                    continue
-                else:
-                    space_before = False
+            for token in sentence.tokens:
+                for wordIndex, word in enumerate(token.words):
+                    isLastWord = (wordIndex == len(token.words) - 1)
                     
-                tokenizedWords.append(
-                    {
-                        "w": word.text,
-                        "r": "",
-                        "l": word.lemma,
-                        "lr": "",
-                        "pos": word.upos,
-                        "si": sentenceIndex,
-                        "g": "",
-                        "ip": False,
-                        "sb": space_before,
-                        "sa": len(word.parent.spaces_after),
-                    }
-                )
+                    if word == " " or word == "" or word == " ":
+                        continue
+
+                    # space after
+                    space_after = len(token.spaces_after) > 0
+                    space_before = len(token.spaces_before) > 0
+
+                    tokenizedWords.append(
+                        {
+                            "w": word.text,
+                            "r": "",
+                            "l": word.lemma,
+                            "lr": "",
+                            "pos": word.upos,
+                            "si": sentenceIndex,
+                            "g": "",
+                            "ip": word.upos == "PUNCT",
+                            "sb": space_before if wordIndex == 0 else False,
+                            "sa": space_after if isLastWord else False,
+                        }
+                    )
 
             sentenceIndex += 1
 
