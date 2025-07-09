@@ -289,31 +289,29 @@
                 this.deleteBookChapterDialog.chapterName = chapter.name;
             },
             deleteChapter() {
-                axios.post('/chapters/delete', {
-                    'chapterId': this.deleteBookChapterDialog.chapterId,
-                }).catch(() => {
+                axios.delete(`/chapters/delete/${this.deleteBookChapterDialog.chapterId}`).catch(() => {
                     this.errorDialog.active = true;
                 }).then((response) => {
-                    if (response.status === 200) {
-                        this.$emit('word-count-changed');
-                    } else {
-                        this.errorDialog.active = true;
-                    }
+                    this.$emit('word-count-changed');
                 });
             },
             loadChapters() {
                 this.chaptersLoading = true;
                 this.chapters = [];
 
-                axios.post('/chapters', {
-                    'bookId': this.$props.bookId,
-                }).then((response) => {
-                    for (let chapterIndex = 0; chapterIndex < response.data.chapters.length; chapterIndex++) {
-                        response.data.chapters[chapterIndex].wordCountsLoaded = false;
-                    }
-                    
-                    this.book = response.data.book;
-                    this.chapters = response.data.chapters;
+                axios.all([
+                    axios.get(`/books/${this.$props.bookId}`),
+                    axios.post(`/chapters/${this.$props.bookId}`)
+                ]).catch((error) => {
+                    console.log('error:', error)
+                }).then(axios.spread((bookResponse, chaptersResponse) => {
+                    this.book = bookResponse.data.data;
+                    this.chapters = chaptersResponse.data.data;
+
+                    this.chapters.map((chapter) => {
+                        chapter.wordCountsLoaded = false
+                        return
+                    })
 
                     if (this.chapters.length) {
                         this.randomChapter = this.chapters[Math.floor(Math.random() * this.chapters.length)].id;
@@ -325,7 +323,7 @@
                     this.$nextTick(() => {
                         axios.get('/chapters/word-counts/' + this.$props.bookId);
                     }) 
-                });
+                }));
             },
             showStartReviewDialog(bookId, bookName, chapterId, chapterName) {
                 this.startReviewDialog.bookName = bookName;

@@ -150,31 +150,24 @@
                 }
 
                 this.saving = true;
-                var url = '/chapters/update';
+                var url = `/chapters/update/${this.$props.chapterId}`;
                 var data = {
-                    'chapterName': this.name,
-                    'chapterText': this.text,
+                    'name': this.name,
+                    'text': this.text,
                 };
 
-                if (this.$props.chapterId !== -1) {
-                    data.chapterId = this.$props.chapterId;
-                } else {
-                    data.bookId = this.$props.bookId;
-                    url = '/chapters/create';
+                if (this.$props.chapterId === -1) {
+                    url = `/chapters/create/${this.$props.bookId}`;
                 }
                 
                 axios.post(url, data).then((response) => {
                     this.saving = false;
-                    if (response.status === 200) {
-                        this.saveResult = 'success';
-                        this.$emit('chapter-saved');
+                    this.saveResult = 'success';
+                    this.$emit('chapter-saved');
 
-                        setTimeout(() => {
-                            this.close();
-                        }, 750);
-                    } else {
-                        this.saveResult = 'error';
-                    }
+                    setTimeout(() => {
+                        this.close();
+                    }, 750);
                 }).catch((error) => {
                     this.saving = false;
                     this.saveResult = 'error';
@@ -182,12 +175,10 @@
             },
             loadChapter() {
                 if (this.$props.chapterId !== -1) {
-                    axios.post('/chapters/get/editor', {
-                        chapterId: this.$props.chapterId,
-                    }).then((response) => {
-                        this.name = response.data.name;
-                        this.text = response.data.raw_text;
-                        this.type = response.data.type;
+                    axios.post(`/chapters/get/editor/${this.$props.chapterId}`).then((response) => {
+                        this.name = response.data.data.name;
+                        this.text = response.data.data.raw_text;
+                        this.type = response.data.data.type;
                         this.loading = false;
                         this.$nextTick(() => {
                             this.$refs.editChapterForm.validate();

@@ -2,21 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
+use Exception;
 
 // request classes
+use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Books\CreateBookRequest;
 
 // services
+use App\Http\Requests\Books\CreateBookRequest;
 use App\Http\Requests\Books\UpdateBookRequest;
+use App\Http\Resources\Book\BookResource;
 
 class BookController extends Controller
 {
     public function __construct(private BookService $bookService)
     {
         //
+    }
+
+    public function getBook(Book $book)
+    {
+        if ($book->user_id !== Auth::user()->id) {
+            throw new Exception('Book not found or unauthorized.');
+        }
+
+        return new BookResource($book);
     }
 
     public function getBooks()

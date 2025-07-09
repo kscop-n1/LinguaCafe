@@ -300,9 +300,7 @@
             };
 
 
-            axios.post('/chapters/get/reader', {
-                'chapterId': this.$route.params.chapterId,
-            }).then((response) => {
+            axios.post(`/chapters/get/reader/${this.$route.params.chapterId}`).then((response) => {
                 var data = response.data;
                 this.type = data.type;
 
@@ -473,25 +471,19 @@
                 this.saving = true;
                 this.finished = true;
 
-                axios.post('/chapters/finish', {
+                axios.post(`/chapters/finish/${this.chapterId}`, {
                     uniqueWords: JSON.stringify(this.$refs.interactiveText.uniqueWords),
                     autoLevelUpWords: this.settings.autoLevelUpWords,
                     leveledUpWords: JSON.stringify(this.leveledUpWordsAndPhrases.wordIds),
                     leveledUpPhrases: JSON.stringify(this.leveledUpWordsAndPhrases.phraseIds),
                     phrases: JSON.stringify(this.$refs.interactiveText.phrases),
-                    language: this.language,
-                    chapterId: this.chapterId,
                     autoMoveWordsToKnown: this.settings.autoMoveWordsToKnown
-                }).then((response) => {
-                    this.saving = false;
-                    if (response.status === 200) {
-                        this.finishError = false;
-                    } else {
-                        this.finishError = true;
-                    }
                 }).catch((error) => {
                     this.saving = false;
                     this.finishError = true;
+                }).then((response) => {
+                    this.saving = false;
+                    this.finishError = false;
                 });
             },
             formatNumber: formatNumber

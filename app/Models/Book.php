@@ -39,7 +39,7 @@ class Book extends Model
             }
         }
 
-        // TODO: replace \stdClass with DTO or plain array
+        // TODO: replace \stdClass with DTO or at least plain array
         $wordCounts = new \stdClass();
         $wordCounts->total = $this->word_count;
         $wordCounts->unique = count($bookUniqueWordIds);
