@@ -1,4 +1,7 @@
 import pykakasi
+from . import TokenizerConfig
+
+config = TokenizerConfig.TokenizerConfig()
 
 class TokenizerService:
     def __init__(self, packageManagerService):
@@ -18,9 +21,8 @@ class TokenizerService:
     def cutAndTokenizePlainText(self, text, language, chunkSize):
         text = text.replace('\r\n', ' NEWLINE ')
         text = text.replace('\n', ' NEWLINE ')
-        sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
 
-        for sentenceEnding in sentenceEndings:
+        for sentenceEnding in config.sentenceEndings:
             text = text.replace(sentenceEnding, sentenceEnding + 'TMP_ST')
         sentences = text.split('TMP_ST')
 
@@ -78,7 +80,6 @@ class TokenizerService:
         return chunks
         
     def tokenizeString(self, text, language, tokenizer, sentenceIndexStart = 0):
-        print("tokenizeString: " + language + tokenizer + ' ' + text)
         # Mark thai new sentences. It is required because thai sentence indexing does not work in spacy.
         if language == 'thai':
             text = text.replace(' ', ' THAINEWSENTENCE ')
@@ -212,7 +213,6 @@ class TokenizerService:
                         }
                     )
 
-                print ("token" + word)
         return tokenizedWords
     
     def get_separable_lemma(self, token):

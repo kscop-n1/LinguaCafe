@@ -3,6 +3,9 @@ import lxml.html
 from ebooklib import epub
 import ebooklib 
 import re
+from . import TokenizerConfig
+
+config = TokenizerConfig.TokenizerConfig()
 
 class EbookService:
 
@@ -12,8 +15,7 @@ class EbookService:
         content = content.replace('\n', ' NEWLINE ')
 
         # split text into sentences
-        sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
-        for sentenceEnding in sentenceEndings:
+        for sentenceEnding in config.sentenceEndings:
             content = content.replace(sentenceEnding, sentenceEnding + 'TMP_ST')
         sentences = content.split('TMP_ST')
 

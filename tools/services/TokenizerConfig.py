@@ -53,3 +53,5 @@ class TokenizerConfig:
             "bg": "bulgarian",
             "vi": "vietnamese",
         }
+
+        self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
