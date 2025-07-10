@@ -68,7 +68,7 @@ services:
             - linguacafe
     python:
         container_name: linguacafe-python-service
-        command: "python3 /app/tokenizer.py"
+        command: "python3 /app/server.py"
         restart: unless-stopped
         tty: true
         image: ghcr.io/simjanos-dev/linguacafe-python-service:${VERSION:-latest}
