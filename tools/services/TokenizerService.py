@@ -164,6 +164,7 @@ class TokenizerService:
 
                 # get pinyin reading
                 if language == 'chinese':
+                    import pinyin
                     reading = pinyin.get(word)
                     lemmaReading = pinyin.get(lemma)
 
