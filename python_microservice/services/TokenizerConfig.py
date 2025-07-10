@@ -52,6 +52,7 @@ class TokenizerConfig:
         self.stanza_model_name = {
             "bg": "bulgarian",
             "vi": "vietnamese",
+            "af": "afrikaans",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
