@@ -126,7 +126,7 @@ class ImportService {
     }
 
     public function getYoutubeSubtitles($url) {
-        $subtitleList = Http::post($this->pythonService . ':8678/tokenizer/get-youtube-subtitle-list', [
+        $subtitleList = Http::post($this->pythonService . ':8678/youtube/get-subtitle-list', [
             'url' => $url,
         ]);
         
@@ -134,7 +134,7 @@ class ImportService {
     }
 
     public function getSubtitleFileContent($fileName) {
-        $subtitleContent = Http::post($this->pythonService . ':8678/tokenizer/get-subtitle-file-content', [
+        $subtitleContent = Http::post($this->pythonService . ':8678/subtitles/read', [
             'fileName' => $fileName,
         ]);
         
@@ -142,7 +142,7 @@ class ImportService {
     }
 
     public function getWebsiteText($url) {
-        $websiteText = Http::post($this->pythonService . ':8678/tokenizer/get-website-text', [
+        $websiteText = Http::post($this->pythonService . ':8678/web/get-website-text', [
             'url' => $url,
         ]);
 

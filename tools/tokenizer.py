@@ -76,7 +76,7 @@ def cutSubtitlesIntoChunks():
 
     return json.dumps(tokenizerService.cutSubtitlesIntoChunks(subtitles, language, chunkSize))
 
-@route('/tokenizer/get-youtube-subtitle-list', method='POST')
+@route('/youtube/get-subtitle-list', method='POST')
 def getYoutubeSubtitleList():
     response.headers['Content-Type'] = 'application/json'
 
@@ -86,7 +86,7 @@ def getYoutubeSubtitleList():
 
     return json.dumps(youtubeService.getYoutubeSubtitleList(videoId))
 
-@route('/tokenizer/get-subtitle-file-content', method='POST')
+@route('/subtitles/read', method='POST')
 def getYoutubeSubtitleContent():
     response.headers['Content-Type'] = 'application/json'
     
@@ -94,7 +94,7 @@ def getYoutubeSubtitleContent():
 
     return json.dumps(youtubeService.getYoutubeSubtitleContent(fileName))
 
-@route('/tokenizer/get-website-text', method='POST')
+@route('/web/get-website-text', method='POST')
 def getWebsiteText():
     url = request.json.get('url')
     article = Article(url)
