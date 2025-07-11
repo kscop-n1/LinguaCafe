@@ -20,6 +20,7 @@ class LanguageConfig
         public ?string $myMemoryCode,
         public ?string $jellyfinCode,
         public ?string $dictCcCode,
+        public ?string $emoji,
     )
     {
         //
@@ -107,6 +108,7 @@ class LanguageConfig
             myMemoryCode: $configData['my_memory_code'],
             jellyfinCode: $configData['jellyfin_code'],
             dictCcCode: $configData['dict_cc_code'],
+            emoji: $configData['unicode_emoji'],
         );
     }
 }

@@ -15,6 +15,7 @@
         'jellyfin_code' => null|string, // jellyfin code if linguacafe_support is true, otherwise null. should be added if missing
         'database_dictionary_table_name' => null|string, // database table slug if linguacafe_support is true, otherwise null. must be added if missing
         'dict_cc_code' => null|string, // dict cc code if supported, otherwise null
+        'unicode_emoji' => string, // unicode emoji flag of the language. sometimes this does not match with the flag image in LC
     ];
 
 
@@ -43,6 +44,7 @@ return [
         'jellyfin_code' => 'afr',
         'database_dictionary_table_name' => 'af',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇿🇦',
     ],
     'albanian' => [
         'linguacafe_support' => false,
@@ -56,6 +58,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'sq',
         'dict_cc_code' => 'SQ',
+        'unicode_emoji' => '🇦🇱',
     ],
     'arabic' => [
         'linguacafe_support' => false,
@@ -69,6 +72,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇸🇦',
     ],
     // 'belarusian' => [
     //     'website_import_support' => true,
@@ -85,6 +89,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'bs',
         'dict_cc_code' => 'BS',
+        'unicode_emoji' => '🇧🇦',
     ],
     'brazilian portuguese' => [
         'linguacafe_support' => false,
@@ -98,6 +103,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇧🇷',
     ],
     'bulgarian' => [
         'linguacafe_support' => true,
@@ -111,6 +117,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'bg',
         'dict_cc_code' => 'BG',
+        'unicode_emoji' => '🇧🇬',
     ],
     'catalan' => [
         'linguacafe_support' => false,
@@ -124,6 +131,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'ca',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇦🇩',
     ],
     'chinese' => [
         'linguacafe_support' => true,
@@ -137,6 +145,7 @@ return [
         'jellyfin_code' => 'chi',
         'database_dictionary_table_name' => 'zh',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇨🇳',
     ],
     'croatian' => [
         'linguacafe_support' => true,
@@ -150,6 +159,7 @@ return [
         'jellyfin_code' => 'hrv',
         'database_dictionary_table_name' => 'hr',
         'dict_cc_code' => 'HR',
+        'unicode_emoji' => '🇭🇷',
     ],
     'czech' => [
         'linguacafe_support' => true,
@@ -163,6 +173,7 @@ return [
         'jellyfin_code' => 'cze',
         'database_dictionary_table_name' => 'cs',
         'dict_cc_code' => 'CS',
+        'unicode_emoji' => '🇨🇿',
     ],
     'danish' => [
         'linguacafe_support' => true,
@@ -176,6 +187,7 @@ return [
         'jellyfin_code' => 'dan',
         'database_dictionary_table_name' => 'da',
         'dict_cc_code' => 'DA',
+        'unicode_emoji' => '🇩🇰',
     ],
     'dutch' => [
         'linguacafe_support' => true,
@@ -189,6 +201,7 @@ return [
         'jellyfin_code' => 'dut',
         'database_dictionary_table_name' => 'nl',
         'dict_cc_code' => 'NL',
+        'unicode_emoji' => '🇳🇱',
     ],
     'english' => [
         'linguacafe_support' => true,
@@ -202,6 +215,7 @@ return [
         'jellyfin_code' => 'eng',
         'database_dictionary_table_name' => 'en',
         'dict_cc_code' => 'EN',
+        'unicode_emoji' => '🇬🇧',
     ],
     'esperanto' => [
         'linguacafe_support' => false,
@@ -215,6 +229,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'eo',
         'dict_cc_code' => 'EO',
+        'unicode_emoji' => '🟩',
     ],
     'estonian' => [
         'linguacafe_support' => false,
@@ -228,6 +243,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇪🇪',
     ],
     'finnish' => [
         'linguacafe_support' => true,
@@ -241,6 +257,7 @@ return [
         'jellyfin_code' => 'fin',
         'database_dictionary_table_name' => 'fi',
         'dict_cc_code' => 'FI',
+        'unicode_emoji' => '🇫🇮',
     ],
     'french' => [
         'linguacafe_support' => true,
@@ -254,6 +271,7 @@ return [
         'jellyfin_code' => 'fre',
         'database_dictionary_table_name' => 'fr',
         'dict_cc_code' => 'FR',
+        'unicode_emoji' => '🇫🇷',
     ],
     'german' => [
         'linguacafe_support' => true,
@@ -267,6 +285,7 @@ return [
         'jellyfin_code' => 'ger',
         'database_dictionary_table_name' => 'de',
         'dict_cc_code' => 'DE',
+        'unicode_emoji' => '🇩🇪',
     ],
     'greek' => [
         'linguacafe_support' => true,
@@ -280,6 +299,7 @@ return [
         'jellyfin_code' => 'gre',
         'database_dictionary_table_name' => 'el',
         'dict_cc_code' => 'EL',
+        'unicode_emoji' => '🇬🇷',
     ],
     // 'hebrew' => [
     //     'website_import_support' => true,
@@ -299,6 +319,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'hu',
         'dict_cc_code' => 'HU',
+        'unicode_emoji' => '🇭🇺',
     ],
     'icelandic' => [
         'linguacafe_support' => false,
@@ -312,6 +333,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'is',
         'dict_cc_code' => 'IS',
+        'unicode_emoji' => '🇮🇸',
     ],
     'indonesian' => [
         'linguacafe_support' => false,
@@ -325,6 +347,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇮🇩',
     ],
     'italian' => [
         'linguacafe_support' => true,
@@ -338,6 +361,7 @@ return [
         'jellyfin_code' => 'ita',
         'database_dictionary_table_name' => 'it',
         'dict_cc_code' => 'IT',
+        'unicode_emoji' => '🇮🇹',
     ],
     'japanese' => [
         'linguacafe_support' => true,
@@ -351,6 +375,7 @@ return [
         'jellyfin_code' => 'jpn',
         'database_dictionary_table_name' => 'jp',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇯🇵',
     ],
     'korean' => [
         'linguacafe_support' => true,
@@ -364,6 +389,7 @@ return [
         'jellyfin_code' => 'kor',
         'database_dictionary_table_name' => 'ko',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇰🇷',
     ],
     'latin' => [
         'linguacafe_support' => true,
@@ -377,6 +403,7 @@ return [
         'jellyfin_code' => 'lat',
         'database_dictionary_table_name' => 'la',
         'dict_cc_code' => 'LA',
+        'unicode_emoji' => '🇻🇦',
     ],
     'latvian' => [
         'linguacafe_support' => false,
@@ -390,6 +417,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => null,
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇱🇻',
     ],
     'lithuanian' => [
         'linguacafe_support' => false,
@@ -403,6 +431,7 @@ return [
         'jellyfin_code' => 'lit',
         'database_dictionary_table_name' => 'lt',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇱🇹',
     ],
     'macedonian' => [
         'linguacafe_support' => true,
@@ -416,6 +445,7 @@ return [
         'jellyfin_code' => 'mac',
         'database_dictionary_table_name' => 'mk',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇲🇰',
     ],
     'norwegian' => [
         'linguacafe_support' => true,
@@ -429,6 +459,7 @@ return [
         'jellyfin_code' => 'nor',
         'database_dictionary_table_name' => 'no',
         'dict_cc_code' => 'NO',
+        'unicode_emoji' => '🇳🇴',
     ],
     // 'persian' => [
     //     'website_import_support' => true,
@@ -445,6 +476,7 @@ return [
         'jellyfin_code' => 'pol',
         'database_dictionary_table_name' => 'pl',
         'dict_cc_code' => 'PL',
+        'unicode_emoji' => '🇵🇱',
     ],
     'portuguese' => [
         'linguacafe_support' => true,
@@ -458,6 +490,7 @@ return [
         'jellyfin_code' => 'por',
         'database_dictionary_table_name' => 'pt',
         'dict_cc_code' => 'PT',
+        'unicode_emoji' => '🇵🇹',
     ],
     'romanian' => [
         'linguacafe_support' => true,
@@ -471,6 +504,7 @@ return [
         'jellyfin_code' => 'rum', // rum is not a misspell
         'database_dictionary_table_name' => 'ro',
         'dict_cc_code' => 'RO',
+        'unicode_emoji' => '🇷🇴',
     ],
     'russian' => [
         'linguacafe_support' => true,
@@ -484,6 +518,7 @@ return [
         'jellyfin_code' => 'rus',
         'database_dictionary_table_name' => 'ru',
         'dict_cc_code' => 'RU',
+        'unicode_emoji' => '🇷🇺',
     ],
     'serbian' => [
         'linguacafe_support' => false,
@@ -497,6 +532,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'sr',
         'dict_cc_code' => 'SR',
+        'unicode_emoji' => '🇷🇸',
     ],
     'slovak' => [
         'linguacafe_support' => false,
@@ -510,6 +546,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'sk',
         'dict_cc_code' => 'SK',
+        'unicode_emoji' => '🇸🇰',
     ],
     'slovenian' => [
         'linguacafe_support' => true,
@@ -523,6 +560,7 @@ return [
         'jellyfin_code' => 'slv',
         'database_dictionary_table_name' => 'sl',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇸🇮',
     ],
     'spanish' => [
         'linguacafe_support' => true,
@@ -536,6 +574,7 @@ return [
         'jellyfin_code' => 'spa',
         'database_dictionary_table_name' => 'es',
         'dict_cc_code' => 'ES',
+        'unicode_emoji' => '🇪🇸',
     ],
     // 'swahili' => [
     //     'website_import_support' => true,
@@ -552,6 +591,7 @@ return [
         'jellyfin_code' => 'swe',
         'database_dictionary_table_name' => 'sv',
         'dict_cc_code' => 'SV',
+        'unicode_emoji' => '🇸🇪',
     ],
     'thai' => [
         'linguacafe_support' => true,
@@ -565,6 +605,7 @@ return [
         'jellyfin_code' => 'tha',
         'database_dictionary_table_name' => 'th',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇹🇭',
     ],
     'turkish' => [
         'linguacafe_support' => true,
@@ -578,6 +619,7 @@ return [
         'jellyfin_code' => 'tur',
         'database_dictionary_table_name' => 'tr',
         'dict_cc_code' => 'TR',
+        'unicode_emoji' => '🇹🇷',
     ],
     'ukrainian' => [
         'linguacafe_support' => true,
@@ -591,6 +633,7 @@ return [
         'jellyfin_code' => 'ukr',
         'database_dictionary_table_name' => 'ua',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🇺🇦',
     ],
     // 'vietnamese' => [
     //     'website_import_support' => true,
@@ -607,5 +650,6 @@ return [
         'jellyfin_code' => 'wel',
         'database_dictionary_table_name' => 'cy',
         'dict_cc_code' => null,
+        'unicode_emoji' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
     ],
 ];
