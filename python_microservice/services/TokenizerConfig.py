@@ -54,6 +54,7 @@ class TokenizerConfig:
             "vi": "vietnamese",
             "af": "afrikaans",
             "hy": "armenian",
+            "eu": "basque",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']

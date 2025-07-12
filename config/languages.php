@@ -15,7 +15,7 @@
         'jellyfin_code' => null|string, // jellyfin code if linguacafe_support is true, otherwise null. should be added if missing
         'database_dictionary_table_name' => null|string, // database table slug if linguacafe_support is true, otherwise null. must be added if missing
         'dict_cc_code' => null|string, // dict cc code if supported, otherwise null
-        'unicode_emoji' => string, // unicode emoji flag of the language. sometimes this does not match with the flag image in LC
+        'unicode_emoji' => string, // unicode emoji flag of the language. sometimes this does not match with the flag image in LC. '-' if there's no emoji
     ];
 
 
@@ -87,6 +87,20 @@ return [
         'database_dictionary_table_name' => 'hye',
         'dict_cc_code' => null,
         'unicode_emoji' => '🇦🇲',
+    ],
+    'basque' => [
+        'linguacafe_support' => true,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
+        'words_separated_by_spaces' => true,
+        'deepl_code' => null,
+        'libre_translate_code' => 'eu',
+        'my_memory_code' => 'eu',
+        'website_import_support' => false,
+        'jellyfin_code' => 'eus',
+        'database_dictionary_table_name' => 'eus',
+        'dict_cc_code' => null,
+        'unicode_emoji' => '-',
     ],
     // 'belarusian' => [
     //     'website_import_support' => true,
@@ -243,7 +257,7 @@ return [
         'jellyfin_code' => null,
         'database_dictionary_table_name' => 'eo',
         'dict_cc_code' => 'EO',
-        'unicode_emoji' => '🟩',
+        'unicode_emoji' => '-',
     ],
     'estonian' => [
         'linguacafe_support' => false,
