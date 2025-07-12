@@ -56,6 +56,7 @@ class TokenizerConfig:
             "hy": "armenian",
             "eu": "basque",
             "be": "belarusian",
+            "bxr": "buryat",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
