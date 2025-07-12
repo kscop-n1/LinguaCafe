@@ -102,9 +102,20 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
     ],
-    // 'belarusian' => [
-    //     'website_import_support' => true,
-    // ],
+    'belarusian' => [
+        'linguacafe_support' => true,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
+        'words_separated_by_spaces' => true,
+        'deepl_code' => null,
+        'libre_translate_code' => null,
+        'my_memory_code' => 'be',
+        'website_import_support' => true,
+        'jellyfin_code' => 'bel',
+        'database_dictionary_table_name' => 'bel',
+        'dict_cc_code' => null,
+        'unicode_emoji' => '🇧🇾',
+    ],
     'bosnian' => [
         'linguacafe_support' => false,
         'tokenizer' => null,
