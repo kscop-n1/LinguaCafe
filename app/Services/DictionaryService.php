@@ -391,7 +391,7 @@ class DictionaryService {
         $sourceLanguage = LanguageConfig::load($dictionary->source_language);
         $targetLanguage = LanguageConfig::load($dictionary->target_language);
         
-        $pool->get('https://api.mymemory.translated.net/get?q=' . urlencode($term) . '!&langpair=' . $sourceLanguage->libreTranslateCode . '|' . $targetLanguage->libreTranslateCode);
+        $pool->get('https://api.mymemory.translated.net/get?q=' . urlencode($term) . '!&langpair=' . $sourceLanguage->myMemoryCode . '|' . $targetLanguage->myMemoryCode);
     }
 
     private function buildLibreTranslateRequest(Pool $pool, Dictionary $dictionary, string $term): void
