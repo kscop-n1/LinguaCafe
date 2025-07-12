@@ -104,7 +104,7 @@ class PackageManagerService:
 
         if tokenizer == 'stanza':
             import stanza
-            self.loaded_language_models['stanza_' + language] = stanza.Pipeline(language, processors='tokenize,pos', download_method=None, model_dir='/var/www/html/storage/app/packages/language_models/stanza')
+            self.loaded_language_models['stanza_' + language] = stanza.Pipeline(language, processors='tokenize,pos,lemma', download_method=None, model_dir='/var/www/html/storage/app/packages/language_models/stanza')
 
         if tokenizer == 'spacy':
             disabled_parameters = ['ner'] if language in ('welsh', 'czech', 'latin', 'german') else ['ner', 'parser']
