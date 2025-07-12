@@ -58,6 +58,7 @@ class TokenizerConfig:
             "be": "belarusian",
             "bxr": "buryat",
             "ca": "catalan",
+            "cop": "coptic",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']

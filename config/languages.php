@@ -200,6 +200,21 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇨🇳',
     ],
+    // coptic tokenizer does not split words correctly
+    // 'coptic' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    //     'install_required' => true,
+    //     'words_separated_by_spaces' => true,
+    //     'deepl_code' => null,
+    //     'libre_translate_code' => null,
+    //     'my_memory_code' => 'co',
+    //     'website_import_support' => false,
+    //     'jellyfin_code' => 'cop',
+    //     'database_dictionary_table_name' => 'cop',
+    //     'dict_cc_code' => null,
+    //     'unicode_emoji' => '-',
+    // ],
     'croatian' => [
         'linguacafe_support' => true,
         'tokenizer' => 'spacy',
