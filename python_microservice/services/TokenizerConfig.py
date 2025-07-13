@@ -61,6 +61,7 @@ class TokenizerConfig:
             "cop": "coptic",
             "myv": "erzya",
             "et": "estonian",
+            "fo": "faroese",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
