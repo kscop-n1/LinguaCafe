@@ -411,8 +411,20 @@ return [
         'dict_cc_code' => 'EL',
         'unicode_emoji' => '🇬🇷',
     ],
+    // need support for right to left text
     // 'hebrew' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    //     'install_required' => true,
+    //     'words_separated_by_spaces' => true,
+    //     'deepl_code' => null,
+    //     'libre_translate_code' => 'he',
+    //     'my_memory_code' => 'he',
     //     'website_import_support' => true,
+    //     'jellyfin_code' => 'heb',
+    //     'database_dictionary_table_name' => 'heb',
+    //     'dict_cc_code' => null,
+    //     'unicode_emoji' => '🇮🇱',
     // ],
     // 'hindi' => [
     //     'website_import_support' => true,
