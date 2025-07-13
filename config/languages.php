@@ -343,8 +343,8 @@ return [
     ],
     'finnish' => [
         'linguacafe_support' => true,
-        'tokenizer' => 'spacy',
-        'install_required' => false,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
         'words_separated_by_spaces' => true,
         'deepl_code' => 'FI',
         'libre_translate_code' => 'fi',

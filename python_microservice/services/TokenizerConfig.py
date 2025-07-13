@@ -18,7 +18,6 @@ class TokenizerConfig:
             'spanish': "es_core_news_sm",
             'chinese': "zh_core_web_sm",
             'dutch': "nl_core_news_sm",
-            'finnish': "fi_core_news_sm",
             'french': "fr_core_news_sm",
             'italian': "it_core_news_sm",
             'russian': "ru_core_news_sm",
@@ -62,6 +61,7 @@ class TokenizerConfig:
             "myv": "erzya",
             "et": "estonian",
             "fo": "faroese",
+            "fi": "finnish",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
