@@ -426,9 +426,20 @@ return [
     //     'dict_cc_code' => null,
     //     'unicode_emoji' => '🇮🇱',
     // ],
-    // 'hindi' => [
-    //     'website_import_support' => true,
-    // ],
+    'hindi' => [
+        'linguacafe_support' => true,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
+        'words_separated_by_spaces' => true,
+        'deepl_code' => null,
+        'libre_translate_code' => 'hi',
+        'my_memory_code' => 'hi',
+        'website_import_support' => true,
+        'jellyfin_code' => 'hin',
+        'database_dictionary_table_name' => 'hin',
+        'dict_cc_code' => null,
+        'unicode_emoji' => '🇮🇳',
+    ],
     'hungarian' => [
         'linguacafe_support' => false,
         'tokenizer' => null,
