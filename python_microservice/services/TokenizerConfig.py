@@ -62,6 +62,7 @@ class TokenizerConfig:
             "et": "estonian",
             "fo": "faroese",
             "fi": "finnish",
+            "gl": "galician",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
