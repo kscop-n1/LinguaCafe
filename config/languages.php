@@ -460,7 +460,7 @@ return [
         'install_required' => true,
         'words_separated_by_spaces' => true,
         'deepl_code' => null,
-        'libre_translate_code' => null, // has support, but not with base config
+        'libre_translate_code' => null,
         'my_memory_code' => 'is',
         'website_import_support' => false,
         'jellyfin_code' => 'is',
@@ -488,7 +488,7 @@ return [
         'install_required' => true,
         'words_separated_by_spaces' => true,
         'deepl_code' => null,
-        'libre_translate_code' => false, // has support, but not with base config
+        'libre_translate_code' => false,
         'my_memory_code' => 'ga',
         'website_import_support' => false,
         'jellyfin_code' => 'gle',
@@ -552,6 +552,23 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇰🇷',
     ],
+    'kyrgyz' => [
+        'linguacafe_support' => true,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
+        'words_separated_by_spaces' => true,
+        'deepl_code' => null,
+        'libre_translate_code' => null,
+        'my_memory_code' => 'ky',
+        'website_import_support' => false,
+        'jellyfin_code' => 'kir',
+        'database_dictionary_table_name' => 'kir',
+        'dict_cc_code' => null,
+        'unicode_emoji' => '🇰🇬',
+    ],
+    // 'kurmanji' => [
+    // has stanza support, but found no dictionary at all, and it is a dialect
+    // ],
     'latin' => [
         'linguacafe_support' => true,
         'tokenizer' => 'spacy',

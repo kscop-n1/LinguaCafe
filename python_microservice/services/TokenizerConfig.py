@@ -70,6 +70,7 @@ class TokenizerConfig:
             "id": "indonesian",
             "ga": "irish",
             "kk": "kazakh",
+            "ky": "kyrgyz",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
