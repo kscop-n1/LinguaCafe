@@ -67,6 +67,7 @@ class TokenizerConfig:
             "hi": "hindi",
             "hu": "hungarian",
             "is": "icelandic",
+            "id": "indonesian",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
