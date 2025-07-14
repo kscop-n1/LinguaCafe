@@ -460,7 +460,7 @@ return [
         'install_required' => true,
         'words_separated_by_spaces' => true,
         'deepl_code' => null,
-        'libre_translate_code' => null, // needs custom model, but does support it
+        'libre_translate_code' => null, // has support, but not with base config
         'my_memory_code' => 'is',
         'website_import_support' => false,
         'jellyfin_code' => 'is',
@@ -481,6 +481,20 @@ return [
         'database_dictionary_table_name' => 'ind',
         'dict_cc_code' => null,
         'unicode_emoji' => '🇮🇩',
+    ],
+    'irish' => [
+        'linguacafe_support' => true,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
+        'words_separated_by_spaces' => true,
+        'deepl_code' => null,
+        'libre_translate_code' => false, // has support, but not with base config
+        'my_memory_code' => 'ga',
+        'website_import_support' => false,
+        'jellyfin_code' => 'gle',
+        'database_dictionary_table_name' => 'gle',
+        'dict_cc_code' => null,
+        'unicode_emoji' => '🇮🇪',
     ],
     'italian' => [
         'linguacafe_support' => true,
