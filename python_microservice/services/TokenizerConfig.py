@@ -72,6 +72,7 @@ class TokenizerConfig:
             "kk": "kazakh",
             "ky": "kyrgyz",
             "la": "latin",
+            "lv": "latvian",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
