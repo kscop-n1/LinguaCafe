@@ -597,6 +597,21 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇱🇻',
     ],
+    // Tokenizer splits NEWLINE words.
+    // 'ligurian' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    //     'install_required' => true,
+    //     'words_separated_by_spaces' => true,
+    //     'deepl_code' => null,
+    //     'libre_translate_code' => null,
+    //     'my_memory_code' => 'lij',
+    //     'website_import_support' => false,
+    //     'jellyfin_code' => 'lij',
+    //     'database_dictionary_table_name' => 'lij',
+    //     'dict_cc_code' => null,
+    //     'unicode_emoji' => '-',
+    // ],
     'lithuanian' => [
         'linguacafe_support' => false,
         'tokenizer' => null,
