@@ -669,6 +669,22 @@ return [
     //     'dict_cc_code' => null,
     //     'unicode_emoji' => '-',
     // ],
+
+    // Tokenizer splits words.
+    // 'marathi' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    //     'install_required' => true,
+    //     'words_separated_by_spaces' => true,
+    //     'deepl_code' => null,
+    //     'libre_translate_code' => null,
+    //     'my_memory_code' => 'mr',
+    //     'website_import_support' => false,
+    //     'jellyfin_code' => 'mar',
+    //     'database_dictionary_table_name' => 'mar',
+    //     'dict_cc_code' => null,
+    //     'unicode_emoji' => '🇮🇳',
+    // ],
     'norwegian' => [
         'linguacafe_support' => true,
         'tokenizer' => 'spacy',

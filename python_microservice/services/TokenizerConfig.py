@@ -77,6 +77,7 @@ class TokenizerConfig:
             "lt": "lithuanian",
             "mt" : "maltese",
             "gv" : "manx",
+            "mr": "marathi",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
