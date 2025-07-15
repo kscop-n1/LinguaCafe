@@ -571,8 +571,8 @@ return [
     // ],
     'latin' => [
         'linguacafe_support' => true,
-        'tokenizer' => 'spacy',
-        'install_required' => false,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
         'words_separated_by_spaces' => true,
         'deepl_code' => null,
         'libre_translate_code' => null,
@@ -581,7 +581,7 @@ return [
         'jellyfin_code' => 'lat',
         'database_dictionary_table_name' => 'la',
         'dict_cc_code' => 'LA',
-        'unicode_emoji' => '🇻🇦',
+        'unicode_emoji' => '-',
     ],
     'latvian' => [
         'linguacafe_support' => false,
