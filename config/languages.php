@@ -941,13 +941,21 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇺🇦',
     ],
+    
     // right to left
     // 'urdu' => [
 
     // ],
+    
+    // right to left
+    // 'uyghur' => [
+
+    // ],
+    
     // 'vietnamese' => [
     //     'website_import_support' => true,
     // ],
+
     'welsh' => [
         'linguacafe_support' => true,
         'tokenizer' => 'spacy',
