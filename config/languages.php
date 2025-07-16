@@ -721,7 +721,10 @@ return [
         'dict_cc_code' => 'NO',
         'unicode_emoji' => '🇳🇴',
     ],
+    // right to left language
     // 'persian' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
     //     'website_import_support' => true,
     // ],
     'polish' => [
