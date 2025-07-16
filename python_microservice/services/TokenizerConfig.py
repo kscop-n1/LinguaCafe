@@ -83,6 +83,7 @@ class TokenizerConfig:
             "sr": "serbian",
             "sk": "slovak",
             "ta": "tamil",
+            "te": "telugu",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']
