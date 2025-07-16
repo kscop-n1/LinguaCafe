@@ -953,7 +953,18 @@ return [
     // ],
     
     // 'vietnamese' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    //     'install_required' => true,
+    //     'words_separated_by_spaces' => true,
+    //     'deepl_code' => null,
+    //     'libre_translate_code' => null,
+    //     'my_memory_code' => 'vi',
     //     'website_import_support' => true,
+    //     'jellyfin_code' => 'vie',
+    //     'database_dictionary_table_name' => 'vie',
+    //     'dict_cc_code' => null,
+    //     'unicode_emoji' => '🇻🇳',
     // ],
 
     'welsh' => [
