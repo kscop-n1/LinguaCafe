@@ -231,10 +231,10 @@ return [
     ],
     'czech' => [
         'linguacafe_support' => true,
-        'tokenizer' => 'spacy',
-        'install_required' => false,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
         'words_separated_by_spaces' => true,
-        'deepl_code' => 'CZ',
+        'deepl_code' => 'CS',
         'libre_translate_code' => 'cs',
         'my_memory_code' => 'cs',
         'website_import_support' => false,
