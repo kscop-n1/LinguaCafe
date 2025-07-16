@@ -685,6 +685,28 @@ return [
     //     'dict_cc_code' => null,
     //     'unicode_emoji' => '🇮🇳',
     // ],
+
+    // Uncommon language for learners, will add if someone requests to save some time
+    // 'naija' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    // ],
+
+    'north sami' => [
+        'linguacafe_support' => true,
+        'tokenizer' => 'stanza',
+        'install_required' => true,
+        'words_separated_by_spaces' => true,
+        'deepl_code' => null,
+        'libre_translate_code' => null,
+        'my_memory_code' => null,
+        'website_import_support' => false,
+        'jellyfin_code' => 'sme',
+        'database_dictionary_table_name' => 'sme',
+        'dict_cc_code' => null,
+        'unicode_emoji' => '-',
+    ],
+
     'norwegian' => [
         'linguacafe_support' => true,
         'tokenizer' => 'spacy',
