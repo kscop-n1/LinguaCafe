@@ -79,6 +79,7 @@ class TokenizerConfig:
             "gv" : "manx",
             "mr": "marathi",
             "sme": "north sami",
+            "sa": "sanskrit",
         }
 
         self.sentenceEndings = ['NEWLINE', '？', '！', '。', '?', '!', '.', '»', '«']

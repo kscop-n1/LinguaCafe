@@ -783,6 +783,21 @@ return [
         'dict_cc_code' => 'RU',
         'unicode_emoji' => '🇷🇺',
     ],
+    // sentence segmentation does not work
+    // 'sanskrit' => [
+    //     'linguacafe_support' => true,
+    //     'tokenizer' => 'stanza',
+    //     'install_required' => true,
+    //     'words_separated_by_spaces' => true,
+    //     'deepl_code' => null,
+    //     'libre_translate_code' => null,
+    //     'my_memory_code' => 'sa',
+    //     'website_import_support' => false,
+    //     'jellyfin_code' => 'san',
+    //     'database_dictionary_table_name' => 'san',
+    //     'dict_cc_code' => null,
+    //     'unicode_emoji' => '🇮🇳',
+    // ],
     'serbian' => [
         'linguacafe_support' => false,
         'tokenizer' => null,
