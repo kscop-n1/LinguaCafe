@@ -18,6 +18,12 @@ youtubeService = YoutubeService.YoutubeService()
 tokenizerService = TokenizerService.TokenizerService(packageManagerService)
 ebookService = EbookService.EbookService()
 
+def transformLanguage(language):
+    if language == 'north sami':
+        language = 'north_sami'
+
+    return language
+
 # responds to http requests from the main PHP site
 @route('/tokenizer/tokenize-text', method='POST')
 def tokenizeText():
@@ -25,7 +31,7 @@ def tokenizeText():
 
     # start = time.time()
     text = request.json.get('raw_text')
-    language = request.json.get('language')
+    language = transformLanguage(request.json.get('language'))
     tokenizer = request.json.get('tokenizer')
 
     return json.dumps(tokenizerService.tokenizePlainText(text, language, tokenizer))
@@ -34,7 +40,7 @@ def tokenizeText():
 def tokenizeSubtitles():
     response.headers['Content-Type'] = 'application/json'
     subtitles = json.loads(request.json.get('subtitles'))
-    language = request.json.get('language')
+    language = transformLanguage(request.json.get('language'))
     tokenizer = request.json.get('tokenizer')
     
     return json.dumps(tokenizerService.tokenizeSubtitles(subtitles, language, tokenizer))
@@ -44,7 +50,7 @@ def tokenizeSubtitles():
 def cutAndTokenizeText():
     response.headers['Content-Type'] = 'application/json'
     text = request.json.get('text')
-    language = request.json.get('language')
+    language = transformLanguage(request.json.get('language'))
     chunkSize = request.json.get('chunkSize')
     
     return json.dumps(tokenizerService.cutAndTokenizePlainText(text, language, chunkSize))
@@ -57,7 +63,7 @@ def loadEbookIntoChunks():
     response.headers['Content-Type'] = 'application/json'
     
     importFile = request.json.get('importFile')
-    language = request.json.get('language')
+    language = transformLanguage(request.json.get('language'))
     chunkSize = request.json.get('chunkSize')
     textProcessingMethod = request.json.get('textProcessingMethod')
     chapterSortMethod = request.json.get('chapterSortMethod')
@@ -71,7 +77,7 @@ def loadEbookIntoChunks():
 def cutSubtitlesIntoChunks():
     response.headers['Content-Type'] = 'application/json'
     subtitles = json.loads(request.json.get('subtitles'))
-    language = request.json.get('language')
+    language = transformLanguage(request.json.get('language'))
     chunkSize = request.json.get('chunkSize')
 
     return json.dumps(tokenizerService.cutSubtitlesIntoChunks(subtitles, language, chunkSize))
@@ -110,7 +116,7 @@ def remove_models():
 
 @route('/packages/languages/install', method = 'POST')
 def install_language_model():
-    language = request.json.get('language')
+    language = transformLanguage(request.json.get('language'))
     tokenizer = request.json.get('tokenizer')
     if tokenizer is None or language is None:
         return HTTPResponse(status=422, body="Error: missing parameter")
