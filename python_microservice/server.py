@@ -18,6 +18,8 @@ youtubeService = YoutubeService.YoutubeService()
 tokenizerService = TokenizerService.TokenizerService(packageManagerService)
 ebookService = EbookService.EbookService()
 
+# transform language names for spacy and stanza where they require a  
+# different form than the human readable lower case one
 def transformLanguage(language):
     if language == 'north sami':
         language = 'north_sami'
