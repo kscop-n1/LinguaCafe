@@ -9,11 +9,17 @@
             <v-card-text>
                 <b>New features:</b>
                 <ul>
+                    <li>Added new languages: Bulgarian, Afrikaans, Armenian, Basque, Belarusian, Buryat, Catalan, Erzya, Estonian, Faroese, Galician, Hindi, Hungarian, Icelandic, Indonesian, Irish, Kazakh, Kyrgyz, Latvian, Lithuanian, Maltese, North sami, Sanskrit, Serbian, Slovak, Tamil, Telugu.</li>
+                    <li>Replaced tokenizers with stanza for languages that had no lemmas: Latin, Welsh, Czech.</li>
+                    <li>Replaced Finnish tokenizer with stanza to improve lemmas.</li>
+                    <li>Installed languages are now cached to load them faster.</li>
                 </ul>
+
 
                 <b>Bug fixes:</b>
                 <ul>
-                    <li>Fixed invisible word count display in chapters where the number was too long.</li>
+                    <li>Word counts were not fully visible in chapters where the number was too large.</li>
+                    <li>Turkish tokenizer was replaced with stanza because spacy was not functional.</li>
                 </ul>
 
                 <b>Other changes:</b>
