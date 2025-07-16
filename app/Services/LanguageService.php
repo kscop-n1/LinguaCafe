@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
 
@@ -58,8 +60,20 @@ class LanguageService {
     }
     
     public function getInstalledLanguages() {
-        $installedPackages = Http::get($this->pythonService . ':8678/packages/list');
-        $installedPackages = json_decode($installedPackages);
+        $installedPackages = Cache::get('installed_languages');
+        if (!$installedPackages) {
+            Log::info('Installed python packages cache is empty.');
+            $installedPackages = Http::get($this->pythonService . ':8678/packages/list');
+            $installedPackages = json_decode($installedPackages);
+            Cache::put('installed_languages', $installedPackages);
+            Log::info('Installed python packages retrieved from the python server and has been cached.', [
+                'installed_packages' => $installedPackages,
+            ]);
+        } else {
+            Log::info('Installed python packages retrieved from cache.', [
+                'installed_packages' => $installedPackages,
+            ]);
+        }
 
         $installedLanguages = array_merge($installedPackages->spacy_models, $installedPackages->stanza_models);
 
@@ -76,6 +90,8 @@ class LanguageService {
                 'language' => $language->name,
                 'tokenizer' => $language->tokenizer,
             ]);
+
+        $this->reloadLanguageCache();
 
         // Download KanjiVG
         if ($language->name == 'japanese') {
@@ -121,6 +137,19 @@ class LanguageService {
         // delete python language models
         $uninstallResult = Http::delete($this->pythonService . ':8678/packages/uninstall-all');
 
+        $this->reloadLanguageCache();
+
         return $uninstallResult;
+    }
+
+    public function reloadLanguageCache(): void
+    {
+        $installedPackages = Http::get($this->pythonService . ':8678/packages/list');
+        $installedPackages = json_decode($installedPackages);
+        Cache::put('installed_languages', $installedPackages);
+
+        Log::info('Installed python packages has been re-cached.', [
+            'installed_packages' => $installedPackages,
+        ]);
     }
 }
