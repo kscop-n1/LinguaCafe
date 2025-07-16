@@ -941,6 +941,10 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇺🇦',
     ],
+    // right to left
+    // 'urdu' => [
+
+    // ],
     // 'vietnamese' => [
     //     'website_import_support' => true,
     // ],
