@@ -109,7 +109,7 @@ class PackageManagerService:
         if tokenizer == 'spacy':
             disabled_parameters = ['ner'] if language in ('welsh', 'czech', 'latin', 'german') else ['ner', 'parser']
 
-            if language in ('welsh', 'czech', 'latin'):
+            if language in ('czech', 'latin'):
                 self.loaded_language_models['spacy_' + language] = spacy.load(config.spacy_models['multi'], disable = disabled_parameters)
             elif language == 'thai': 
                 import spacy_thai
