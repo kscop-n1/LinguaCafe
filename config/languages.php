@@ -915,7 +915,7 @@ return [
     ],
     'turkish' => [
         'linguacafe_support' => true,
-        'tokenizer' => 'spacy',
+        'tokenizer' => 'stanza',
         'install_required' => true,
         'words_separated_by_spaces' => true,
         'deepl_code' => 'TR',
