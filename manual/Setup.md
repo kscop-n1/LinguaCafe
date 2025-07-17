@@ -338,6 +338,7 @@ Content-Type: json
     "q": "hund",
     "source": "norwegian",
     "target": "english"
+    "ctx": "Jeg har en hund."
 }
 ```
 
@@ -365,6 +366,7 @@ def translation():
     sourceLanguage = request.json.get('source')
     targetLanguage = request.json.get('target')
     term = request.json.get('q')
+    context = request.json.get('ctx')
 
     return json.dumps({'translatedText': 'test translation'})
 

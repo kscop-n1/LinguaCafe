@@ -13,6 +13,7 @@
                     <li>Replaced tokenizers with stanza for languages that had no lemmas: Latin, Welsh, Czech.</li>
                     <li>Replaced Finnish tokenizer with stanza to improve lemmas.</li>
                     <li>Installed languages are now cached to load them faster.</li>
+                    <li>Added context to custom API dictionary requests.</li>
                 </ul>
 
 
