@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
 use Illuminate\Foundation\Testing\RefreshDatabase;
