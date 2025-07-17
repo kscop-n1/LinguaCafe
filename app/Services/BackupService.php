@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class BackupService {
-    public function createBackup(): int
+    public function createBackup(): void
     {
         $host = ' -h ' . env('DB_HOST');
         $port = ' -P ' . env('DB_PORT');
@@ -29,10 +29,12 @@ class BackupService {
             result_code: $exitCode
         );
 
-        return $exitCode;
+        if ($exitCode !== 0)  {
+            throw new \Exception('Backup process failed.');
+        }
     }
 
-    private function deleteOldBackups($prefix): void
+    private function deleteOldBackups(string $prefix): void
     {
         $maxBackups = env('MAX_SAVED_BACKUPS');
         $files = $this->getBackupFiles($prefix);
@@ -42,7 +44,7 @@ class BackupService {
         }
     }
 
-    private function getBackupFiles($prefix): array 
+    private function getBackupFiles(string $prefix): array 
     {
         $files = Storage::disk('backup')->files();
         $files = Arr::where($files, function ($value) use($prefix) {

@@ -58,7 +58,7 @@
                             max-width="43" 
                             height="28"
                         ></v-img> 
-                        <span>{{ language }}</span>
+                        <span>{{ language.charAt(0).toUpperCase() + language.slice(1) }}</span>
                     </v-btn>
                 </div>
             </v-card-text>

@@ -50,13 +50,13 @@
 
                     <!-- DeepL API usage -->
                     <label 
-                        v-if="!['error', 'default'].includes(characterLimitStatus)"
-                        class="font-weight-bold mt-4" 
+                    v-if="!['error', 'default'].includes(characterLimitStatus)"
+                    class="font-weight-bold mt-4" 
                     >
-                        DeepL character usage
-                    </label>
-
-                    <v-card id="deepl-api-card" class="rounded-lg pa-6" elevation="0" v-if="!['error', 'default'].includes(characterLimitStatus)">
+                    DeepL character usage
+                </label>
+                
+                   <v-card id="deepl-api-card" class="rounded-lg pa-6" elevation="0" v-if="!['error', 'default'].includes(characterLimitStatus)">
                         <!-- DeepL API usage skeleton -->
                         <v-card-text class="pa-0" v-if="characterLimitLoading">
                             <v-skeleton-loader
@@ -345,11 +345,19 @@
             loadDeeplCharacterLimits() {
                 axios.get('/dictionaries/deepl/get-usage').then((response) => {
                     this.characterLimitLoading = false;
+                    this.characterUsed = null;
+                    this.characterLimit = null;
+
                     if (response.status === 200) {
                         this.characterLimitStatus = 'success';
                         this.cachedDeeplTranslations = response.data.cachedDeeplTranslations;
-                        this.characterUsed = response.data.limits.character_count;
-                        this.characterLimit = response.data.limits.character_limit;
+                        this.characterUsed = response.data.limits.character_count ?? null;
+                        this.characterLimit = response.data.limits.character_limit ?? null;
+
+                        if (this.characterLimit === null) {
+                            this.characterLimitStatus = this.settings.deeplApiKey === this.defaultDeeplApiKey ? 'default' : 'error';
+                        }
+
                     } else {
                         if (this.settings.deeplApiKey === this.defaultDeeplApiKey) {
                             this.characterLimitStatus = 'default';

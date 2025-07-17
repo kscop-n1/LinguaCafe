@@ -2,157 +2,130 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ChapterService;
+use Exception;
+use App\Models\Book;
 
 // request classes
+use App\Models\Chapter;
+use App\Services\ChapterService;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Language\LanguageConfig;
+use App\Http\Resources\Chapter\ChapterResource;
 use App\Http\Requests\Chapters\CreateChapterRequest;
 use App\Http\Requests\Chapters\DeleteChapterRequest;
 use App\Http\Requests\Chapters\FinishChapterRequest;
 use App\Http\Requests\Chapters\UpdateChapterRequest;
-use App\Http\Requests\Chapters\GetChaptersForBookRequest;
+use App\Http\Resources\Chapter\ChapterResourceCollection;
 use App\Http\Requests\Chapters\GetChapterForEditorRequest;
 use App\Http\Requests\Chapters\GetChapterForReaderRequest;
 use App\Http\Requests\Chapters\RetryFailedChaptersRequest;
-use App\Http\Requests\Chapters\GetChaptersWordCountRequest;
-
 
 class ChapterController extends Controller {
-    private $chapterService;
 
-    public function __construct(ChapterService $chapterService) {
-        $this->chapterService = $chapterService;
+    public function __construct(private ChapterService $chapterService)
+    {
+        //
     }
 
-    public function getChaptersForBook(GetChaptersForBookRequest $request) {
-        $userId = Auth::user()->id;
-        $bookId = intval($request->bookId);
+    public function getChaptersForBook(Book $book) 
+    {
+        $user = Auth::user();
         
-        try {
-            $chapters = $this->chapterService->getChaptersForBook($userId, $bookId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $chapters = $this->chapterService->getChaptersForBook($user, $book);
 
-        return response()->json($chapters, 200);
+        return new ChapterResourceCollection($chapters);
     }
 
-    public function getChaptersBookCount($bookId, GetChaptersWordCountRequest $request) {
-        $userId = Auth::user()->id;
-        $userUuid = Auth::user()->uuid;
-        $bookId = intval($request->bookId);
+    public function getChaptersBookCount(Book $book)
+    {
+        $user = Auth::user();
         
-        try {
-            $this->chapterService->getChaptersBookCount($userId, $userUuid, $bookId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->chapterService->getChaptersBookCount($user, $book);
 
-        return response()->json('Chapters have been successfully requested.', 200);
+        return response()->noContent();
     }
 
-    public function getChapterForEditor(GetChapterForEditorRequest $request) {
-        $userId = Auth::user()->id;
-        $chapterId = $request->chapterId;
+    public function getChapter(Chapter $chapter) {
+        $user = Auth::user();
+        
+        $transformedChapter = $this->chapterService->getChapterForEditor($user, $chapter);
 
-        try {
-            $chapter = $this->chapterService->getChapterForEditor($userId, $chapterId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        return new ChapterResource($transformedChapter);
+    }
+
+    public function getChapterForReader(Chapter $chapter) {        
+        $user = Auth::user();
+        $language = LanguageConfig::load($user->selected_language);
+        
+        $chapter = $this->chapterService->getChapterForReader($user, $language, $chapter);
 
         return response()->json($chapter, 200);
     }
 
-    public function getChapterForReader(GetChapterForReaderRequest $request) {        
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $chapterId = $request->chapterId;
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
-        
-        try {
-            $chapter = $this->chapterService->getChapterForReader($userId, $language, $languagesWithoutSpaces, $chapterId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+    public function finishChapter(FinishChapterRequest $request, Chapter $chapter) {
+        $user = Auth::user();
+        $uniqueWords = json_decode($request->validated('uniqueWords'));
+        $autoLevelUpWords = (bool) $request->validated('autoLevelUpWords');
+        $leveledUpWords = json_decode($request->validated('leveledUpWords'));
+        $leveledUpPhrases = json_decode($request->validated('leveledUpPhrases'));
+        $autoMoveWordsToKnown = (bool) $request->validated('autoMoveWordsToKnown');
 
-        return response()->json($chapter, 200);
+        $this->chapterService->finishChapter(
+            user: $user, 
+            chapter: $chapter, 
+            autoMoveWordsToKnown: $autoMoveWordsToKnown, 
+            uniqueWords: $uniqueWords, 
+            autoLevelUpWords: $autoLevelUpWords, 
+            leveledUpWords: $leveledUpWords, 
+            leveledUpPhrases: $leveledUpPhrases
+        );
+
+        return response()->noContent();
     }
 
-    public function finishChapter(FinishChapterRequest $request) {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $uniqueWords = json_decode($request->post('uniqueWords'));
-        $autoLevelUpWords = $request->post('autoLevelUpWords');
-        $leveledUpWords = json_decode($request->post('leveledUpWords'));
-        $leveledUpPhrases = json_decode($request->post('leveledUpPhrases'));
-        $autoMoveWordsToKnown = boolval($request->post('autoMoveWordsToKnown'));
-        $chapterId = $request->chapterId;
+    public function createChapter(CreateChapterRequest $request, Book $book) {
+        $user = Auth::user();
+        $text = $request->validated('text');
+        $name = $request->validated('name');
 
-        try {
-            $this->chapterService->finishChapter($userId, $chapterId, $autoMoveWordsToKnown, $uniqueWords, $autoLevelUpWords, $leveledUpWords, $leveledUpPhrases, $language);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Tasks have been completed successfully.', 200);
-    }
-
-    public function createChapter(CreateChapterRequest $request) {
-        $userId = Auth::user()->id;
-        $userUuid = Auth::user()->uuid;
-        $chapterName = $request->chapterName;
-        $bookId = $request->bookId;
-        $chapterText = is_null($request->chapterText) ? '' : $request->chapterText;
-
-        try {
-            $this->chapterService->createChapter($userId, $userUuid, $bookId, $chapterName, $chapterText);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->chapterService->createChapter(
+            $user, 
+            $book, 
+            $name, 
+            $text ?? ''
+        );
 
         return response()->json('Chapter has been created successfully.', 200);
     }
 
-    public function updateChapter(UpdateChapterRequest $request) {
-        $userId = Auth::user()->id;
-        $userUuid = Auth::user()->uuid;
-        $chapterName = $request->chapterName;
-        $chapterId = $request->chapterId;
-        $chapterText = $request->chapterText;
+    public function updateChapter(UpdateChapterRequest $request, Chapter $chapter) {
+        $user = Auth::user();
+        $text = $request->validated('text');
+        $name = $request->validated('name');
 
-        try {
-            $this->chapterService->updateChapter($userId, $userUuid, $chapterId, $chapterName, $chapterText);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->chapterService->updateChapter(
+            $user, 
+            $chapter, 
+            $name, 
+            $text ?? ''
+        );
 
-        return response()->json('Chapter has been updated successfully.', 200);
+        return response()->noContent();
     }
 
-    public function deleteChapter(DeleteChapterRequest $request) {
-        $chapterId = $request->post('chapterId');
-        $userId = Auth::user()->id;
+    public function deleteChapter(Chapter $chapter) {
+        $user = Auth::user();
 
-        try {
-            $this->chapterService->deleteChapter($userId, $chapterId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->chapterService->deleteChapter($user, $chapter);
 
-        return response()->json('Chapter has been deleted successfully.', 200);
+        return response()->noContent();
     }
 
-    public function retryFailedChapters($bookId, RetryFailedChaptersRequest $request) {
-        $userId = Auth::user()->id;
-        $userUuid = Auth::user()->uuid;
+    public function retryFailedChapters(Book $book) {
+        $user = Auth::user();
 
-        try {
-            $this->chapterService->retryFailedChapters($userId, $userUuid, $bookId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->chapterService->retryFailedChapters($user, $book);
 
-        return response()->json('Failed chapters has been added to the queue successfully.', 200);
+        return response()->noContent();
     }
 }

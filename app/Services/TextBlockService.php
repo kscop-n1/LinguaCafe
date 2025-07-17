@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Log;
+use App\Helpers\Language\LanguageConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -111,19 +111,24 @@ class TextBlockService
     public function tokenizeRawText() {
         $text = $this->rawText;
         $text = preg_replace("/ {2,}/", " ", str_replace(["\r\n", "\r", "\n"], " NEWLINE ", $text));
+        $languageConfig = LanguageConfig::load($this->language);
 
-        $this->tokenizedWords = Http::post($this->pythonService . ':8678/tokenizer', [
+        $this->tokenizedWords = Http::timeout(60*5)->post($this->pythonService . ':8678/tokenizer/tokenize-text', [
             'raw_text' => $text,
             'language' => $this->language,
+            'tokenizer' => $languageConfig->tokenizer,
         ]);
 
         $this->tokenizedWords = json_decode($this->tokenizedWords);
     }
 
     public function tokenizeRawSubtitles() {
-        $tokenizerResponse = Http::post($this->pythonService . ':8678/tokenizer/subtitle', [
+        $languageConfig = LanguageConfig::load($this->language);
+
+        $tokenizerResponse = Http::timeout(60*5)->post($this->pythonService . ':8678/tokenizer/tokenize-subtitles', [
             'subtitles' => $this->rawText,
             'language' => $this->language,
+            'tokenizer' => $languageConfig->tokenizer,
         ]);
         
         $tokenizerResponse = json_decode($tokenizerResponse);
@@ -152,6 +157,9 @@ class TextBlockService
             $word->sentence_index = $this->tokenizedWords[$wordIndex]->si;
             $word->word = $this->tokenizedWords[$wordIndex]->w;
             $word->lemma = $this->tokenizedWords[$wordIndex]->l;
+            $word->is_punct = $this->tokenizedWords[$wordIndex]->ip;
+            $word->space_before = $this->tokenizedWords[$wordIndex]->sb;
+            $word->space_after = $this->tokenizedWords[$wordIndex]->sa;
             if ($this->language == 'japanese' || $this->language == 'chinese') {
                 $word->reading = $this->tokenizedWords[$wordIndex]->r;
                 $word->lemma_reading = $this->tokenizedWords[$wordIndex]->lr;
@@ -504,7 +512,7 @@ class TextBlockService
     public function prepareTextForReader() {
         $tokensWithNoSpaceBefore = config('linguacafe.tokens_with_no_space_before');
         $tokensWithNoSpaceAfter = config('linguacafe.tokens_with_no_space_after');
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
+        $hasSpaces = LanguageConfig::load($this->language)->hasSpaces();
 
         $this->words = [];
         $encounteredWords = DB::table('encountered_words')
@@ -514,6 +522,7 @@ class TextBlockService
             ->get();
 
         $wordCount = count($this->processedWords);
+        $maxWordIndex = $wordCount - 1;
         for ($wordIndex = 0; $wordIndex < $wordCount; $wordIndex ++) {
             // make the word into an object
             $word = $this->processedWords[$wordIndex];
@@ -524,27 +533,28 @@ class TextBlockService
             $word->phraseEnd = false;
             $word->phraseIndexes = [];
             $word->subtitleIndex = -1;
-            
-            
+
             // Add space for word if the language has spaces in it.
             if ($this->language == 'thai') {
                 $word->spaceAfter = (
                     isset($this->processedWords[$wordIndex]->sentence_index) &&
-                    $wordIndex < $wordCount - 1 && 
+                    $wordIndex < $maxWordIndex &&
                     $this->processedWords[$wordIndex + 1]->sentence_index !== $this->processedWords[$wordIndex]->sentence_index
                 );
-            } else {
-                $word->spaceAfter = !in_array($this->language, $languagesWithoutSpaces, true);
-            }
-            
-            if ($wordIndex < count($this->processedWords) - 1 && in_array($this->processedWords[$wordIndex + 1]->word, $tokensWithNoSpaceBefore, true)) {
-                    $word->spaceAfter = false;
+            } elseif (!isset($word->space_before) && !isset($word->is_punct)) {
+                // Default to legacy hardcoded spaces without punctuation checks
+                $word->spaceAfter = $hasSpaces;
             }
 
-            if (in_array($this->processedWords[$wordIndex]->word, $tokensWithNoSpaceAfter, true)) {
+            if ($wordIndex < $maxWordIndex && in_array($this->processedWords[$wordIndex + 1]->word, $tokensWithNoSpaceBefore, true) ||
+                in_array($this->processedWords[$wordIndex]->word, $tokensWithNoSpaceAfter, true)
+            ) {
                 $word->spaceAfter = false;
             }
-            
+
+            if (isset($word->is_punct) && isset($word->space_before) && $word->space_after) {
+                $word->spaceAfter = true;
+            }
 
             $wordId = $encounteredWords->search(function ($item, $key) use($word) {
                 return $item->word == mb_strtolower($word->word);

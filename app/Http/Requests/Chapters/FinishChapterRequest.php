@@ -24,7 +24,6 @@ class FinishChapterRequest extends FormRequest
     public function rules()
     {
         return [
-            'chapterId' => 'required|numeric|gte:0',
             'uniqueWords' => 'required|json',
             'autoLevelUpWords' => 'required|boolean',
             'leveledUpWords' => 'required|json',

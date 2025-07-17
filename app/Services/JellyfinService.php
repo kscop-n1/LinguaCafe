@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
+use App\Helpers\Language\LanguageConfig;
 
 class JellyfinService {
 
@@ -12,7 +13,7 @@ class JellyfinService {
     private $apiHost;
 
     public function __construct() {
-        $this->jellyfinLanguageCodes = config('linguacafe.languages.jellyfin_language_codes');
+        $this->jellyfinLanguageCodes = LanguageConfig::all()->pluck('name', 'jellyfinCode')->toArray();
 
         $setting = Setting::where('name', 'jellyfinApiKey')->first();
         $this->apiKey = json_decode($setting->value);

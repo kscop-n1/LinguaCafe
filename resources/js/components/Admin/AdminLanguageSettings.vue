@@ -45,7 +45,7 @@
                     
                     <!-- Language -->
                     <td>
-                        {{ language.name }}
+                        {{ language.name.charAt(0).toUpperCase() + language.name.slice(1) }}
                     </td>
 
                     <!-- Install -->

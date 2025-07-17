@@ -149,7 +149,7 @@ class DictionaryImportService {
                         if (
                             !isset($dictCcLanguageCodes[$fileLanguage[0]]) || 
                             !isset($dictCcLanguageCodes[$fileLanguage[1]]) || 
-                            !in_array(ucfirst($dictCcLanguageCodes[$fileLanguage[0]]), $supportedSourceLanguages, true)
+                            !in_array($dictCcLanguageCodes[$fileLanguage[0]], $supportedSourceLanguages, true)
                             
                         ) {
                             $supported = false;

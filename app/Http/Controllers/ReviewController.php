@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Services\GoalService;
 
 // services
 use App\Services\ReviewService;
-use App\Services\GoalService;
+use Illuminate\Support\Facades\Auth;
 
 // request classes
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Review\GetReviewItemsRequest;
 use App\Http\Requests\Review\UpdateReviewGoalRequest;
 
@@ -24,22 +25,21 @@ class ReviewController extends Controller {
     
     public function getReviewItems(GetReviewItemsRequest $request) {
         $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $language = LanguageConfig::load(Auth::user()->selected_language);
         $practiceMode = $request->post('practiceMode');
         $chapterId = $request->post('chapterId');
         $bookId = $request->post('bookId');
-        $languagesWithoutSpaces = config('linguacafe.languages.languages_without_spaces');
         
         try {
-            $reviews = $this->reviewService->getReviewItems($userId, $language, $bookId, $chapterId, $practiceMode, $languagesWithoutSpaces);
+            $reviews = $this->reviewService->getReviewItems($userId, $language, $bookId, $chapterId, $practiceMode);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
 
         $reviewData = new \stdClass();
         $reviewData->reviews = $reviews;
-        $reviewData->language = $language;
-        $reviewData->languageSpaces = !in_array($language, $languagesWithoutSpaces, true);
+        $reviewData->language = $language->name;
+        $reviewData->languageSpaces = $language->hasSpaces();
 
         return response()->json($reviewData, 200);
     }

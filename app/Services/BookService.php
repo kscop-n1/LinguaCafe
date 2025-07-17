@@ -5,64 +5,63 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\Book;
 
+use App\Models\User;
 use App\Models\Chapter;
 use App\Models\EncounteredWord;
-use App\Enums\ChapterProcessingStatusEnum;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use App\Enums\ChapterProcessingStatusEnum;
+use Exception;
+use stdClass;
 
 class BookService {
     
     public function __construct() {
     }
     
-    public function getBooks($userId, $language) {
-        $books = Book
-            ::where('user_id', $userId)
-            ->where('language', $language)
+    public function getBooks(User $user): Collection
+    {
+        $books = Book::query()
+            ->where('user_id', $user->id)
+            ->where('language', $user->selected_language)
             ->orderBy('updated_at', 'DESC')
             ->get();
 
-        // sets initial value used by vue in the library
-        foreach ($books as $book) {
+        $books->transform(function(Book $book) {
             $book->wordCount = null;
-        }
+            return $book;
+        });
 
         return $books;
     }
 
 
-    public function getBookWordCounts($userId, $bookId) {
-        $book = Book
-            ::where('user_id', $userId)
-            ->where('id', $bookId)
-            ->first();
-                
-        if (!$book) {
-            throw new \Exception('Book does not exist, or it belongs to a different user.');
+    public function getBookWordCounts(User $user, Book $book): stdClass
+    {
+        if ($book->user_id !== $user->id) {
+            throw new Exception('Book not found or unauthorized.');
         }
+
+        $book = Book::query()
+            ->where('user_id', $user->id)
+            ->where('id', $book->id)
+            ->firstOrFail();
         
-        // get words for calculating word counts
-        $words = EncounteredWord
-            ::select(['id', 'word', 'stage'])
-            ->where('user_id', $userId)
+        $words = EncounteredWord::query()
+            ->select(['id', 'word', 'stage'])
+            ->where('user_id', $user->id)
             ->where('language', $book->language)
             ->get()
             ->keyBy('id')
             ->toArray();
 
-        // calculate word counts
-        return $book->getWordCounts($userId, $words);
+        return $book->getWordCounts($user, $words);
     }
 
-    /*
-        Updates the word count of the book. This only stores the length of the book,
-        other word counts are being calculated in real time.
-    */
-
     public function updateBookWordCount($userId, $bookId) {
-        // calculate book word count
-        $bookWordCount = Chapter
-            ::where('user_id', $userId)
+        $bookWordCount = Chapter::query()
+            ->where('user_id', $userId)
             ->where('book_id', $bookId)
             ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
             ->sum('word_count');
@@ -70,55 +69,42 @@ class BookService {
         $bookWordCount = intval($bookWordCount);
 
         // update book word count
-        Book
-            ::where('user_id', $userId)
+        Book::query()
+            ->where('user_id', $userId)
             ->where('id', $bookId)
             ->update(['word_count' => $bookWordCount]);
     }
 
-    public function createBook($userId, $selectedLanguage, $bookName, $bookCoverFile) {
-        // create book model
+    public function createBook(User $user, string $name, ?UploadedFile $bookCoverFile): void
+    {
         $book = new Book();
-        $book->user_id = $userId;
+        $book->user_id = $user->id;
         $book->cover_image = null;
-        $book->language = $selectedLanguage;
-        $book->name = $bookName;
-
-        // save new book
+        $book->language = $user->selected_language;
+        $book->name = $name;
         $book->save();
         
-        // update image
-        if (!is_null($bookCoverFile)) {
+        if ($bookCoverFile) {
             $this->saveBookImage($book, $bookCoverFile);
         }
-
-        return true;
     }
 
-    public function updateBook($userId, $bookId, $bookName, $bookCoverFile) {
-        $book = Book
-            ::where('user_id', $userId)
-            ->where('id', $bookId)
-            ->first();
-
-        if (!$book) {
-            throw new \Exception('Book does not exist, or it belongs to a different user.');
+    public function updateBook(User $user, Book $book, string $name, ?UploadedFile $bookCoverFile): void 
+    {
+        if ($book->user_id !== $user->id) {
+            throw new Exception('Book not found or unauthorized.');
         }
 
-        // update and save book
-        $book->name = $bookName;
+        $book->name = $name;
         $book->save();
         
-        // update image
-        if (!is_null($bookCoverFile)) {
+        if ($bookCoverFile) {
             $this->saveBookImage($book, $bookCoverFile);
         }
-
-        return true;
     }
 
-    private function saveBookImage($book, $bookCoverFile) {
-        // delete old image
+    private function saveBookImage(Book $book, UploadedFile $bookCoverFile) {
+        // TODO: make book cover_image nullable, and remove old empty strings values
         if ($book->cover_image !== '' && $book->cover_image !== null) {
             Storage::delete('/images/book_images/' . $book->cover_image);
         }
@@ -133,19 +119,15 @@ class BookService {
         $book->save();
     }
 
-    public function deleteBook($userId, $bookId) {
-        $book = Book
-            ::where('user_id', $userId)
-            ->where('id', $bookId)
-            ->first();
-
-        if (!$book) {
-            throw new \Exception('Book does not exist, or it belongs to a different user.');
+    public function deleteBook(User $user, Book $book): void
+    {
+        if ($book->user_id !== $user->id) {
+            throw new Exception('Book not found or unauthorized.');
         }
-
-        Chapter
-            ::where('user_id', $userId)
-            ->where('book_id', $bookId)
+        
+        Chapter::query()
+            ->where('user_id', $user->id)
+            ->where('book_id', $book->id)
             ->delete();
             
         if ($book->cover_image !== '' && $book->cover_image !== null) {
@@ -153,7 +135,5 @@ class BookService {
         }
 
         $book->delete();
-
-        return true;
     }
 }

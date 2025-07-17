@@ -17,6 +17,11 @@
         text-align: center
     }
 
+    .new-words,
+    .highlighted-words {
+        white-space: nowrap;
+    }
+
     .chapter-word-count-skeleton,
     .chapter-word-count-skeleton div {
         height: 24px;

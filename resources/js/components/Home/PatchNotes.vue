@@ -5,31 +5,68 @@
         </div>
 
         <v-card outlined class="rounded-lg mb-8">
-            <v-card-title>v0.14.beta.3<v-spacer /> 2025.01.05.</v-card-title>
+            <v-card-title>v0.16<v-spacer /> 2025.??.??.</v-card-title>
             <v-card-text>
+                <b>New features:</b>
+                <ul>
+                    <li>Added new languages: Bulgarian, Afrikaans, Armenian, Basque, Belarusian, Buryat, Catalan, Erzya, Estonian, Faroese, Galician, Hindi, Hungarian, Icelandic, Indonesian, Irish, Kazakh, Kyrgyz, Latvian, Lithuanian, Maltese, North sami, Sanskrit, Serbian, Slovak, Tamil, Telugu.</li>
+                    <li>Replaced tokenizers with stanza for languages that had no lemmas: Latin, Welsh, Czech.</li>
+                    <li>Replaced Finnish tokenizer with stanza to improve lemmas.</li>
+                    <li>Installed languages are now cached to load them faster.</li>
+                </ul>
+
+
                 <b>Bug fixes:</b>
                 <ul>
-                    <li>Sentence selecting in languages with spaces did not highlight the gaps as well.</li>
-                    <li>Added missing authorization for horizon dashboard, now only admins can access it.</li>
+                    <li>Word counts were not fully visible in chapters where the number was too large.</li>
+                    <li>Turkish tokenizer was replaced with stanza because spacy was not functional.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Lot of backend code has been refactored.</li>
                 </ul>
             </v-card-text>
         </v-card>
 
         <v-card outlined class="rounded-lg mb-8">
-            <v-card-title>v0.14.beta.2<v-spacer /> 2024.12.26.</v-card-title>
+            <v-card-title>v0.15-beta<v-spacer /> 2025.04.13.</v-card-title>
             <v-card-text>
+                <b>New features:</b>
+                <ul>
+                    <li>Added attachable images for words and phrases.</li>
+                    <li>Added an option to apply changes to every word level at the same time in the text styling settings.</li>
+                </ul>
+
                 <b>Bug fixes:</b>
                 <ul>
-                    <li>Highlighted and new word backgrounds/indicators were not working outside of the interactive text areas.</li>
-                    <li>The selected font type was not applied to the hover vocabulary's reading section.</li>
-                    <li>The selected font type was not applied to the text reader's title.</li>
-                    <li>Horizontal padding was not working correctly.</li>
+                    <li>Fixed spaces around symbols(punctuation marks, quote marks, parentheses) in text.</li>
+                    <li>Fixed missing spaces while copy-pasting from the review page's example sentence.</li>
+                    <li>Fixed minor plain text mode issues.</li>
+                    <li>Admin API page was displaying an empty DeepL character usage section when the default API key was used.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Theme user settings now has one single theme selection dropdown instead of two for different sections. Its default value now will be the currently selected theme.</li>
+                    <li>Users won't be forced to log in again after 2 hours.</li>
+                    <li>The laravel and the python servers will now run automatically in dev or production environments based on the docker compose files.</li>
                 </ul>
             </v-card-text>
         </v-card>
 
         <v-card outlined class="rounded-lg mb-8">
-            <v-card-title>v0.14.beta.1<v-spacer /> 2024.12.25.</v-card-title>
+            <v-card-title>v0.14.1<v-spacer /> 2025.03.19.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>v0.14 broke the database, and users only seen a blank page after login. This update should fix the issue.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card outlined class="rounded-lg mb-8">
+            <v-card-title>v0.14<v-spacer /> 2025.03.18.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
                 <ul>
@@ -58,6 +95,8 @@
                     <li>Development tools page had incorrect background for light theme.</li>
                     <li>Book word count percentages were displayed incorrectly in empty books and chapters.</li>
                     <li>Fixed inconsistencies in custom themes when the user selected different foreground color.</li>
+                    <li>The selected font type was not applied to the hover vocabulary's reading section.</li>
+                    <li>The selected font type was not applied to the text reader's title.</li>
                 </ul>
 
                 <b>Other changes:</b>

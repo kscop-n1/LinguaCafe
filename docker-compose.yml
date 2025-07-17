@@ -55,6 +55,7 @@ services:
     redis:
         image: redis:7.2-alpine
         container_name: linguacafe-redis
+        restart: unless-stopped
         volumes: 
             - ./cache:/data
         ports:
@@ -67,12 +68,13 @@ services:
             - linguacafe
     python:
         container_name: linguacafe-python-service
-        command: "python3 /app/tokenizer.py"
+        command: "python3 /app/server.py"
         restart: unless-stopped
         tty: true
         image: ghcr.io/simjanos-dev/linguacafe-python-service:${VERSION:-latest}
         environment:
             PYTHONPATH: "/var/www/html/storage/app/model"
+            APP_ENV: "production"
         volumes:
             - ./storage:/var/www/html/storage
         networks:

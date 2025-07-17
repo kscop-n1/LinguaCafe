@@ -137,8 +137,12 @@
                     this.loading = false;
                 });
 
-                axios.get('/config/get/linguacafe.languages.supported_languages').then((response) => {
-                    this.supportedlanguages  = response.data;
+                axios.get('/config/languages').then((response) => {
+                    this.supportedlanguages  = response.data.filter((language) => {
+                        return language.linguacafeSupport
+                    }).map((language) => {
+                        return language.name[0].toUpperCase() + language.name.slice(1)
+                    });
                 });
             }
         }

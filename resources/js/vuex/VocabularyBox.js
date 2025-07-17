@@ -4,6 +4,7 @@ export default {
         active: false,
         vocabularyBottomSheetVisible: false,
         key: 0,
+        id: null,
 
         /*
             Keep the sidebar hidden until the first position
@@ -24,6 +25,7 @@ export default {
         phraseReading: '',
 
         // data for both
+        image: null,
         type: 'empty',
         inflections: [],
         kanjiList: [],
@@ -44,6 +46,7 @@ export default {
             state.key ++;
         },
         reset(state) {
+            state.id = null;
             state.active = false;
             state.tab = 0;
             state.searchField = '';
@@ -57,6 +60,9 @@ export default {
             state.baseWordReading = '';
             state.stage = 2;
             state.type = 'empty';
+        },
+        setId(state, value) {
+            state.id = value;
         },
         setActive (state, value) {
             state.active = value;
@@ -75,6 +81,9 @@ export default {
         },
         setType (state, value) {
             state.type = value;
+        },
+        setImage (state, value) {
+            state.image = value;
         },
         setWord (state, value) {
             state.word = value;

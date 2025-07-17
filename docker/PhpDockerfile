@@ -54,6 +54,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY ./ /var/www/html
 COPY --from=node_build /build/public /var/www/html/public
 
+RUN rm /var/www/html/.env
+RUN mv /var/www/html/.env_production /var/www/html/.env
+
 RUN addgroup --gid 1000 laravel \
     && adduser --ingroup laravel --disabled-password --gecos "" --shell /bin/sh laravel \
     && chown -R laravel /var/www/html

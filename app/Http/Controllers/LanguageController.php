@@ -9,6 +9,7 @@ use App\Services\LanguageService;
 use App\Services\GoalService;
 
 // request classes
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Languages\InstallLanguageRequest;
 use App\Http\Requests\Languages\ChangeLanguageRequest;
 
@@ -22,8 +23,8 @@ class LanguageController extends Controller {
     }
 
     public function getLanguageSelectionDialogData() {
-        $supportedSourceLanguages = config('linguacafe.languages.supported_languages');
-        $installableLanguages = config('linguacafe.languages.supported_languages_with_required_install');
+        $supportedSourceLanguages = LanguageConfig::all()->where('linguacafeSupport', '=', true)->pluck('name')->toArray();
+        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
 
         try {
             $languageData = $this->languageService->getLanguageSelectionDialogData($supportedSourceLanguages, $installableLanguages);
@@ -35,7 +36,7 @@ class LanguageController extends Controller {
     }
 
     public function getAdminLanguageSettingsData() {
-        $installableLanguages = config('linguacafe.languages.supported_languages_with_required_install');
+        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
 
         try {
             $installedLanguages = $this->languageService->getInstalledLanguages();
@@ -57,9 +58,10 @@ class LanguageController extends Controller {
     */
     public function selectLanguage($language, ChangeLanguageRequest $request) {
         $user = Auth::user();
-        
+        $languageConfig = LanguageConfig::load($language);
+
         try {
-            $this->languageService->selectLanguage($user, $language);
+            $this->languageService->selectLanguage($user, $languageConfig);
             $this->goalService->createGoalsForLanguage($user->id, $language);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
@@ -80,11 +82,10 @@ class LanguageController extends Controller {
 
 
     public function installLanguage(InstallLanguageRequest $request) {
-        $installableLanguages = config('linguacafe.languages.supported_languages_with_required_install');
-        $language = $request->post('language');
+        $language = LanguageConfig::load($request->post('language'));
 
         try {
-            $installResult = $this->languageService->installLanguage($language, $installableLanguages);
+            $installResult = $this->languageService->installLanguage($language);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
@@ -99,7 +100,7 @@ class LanguageController extends Controller {
     }
 
     public function deleteInstalledLanguages() {
-        $installableLanguages = config('linguacafe.languages.supported_languages_with_required_install');
+        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
         $user = Auth::user();
 
         try {

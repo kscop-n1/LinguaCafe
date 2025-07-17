@@ -10,6 +10,7 @@ use App\Services\StatisticsService;
 use Illuminate\Support\Facades\Auth;
 
 // request classes
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Home\GetConfigRequest;
 
 class HomeController extends Controller {
@@ -69,6 +70,12 @@ class HomeController extends Controller {
         }
 
         $config = config($configPath);
+        return response()->json($config, 200);
+    }
+
+    public function getLanguageConfig() {
+        $config = LanguageConfig::all();
+        
         return response()->json($config, 200);
     }
 

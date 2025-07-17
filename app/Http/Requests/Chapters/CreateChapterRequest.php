@@ -24,9 +24,8 @@ class CreateChapterRequest extends FormRequest
     public function rules()
     {
         return [
-            'chapterName' => 'required|string|max:128',
-            'chapterText' => 'string|nullable',
-            'bookId' => 'required|numeric|gte:0',
+            'name' => 'required|string|max:128',
+            'text' => 'string|nullable'
         ];
     }
 }

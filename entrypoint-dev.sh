@@ -36,5 +36,6 @@ while [ $retry_count -lt 40 ] && ! php artisan migrate --force; do
 done
 
 php artisan db:seed --force
+php artisan cache:clear
 
 exec "$@"

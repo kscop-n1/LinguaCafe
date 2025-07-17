@@ -4,6 +4,6 @@ export function formatNumber(amount) {
         currency: 'HUF',
         minimumFractionDigits: 0,
     });
-      
-    return formatter.format(amount).replace('HUF', '');
+
+    return formatter.format(amount).replace('HUF', '').trim();
 }

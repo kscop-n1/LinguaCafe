@@ -18,40 +18,14 @@
         ></admin-supported-dictionary-import>
 
         <!-- Deepl dictionary creation -->
-        <admin-deepl-dictionary-creation
-            v-if="selectedDictionaryType === 'deepl'"
+        <admin-dictionary-api-import
+            v-if="['deepl', 'mymemory', 'libretranslate', 'customapi'].includes(selectedDictionaryType)"
             :language="$props.language"
+            :selected-dictionary-type="selectedDictionaryType"
             @import-finished="importFinished" 
             @back-to-dictionaries="backToDictionaries" 
             @close="close" 
-        ></admin-deepl-dictionary-creation>
-
-        <!-- MyMemory dictionary creation -->
-        <admin-my-memory-dictionary-creation
-            v-if="selectedDictionaryType === 'mymemory'"
-            :language="$props.language"
-            @import-finished="importFinished" 
-            @back-to-dictionaries="backToDictionaries" 
-            @close="close" 
-        ></admin-my-memory-dictionary-creation>
-
-        <!-- LibreTranslate dictionary creation -->
-        <admin-libre-translate-dictionary-creation
-            v-if="selectedDictionaryType === 'libretranslate'"
-            :language="$props.language"
-            @import-finished="importFinished" 
-            @back-to-dictionaries="backToDictionaries" 
-            @close="close" 
-        ></admin-libre-translate-dictionary-creation>
-
-        <!-- LibreTranslate dictionary creation -->
-        <admin-custom-api-dictionary-creation
-            v-if="selectedDictionaryType === 'customapi'"
-            :language="$props.language"
-            @import-finished="importFinished" 
-            @back-to-dictionaries="backToDictionaries" 
-            @close="close" 
-        ></admin-custom-api-dictionary-creation>
+        ></admin-dictionary-api-import>
 
         <!-- Dictionary selection list -->
         <v-card 
