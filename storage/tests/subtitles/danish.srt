@@ -1,0 +1,115 @@
+1
+00:00:01,000 --> 00:00:05,000
+Mette: Hej Anna! Hvordan går det med dig?
+
+2
+00:00:05,500 --> 00:00:09,000
+Anna: Hej Mette! Det går rigtig godt, tak. Hvad med dig?
+
+3
+00:00:09,500 --> 00:00:13,000
+Mette: Også fint, jeg har bare haft en travl uge på arbejde.
+
+4
+00:00:13,500 --> 00:00:17,000
+Anna: Ja, det kan jeg godt forestille mig. Skal vi tage en kop kaffe og slappe af?
+
+5
+00:00:17,500 --> 00:00:21,000
+Mette: Det lyder som en god idé! Hvor vil du gerne mødes?
+
+6
+00:00:21,500 --> 00:00:25,000
+Anna: Hvad med caféen på hjørnet? Den med de gode kager?
+
+7
+00:00:25,500 --> 00:00:29,000
+Mette: Perfekt! Jeg kommer om ti minutter.
+
+8
+00:00:29,500 --> 00:00:33,000
+Anna: Super, så ses vi snart!
+
+9
+00:00:33,500 --> 00:00:37,000
+(Anna ankommer til caféen og sætter sig ned)
+
+10
+00:00:37,500 --> 00:00:41,000
+Mette: Jeg elsker virkelig deres chokoladekage her.
+
+11
+00:00:41,500 --> 00:00:45,000
+Anna: Ja, den er virkelig lækker! Har du prøvet deres kaffe?
+
+12
+00:00:45,500 --> 00:00:49,000
+Mette: Ja, den er også rigtig god. Perfekt kombination.
+
+13
+00:00:49,500 --> 00:00:53,000
+Anna: Hvordan går det ellers med maleriet? Har du lavet noget nyt?
+
+14
+00:00:53,500 --> 00:00:57,000
+Mette: Ja, jeg har startet på nogle landskaber. Det er udfordrende, men sjovt.
+
+15
+00:00:57,500 --> 00:01:01,000
+Anna: Det lyder spændende. Jeg ville ønske, jeg havde tid til at prøve noget nyt også.
+
+16
+00:01:01,500 --> 00:01:05,000
+Mette: Du skal bare finde tid til det. Det er vigtigt at have noget for sig selv.
+
+17
+00:01:05,500 --> 00:01:09,000
+Anna: Ja, du har ret. Jeg overvejer at starte på et skrivekursus.
+
+18
+00:01:09,500 --> 00:01:13,000
+Mette: Det lyder som en god idé! Du skriver så godt.
+
+19
+00:01:13,500 --> 00:01:17,000
+Anna: Tak, det betyder meget at høre.
+
+20
+00:01:17,500 --> 00:01:21,000
+Mette: Skal vi prøve at lave en kreativ dag sammen snart?
+
+21
+00:01:21,500 --> 00:01:25,000
+Anna: Det ville jeg elske! Lad os finde en dag.
+
+22
+00:01:25,500 --> 00:01:29,000
+Mette: Perfekt. Jeg glæder mig allerede.
+
+23
+00:01:29,500 --> 00:01:33,000
+Anna: Mig også. Det bliver skønt at tilbringe tid sammen igen.
+
+24
+00:01:33,500 --> 00:01:37,000
+Mette: Ja, det er vigtigt at holde kontakten.
+
+25
+00:01:37,500 --> 00:01:40,000
+Anna: Absolut. Tak for en dejlig eftermiddag, Mette.
+
+26
+00:01:40,500 --> 00:01:44,000
+Mette: Tak selv, Anna. Vi ses snart igen!
+
+27
+00:01:44,500 --> 00:01:48,000
+Anna: Ja, det gør vi. Pas godt på dig.
+
+28
+00:01:48,500 --> 00:01:52,000
+Mette: Du også. Farvel for nu!
+
+29
+00:01:52,500 --> 00:01:56,000
+Anna: Farvel!

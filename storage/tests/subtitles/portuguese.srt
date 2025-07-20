@@ -1,0 +1,95 @@
+1
+00:00:00,000 --> 00:00:04,000
+Oi, tudo bem? Como foi seu final de semana?
+
+2
+00:00:04,500 --> 00:00:09,000
+Oi! Foi ótimo, obrigado. Aproveitei para descansar e colocar algumas leituras em dia.
+
+3
+00:00:09,500 --> 00:00:14,000
+Que bom! Eu também tentei relaxar um pouco, fui a um parque perto de casa.
+
+4
+00:00:14,500 --> 00:00:19,000
+Legal! Estar em contato com a natureza faz muito bem para a mente.
+
+5
+00:00:19,500 --> 00:00:24,000
+Com certeza. E você, fez algo diferente?
+
+6
+00:00:24,500 --> 00:00:29,000
+Sim, fui visitar um museu que abriu recentemente na cidade.
+
+7
+00:00:29,500 --> 00:00:34,000
+Nossa, que interessante! Qual museu?
+
+8
+00:00:34,500 --> 00:00:39,000
+É o Museu da História Natural. Tem uma exposição sobre animais pré-históricos.
+
+9
+00:00:39,500 --> 00:00:44,000
+Nossa, deve ser incrível! Eu adoro dinossauros.
+
+10
+00:00:44,500 --> 00:00:49,000
+Pois é, fiquei fascinado com os fósseis e as explicações sobre a era mesozóica.
+
+11
+00:00:49,500 --> 00:00:54,000
+Eu quero muito ir lá também. É perto do centro?
+
+12
+00:00:54,500 --> 00:00:59,000
+Sim, fica a uns dez minutos do centro, fácil de chegar.
+
+13
+00:00:59,500 --> 00:01:04,000
+Ótimo, vamos marcar de ir juntos algum dia.
+
+14
+00:01:04,500 --> 00:01:09,000
+Combinado! Além do museu, tem algum lugar legal que você queira conhecer?
+
+15
+00:01:09,500 --> 00:01:14,000
+Eu gostaria de visitar aquela nova cafeteria que abriu na esquina da minha rua.
+
+16
+00:01:14,500 --> 00:01:19,000
+Ah, ouvi falar que o café deles é excelente. Vale a pena experimentar.
+
+17
+00:01:19,500 --> 00:01:24,000
+Então, vamos marcar um café lá também!
+
+18
+00:01:24,500 --> 00:01:29,000
+Perfeito! E sobre o trabalho, como estão as coisas?
+
+19
+00:01:29,500 --> 00:01:34,000
+Estão bem intensas, mas estou conseguindo administrar.
+
+20
+00:01:34,500 --> 00:01:39,000
+Isso é bom. Lembre-se de descansar também para não sobrecarregar.
+
+21
+00:01:39,500 --> 00:01:44,000
+Vou tentar. Obrigado pelo conselho!
+
+22
+00:01:44,500 --> 00:01:49,000
+De nada! A gente se fala depois para combinar esses passeios.
+
+23
+00:01:49,500 --> 00:01:54,000
+Com certeza. Até mais!
+
+24
+00:01:54,500 --> 00:01:59,000
+Até!

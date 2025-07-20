@@ -1,0 +1,84 @@
+1
+00:00:00,000 --> 00:00:04,000
+Hei, miten menee? Pitkästä aikaa!
+
+2
+00:00:04,100 --> 00:00:08,000
+Moi! Ihan hyvää, kiitos. Miten sinulla?
+
+3
+00:00:08,100 --> 00:00:12,000
+Myös hyvin, olen ollut tosi kiireinen töiden kanssa viime aikoina.
+
+4
+00:00:12,100 --> 00:00:16,000
+Joo, ymmärrän. Kesäkin on mennyt nopeasti, ehditkö rentoutua ollenkaan?
+
+5
+00:00:16,100 --> 00:00:20,000
+Vähän, kävin parilla pienellä retkellä metsissä. Se auttoi rentoutumaan.
+
+6
+00:00:20,100 --> 00:00:24,000
+Kuulostaa ihanalta! Metsä on kyllä paras paikka ladata akkuja.
+
+7
+00:00:24,100 --> 00:00:28,000
+Niinpä. Mitä suunnitelmia sinulla on syksylle?
+
+8
+00:00:28,100 --> 00:00:32,000
+Ajattelin aloittaa uuden harrastuksen, ehkä kielikurssin. Haluaisin oppia paremmin espanjaa.
+
+9
+00:00:32,100 --> 00:00:36,000
+Se on hyvä idea! Olen kuullut, että espanjan oppiminen on hauskaa ja hyödyllistä.
+
+10
+00:00:36,100 --> 00:00:40,000
+Niin juuri. Lisäksi haluan matkustaa Etelä-Amerikkaan ensi vuonna.
+
+11
+00:00:40,100 --> 00:00:44,000
+Oi, kuulostaa upealta! Minne päin aiot mennä?
+
+12
+00:00:44,100 --> 00:00:48,000
+Ajattelin aloittaa Perusta ja sitten ehkä jatkaa Chileen.
+
+13
+00:00:48,100 --> 00:00:52,000
+Hienoa! Sieltä saa varmasti paljon elämyksiä ja kauniita maisemia.
+
+14
+00:00:52,100 --> 00:00:56,000
+Kyllä, odotan innolla. Entä sinä, onko sinulla tulevia matkoja?
+
+15
+00:00:56,100 --> 00:01:00,000
+Ajattelin käydä vielä syksyllä Lapissa. Siellä on kaunista ruskaa.
+
+16
+00:01:00,100 --> 00:01:04,000
+Lapissa ruska on varmasti upea näky. Muista ottaa paljon kuvia!
+
+17
+00:01:04,100 --> 00:01:08,000
+Totta kai! Haluan jakaa ne myös sosiaalisessa mediassa.
+
+18
+00:01:08,100 --> 00:01:12,000
+Hyvä idea. On kiva seurata ystävien matkakuvia.
+
+19
+00:01:12,100 --> 00:01:16,000
+Joo, se tuo vähän lomatunnelmaa arkeen.
+
+20
+00:01:16,100 --> 00:01:20,000
+No, pitää mennä nyt. Oli kiva jutella, pidä itsestäsi!
+
+21
+00:01:20,100 --> 00:01:24,000
+Samoin, kuullaan pian!
+

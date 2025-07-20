@@ -1,0 +1,64 @@
+1
+00:00:01,000 --> 00:00:05,000
+— Bună, Andrei! Ce mai faci?
+— Bună, Maria! Sunt bine, mulțumesc. Tu cum te simți azi?
+
+2
+00:00:05,500 --> 00:00:09,000
+— Foarte bine, doar că am avut o zi plină în grădină.
+— Îți imaginezi, cu toate plantele acelea rare pe care le îngrijești.
+
+3
+00:00:09,500 --> 00:00:13,000
+— Da, îmi place să petrec timpul acolo. Tu ai făcut multe poze azi?
+— Am surprins câteva cadre frumoase la răsăritul soarelui.
+
+4
+00:00:13,500 --> 00:00:17,000
+— Minunat! Îmi place cum prin ochii tăi descoperim satul altfel.
+— Mulțumesc, Maria. Natura ne oferă mereu inspirație.
+
+5
+00:00:17,500 --> 00:00:22,000
+— Ai auzit ce spun oamenii despre spiritele pădurii?
+— Da, povestirile acelea vechi sunt fascinante.
+
+6
+00:00:22,500 --> 00:00:26,000
+— Poate într-o zi vom găsi și noi o comoară ascunsă.
+— Sau măcar o poveste nouă de spus.
+
+7
+00:00:26,500 --> 00:00:30,000
+— Ce ai spune să organizăm o excursie în pădure mâine?
+— Mi se pare o idee excelentă! Pot să vin și eu?
+
+8
+00:00:30,500 --> 00:00:34,000
+— Bineînțeles, e mai frumos în grup.
+— Atunci, să ne pregătim cu tot ce ne trebuie!
+
+9
+00:00:34,500 --> 00:00:38,000
+— Și să nu uităm aparatul foto!
+— Exact, vreau să imortalizez fiecare moment.
+
+10
+00:00:38,500 --> 00:00:42,000
+— Abia aștept să văd ce vei surprinde.
+— Promit să fac cele mai frumoase poze.
+
+11
+00:00:42,500 --> 00:00:46,000
+— Între timp, voi continua să pregătesc ceaiul din plantele mele.
+— Nicio excursie nu e completă fără un ceai cald la final.
+
+12
+00:00:46,500 --> 00:00:50,000
+— Așa este. Natura ne dă tot ce avem nevoie.
+— Sunt norocos că am găsit acest loc și oameni ca voi.
+
+13
+00:00:50,500 --> 00:00:54,000
+— Și noi suntem norocoși să te avem aici.
+— Mulțumesc, Maria. Să avem o zi minunată mâine!

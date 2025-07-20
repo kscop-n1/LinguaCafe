@@ -1,0 +1,120 @@
+1
+00:00:00,000 --> 00:00:04,000
+Máret: Bures, Ánde! Moai leat du oktavuođas?
+
+2
+00:00:04,001 --> 00:00:08,000
+Ánde: Bures, Máret! Mun lean otná. Don?
+
+3
+00:00:08,001 --> 00:00:12,000
+Máret: Mun lean heivehuvvon. Ii leat go leat bargan?
+
+4
+00:00:12,001 --> 00:00:16,000
+Ánde: In leat bargan, muhto mun galgán gohčodit sámegielat.
+
+5
+00:00:16,001 --> 00:00:20,000
+Máret: Lea ahte dat galgá olla váttis kultuvra ja giella?
+
+6
+00:00:20,001 --> 00:00:24,000
+Ánde: Juohke mii galgá sáhttit oahppat muhtun, muhto sámegiela lea stuorra.
+
+7
+00:00:24,001 --> 00:00:28,000
+Máret: Mun galgán oahppat sámi beassáš ja natur.
+
+8
+00:00:28,001 --> 00:00:32,000
+Ánde: Natur lea stuorra dássejuvvon. Dát ieš lea muhtun hálddaheapmi.
+
+9
+00:00:32,001 --> 00:00:36,000
+Máret: Moai leat du áhpi guovdduš?
+
+10
+00:00:36,001 --> 00:00:40,000
+Ánde: Mun lean oahpahusguovdduš, ja mun galgán eatnagat ja bálvalusat.
+
+11
+00:00:40,001 --> 00:00:44,000
+Máret: Dat lea stuorra bargu. Mii galgán eatnagat beali sámi ealáhusas.
+
+12
+00:00:44,001 --> 00:00:48,000
+Ánde: Jus sámi giella ja kultuvra áigut, de mii galgán máhttit.
+
+13
+00:00:48,001 --> 00:00:52,000
+Máret: Mun háliidan muitalit máilmmi sámi olbmuin ja máhttun.
+
+14
+00:00:52,001 --> 00:00:56,000
+Ánde: Juohke sii galgá oahppat ja háliidan sámi ášši.
+
+15
+00:00:56,001 --> 00:01:00,000
+Máret: Moai galgá leat guovdduš guovddážis?
+
+16
+00:01:00,001 --> 00:01:04,000
+Ánde: Dat galgá leat geahččaleapmi, muhto sii galgá háliidan.
+
+17
+00:01:04,001 --> 00:01:08,000
+Máret: Mun galgán geahččalit dán sámi natur ja kulturat.
+
+18
+00:01:08,001 --> 00:01:12,000
+Ánde: Dat lea muhtun ovttas olbmuid, muhto mii galgán eatnagat ja bálvalusat.
+
+19
+00:01:12,001 --> 00:01:16,000
+Máret: Jus mii galgán máhttit, de sámi áiggi galgá beassat.
+
+20
+00:01:16,001 --> 00:01:20,000
+Ánde: Ii lea guđe ášši, muhto sámi kultuvra galgá ealáhuheapmi.
+
+21
+00:01:20,001 --> 00:01:24,000
+Máret: Oaidná don moadde go dat?
+
+22
+00:01:24,001 --> 00:01:28,000
+Ánde: Mun galgán eatnagat muhtun bargat guovttás ja veahkkis.
+
+23
+00:01:28,001 --> 00:01:32,000
+Máret: Mun galgán geahččalit sámi giellat ja kulturat skuvllas.
+
+24
+00:01:32,001 --> 00:01:36,000
+Ánde: Dat lea stuorra bargo. Mun galgán oahppat ja háliidan sámi giellaid.
+
+25
+00:01:36,001 --> 00:01:40,000
+Máret: Dat ii leat makkárgeat sámi kultuvra ja natur?
+
+26
+00:01:40,001 --> 00:01:44,000
+Ánde: Ii, dat lea stuorra stuorra, ja mii galgán eatnagat.
+
+27
+00:01:44,001 --> 00:01:48,000
+Máret: Mun lean oktasaš sámi olbmuin, ja mun háliidan.
+
+28
+00:01:48,001 --> 00:01:52,000
+Ánde: Mun galgán veahkkin eatnagat ja bálvalusat sámi kultuvras.
+
+29
+00:01:52,001 --> 00:01:56,000
+Máret: Dat galgá leat stuorra gova guovttos.
+
+30
+00:01:56,001 --> 00:02:00,000
+Ánde: Juohke sii galgá eatnagat ja bálvalusat dán dii sámi ášši.
+

@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:03,000
+Halló! Hvernig hefur þú það í dag?
+
+2
+00:00:03,100 --> 00:00:06,000
+Ég hef það fínt, takk fyrir að spyrja. Hvað með þig?
+
+3
+00:00:06,100 --> 00:00:08,500
+Ég hef það mjög gott. Hvað hefurðu verið að gera nýlega?
+
+4
+00:00:08,600 --> 00:00:12,000
+Ég hef verið að vinna mikið og svo fór ég í stutta göngu í náttúrunni í gær.
+
+5
+00:00:12,100 --> 00:00:15,000
+Það hljómar frábærlega. Hvar varstu að ganga?
+
+6
+00:00:15,100 --> 00:00:18,000
+Ég fór í Þingvelli. Veðrið var yndislegt og útsýnið líka.
+
+7
+00:00:18,100 --> 00:00:21,000
+Ég hef aldrei farið þangað, en hef heyrt að það sé mjög fallegt.
+
+8
+00:00:21,100 --> 00:00:24,000
+Já, það er það. Þingvellir er líka sögulegur staður, þar sem Alþingi var stofnað.
+
+9
+00:00:24,100 --> 00:00:27,000
+Þetta vissi ég ekki. Ísland hefur svo mikla sögu, það er frábært.
+
+10
+00:00:27,100 --> 00:00:30,000
+Já, sagan og náttúran gera landið einstakt.
+
+11
+00:00:30,100 --> 00:00:33,000
+Hefurðu farið að skoða fleiri staði hér á Íslandi?
+
+12
+00:00:33,100 --> 00:00:36,000
+Já, ég hef heimsótt Gullfoss og Geysi. Þau eru stórkostleg.
+
+13
+00:00:36,100 --> 00:00:39,000
+Ég verð að bæta þeim við listann minn. Það er alltaf gaman að ferðast hér heima.
+
+14
+00:00:39,100 --> 00:00:42,000
+Alveg sammála. Hvað ætlarðu að gera næst?
+
+15
+00:00:42,100 --> 00:00:45,000
+Kannski fara í hvalaskoðun eða heimsækja Bláa lónið.
+
+16
+00:00:45,100 --> 00:00:48,000
+Þetta eru frábærir möguleikar. Gangi þér vel með það!
+
+17
+00:00:48,100 --> 00:00:51,000
+Takk! Ég hlakka til að upplifa meira af Íslandi.
+
+18
+00:00:51,100 --> 00:00:54,000
+Mér finnst gaman að tala við þig um þetta. Við eigum að gera þetta aftur fljótlega.
+
+19
+00:00:54,100 --> 00:00:57,000
+Já, endilega! Hafðu það gott í millitíðinni.
+
+20
+00:00:57,100 --> 00:01:00,000
+Þú líka. Sjáumst fljótlega!

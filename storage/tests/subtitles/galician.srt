@@ -1,0 +1,99 @@
+1
+00:00:00,000 --> 00:00:05,000
+— Ola, ¿como estás? Hai tempo que non nos vemos.
+
+2
+00:00:05,100 --> 00:00:10,000
+— Moi ben, grazas. E ti? Como vai todo na túa vida?
+
+3
+00:00:10,100 --> 00:00:15,000
+— Pois a verdade é que estou bastante ocupado co traballo, pero sempre intento sacar tempo para a familia.
+
+4
+00:00:15,100 --> 00:00:20,000
+— Iso é importante. E como está a familia?
+
+5
+00:00:20,100 --> 00:00:25,000
+— Están ben, grazas. Os nenos están a crecer moi rápido e están cheos de enerxía.
+
+6
+00:00:25,100 --> 00:00:30,000
+— Qué alegría escoitalo. E como vai a vida na aldea?
+
+7
+00:00:30,100 --> 00:00:35,000
+— A aldea está tranquila, aínda que estes días chove moito. A natureza agradece a auga, pero os camiños están un pouco embarrados.
+
+8
+00:00:35,100 --> 00:00:40,000
+— Pois si, o clima este ano está bastante cambiante. Tes algún proxecto novo en mente?
+
+9
+00:00:40,100 --> 00:00:45,000
+— Estou pensando en comezar un pequeno horto ecolóxico para producir as miñas propias verduras.
+
+10
+00:00:45,100 --> 00:00:50,000
+— Que idea tan boa! Eu tamén quero probar iso, a vida máis sostible é o camiño.
+
+11
+00:00:50,100 --> 00:00:55,000
+— Sen dúbida. Ademais, gústame moito estar en contacto coa terra.
+
+12
+00:00:55,100 --> 00:01:00,000
+— E a cultura galega, estás a participar nas festas locais?
+
+13
+00:01:00,100 --> 00:01:05,000
+— Claro, non me perdo as romarías de verán. É unha maneira estupenda de manter viva a tradición.
+
+14
+00:01:05,100 --> 00:01:10,000
+— Eu tamén disfruto moito da música tradicional e das comidas típicas.
+
+15
+00:01:10,100 --> 00:01:15,000
+— Pois a próxima festa podes vir comigo, así compartimos unha boa empanada e un pouco de polbo.
+
+16
+00:01:15,100 --> 00:01:20,000
+— Encántame a idea! Xa me tes prometido iso máis dunha vez.
+
+17
+00:01:20,100 --> 00:01:25,000
+— Pois desta vez é seguro. Ademais, tamén hai que aproveitar para facer unha boa charla e poñerse ao día.
+
+18
+00:01:25,100 --> 00:01:30,000
+— Sen dúbida. Falando de poñerse ao día, como vai o teu novo emprego?
+
+19
+00:01:30,100 --> 00:01:35,000
+— Vaise adaptando. É un reto, pero tamén unha oportunidade para aprender moito.
+
+20
+00:01:35,100 --> 00:01:40,000
+— Pois iso é o importante, seguir crecendo e afrontando novos desafíos.
+
+21
+00:01:40,100 --> 00:01:45,000
+— Exacto. A vida sempre ten altos e baixos, pero hai que seguir adiante con optimismo.
+
+22
+00:01:45,100 --> 00:01:50,000
+— Moi certo. Gústame esta conversa, temos que repetir máis veces.
+
+23
+00:01:50,100 --> 00:01:55,000
+— Seguro que sí. Foi un pracer falar contigo.
+
+24
+00:01:55,100 --> 00:02:00,000
+— Para min tamén. Ata pronto e coida moito.
+
+25
+00:02:00,100 --> 00:02:05,000
+— Ti tamén. Ata a próxima!

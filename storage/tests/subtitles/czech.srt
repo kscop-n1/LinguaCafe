@@ -1,0 +1,119 @@
+1
+00:00:00,000 --> 00:00:04,000
+Ahoj, jak se máš? Už dlouho jsme se neviděli.
+
+2
+00:00:04,100 --> 00:00:08,000
+Ahoj! Mám se dobře, díky. A co ty? Co je nového?
+
+3
+00:00:08,100 --> 00:00:13,000
+Všechno je v pořádku. Právě jsem začal nový projekt v práci, takže mám hodně práce.
+
+4
+00:00:13,100 --> 00:00:17,000
+To zní zajímavě. O čem ten projekt je?
+
+5
+00:00:17,100 --> 00:00:22,000
+Je to vývoj nové aplikace pro správu času. Chceme lidem pomoci lépe organizovat jejich den.
+
+6
+00:00:22,100 --> 00:00:26,000
+To je určitě užitečné. Sám mám často problémy s organizací.
+
+7
+00:00:26,100 --> 00:00:30,000
+Ano, přesně to je důvod, proč si myslíme, že to bude mít úspěch.
+
+8
+00:00:30,100 --> 00:00:35,000
+Jak dlouho už na tom pracujete?
+
+9
+00:00:35,100 --> 00:00:39,000
+Už asi tři měsíce, ale stále máme spoustu věcí k dokončení.
+
+10
+00:00:39,100 --> 00:00:43,000
+Máš čas i na volný čas?
+
+11
+00:00:43,100 --> 00:00:47,000
+Snažím se. O víkendech chodím na výlety do přírody.
+
+12
+00:00:47,100 --> 00:00:51,000
+To je skvělé. Kde jsi byl naposledy?
+
+13
+00:00:51,100 --> 00:00:55,000
+Byl jsem v Českém ráji, je to nádherná oblast plná skal a lesů.
+
+14
+00:00:55,100 --> 00:01:00,000
+To znám. Je tam spousta turistických tras.
+
+15
+00:01:00,100 --> 00:01:04,000
+Ano, a taky krásné vyhlídky. Moc jsem si to užil.
+
+16
+00:01:04,100 --> 00:01:08,000
+Co plánuješ na příští víkend?
+
+17
+00:01:08,100 --> 00:01:12,000
+Zatím nic konkrétního, možná si odpočinu doma.
+
+18
+00:01:12,100 --> 00:01:16,000
+To je taky důležité. Někdy je potřeba nabrat síly.
+
+19
+00:01:16,100 --> 00:01:20,000
+Přesně tak. A co ty? Jak trávíš čas?
+
+20
+00:01:20,100 --> 00:01:24,000
+Já se věnuju zahradě a čtu hodně knih.
+
+21
+00:01:24,100 --> 00:01:28,000
+Jaké knihy tě baví?
+
+22
+00:01:28,100 --> 00:01:32,000
+Mám rád historické romány a taky detektivky.
+
+23
+00:01:32,100 --> 00:01:36,000
+To zní dobře. Máš nějakého oblíbeného autora?
+
+24
+00:01:36,100 --> 00:01:40,000
+Ano, třeba Jaroslav Hašek a jeho Švejk mě vždy pobaví.
+
+25
+00:01:40,100 --> 00:01:44,000
+To je klasik. A co filmy? Co rád sleduješ?
+
+26
+00:01:44,100 --> 00:01:48,000
+Rád mám české komedie a také dokumenty o přírodě.
+
+27
+00:01:48,100 --> 00:01:52,000
+Skvělé! Možná bychom mohli někdy zajít na film.
+
+28
+00:01:52,100 --> 00:01:56,000
+To by bylo fajn. Určitě si to naplánujeme.
+
+29
+00:01:56,100 --> 00:02:00,000
+Tak se měj hezky a brzy zase napiš.
+
+30
+00:02:00,100 --> 00:02:04,000
+Ty taky! Měj se a užij si den.

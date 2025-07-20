@@ -1,0 +1,95 @@
+1
+00:00:01,000 --> 00:00:06,000
+Pádraig: Dia dhuit, a Sheáin! Conas atá tú inniu?
+
+2
+00:00:06,500 --> 00:00:10,000
+Seán: Dia dhuit, a Phádraig! Tá mé go maith, go raibh maith agat. Agus tú féin?
+
+3
+00:00:10,500 --> 00:00:14,000
+Pádraig: Tá mé go hiontach, buíochas. An bhfuil tú réidh don chruinniú?
+
+4
+00:00:14,500 --> 00:00:18,000
+Seán: Tá mé réidh, ach tá beagán neirbhíse orm fós.
+
+5
+00:00:18,500 --> 00:00:22,000
+Pádraig: Ná bí buartha. Tá tú ullamh go maith, agus beidh tú go hiontach.
+
+6
+00:00:22,500 --> 00:00:26,000
+Seán: Go raibh maith agat as do thacaíocht. Tá sé tábhachtach domsa.
+
+7
+00:00:26,500 --> 00:00:30,000
+Pádraig: Inis dom, cén fáth go bhfuil tú neirbhíseach?
+
+8
+00:00:30,500 --> 00:00:34,000
+Seán: Tá sé mar gheall ar an tionscadal nua atá á chur i bhfeidhm. Tá sé an-chasta agus tá mé ag iarraidh gach rud a dhéanamh i gceart.
+
+9
+00:00:34,500 --> 00:00:38,000
+Pádraig: Tá sé soiléir go bhfuil tú díograiseach. Tá mé cinnte go n-éireoidh leat.
+
+10
+00:00:38,500 --> 00:00:42,000
+Seán: Tá súil agam sin. Tá sé tábhachtach domsa go rachaidh an tionscadal go maith.
+
+11
+00:00:42,500 --> 00:00:46,000
+Pádraig: Cad iad na príomhchúraimí atá ort?
+
+12
+00:00:46,500 --> 00:00:50,000
+Seán: Caithfidh mé bainistiú a dhéanamh ar an bhfoireann agus cumarsáid a chothú leis na cliaint.
+
+13
+00:00:50,500 --> 00:00:54,000
+Pádraig: Sin go maith. An bhfuil an fhoireann ag obair go maith?
+
+14
+00:00:54,500 --> 00:00:58,000
+Seán: Tá siad ar fheabhas, ach tá sé de dhualgas orm iad a threorú agus a spreagadh.
+
+15
+00:00:58,500 --> 00:01:02,000
+Pádraig: Tá sé sin soiléir. Cén t-am a bheidh an cruinniú?
+
+16
+00:01:02,500 --> 00:01:06,000
+Seán: Beidh sé ar siúl ag a dó i.n., sa seomra comhdhála.
+
+17
+00:01:06,500 --> 00:01:10,000
+Pádraig: Tá sé sin go maith. Beidh mé ansin le tacú leat.
+
+18
+00:01:10,500 --> 00:01:14,000
+Seán: Go raibh maith agat, a chara. Is mór agam do chabhair.
+
+19
+00:01:14,500 --> 00:01:18,000
+Pádraig: Níl aon fhadhb. Tá sé tábhachtach go dtacaíonn muid lena chéile.
+
+20
+00:01:18,500 --> 00:01:22,000
+Seán: Sea, is fíor sin. Go raibh maith agat arís.
+
+21
+00:01:22,500 --> 00:01:26,000
+Pádraig: Ádh mór ort inniu, a Sheáin!
+
+22
+00:01:26,500 --> 00:01:30,000
+Seán: Go raibh maith agat, a Phádraig! Feicfidh mé thú níos déanaí.
+
+23
+00:01:30,500 --> 00:01:34,000
+Pádraig: Slán go fóill!
+
+24
+00:01:34,500 --> 00:01:38,000
+Seán: Slán!

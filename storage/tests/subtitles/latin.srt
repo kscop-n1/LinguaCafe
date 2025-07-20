@@ -1,0 +1,83 @@
+1
+00:00:00,000 --> 00:00:04,000
+Salve, Marce! Quid agis hodie?
+
+2
+00:00:04,001 --> 00:00:08,000
+Salve, Luci! Bene valeo, gratias. Et tu?
+
+3
+00:00:08,001 --> 00:00:12,000
+Et ego bene sum. Quid novi est in urbe?
+
+4
+00:00:12,001 --> 00:00:16,000
+Nihil prorsus novi, sed audi, nova taberna aperta est prope forum.
+
+5
+00:00:16,001 --> 00:00:20,000
+O, vere? Amo bibere vinum ibi. Volumusne eam visitare hodie?
+
+6
+00:00:20,001 --> 00:00:24,000
+Optime! Tempus bonum est ad colloquium et vinum degustandum.
+
+7
+00:00:24,001 --> 00:00:28,000
+Quid de familia tua? Quomodo parentes?
+
+8
+00:00:28,001 --> 00:00:32,000
+Pater valde occupatus est cum negotiis, sed mater bene se habet.
+
+9
+00:00:32,001 --> 00:00:36,000
+Et liberi? Schola iam incipit?
+
+10
+00:00:36,001 --> 00:00:40,000
+Ita vero. Filii mei diligenter student. Magistros suos amant.
+
+11
+00:00:40,001 --> 00:00:44,000
+Mira est haec res. Educationem magni pretii esse scio.
+
+12
+00:00:44,001 --> 00:00:48,000
+Certe! Per educationem mentes nostras illuminamus.
+
+13
+00:00:48,001 --> 00:00:52,000
+Loquimurne de rebus culturalibus? Feria proxima theatrum visitamus?
+
+14
+00:00:52,001 --> 00:00:56,000
+Bene idea! Fabula nova spectanda est, et scaenae pulchrae sunt.
+
+15
+00:00:56,001 --> 00:01:00,000
+Perfectum! Expecto te iuxta flumen ad horam septimam.
+
+16
+00:01:00,001 --> 00:01:04,000
+Sum paratus! Amabo te ibi videre.
+
+17
+00:01:04,001 --> 00:01:08,000
+Et post theatrum cenabimus? Estne bonum caupona prope?
+
+18
+00:01:08,001 --> 00:01:12,000
+Ita, caupona illa vinum optimum habet, et cibum deliciosum.
+
+19
+00:01:12,001 --> 00:01:16,000
+Bene! Expecto diem cum gaudio.
+
+20
+00:01:16,001 --> 00:01:20,000
+Etiam ego. Valete, Marcе!
+
+21
+00:01:20,001 --> 00:01:24,000
+Valete, Luce! Mox conveniemus.

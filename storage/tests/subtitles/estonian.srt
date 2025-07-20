@@ -1,0 +1,87 @@
+1
+00:00:00,000 --> 00:00:04,000
+Tere! Kuidas sul läheb täna?
+
+2
+00:00:04,001 --> 00:00:07,500
+Tere! Mul läheb hästi, aitäh. Kuidas sul?
+
+3
+00:00:07,501 --> 00:00:12,000
+Ka hästi. Kas sul on plaanis midagi huvitavat teha nädalavahetusel?
+
+4
+00:00:12,001 --> 00:00:16,500
+Jah, ma plaanin minna matkama loodusesse. Vajan natuke värsket õhku.
+
+5
+00:00:16,501 --> 00:00:20,000
+See kõlab suurepäraselt! Kus sa täpselt käid?
+
+6
+00:00:20,001 --> 00:00:24,000
+Ma mõtlen sõita Soomaale. Seal on väga ilusad rabad ja metsad.
+
+7
+00:00:24,001 --> 00:00:28,000
+Olen ka seal käinud. Soovitan kindlasti ka kanuusõitu proovida.
+
+8
+00:00:28,001 --> 00:00:31,000
+Suurepärane idee! Ma ei ole seda kunagi teinud, aga olen alati tahtnud proovida.
+
+9
+00:00:31,001 --> 00:00:35,000
+Kindlasti tasub! Aga mis sina plaanid?
+
+10
+00:00:35,001 --> 00:00:38,500
+Mina jään linnas ja külastan sõpru. Võib-olla vaatame mõne filmi.
+
+11
+00:00:38,501 --> 00:00:42,000
+Hea plaan. Milliseid filme sa üldse eelistad?
+
+12
+00:00:42,001 --> 00:00:45,500
+Mulle meeldivad komöödiad ja draamad. Aitavad lõõgastuda.
+
+13
+00:00:45,501 --> 00:00:49,000
+Mina eelistaksin midagi põnevamat, näiteks detektiivikirjandust.
+
+14
+00:00:49,001 --> 00:00:52,500
+Ahjaa, me võiksime koos midagi vaadata, kui leida kompromiss.
+
+15
+00:00:52,501 --> 00:00:56,000
+See kõlab hästi. Võiksime korraldada väikese filmiõhtu.
+
+16
+00:00:56,001 --> 00:01:00,000
+Suurepärane! Kas soovid midagi kaasa võtta?
+
+17
+00:01:00,001 --> 00:01:03,000
+Võin tuua suupisteid ja jooke.
+
+18
+00:01:03,001 --> 00:01:06,000
+Ideaalne! Mina hoolitsen filmi valimise eest.
+
+19
+00:01:06,001 --> 00:01:09,500
+Kohtume siis laupäeval kell kuus?
+
+20
+00:01:09,501 --> 00:01:12,000
+Sobib suurepäraselt! Ootan juba.
+
+21
+00:01:12,001 --> 00:01:15,000
+Ka mina! Head nädalavahetust seni!
+
+22
+00:01:15,001 --> 00:01:17,000
+Head nädalavahetust!
