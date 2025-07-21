@@ -36,9 +36,9 @@ return [
             'throw' => false,
         ],
 
-        'tests' => [
+        'test' => [
             'driver' => 'local',
-            'root' => storage_path('tests'),
+            'root' => storage_path('test'),
         ],
 
         'default-files' => [
