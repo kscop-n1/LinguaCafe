@@ -33,7 +33,7 @@ RUN pip install -U --no-cache-dir \
 #chinese reading
         pinyin \
 #subtitle file parser
-        pysub-parser \
+        pysubs2 \
 #website text parser
         newspaper3k
 
