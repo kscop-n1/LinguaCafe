@@ -8,9 +8,8 @@
             dense
             rounded
             persistent-hint
-            hint="Accepted formats: .srt .ass"
+            hint="Accepted formats: SubStation Alpha (.ssa and .ass), SubRip (.srt), MPL2 (.mpl2), MicroDVD (.sub), TMP (.tmp), WebVTT (.vtt), TTML (.ttml), SAMI (.sami)"
             ref="subtitleFile"
-            accept=".srt,.ass"
             placeholder="Subtitle file"
             prepend-icon="mdi-book"
             class="mb-4"
@@ -54,12 +53,6 @@ import axios from 'axios';
                     subtitleFileRule: (value) => {
                         if (value === null || value === undefined) {
                             return 'You must select a file.';
-                        }
-                        
-                        let extension = value.name.split('.');
-                        extension = extension[extension.length - 1];
-                        if (extension !== 'srt' && extension !== 'ass') {
-                            return 'The selected file must a .srt or .ass file.';
                         }
 
                         return true;

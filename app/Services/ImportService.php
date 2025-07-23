@@ -138,6 +138,7 @@ class ImportService {
             'fileName' => $fileName,
         ]);
         
+        $subtitleContent->throwUnlessStatus(200);
         return json_decode($subtitleContent);
     }
 

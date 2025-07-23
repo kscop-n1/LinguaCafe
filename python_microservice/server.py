@@ -10,11 +10,15 @@ from newspaper import Article
 
 from services import PackageManagerService
 from services import YoutubeService
+from services import SubtitleService
 from services import TokenizerService
 from services import EbookService
 
+from pysubs2.exceptions import FormatAutodetectionError, Pysubs2Error
+
 packageManagerService = PackageManagerService.PackageManagerService()
 youtubeService = YoutubeService.YoutubeService()
+subtitleService = SubtitleService.SubtitleService()
 tokenizerService = TokenizerService.TokenizerService(packageManagerService)
 ebookService = EbookService.EbookService()
 
@@ -95,12 +99,20 @@ def getYoutubeSubtitleList():
     return json.dumps(youtubeService.getYoutubeSubtitleList(videoId))
 
 @route('/subtitles/read', method='POST')
-def getYoutubeSubtitleContent():
+def getSubtitleContent():
     response.headers['Content-Type'] = 'application/json'
-    
     fileName = request.json.get('fileName')
 
-    return json.dumps(youtubeService.getYoutubeSubtitleContent(fileName))
+    try:
+        content = subtitleService.getSubtitlesFileContent(fileName)
+    except FormatAutodetectionError:
+        return HTTPResponse(status=415, body=f"Error: the file {fileName} was not identified as a supported subtitle file.")
+    except UnicodeDecodeError:
+        return HTTPResponse(status=415, body=f"Error: this file {fileName} could not be decoded properly. Confirm the file is Unicode")
+    except (IOError, Pysubs2Error):
+        return HTTPResponse(status=415, body=f"Error: the file {fileName} could not be read.")
+
+    return json.dumps(content)
 
 @route('/web/get-website-text', method='POST')
 def getWebsiteText():
