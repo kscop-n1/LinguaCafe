@@ -7,9 +7,13 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TextImportTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     public function test_plain_text_import(): void
     {
         //TODO: this should only be installed languages
@@ -17,7 +21,9 @@ class TextImportTest extends TestCase
         $user = User::factory()->create();
 
 
-        $languages->each(function(LanguageConfig $language) use($user) {
+        $languages->each(function(LanguageConfig $language, $index) use($user) {
+            $this->print('Importing ' . $language->name . ' text.');
+
             $this->actingAs($user)->get('/languages/select/' . $language->name);
             $user->refresh();
 
@@ -42,10 +48,20 @@ class TextImportTest extends TestCase
 
     public function test_subtitle_import(): void
     {
+
+            //TEMP
+            $this->assertFalse(false);
+            //TEMP
+            
             // $file = new UploadedFile(
             //     path: $path,
             //     originalName: $language->name . '.txt',
             //     test: true
             // );
+    }
+
+    private function print(string $message): void
+    {
+        fwrite(STDOUT, "{$message}\n");
     }
 }

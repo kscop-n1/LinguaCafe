@@ -18,7 +18,16 @@ I've created a **no pull requests** tag for GitHub issues that I would like to w
 If you made a bug fix, or a changed something small that is objectively an improvement like typos or small fixes, feel free to create a PR. If you would like to work on a larger part of the software, please comment on, or create an issue before so it can be discussed.
 
 #### Tests
-Currently I don't use tests neither for Javascript, Python or PHP. I am considering adding some tests in the future, but until I figure out what kinds of tests I would like to add to LinguaCafe, please do not write any for PR-s.
+
+WIP, currently not deleting DB when skipping language installs, and only works if every language is installed. Will be finished in a few days.
+
+I've just started adding laravel feature tests. They are meant to be run with this command:
+
+./tests/run_tests.sh --with-language-installs
+
+This command will delete everything from the database and uninstall every installable package before running the tests. After the tests are finished, the test data will remain in the database and can be used for manual testing. The database will contain one user, with "password" set as password.
+
+Running the command without the `--with-language-installs` argument will skip uninstalling and installing language packages. This is because the package installation test takes over an hour for me, and I don't want to use it all the time. If the language installs are skipped, the following tests will only test the installed languages.
 
 #### Code style
 I do not use any strict formatting style for the code, please just follow the style of the recent commits and the rest of the code base. There are some old styles that I try to update when I modify parts of the code, mostly just cutting all Laravel SQL queries into separate rows. 
