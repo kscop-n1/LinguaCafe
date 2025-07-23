@@ -487,11 +487,13 @@ class DictionaryService {
             throw new \Exception('Dictionary does not exist.');
         }
 
-        if($dictionary->database_table_name !== 'API') {
-            Schema::drop($dictionary->database_table_name);
-        }
-        
-        Dictionary::where('id', $dictionaryId)->delete();
+        DB::transaction(function() use($dictionary, $dictionaryId) {
+            if($dictionary->database_table_name !== 'API') {
+                Schema::drop($dictionary->database_table_name);
+            }
+            
+            Dictionary::where('id', $dictionaryId)->delete();
+        });
 
         return true;
     }

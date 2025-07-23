@@ -21,6 +21,7 @@
                 <ul>
                     <li>Word counts were not fully visible in chapters where the number was too large.</li>
                     <li>Turkish tokenizer was replaced with stanza because spacy was not functional.</li>
+                    <li>Deleting dictionaries broke the database in rare cases.</li>
                 </ul>
 
                 <b>Other changes:</b>
