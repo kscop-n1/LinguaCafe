@@ -19,15 +19,15 @@ If you made a bug fix, or a changed something small that is objectively an impro
 
 #### Tests
 
-WIP, currently not deleting DB when skipping language installs, and only works if every language is installed. Will be finished in a few days.
-
-I've just started adding laravel feature tests. They are meant to be run with this command:
+Tests are meant to be run with this command:
 
 ./tests/run_tests.sh --with-language-installs
 
-This command will delete everything from the database and uninstall every installable package before running the tests. After the tests are finished, the test data will remain in the database and can be used for manual testing. The database will contain one user, with "password" set as password.
+Running the tests will delete everything from the database and uninstall every installable package. After the tests are finished, the test data will remain in the database and can be used for manual testing. The database will contain one user, with "password" set as password.
 
-Running the command without the `--with-language-installs` argument will skip uninstalling and installing language packages. This is because the package installation test takes over an hour for me, and I don't want to use it all the time. If the language installs are skipped, the following tests will only test the installed languages.
+Running the command without the `--with-language-installs` argument will skip uninstalling and installing language packages. If the language installs are skipped, the following tests will only test the installed languages.
+
+WIP, currently not deleting DB when skipping language installs, and only works if every language is installed. Will be finished in a few days.
 
 #### Code style
 I do not use any strict formatting style for the code, please just follow the style of the recent commits and the rest of the code base. There are some old styles that I try to update when I modify parts of the code, mostly just cutting all Laravel SQL queries into separate rows. 

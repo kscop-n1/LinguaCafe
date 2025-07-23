@@ -10,7 +10,7 @@ if [[ "$1" == "--with-language-installs" ]]; then
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
         SKIP_LANGUAGE=false
     else
-        echo "Skipping LanguageInstallTest."
+        exit
     fi
 fi
 

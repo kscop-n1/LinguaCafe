@@ -7,12 +7,9 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TextImportTest extends TestCase
 {
-
-    use RefreshDatabase;
 
     public function test_plain_text_import(): void
     {
