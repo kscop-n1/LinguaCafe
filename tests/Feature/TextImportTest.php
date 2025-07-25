@@ -5,20 +5,26 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Services\LanguageService;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
 
 class TextImportTest extends TestCase
 {
-
+    
     public function test_plain_text_import(): void
     {
-        //TODO: this should only be installed languages
-        $languages = LanguageConfig::all()->where('linguacafeSupport', true);
+        $this->artisan('migrate:fresh');
+        $this->artisan('db:seed', ['--force']);
+        
         $user = User::factory()->create();
+        $installedLanguages = (new LanguageService())->getInstalledLanguages();
+        $languages = LanguageConfig::all()
+            ->where('linguacafeSupport', true)
+            ->whereIn('name', $installedLanguages);
 
-
-        $languages->each(function(LanguageConfig $language, $index) use($user) {
+        $languages->each(function(LanguageConfig $language) use($user) {
             $this->print('Importing ' . $language->name . ' text.');
 
             $this->actingAs($user)->get('/languages/select/' . $language->name);
@@ -45,16 +51,50 @@ class TextImportTest extends TestCase
 
     public function test_subtitle_import(): void
     {
+        $user = User::first();
+        $installedLanguages = (new LanguageService())->getInstalledLanguages();
+        $languages = LanguageConfig::all()
+            ->where('linguacafeSupport', true)
+            ->whereIn('name', $installedLanguages);
 
-            //TEMP
-            $this->assertFalse(false);
-            //TEMP
+        $languages->each(function(LanguageConfig $language) use($user) {
+            $this->print('Importing ' . $language->name . ' subtitle.');
+
+            $this->actingAs($user)->get('/languages/select/' . $language->name);
+            $user->refresh();
+
+            $fileName = Str::replace(' ', '_', $language->name) . '.srt';
+            $fileContents =  Storage::disk('test')->get('subtitles/' . $fileName);
+
+            $file = new UploadedFile(
+                path: Storage::disk('test')->path('subtitles/' . $fileName),
+                originalName: $language->name . '.srt',
+                test: true,
+            );
+
+            $fileContentResponse = $this->actingAs($user)->post('/subtitle/get-subtitle-file-content', [
+                'subtitleFile' => $file,
+            ]);
+
+            $fileContentResponse->assertStatus(200);
+
+            Storage::disk('test')->put('subtitles/' . $fileName, $fileContents);          
+
+            $response = $this->actingAs($user)->post('/import', [
+                'importType' => 'subtitle-file',
+                'eBookChapterSortMethod' => 'default',
+                'textProcessingMethod' => 'simple',
+                'bookId' => -1,
+                'bookName' => 'automatic_testing_subtitle',
+                'chapterName' => 'chapter',
+                'maximumCharactersPerChapter' => 2000,
+                'importSubtitles' => $fileContentResponse->getContent(),
+            ]);
             
-            // $file = new UploadedFile(
-            //     path: $path,
-            //     originalName: $language->name . '.txt',
-            //     test: true
-            // );
+            $response->assertStatus(200);
+        });
+        
+        $this->print('Tests finished, test user: ' . $user->email);
     }
 
     private function print(string $message): void

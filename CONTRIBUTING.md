@@ -27,8 +27,6 @@ Running the tests will delete everything from the database and uninstall every i
 
 Running the command without the `--with-language-installs` argument will skip uninstalling and installing language packages. If the language installs are skipped, the following tests will only test the installed languages.
 
-WIP, currently not deleting DB when skipping language installs, and only works if every language is installed. Will be finished in a few days.
-
 #### Code style
 I do not use any strict formatting style for the code, please just follow the style of the recent commits and the rest of the code base. There are some old styles that I try to update when I modify parts of the code, mostly just cutting all Laravel SQL queries into separate rows. 
 
