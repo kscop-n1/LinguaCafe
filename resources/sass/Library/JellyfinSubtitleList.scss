@@ -52,6 +52,12 @@
             cursor: pointer;
         }
 
+        .subtitle-flag {
+            box-sizing: border-box;
+            width: 100px;
+            padding-top: 11px;
+        }
+
         .subtitle-language {
             box-sizing: border-box;
             width: 100px;
@@ -84,6 +90,12 @@
 @media (max-width: 768px) {
     #jellyfin-subtitle-list {
         .subtitle:not(.skeleton) {
+            font-size: 12px;
+
+            .subtitle-flag {
+                display: none;
+            }
+
             .subtitle-language {
                 width: 80px;
             }
@@ -109,7 +121,7 @@
 @media (max-width: 470px) {
     #jellyfin-subtitle-list {
         .subtitle:not(.skeleton) {
-            font-size: 14px;
+            font-size: 10px;
 
             .subtitle-language {
                 width: 64px;

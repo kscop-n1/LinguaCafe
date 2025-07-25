@@ -528,9 +528,12 @@ This means that Jellyfin recognized the language of the subtitle, but it is not 
 </details>
 
 <details>
-<summary><b>Error: unsupported language code: unrecognized by jellyfin: japaaaneseee</b></summary>
+In some cases Jellyfin does not recognize rare languages, like Erzya and Buryat. In these languages the subtitle **must** be named as the full name of the language.
 
-This means that Jellyfin did not recognize `japaaaneseee` as a language, and it can only be fixed by renaming the file following Jellyfin's naming conventions. 
+Example:
+```
+Movie (2023).Erzya.srt
+```
 
 If you have file naming issues and renamed a file, make sure you refresh metadata in Jellyfin before reloading LinguaCafe.
 

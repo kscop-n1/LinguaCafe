@@ -12,7 +12,7 @@
         'libre_translate_code' => null|string, // libre translate code if supported, otherwise null
         'my_memory_code' => null|string, // mymemory code if supported, otherwise null
         'website_import_support' => bool,
-        'jellyfin_code' => null|string, // jellyfin code if linguacafe_support is true, otherwise null. should be added if missing
+        'jellyfin_code' => null|string, // jellyfin code if linguacafe is supported, otherwise null. should be added if missing
         'database_dictionary_table_name' => null|string, // database table slug if linguacafe_support is true, otherwise null. must be added if missing
         'dict_cc_code' => null|string, // dict cc code if supported, otherwise null
         'unicode_emoji' => string, // unicode emoji flag of the language. sometimes this does not match with the flag image in LC. '-' if there's no emoji
@@ -93,7 +93,7 @@ return [
         'libre_translate_code' => null,
         'my_memory_code' => 'hy',
         'website_import_support' => false,
-        'jellyfin_code' => 'hye',
+        'jellyfin_code' => 'arm',
         'database_dictionary_table_name' => 'hye',
         'dict_cc_code' => null,
         'unicode_emoji' => '🇦🇲',
@@ -110,7 +110,7 @@ return [
         'libre_translate_code' => 'eu',
         'my_memory_code' => 'eu',
         'website_import_support' => false,
-        'jellyfin_code' => 'eus',
+        'jellyfin_code' => 'baq',
         'database_dictionary_table_name' => 'eus',
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
@@ -161,7 +161,7 @@ return [
         'libre_translate_code' => null,
         'my_memory_code' => null,
         'website_import_support' => false,
-        'jellyfin_code' => 'bua',
+        'jellyfin_code' => 'Buryat',
         'database_dictionary_table_name' => 'bua',
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
@@ -178,7 +178,7 @@ return [
         'libre_translate_code' => 'bg',
         'my_memory_code' => null,
         'website_import_support' => true,
-        'jellyfin_code' => null,
+        'jellyfin_code' => 'bul',
         'database_dictionary_table_name' => 'bg',
         'dict_cc_code' => 'BG',
         'unicode_emoji' => '🇧🇬',
@@ -348,7 +348,7 @@ return [
         'libre_translate_code' => null,
         'my_memory_code' => null,
         'website_import_support' => false,
-        'jellyfin_code' => 'myv',
+        'jellyfin_code' => 'Erzya',
         'database_dictionary_table_name' => 'myv',
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
@@ -553,7 +553,7 @@ return [
         'libre_translate_code' => null,
         'my_memory_code' => 'is',
         'website_import_support' => false,
-        'jellyfin_code' => 'is',
+        'jellyfin_code' => 'ice',
         'database_dictionary_table_name' => 'isl',
         'dict_cc_code' => 'IS',
         'unicode_emoji' => '🇮🇸',
@@ -985,7 +985,7 @@ return [
         'libre_translate_code' => 'sk',
         'my_memory_code' => 'sk',
         'website_import_support' => false,
-        'jellyfin_code' => 'slk',
+        'jellyfin_code' => 'slo',
         'database_dictionary_table_name' => 'slk',
         'dict_cc_code' => 'SK',
         'unicode_emoji' => '🇸🇰',

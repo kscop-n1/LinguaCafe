@@ -88,7 +88,7 @@ class JellyfinService {
                 
                 // add language for subtitles that Jellyfin did not recognise
                 if (!isset($mediaSource['MediaStreams'][$subtitleCounter]['Language'])) {
-                    $mediaSource['MediaStreams'][$subtitleCounter]['Language'] = 'unrecognised by jellyfin: ' . $mediaSource['MediaStreams'][$subtitleCounter]['Title'];
+                    $mediaSource['MediaStreams'][$subtitleCounter]['Language'] = $mediaSource['MediaStreams'][$subtitleCounter]['Title'];
                 }
                 
                 // retrieve language. if not possible, use the jellyfin language code instead,

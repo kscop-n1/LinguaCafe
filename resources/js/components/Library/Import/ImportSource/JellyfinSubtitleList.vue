@@ -38,6 +38,7 @@
             
             <!-- Subtitle list header -->
             <div class="regular-list-height subtitle header rounded-pill my-2" v-if="!$props.subtitleLoading">
+                <div class="subtitle-flag">Flag</div>
                 <div class="subtitle-language">Language</div>
                 <div class="subtitle-user">User</div>
                 <div class="subtitle-client">Client</div>
@@ -78,13 +79,17 @@
                     v-for="(subtitle, subtitleIndex) in session.subtitles"
                     :key="sessionIndex + '-' + subtitleIndex"
                 >
-                    <div class="subtitle-language">
+                    <div class="subtitle-flag">
                         <v-img 
                             class="border mx-auto" 
                             :src="'/images/flags/' + subtitle.language.toLowerCase() + '.png'" 
                             max-width="43" 
                             height="28"
                         ></v-img> 
+                    </div>
+
+                    <div class="subtitle-language">
+                        {{ subtitle.language.toLowerCase() }}
                     </div>
                     <div class="subtitle-user">{{ session.userName }}</div>
                     <div class="subtitle-client">{{ session.client }}</div>
