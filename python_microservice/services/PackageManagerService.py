@@ -79,15 +79,6 @@ class PackageManagerService:
                         "--target=/var/www/html/storage/app/packages/language_models/spacy",
                         "tzdata"])
 
-                # https://stackoverflow.com/questions/78634235
-                if language == "turkish":
-                    subprocess.check_output([
-                        "pip",
-                        "install",
-                        "--target=/var/www/html/storage/app/packages/language_models/spacy",
-                        "numpy<2.0.0",
-                        "--upgrade"])
-
                 # Refresh installed python packages in runtime
                 importlib.invalidate_caches()
             except subprocess.CalledProcessError as e:
