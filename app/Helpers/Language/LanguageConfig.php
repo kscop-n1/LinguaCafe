@@ -21,12 +21,13 @@ class LanguageConfig
         public ?string $jellyfinCode,
         public ?string $dictCcCode,
         public ?string $emoji,
+        public Collection $dictionaries,
     )
     {
         //
     }
 
-    /* Helper methods */
+    /* helper methods */
     public function requiresInstall(): bool
     {
         return $this->installRequired;
@@ -67,7 +68,31 @@ class LanguageConfig
         return $this->websiteImportSupport;
     }
 
-    /* Retrieve static functions */
+    // returns a dictionary list, includes API dictionaries
+    public function getFullDictionaryList(): Collection
+    {
+        $fullDictionaryList = $this->dictionaries;
+
+        if ($this->hasDictCcSupport()) {
+            $fullDictionaryList->push('Dict cc');
+        }
+
+        if ($this->hasDeeplSupport()) {
+            $fullDictionaryList->push('DeepL');
+        }
+
+        if ($this->hasLibreTranslateSupport()) {
+            $fullDictionaryList->push('LibreTranslate');
+        }
+
+        if ($this->hasMyMemorySupport()) {
+            $fullDictionaryList->push('MyMemory');
+        }
+
+        return $fullDictionaryList;
+    }
+
+    /* retrieve static functions */
     public static function all(): Collection
     {
         $languageObjects = collect();
@@ -109,6 +134,7 @@ class LanguageConfig
             jellyfinCode: $configData['jellyfin_code'],
             dictCcCode: $configData['dict_cc_code'],
             emoji: $configData['unicode_emoji'],
+            dictionaries: collect($configData['dictionaries']),
         );
     }
 }
