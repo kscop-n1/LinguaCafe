@@ -204,35 +204,61 @@ Uninstalling languages are only possible by uninstalling all the installed langu
 
 LinguaCafe supports the following languages:
 
-| Flag                                              | Language  | DeepL   | Lemma generation | Gender tagging      | Dictionaries          |
-|:-------------------------------------------------:|:---------:|:-------:|:----------------:|:-------------------:|-----------------------|
-| <img src='images/flags/chinese.png' width='25'>   | Chinese   | &check; |                  |                     | wiktionary, cc-cedict |
-| <img src='images/flags/croatian.png' width='25'>  | Croatian  |         | &check;          |                     | dict cc               |
-| <img src='images/flags/czech.png' width='25'>     | Czech     | &check; |                  |                     | wiktionary, dict cc   |
-| <img src='images/flags/danish.png' width='25'>    | Danish    | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/dutch.png' width='25'>     | Dutch     | &check; | &check;          |                     | dict cc               |
-| <img src='images/flags/english.png' width='25'>   | English   | &check; | &check;          |                     | dict cc               |
-| <img src='images/flags/finnish.png' width='25'>   | Finnish   | &check; | inaccurate       |                     | wiktionary, dict cc   |
-| <img src='images/flags/french.png' width='25'>    | French    | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/german.png' width='25'>    | German    | &check; | &check;          | &check;             | wiktionary, dict cc   |
-| <img src='images/flags/greek.png' width='25'>     | Greek     | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/italian.png' width='25'>   | Italian   | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/japanese.png' width='25'>  | Japanese  | &check; | &check;          |                     | jmdict, wiktionary    |
-| <img src='images/flags/korean.png' width='25'>    | Korean    | &check; | &check;          |                     | wiktionary, kengdic   |
-| <img src='images/flags/latin.png' width='25'>     | Latin     |         |                  |                     | wiktionary            |
-| <img src='images/flags/macedonian.png' width='25'>| Macedonian|         | &check;          |                     | wiktionary            |
-| <img src='images/flags/norwegian.png' width='25'> | Norwegian | &check; | &check;          | &check;             | wiktionary, dict cc   |
-| <img src='images/flags/polish.png' width='25'>    | Polish    | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/portuguese.png' width='25'>| Portuguese| &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/romanian.png' width='25'>  | Romanian  | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/russian.png' width='25'>   | Russian   | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/slovenian.png' width='25'> | Slovenian | &check; | &check;          |                     | wiktionary            |
-| <img src='images/flags/spanish.png' width='25'>   | Spanish   | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/swedish.png' width='25'>   | Swedish   | &check; | &check;          |                     | dict cc               |
-| <img src='images/flags/thai.png' width='25'>      | Thai      |         |                  |                     | wiktionary            |
-| <img src='images/flags/turkish.png' width='25'>   | Turkish   | &check; | &check;          |                     | wiktionary, dict cc   |
-| <img src='images/flags/ukrainian.png' width='25'> | Ukrainian | &check; |                  |                     | wiktionary            |
-| <img src='images/flags/welsh.png' width='25'>     | Welsh     |         |                  |                     | wiktionary, eurfa     |
+| Flag | Language  | Dictionaries |
+|:-:|:-:|-|
+|<img src='images/flags/afrikaans.png' width='25'> |Afrikaans|Wiktionary, MyMemory|
+|<img src='images/flags/armenian.png' width='25'> |Armenian|Wiktionary, MyMemory|
+|<img src='images/flags/basque.png' width='25'> |Basque|Wiktionary, LibreTranslate, MyMemory|
+|<img src='images/flags/belarusian.png' width='25'> |Belarusian|Wiktionary, MyMemory|
+|<img src='images/flags/buryat.png' width='25'> |Buryat|Wiktionary|
+|<img src='images/flags/bulgarian.png' width='25'> |Bulgarian|Wiktionary, Dict cc, DeepL, LibreTranslate|
+|<img src='images/flags/catalan.png' width='25'> |Catalan|LibreTranslate, MyMemory|
+|<img src='images/flags/chinese.png' width='25'> |Chinese|Wiktionary, cc-cedict, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/croatian.png' width='25'> |Croatian|Dict cc, MyMemory|
+|<img src='images/flags/czech.png' width='25'> |Czech|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/danish.png' width='25'> |Danish|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/dutch.png' width='25'> |Dutch|Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/english.png' width='25'> |English|Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/erzya.png' width='25'> |Erzya|Wiktionary|
+|<img src='images/flags/estonian.png' width='25'> |Estonian|Wiktionary, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/faroese.png' width='25'> |Faroese|Wiktionary, MyMemory|
+|<img src='images/flags/finnish.png' width='25'> |Finnish|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/french.png' width='25'> |French|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/galician.png' width='25'> |Galician|Wiktionary, LibreTranslate, MyMemory|
+|<img src='images/flags/german.png' width='25'> |German|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/greek.png' width='25'> |Greek|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/hindi.png' width='25'> |Hindi|Wiktionary, LibreTranslate, MyMemory|
+|<img src='images/flags/hungarian.png' width='25'> |Hungarian|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/icelandic.png' width='25'> |Icelandic|Wiktionary, Dict cc, MyMemory|
+|<img src='images/flags/indonesian.png' width='25'> |Indonesian|Wiktionary, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/irish.png' width='25'> |Irish|Wiktionary, LibreTranslate, MyMemory|
+|<img src='images/flags/italian.png' width='25'> |Italian|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/japanese.png' width='25'> |Japanese|Wiktionary, jmdict, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/kazakh.png' width='25'> |Kazakh|Wiktionary, MyMemory|
+|<img src='images/flags/korean.png' width='25'> |Korean|Wiktionary, kengdic, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/kyrgyz.png' width='25'> |Kyrgyz|Wiktionary, MyMemory|
+|<img src='images/flags/latin.png' width='25'> |Latin|Wiktionary, Dict cc, MyMemory|
+|<img src='images/flags/latvian.png' width='25'> |Latvian|Wiktionary, DeepL, MyMemory|
+|<img src='images/flags/lithuanian.png' width='25'> |Lithuanian|Wiktionary, DeepL, MyMemory|
+|<img src='images/flags/macedonian.png' width='25'> |Macedonian|Wiktionary, MyMemory|
+|<img src='images/flags/maltese.png' width='25'> |Maltese|Wiktionary, MyMemory|
+|<img src='images/flags/north sami.png' width='25'> |North sami|Wiktionary|
+|<img src='images/flags/norwegian.png' width='25'> |Norwegian|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/polish.png' width='25'> |Polish|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/portuguese.png' width='25'> |Portuguese|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/romanian.png' width='25'> |Romanian|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/russian.png' width='25'> |Russian|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/serbian.png' width='25'> |Serbian|Dict cc, MyMemory|
+|<img src='images/flags/slovak.png' width='25'> |Slovak|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/slovenian.png' width='25'> |Slovenian|Wiktionary, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/spanish.png' width='25'> |Spanish|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/swedish.png' width='25'> |Swedish|Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/tamil.png' width='25'> |Tamil|Wiktionary, MyMemory|
+|<img src='images/flags/telugu.png' width='25'> |Telugu|Wiktionary, MyMemory|
+|<img src='images/flags/thai.png' width='25'> |Thai|Wiktionary, LibreTranslate, MyMemory|
+|<img src='images/flags/turkish.png' width='25'> |Turkish|Wiktionary, Dict cc, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/ukrainian.png' width='25'> |Ukrainian|Wiktionary, DeepL, LibreTranslate, MyMemory|
+|<img src='images/flags/welsh.png' width='25'> |Welsh|Wiktionary, eurfa, MyMemory|
 
 > [!NOTE]  
 > For Chinese only Mandarin language is supported with simplified Chinese characters.
