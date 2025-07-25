@@ -205,7 +205,7 @@ Uninstalling languages are only possible by uninstalling all the installed langu
 LinguaCafe supports the following languages:
 
 | Flag | Language  | Dictionaries |
-|:-:|:-:|-|
+|:---:|:---:|---|
 |<img src='images/flags/afrikaans.png' width='25'> |Afrikaans|Wiktionary, MyMemory|
 |<img src='images/flags/armenian.png' width='25'> |Armenian|Wiktionary, MyMemory|
 |<img src='images/flags/basque.png' width='25'> |Basque|Wiktionary, LibreTranslate, MyMemory|

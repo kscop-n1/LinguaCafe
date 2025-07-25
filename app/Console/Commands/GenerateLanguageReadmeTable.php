@@ -31,7 +31,7 @@ class GenerateLanguageReadmeTable extends Command
     private function getHeader(): string
     {
         $header = "| Flag | Language  | Dictionaries |\r\n";
-        $headerDivider = "|:-:|:-:|-|\r\n";
+        $headerDivider = "|:---:|:---:|---|\r\n";
 
         return $header . $headerDivider;
     }
