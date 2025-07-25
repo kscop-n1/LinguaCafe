@@ -259,8 +259,8 @@ After the import process is finished, your dictionary should be available whenev
 | CC-CEDICT | Chinese |  [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
 | Kengdic | Korean | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
 | Eurfa | Welsh | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
-|  Wiktionary | Chinese, Czech, Finnish, French, German, Italian, Japanese, Korean, Norwegian, Russian, Spanish, Ukrainian, Welsh | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
-| Dict.cc | Czech, Dutch, Finnish, French, German, Italian, Norwegian, Russian, Spanish, Swedish | [dict.cc](https://www1.dict.cc/translation_file_request.php?l=e) |  | This dictionary's license only allows personal use. |
+|  Wiktionary | multiple | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
+| Dict.cc | multiple | [dict.cc](https://www1.dict.cc/translation_file_request.php?l=e) |  | This dictionary's license only allows personal use. |
 
 >[!NOTE]
 >
