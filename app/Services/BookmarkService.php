@@ -15,6 +15,7 @@ class BookmarkService {
     {
         $bookmarks = Bookmark::query()
             ->where('user_id', '=', $user->id)
+            ->where('language', '=', $user->selected_language)
             ->where('type', '=', BookmarkTypeEnum::NEXT_CHAPTER->value)
             ->with([
                 'chapter:id,name',
@@ -54,6 +55,7 @@ class BookmarkService {
         if (!$bookmark) {
             $bookmark = new Bookmark();
             $bookmark->user_id = $user->id;
+            $bookmark->language = $currentChapter->language;
             $bookmark->book_id = $currentChapter->book_id;
             $bookmark->type = BookmarkTypeEnum::NEXT_CHAPTER->value;
         }

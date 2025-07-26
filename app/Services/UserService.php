@@ -7,8 +7,9 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\Phrase;
 use App\Models\Chapter;
-use Illuminate\Support\Str;
+use App\Models\Bookmark;
 
+use Illuminate\Support\Str;
 use App\Services\GoalService;
 use App\Models\EncounteredWord;
 use App\Models\ExampleSentence;
@@ -124,6 +125,11 @@ class UserService {
                 ->where('language', $language)
                 ->delete();
             
+            Bookmark::query()
+                ->where('user_id', '=', $userId)
+                ->where('language', '=', $language)
+                ->delete();
+
             Chapter::query()
                 ->where('user_id', $userId)
                 ->where('language', $language)

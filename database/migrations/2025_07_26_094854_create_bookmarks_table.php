@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
-            
+            $table->unsignedBigInteger('user_id');
+            $table->string('language');
+            $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('chapter_id');
+
             // later on users will be able to add custom bookmarks inside the text.
             $table->string('name', length: 128)->nullable();
             $table->string('color', length: 6)->nullable();
             $table->unsignedBigInteger('word_index')->nullable();
             $table->enum('type', ['next_chapter', 'custom'])->default('custom');
 
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('book_id');
-            $table->unsignedBigInteger('chapter_id');
+            
             $table->timestamps();
         });
     }
