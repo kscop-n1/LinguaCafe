@@ -79,12 +79,14 @@ import Goal from './components/Home/Goal.vue';
 import EditGoalDialog from './components/Home/EditGoalDialog.vue';
 import Statistics from './components/Home/Statistics.vue';
 import ContinueReading from './components/Home/ContinueReading.vue';
+import DeleteBookmarkDialog from './components/Home/DeleteBookmarkDialog.vue';
 Vue.component('calendar', Calendar);
 Vue.component('goals', Goals);
 Vue.component('goal', Goal);
 Vue.component('edit-goal-dialog', EditGoalDialog);
 Vue.component('statistics', Statistics);
 Vue.component('continue-reading', ContinueReading);
+Vue.component('delete-bookmark-dialog', DeleteBookmarkDialog);
 
 // text
 import TextBlockGroup from './components/Text/TextBlockGroup.vue';

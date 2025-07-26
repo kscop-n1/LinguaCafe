@@ -20,6 +20,7 @@ class BookmarkService {
                 'chapter:id,name',
                 'book:id,name,cover_image'
             ])
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         return $bookmarks;
@@ -58,6 +59,16 @@ class BookmarkService {
         }
 
         $bookmark->chapter_id = $nextChapter->id;
+        $bookmark->touch();
         $bookmark->save();
+    }
+
+    public function deleteBookmark(User $user, Bookmark $bookmark): void
+    {
+        if ($bookmark->user_id !== $user->id) {
+            throw new Exception('Bookmark not found or unauthorized.');
+        }
+
+        $bookmark->delete();
     }
 }

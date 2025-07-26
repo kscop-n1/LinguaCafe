@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use App\Services\BookmarkService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,5 +22,13 @@ class BookmarkController extends Controller
         $bookmarks = $this->bookmarkService->getNextChapterBookmarks($user);
 
         return new BookmarkResourceCollection($bookmarks);
+    }
+
+    public function deleteBookmark(Bookmark $bookmark) {
+        $user = Auth::user();
+
+        $this->bookmarkService->deleteBookmark($user, $bookmark);
+
+        return response()->noContent();
     }
 }
