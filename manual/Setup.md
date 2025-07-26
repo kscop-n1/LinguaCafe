@@ -476,35 +476,67 @@ Series Name - S01E01.de.ass
 Movie name.es.ass  
 ```  
 
+In some uncommon languages Jellyfin does not recognize the language at all. 
+In this case the language's name was used instead of a language code.
+
 Language codes for subtitle filenames that Jellyfin recognizes:
 
 | Language | Language Code |
 | :--- | ---- |
-| Chinese | `zh` |
-| Croatian | `hr` |
-| Czech | `cs` |
-| Danish | `da` |
-| Dutch | `nl` |
-| Finnish | `fi` |
-| French | `fr` |
-| German | `de` |
-| Italian | `it` |
-| Japanese | `ja` |
-| Korean | `ko` |
-| Lithuanian | `lt` |
-| Macedonian | `mk` |
-| Norwegian | `no` |
-| Polish | `pl` |
-| Portuguese | `pt` |
-| Romanian | `ro` |
-| Russian | `ru` |
-| Slovenian | `sl` |
-| Spanish | `es` |
-| Swedish | `sv` |
-| Thai | `th` |
-| Turkish | `tr` |
-| Ukrainian | `uk` |
-| Welsh | `cy` |
+|Afrikaans|af|
+|Armenian|hy|
+|Basque|eu|
+|Belarusian|be|
+|Buryat|Buryat|
+|Bulgarian|bg|
+|Catalan|ca|
+|Chinese|zh|
+|Croatian|hr|
+|Czech|cs|
+|Danish|da|
+|Dutch|nl|
+|English|en|
+|Erzya|Erzya|
+|Estonian|et|
+|Faroese|fo|
+|Finnish|fi|
+|French|fr|
+|Galician|gl|
+|German|de|
+|Greek|el|
+|Hindi|hi|
+|Hungarian|hu|
+|Icelandic|is|
+|Indonesian|id|
+|Irish|ga|
+|Italian|it|
+|Japanese|ja|
+|Kazakh|kk|
+|Korean|ko|
+|Kyrgyz|ky|
+|Latin|la|
+|Latvian|lv|
+|Lithuanian|lt|
+|Macedonian|mk|
+|Maltese|mt|
+|North sami|se|
+|Norwegian|no|
+|Polish|pl|
+|Portuguese|pt|
+|Romanian|ro|
+|Russian|ru|
+|Serbian|sr|
+|Slovak|sk|
+|Slovenian|sl|
+|Spanish|es|
+|Swedish|sv|
+|Tamil|ta|
+|Telugu|te|
+|Thai|th|
+|Turkish|tr|
+|Ukrainian|uk|
+|Welsh|cy|
+
 
 See [Jellyfin external file naming](https://jellyfin.org/docs/general/server/media/external-files/).
 
