@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Services;
+
+use Exception;
+use App\Models\User;
+use App\Models\Chapter;
+use App\Models\Bookmark;
+use App\Enums\BookmarkTypeEnum;
+use Illuminate\Support\Collection;
+
+class BookmarkService {
+
+    public function getNextChapterBookmarks(User $user): Collection
+    {
+        $bookmarks = Bookmark::query()
+            ->where('user_id', '=', $user->id)
+            ->where('type', '=', BookmarkTypeEnum::NEXT_CHAPTER->value)
+            ->with([
+                'chapter:id,name',
+                'book:id,name,cover_image'
+            ])
+            ->get();
+
+        return $bookmarks;
+    }
+
+    public function setNextChapterBookmark(User $user, Chapter $currentChapter): void
+    {
+        if ($currentChapter->user_id !== $user->id) {
+            throw new Exception('Chapter not found or unauthorized.');
+        }
+
+        $nextChapter = Chapter::query()
+            ->where('book_id', '=', $currentChapter->book_id)
+            ->where('id', '>', $currentChapter->id)
+            ->orderBy('id', 'asc')
+            ->first();
+
+        $bookmark = $currentChapter->book
+            ->bookmarks()
+            ->where('type', BookmarkTypeEnum::NEXT_CHAPTER->value)
+            ->first();
+
+        if (!$nextChapter) {
+            if ($bookmark) {
+                $bookmark->delete();
+            }
+
+            return;
+        }
+
+        if (!$bookmark) {
+            $bookmark = new Bookmark();
+            $bookmark->user_id = $user->id;
+            $bookmark->book_id = $currentChapter->book_id;
+            $bookmark->type = BookmarkTypeEnum::NEXT_CHAPTER->value;
+        }
+
+        $bookmark->chapter_id = $nextChapter->id;
+        $bookmark->save();
+    }
+}

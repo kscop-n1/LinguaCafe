@@ -38,6 +38,9 @@
                 ref="calendar"
                 @achievement-quantity-change="updateGoals"
             ></calendar>
+            
+            <continue-reading />
+
             <goals
                 ref="goals"
                 @goal-quantity-change="updateCalendar"

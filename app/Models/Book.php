@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Chapter;
-use App\Enums\ChapterProcessingStatusEnum;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use stdClass;
+use App\Models\Chapter;
+use App\Models\Bookmark;
+use Illuminate\Database\Eloquent\Model;
+use App\Enums\ChapterProcessingStatusEnum;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
@@ -19,7 +21,7 @@ class Book extends Model
         'language',
     ];
 
-    function getWordCounts(User $user, array $words): stdClass
+    public function getWordCounts(User $user, array $words): stdClass
     {
         $chapters = Chapter
             ::where('user_id', $user->id)
@@ -62,5 +64,15 @@ class Book extends Model
         }
 
         return $wordCounts;
+    }
+
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(Chapter::class);
+    }
+
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(Bookmark::class);
     }
 }

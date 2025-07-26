@@ -472,6 +472,53 @@
     }
 }
 
+#bookmarks {
+    display: flex;
+    justify-content: start;
+
+    .bookmark {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 200px;
+        height: 280px;
+        font-size: 14px;
+        overflow: hidden;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:active, &:hover, &:focus {
+            text-decoration: none !important;
+        }
+
+        &:hover {
+            background-color: var(--v-gray-base) !important;
+            transition-duration: .2s;
+        }
+
+        .cover-image {
+            width: 120px;
+            height: 170px;
+            
+        }
+
+        .book-title {
+            height: 50px;
+            width: 100%;
+            overflow-wrap: break-word;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .chapter-title {
+            min-height: 30px;
+            width: 100%;
+            overflow-wrap: break-word;
+            text-align: center;
+        }
+    }
+}
+
 #app main.eink #calendar {
     #calendar-months .calendar-month .calendar-month-days .calendar-day {
         &.half-achievement .calendar-day-background {

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\BookmarkTypeEnum;
 use stdClass;
 use Exception;
 
@@ -22,10 +23,12 @@ use App\Helpers\Language\LanguageConfig;
 use App\Enums\ChapterProcessingStatusEnum;
 
 class ChapterService {
-    private $bookService;
+    private BookService $bookService;
+    private BookmarkService $bookmarkService;
 
     public function __construct() {
         $this->bookService = new BookService();
+        $this->bookmarkService = new BookmarkService();
     }
 
     public function getChaptersForBook(User $user, Book $book): Collection
@@ -219,6 +222,8 @@ class ChapterService {
         // updage today's reading achievement
         (new GoalService())->updateGoalAchievement($user->id, $user->selected_language, 'read_words', $chapter->word_count);
 
+        $this->bookmarkService->setNextChapterBookmark($user, $chapter);
+
         // level up phrases
         if (!$autoLevelUpWords) {
             return;
@@ -249,7 +254,6 @@ class ChapterService {
     }
 
     public function createChapter(User $user, Book $book, string $name, string $text) {
-
         if ($book->user_id !== $user->id) {
             throw new Exception('Book not found or unauthorized.');
         }

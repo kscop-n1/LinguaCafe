@@ -78,11 +78,13 @@ import Goals from './components/Home/Goals.vue';
 import Goal from './components/Home/Goal.vue';
 import EditGoalDialog from './components/Home/EditGoalDialog.vue';
 import Statistics from './components/Home/Statistics.vue';
+import ContinueReading from './components/Home/ContinueReading.vue';
 Vue.component('calendar', Calendar);
 Vue.component('goals', Goals);
 Vue.component('goal', Goal);
 Vue.component('edit-goal-dialog', EditGoalDialog);
 Vue.component('statistics', Statistics);
+Vue.component('continue-reading', ContinueReading);
 
 // text
 import TextBlockGroup from './components/Text/TextBlockGroup.vue';
