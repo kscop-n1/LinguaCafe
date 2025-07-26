@@ -359,6 +359,7 @@ class ChapterService {
             throw new Exception('Chapter not found or unauthorized.');
         }
 
+        $chapter->bookmarks()->delete();
         $chapter->delete();
 
         $this->bookService->updateBookWordCount($user->id, $chapter->book_id);

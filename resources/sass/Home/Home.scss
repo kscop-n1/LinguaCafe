@@ -558,6 +558,13 @@
     }
 }
 
+@media (max-width: 473px) {
+    #bookmarks {
+        justify-content: center;
+    }
+}
+
+
 @media (max-width: 355px) {
     #app main.eink #calendar {
         #calendar-months .calendar-month .calendar-month-days .calendar-day {

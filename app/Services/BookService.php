@@ -134,6 +134,7 @@ class BookService {
             Storage::delete('/images/book_images/' . $book->cover_image);
         }
 
+        $book->bookmarks()->delete();
         $book->delete();
     }
 }

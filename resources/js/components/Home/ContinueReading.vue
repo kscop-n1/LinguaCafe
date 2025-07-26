@@ -62,7 +62,8 @@
                 bookmarks: [],
                 filteredBookmarks: [],
                 currentPage: 1,
-                pageSize: 4,
+                defaultPageSize: 4,
+                currentPageSize: 4,
                 deleteBookmarkDialogPopup: {
                     show: false,
                     bookmarkId: null,
@@ -71,11 +72,12 @@
         },
         computed: {
             lastPage() {
-                return Math.ceil(this.bookmarks.length / this.pageSize)
+                return Math.ceil(this.bookmarks.length / this.currentPageSize)
             }
         },
         mounted() {
             this.loadBookmarks()
+
             window.addEventListener('resize', this.resizeHandle);
         },
         beforeDestroy() {
@@ -87,7 +89,6 @@
                 this.deleteBookmarkDialogPopup.bookmarkId = bookmarkId
             },
             deleteBookmarkDialog() {
-                console.log('delete', this.deleteBookmarkDialogPopup.bookmarkId)
                 axios.delete(`/bookmarks/${this.deleteBookmarkDialogPopup.bookmarkId}`).then((response) => {
                     this.deleteBookmarkDialogPopup.show = false
                     this.loadBookmarks()
@@ -98,12 +99,20 @@
             loadBookmarks() {
                 this.currentPage = 1
                 axios.get('/bookmarks/next-chapter').then((response) => {
-                    this.bookmarks = response.data.data
+                    this.bookmarks = response.data.data.filter((bookmark) => {
+                        if (!bookmark.chapter) {
+                            return false;
+                        }
+
+                        return true;
+                    });
+
                     this.filterBookmarks()
+                    this.$nextTick(this.resizeHandle)
                 })
             },
             nextPage() {
-                if (this.currentPage * this.pageSize >= this.bookmarks.length) {
+                if (this.currentPage * this.currentPageSize >= this.bookmarks.length) {
                     return
                 }
                 
@@ -123,9 +132,8 @@
                     return
                 }
 
-                let pageStart = (this.currentPage - 1) * this.pageSize;
-                let pageEnd = this.currentPage * this.pageSize - 1;
-                console.log('page', pageStart, pageEnd)
+                let pageStart = (this.currentPage - 1) * this.currentPageSize;
+                let pageEnd = this.currentPage * this.currentPageSize - 1;
                 this.filteredBookmarks = this.bookmarks.filter((bookmark, index) => {
                     if (index < pageStart || index > pageEnd) {
                         return false;
@@ -135,6 +143,25 @@
                 });
             },
             resizeHandle() {
+                let previousPageSize = this.currentPageSize
+
+                this.currentPageSize = this.defaultPageSize
+                if (this.$refs.bookmarks.clientWidth < 930) {
+                    this.currentPageSize = 3
+                }
+
+                if (this.$refs.bookmarks.clientWidth < 600) {
+                    this.currentPageSize = 2
+                }
+
+                if (this.$refs.bookmarks.clientWidth < 450) {
+                    this.currentPageSize = 1
+                }
+
+                if (previousPageSize !== this.currentPageSize) {
+                    this.currentPage = 1
+                }
+
                 this.filterBookmarks()
             },
         }
