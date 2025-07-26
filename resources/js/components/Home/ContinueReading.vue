@@ -128,10 +128,6 @@
                 this.filterBookmarks()
             },
             filterBookmarks() {
-                if (!this.bookmarks.length) {
-                    return
-                }
-
                 let pageStart = (this.currentPage - 1) * this.currentPageSize;
                 let pageEnd = this.currentPage * this.currentPageSize - 1;
                 this.filteredBookmarks = this.bookmarks.filter((bookmark, index) => {
@@ -143,6 +139,10 @@
                 });
             },
             resizeHandle() {
+                if (!this.$refs.bookmarks) {
+                    return
+                }
+
                 let previousPageSize = this.currentPageSize
 
                 this.currentPageSize = this.defaultPageSize
