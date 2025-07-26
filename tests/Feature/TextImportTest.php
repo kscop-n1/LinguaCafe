@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use App\Services\LanguageService;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
 
@@ -20,9 +21,7 @@ class TextImportTest extends TestCase
         
         $user = User::factory()->create();
         $installedLanguages = (new LanguageService())->getInstalledLanguages();
-        $languages = LanguageConfig::all()
-            ->where('linguacafeSupport', true)
-            ->whereIn('name', $installedLanguages);
+        $languages = $this->getInstalledLanguages();
 
         $languages->each(function(LanguageConfig $language) use($user) {
             $this->print('Importing ' . $language->name . ' text.');
@@ -52,10 +51,7 @@ class TextImportTest extends TestCase
     public function test_subtitle_import(): void
     {
         $user = User::first();
-        $installedLanguages = (new LanguageService())->getInstalledLanguages();
-        $languages = LanguageConfig::all()
-            ->where('linguacafeSupport', true)
-            ->whereIn('name', $installedLanguages);
+        $languages = $this->getInstalledLanguages();
 
         $languages->each(function(LanguageConfig $language) use($user) {
             $this->print('Importing ' . $language->name . ' subtitle.');
@@ -100,5 +96,18 @@ class TextImportTest extends TestCase
     private function print(string $message): void
     {
         fwrite(STDOUT, "{$message}\n");
+    }
+
+    private function getInstalledLanguages(): Collection
+    {
+        $installedLanguages = (new LanguageService())->getInstalledLanguages();
+        $installedLanguages = collect($installedLanguages);
+        return LanguageConfig::all()->filter(function(LanguageConfig $language) use($installedLanguages) {
+            if (!$language->hasLinguaCafeSupport()) {
+                return false;
+            }
+            
+            return $installedLanguages->contains($language->name) || !$language->requiresInstall();
+        });
     }
 }
