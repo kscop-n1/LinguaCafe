@@ -16,81 +16,43 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use App\Helpers\Language\LanguageConfig;
+use Illuminate\Support\Collection;
 
 class DictionaryService {
 
     public function __construct() {
     }
 
-    public function getDictionaries() {
+    public function getDictionaries(): Collection
+    {
         $dictionaries = Dictionary::get();
 
         foreach ($dictionaries as $dictionary) {
-            if ($dictionary->database_table_name == 'API') {
-                $dictionary->records = '-';
-            } else {
-                $dictionary->records = DB
-                    ::table($dictionary->database_table_name)
-                    ->selectRaw('count(*) as record_count')
-                    ->get();
-
-                $dictionary->records = $dictionary->records[0]->record_count;
-            }
+            $dictionary->loadRecordCount();
         }
 
         return $dictionaries;
     }
 
-    public function getDictionary($dictionaryId) {
-        $dictionary = Dictionary
-            ::where('id', $dictionaryId)
-            ->first();
-
-        if ($dictionary->database_table_name == 'API') {
-            $dictionary->records = '-';
-        } else {
-            $dictionary->records = DB
-                ::table($dictionary->database_table_name)
-                ->selectRaw('count(*) as record_count')
-                ->get();
-
-            $dictionary->records = $dictionary->records[0]->record_count;
-        }
-
-        return $dictionary;
-    }
-
-    public function updateDictionary($dictionaryId, $dictionaryData) {
-        $dictionary = Dictionary
-            ::where('id', $dictionaryId)
-            ->first();
-
-        if (!$dictionary) {
-            throw new \Exception('Dictionary not found.');
-        }
-
-        // update dictionary data
-        foreach ($dictionaryData as $field => $value) {
-            $dictionary->$field = $value;
-        }
-
+    public function updateDictionary(Dictionary $dictionary, Collection $dictionaryData): void
+    {
+        $dictionary->update($dictionaryData->toArray());
         $dictionary->save();
-
-        return true;
     }
 
-    public function isAnyApiDictionaryEnabled($language): bool
+    public function isAnyApiDictionaryEnabled(LanguageConfig $language): bool
     {
         $apiDictionary = Dictionary::query()
             ->where('enabled', true)
             ->where('database_table_name','API')
-            ->where('source_language', $language)
+            ->where('source_language', $language->name)
             ->first();
 
         return boolval($apiDictionary);
     }
 
-    public function getDeeplCharacterLimit() {
+    public function getDeeplCharacterLimit(): array
+    {
         // retrieve api key from database
         $deeplApiKeySetting = Setting::where('name', 'deeplApiKey')->first();
         $deeplApiKey = json_decode($deeplApiKeySetting->value);
@@ -107,11 +69,12 @@ class DictionaryService {
         ];
     }
 
-    public function searchDefinitions($language, $term) {
+    public function searchDefinitions(LanguageConfig $language, string $term): array
+    {
         $searchResultDictionaries = [];
         $dictionaries = Dictionary
             ::where('enabled', true)
-            ->where('source_language', $language)
+            ->where('source_language', $language->name)
             ->get();
 
         // go through each dictionary and search in them
@@ -134,39 +97,33 @@ class DictionaryService {
         return $searchResultDictionaries;
     }
 
-    // This function returns a list of exact matches from dictionaries for the hover popup vocabulary.
-    public function searchDefinitionsForHoverVocabulary($language, $term) {
+    public function searchDefinitionsForHoverVocabulary(LanguageConfig $language, string $term): array
+    {
         $limit = 9;
         $searchResults = [];
         
         $dictionaries = Dictionary
             ::where('enabled', true)
-            ->where('source_language', $language)
+            ->where('source_language', $language->name)
             ->get();
 
-        // go through each dictionary and search in them
         foreach ($dictionaries as $dictionary) {
             $results = [];
 
-            // make search based on dictionary type
             if ($dictionary->name == 'JMDict') {
                 $searchRecords = $this->searchJmDict($term, true);
             } else if ($dictionary->database_table_name == 'API') {
-                // skip dictionary if it's an api
                 continue;
             } else {
                 $searchRecords = $this->searchImportedDictionary($dictionary->database_table_name, $term, true);
             }
 
-            // add definitions to the final search results
             foreach ($searchRecords as $searchRecord) {
                 foreach ($searchRecord->definitions as $definition) {
-                    // break loop if the search result limit is reached
                     if (count($searchResults) > $limit) {
                         break;
                     }
                     
-                    // add definitions based on dictionary type
                     if ($dictionary->name == 'JMDict') {
                         foreach (explode(',', $definition) as $splitDefinition) {
                             $searchResults[] = $splitDefinition;
@@ -178,25 +135,22 @@ class DictionaryService {
             }
         }
 
-        /*
-            Return the found definitions and the search term. Search
-            term must be returned so the client knows which request it.
-        */
-        $result = new \stdClass();
-        $result->term = $term;
-        $result->definitions = array_values(array_unique($searchResults));
+        $result = [
+            'term' => $term,
+            'definitions' => array_values(array_unique($searchResults)),
+        ];
 
         return $result;
     }
     
-    public function searchApiDictionaries(string $sourceLanguage, string $term, string $context): array
+    public function searchApiDictionaries(LanguageConfig $sourceLanguage, string $term, string $context): array
     {
         $definitions = [];
         $termHash = md5(mb_strtolower($term, 'UTF-8'));
         $apiDictionaries = Dictionary::query()
             ->whereIn('type', ['my_memory', 'deepl', 'libre_translate', 'custom_api'])
             ->where('enabled', true)
-            ->where('source_language', $sourceLanguage)
+            ->where('source_language', $sourceLanguage->name)
             ->get();
 
         $responseAdditionalInfo = [];
@@ -300,7 +254,7 @@ class DictionaryService {
                 $definition = json_decode($response->body())->translations[0]->text;
 
                 $deeplCache = new DeeplCache();
-                $deeplCache->source_language = $sourceLanguage;
+                $deeplCache->source_language = $sourceLanguage->name;
                 $deeplCache->target_language = $responseAdditionalInfo[$responseIndex]['targetLanguage'];
                 $deeplCache->hash = $termHash;
                 $deeplCache->definition = $definition;
@@ -419,7 +373,8 @@ class DictionaryService {
         ]);
     }
     
-    public function searchInflections($term) {
+    public function searchInflections(string $term): ?array
+    {
         $ids = [];
         
         // exact word matches
@@ -462,9 +417,9 @@ class DictionaryService {
             ->first();
         
         if ($search) {
-            return $search->conjugations;
+            return json_decode($search->conjugations);
         } else {
-            return [];
+            return null;
         }
     }
 

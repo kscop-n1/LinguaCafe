@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use App\Models\VocabularyJmdictReading;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\Language\LanguageConfig;
 use Illuminate\Database\Schema\Blueprint;
 
 class DictionaryImportService {
@@ -1072,61 +1073,75 @@ class DictionaryImportService {
         echo('finished');
     }
 
-    public function createDeeplDictionary($sourceLanguage, $targetLanguage, $color, $name) {
+    // TODO: should be one createApiDictionary function instead of 4 separate
+    public function createDeeplDictionary(
+        LanguageConfig $sourceLanguage, 
+        LanguageConfig $targetLanguage, 
+        string $color, 
+        string $name
+    ): void {
         $dictionary = new Dictionary();
         $dictionary->name = $name;
         $dictionary->type = 'deepl';
         $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage;
-        $dictionary->target_language = $targetLanguage;
+        $dictionary->source_language = $sourceLanguage->name;
+        $dictionary->target_language = $targetLanguage->name;
         $dictionary->color = $color;
         $dictionary->enabled = true;
         $dictionary->save();
-
-        return true;
     }
 
-    public function createMyMemoryDictionary($sourceLanguage, $targetLanguage, $color, $name) {
+    public function createMyMemoryDictionary(
+        LanguageConfig $sourceLanguage, 
+        LanguageConfig $targetLanguage, 
+        string $color, 
+        string $name
+        ): void {
         $dictionary = new Dictionary();
         $dictionary->name = $name;
         $dictionary->type = 'my_memory';
         $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage;
-        $dictionary->target_language = $targetLanguage;
+        $dictionary->source_language = $sourceLanguage->name;
+        $dictionary->target_language = $targetLanguage->name;
         $dictionary->color = $color;
         $dictionary->enabled = true;
         $dictionary->save();
-
-        return true;
     }
 
-    public function createLibreTranslateDictionary($sourceLanguage, $targetLanguage, $color, $name) {
+    public function createLibreTranslateDictionary(
+        LanguageConfig $sourceLanguage, 
+        LanguageConfig $targetLanguage, 
+        string $color, 
+        string $name
+        ): void {
         $dictionary = new Dictionary();
         $dictionary->name = $name;
         $dictionary->type = 'libre_translate';
         $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage;
-        $dictionary->target_language = $targetLanguage;
+        $dictionary->source_language = $sourceLanguage->name;
+        $dictionary->target_language = $targetLanguage->name;
         $dictionary->color = $color;
         $dictionary->enabled = true;
         $dictionary->save();
-
-        return true;
     }
 
-    public function createCustomApiDictionary($sourceLanguage, $targetLanguage, $color, $name, $host) {
+    public function createCustomApiDictionary(
+        LanguageConfig $sourceLanguage, 
+        LanguageConfig $targetLanguage, 
+        string $color, 
+        string $name, 
+        string $host
+    ): void {
         $dictionary = new Dictionary();
         $dictionary->name = $name;
         $dictionary->type = 'custom_api';
         $dictionary->api_host = $host;
         $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage;
-        $dictionary->target_language = $targetLanguage;
+        $dictionary->source_language = $sourceLanguage->name;
+        $dictionary->target_language = $targetLanguage->name;
         $dictionary->color = $color;
         $dictionary->enabled = true;
         $dictionary->save();
-
-        return true;
     }
 
     private function createDatabase(string $dictionaryName, string $databaseTableName, string $sourceLanguage, string $targetLanguage, string $color): void

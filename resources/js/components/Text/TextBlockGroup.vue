@@ -334,7 +334,7 @@
             });
 
             axios.get('/dictionaries/api/is-enabled').then((response) => {
-                this.anyApiDictionaryEnabled = response.data;
+                this.anyApiDictionaryEnabled = response.data.data;
             });
 
             this.resizeHandle();
@@ -688,11 +688,11 @@
                     term: term
                 }).then((response) => {
                     let inflections = [];
-                    if (response.data === '[]' || response.data == '') {
+                    if (response.data === null) {
                         return;
                     }
 
-                    var data = JSON.parse(response.data);
+                    var data = response.data.data;
                     var displayedInflections = ['Non-past', 'Non-past, polite', 'Past', 'Past, polite', 'Te-form', 'Potential', 'Passive', 'Causative', 'Causative Passive', 'Imperative'];
 
                     for (var i = 0; i < data.length; i++) {
@@ -1344,7 +1344,7 @@
                 }).then((response) => {
                     // return if a different word has been selected
                     // after the request was sent
-                    if (this.$store.state.hoverVocabularyBox.dictionarySearchTerm !== response.data.term) {
+                    if (this.$store.state.hoverVocabularyBox.dictionarySearchTerm !== response.data.data.term) {
                         return;
                     }
 
@@ -1353,7 +1353,7 @@
                         return;
                     }
 
-                    this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'dictionaryTranslation', value: response.data.definitions.join(';') });
+                    this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'dictionaryTranslation', value: response.data.data.definitions.join(';') });
                     this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'key', value: this.$store.state.hoverVocabularyBox.key + 1 });
                     this.$nextTick(() => {
                         this.updateHoverVocabularyBoxPosition();
@@ -1368,11 +1368,11 @@
                         context: exampleSentenceText,
                     }).then((response) => {
                         let apiDefinitions = [];
-                        response.data.forEach((item) => {
+                        response.data.data.forEach((item) => {
                             apiDefinitions = apiDefinitions.concat(item.definitions);
                         });
 
-                        console.log('apiDefinitions', response.data, apiDefinitions);
+                        console.log('apiDefinitions', response.data.data, apiDefinitions);
                         this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'apiTranslations', value: apiDefinitions });
                         this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'key', value: this.$store.state.hoverVocabularyBox.key + 1 });
                         this.$nextTick(() => {

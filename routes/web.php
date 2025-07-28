@@ -75,8 +75,8 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         Route::get('/dictionaries/get-record-count/{dictionaryTableName}', [App\Http\Controllers\DictionaryController::class, 'getDictionaryRecordCount']);
         Route::get('/dictionaries/deepl/get-usage', [App\Http\Controllers\DictionaryController::class, 'getDeeplCharacterLimit']);
         Route::get('/dictionaries/get', [App\Http\Controllers\DictionaryController::class, 'getDictionaries']);
-        Route::get('/dictionaries/get/{dictionaryId}', [App\Http\Controllers\DictionaryController::class, 'getDictionary']);
-        Route::post('/dictionaries/update', [App\Http\Controllers\DictionaryController::class, 'updateDictionary']);
+        Route::get('/dictionaries/get/{dictionary}', [App\Http\Controllers\DictionaryController::class, 'getDictionary']);
+        Route::post('/dictionaries/update/{dictionary}', [App\Http\Controllers\DictionaryController::class, 'updateDictionary']);
         Route::post('/dictionaries/test-csv-file', [App\Http\Controllers\DictionaryController::class, 'testDictionaryCsvFile']);
         Route::post('/dictionaries/import-csv-file', [App\Http\Controllers\DictionaryController::class, 'importDictionaryCsvFile']);
         Route::post('/dictionaries/create-deepl', [App\Http\Controllers\DictionaryController::class, 'createDeeplDictionary']);

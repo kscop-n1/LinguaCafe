@@ -207,7 +207,7 @@
                 axios.get('/config/languages'),
             ]).then(axios.spread((response1, response2) => {
                 this.loading = false;
-                this.dictionary = response1.data;
+                this.dictionary = response1.data.data;
 
                 // add supported source languages
                 response2.data.forEach((language) => {
@@ -221,14 +221,9 @@
         methods: {
             save() {
                 this.saveResult = 'saving';
-                axios.post('/dictionaries/update', this.dictionary).then((response) => {
-                    if (response.status === 200) {
-                        this.saveResult = 'success';
-                        this.$emit('dictionary-saved');
-                        setTimeout(this.close, 1000);
-                    } else {
-                        this.saveResult = 'error';
-                    }
+                axios.post(`/dictionaries/update/${this.dictionary.id}`, this.dictionary).then((response) => {
+                    this.saveResult = 'success';
+                    this.$emit('dictionary-saved');
                 }).catch((error) => {
                     this.saveResult = 'error';
                 });

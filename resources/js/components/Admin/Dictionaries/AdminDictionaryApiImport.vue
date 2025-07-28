@@ -345,12 +345,8 @@
                 this.createResult = 'saving';
                 const url = this.getCreateDictionaryUrl()
                 axios.post(url, this.dictionary).then((response) => {
-                    if (response.status === 200) {
-                        this.createResult = 'success';
-                        this.$emit('import-finished');
-                    } else {
-                        this.createResult = 'error';
-                    }
+                    this.createResult = 'success';
+                    this.$emit('import-finished');
                 }).catch((error) => {
                     this.createResult = 'error';
                 });

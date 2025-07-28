@@ -160,7 +160,7 @@
                     language: this.$props.language,
                     term: this.$props.searchTerm
                 }).then((response) => {
-                    this.processVocabularySearchResults(response.data);
+                    this.processVocabularySearchResults(response.data.data);
                     this.dictionarySearchLoading = false;
                 });
 
@@ -174,7 +174,7 @@
                         context: this.$props.exampleSentenceText
                     }).then((response) => {
                         this.dictionaryApiSearchLoading = false;
-                        this.apiSearchResults = response.data;
+                        this.apiSearchResults = response.data.data;
                     }).catch(() => {
                         this.dictionaryApiSearchLoading = false;
                         this.apiSearchResults = [];

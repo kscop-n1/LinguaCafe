@@ -350,9 +350,9 @@
 
                     if (response.status === 200) {
                         this.characterLimitStatus = 'success';
-                        this.cachedDeeplTranslations = response.data.cachedDeeplTranslations;
-                        this.characterUsed = response.data.limits.character_count ?? null;
-                        this.characterLimit = response.data.limits.character_limit ?? null;
+                        this.cachedDeeplTranslations = response.data.data.cachedDeeplTranslations;
+                        this.characterUsed = response.data.data.limits.character_count ?? null;
+                        this.characterLimit = response.data.data.limits.character_limit ?? null;
 
                         if (this.characterLimit === null) {
                             this.characterLimitStatus = this.settings.deeplApiKey === this.defaultDeeplApiKey ? 'default' : 'error';

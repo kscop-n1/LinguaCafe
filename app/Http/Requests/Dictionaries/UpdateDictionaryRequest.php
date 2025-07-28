@@ -24,7 +24,6 @@ class UpdateDictionaryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|numeric',
             'name' => 'string',
             'api_host' => 'nullable|string',
             'source_language' => 'string',

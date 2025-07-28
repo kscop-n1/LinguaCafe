@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Language\LanguageConfig;
-use App\Http\Requests\Dictionaries\CreateCustomApiDictionaryRequest;
 use App\Models\Dictionary;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\DictionaryService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 // services
-use Illuminate\Support\Facades\Schema;
+use App\Helpers\Language\LanguageConfig;
 use App\Services\DictionaryImportService;
 
 // request classes
 use App\Http\Requests\Dictionaries\SearchApiRequest;
+use App\Http\Resources\Dictionary\DictionaryResource;
 use App\Http\Requests\Dictionaries\GetDictionaryRequest;
 use App\Http\Requests\Dictionaries\DeleteDictionaryRequest;
 use App\Http\Requests\Dictionaries\UpdateDictionaryRequest;
 use App\Http\Requests\Dictionaries\SearchDefinitionsRequest;
 use App\Http\Requests\Dictionaries\SearchInflectionsRequest;
+use App\Http\Resources\Dictionary\DictionaryResourceCollection;
 use App\Http\Requests\Dictionaries\CreateDeeplDictionaryRequest;
 use App\Http\Requests\Dictionaries\TestDictionaryCsvFileRequest;
 use App\Http\Requests\Dictionaries\ImportDictionaryCsvFileRequest;
 use App\Http\Requests\Dictionaries\CreateMyMemoryDictionaryRequest;
 use App\Http\Requests\Dictionaries\GetDictionaryRecordCountRequest;
+use App\Http\Requests\Dictionaries\CreateCustomApiDictionaryRequest;
 use App\Http\Requests\Dictionaries\ImportSupportedDictionaryRequest;
 use App\Http\Requests\Dictionaries\GetDictionaryFileInformationRequest;
 use App\Http\Requests\Dictionaries\CreateLibreTranslateDictionaryRequest;
@@ -41,199 +42,134 @@ class DictionaryController extends Controller
         $this->dictionaryImportService = $dictionaryImportService;
     }
 
-    /*
-        Returns a list of dictionaries.
-    */
     public function getDictionaries() {
+        $dictionaries = $this->dictionaryService->getDictionaries();
 
-        try {
-            $dictionaries = $this->dictionaryService->getDictionaries();
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json($dictionaries, 200);
+        return new DictionaryResourceCollection($dictionaries);
     }
 
-    public function getDictionary($dictionaryId, GetDictionaryRequest $request) {
-        
-        try {
-            $dictionary = $this->dictionaryService->getDictionary($dictionaryId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+    public function getDictionary(Dictionary $dictionary) {
+        $dictionary->loadRecordCount();
 
-        return response()->json($dictionary, 200);
+        return new DictionaryResource($dictionary);
     }
 
-    public function updateDictionary(UpdateDictionaryRequest $request) {
-        $dictionaryId = $request->post('id');
-
-        $dictionaryData = [];
-
-        if (isset($request->name)) {
-            $dictionaryData['name'] = $request->post('name');
-        }
-
-        if (isset($request->api_host)) {
-            $dictionaryData['api_host'] = $request->post('api_host');
-        }
-
-        if (isset($request->source_language)) {
-            $dictionaryData['source_language'] = $request->post('source_language');
-        }
-
-        if (isset($request->target_language)) {
-            $dictionaryData['target_language'] = $request->post('target_language');
-        }
-
-        if (isset($request->color)) {
-            $dictionaryData['color'] = $request->post('color');
-        }
+    public function updateDictionary(UpdateDictionaryRequest $request, Dictionary $dictionary) {
+        $dictionaryData = collect($request->validated());
+        $dictionaryData = $dictionaryData->reject(function($dictionaryData) {
+            return is_null($dictionaryData);
+        });
         
-        if (isset($request->enabled)) {
-            $dictionaryData['enabled'] = $request->post('enabled');
-        }
+        $this->dictionaryService->updateDictionary($dictionary, $dictionaryData);
 
-        try {
-            $this->dictionaryService->updateDictionary($dictionaryId, $dictionaryData);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Dictionary has been updated successfully.', 200);
+        return response()->noContent();
     }
 
     public function isAnyApiDictionaryEnabled() {
-        $language = Auth::user()->selected_language;
+        $language = LanguageConfig::load(Auth::user()->selected_language);
 
-        try {
-            $response = $this->dictionaryService->isAnyApiDictionaryEnabled($language);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $isAnyApiDictionaryEnabled = $this->dictionaryService->isAnyApiDictionaryEnabled($language);
         
-        return response()->json($response, 200);
+        return response()->json([
+            'data' => $isAnyApiDictionaryEnabled,
+        ]);
     }
 
     public function getDeeplCharacterLimit() {
-        try {
-            $deeplLimit = $this->dictionaryService->getDeeplCharacterLimit();   
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $deeplLimit = $this->dictionaryService->getDeeplCharacterLimit();   
         
-        return response()->json($deeplLimit, 200);
+        return response()->json([
+            'data' => $deeplLimit,
+        ]);
     }
 
     public function searchDefinitions(SearchDefinitionsRequest $request) {
-        $language = $request->post('language');
-        $term = $request->post('term');
+        $language = LanguageConfig::load($request->validated('language'));
+        $term = $request->validated('term');
 
-        try {
-            $searchResult = $this->dictionaryService->searchDefinitions($language, $term);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $searchResult = $this->dictionaryService->searchDefinitions($language, $term);
 
-        return response()->json($searchResult, 200);
+        return response()->json([
+            'data' => $searchResult,
+        ]);
     }
 
-    /*
-        This function returns a list of exact matches from dictionaries for the hover popup vocabulary.
-    */
     public function searchDefinitionsForHoverVocabulary(SearchDefinitionsForHoverVocabularyRequest $request) {
-        $language = $request->post('language');
-        $term = $request->post('term');
+        $language = LanguageConfig::load($request->validated('language'));
+        $term = $request->validated('term');
 
-        try {
-            $searchResult = $this->dictionaryService->searchDefinitionsForHoverVocabulary($language, $term);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $searchResult = $this->dictionaryService->searchDefinitionsForHoverVocabulary($language, $term);
 
-        return response()->json($searchResult, 200);
+        return response()->json([
+            'data' => $searchResult,
+        ]);
     }
 
     public function searchApiDictionaries(SearchApiRequest $request) {
-        $language = $request->post('language');
-        $term = $request->post('term');
-        $context = $request->post('context') ? $request->post('context') : '';
+        $language = LanguageConfig::load($request->validated('language'));
+        $term = $request->validated('term');
+        $context = $request->validated('context') ? $request->post('context') : '';
 
-        try {
-            $definitions = $this->dictionaryService->searchApiDictionaries($language, $term, $context);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $definitions = $this->dictionaryService->searchApiDictionaries($language, $term, $context);
 
-        return response()->json($definitions, 200);
+        return response()->json([
+                'data' => $definitions,
+        ]);
     }
 
     public function searchInflections(SearchInflectionsRequest $request) {
         $term = $request->term;
 
-        try {
-            $inflections = $this->dictionaryService->searchInflections($term);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $inflections = $this->dictionaryService->searchInflections($term);
 
-        return response()->json($inflections, 200);
+        return response()->json([
+            'data' => $inflections,
+        ]);
     }
 
     public function createDeeplDictionary(CreateDeeplDictionaryRequest $request) {
-        $sourceLanguage = $request->post('sourceLanguage');
-        $targetLanguage = $request->post('targetLanguage');
-        $color = $request->post('color');
-        $name  = $request->post('name');
+        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
+        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
+        $color = $request->validated('color');
+        $name  = $request->validated('name');
 
-        try {
-            $this->dictionaryImportService->createDeeplDictionary($sourceLanguage, $targetLanguage, $color, $name);
-        } catch(\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->dictionaryImportService->createDeeplDictionary($sourceLanguage, $targetLanguage, $color, $name);
 
-        return response()->json('DeepL dictionary has been created successfully.', 200);
+        return response()->noContent();
     }
 
     public function createMyMemoryDictionary(CreateMyMemoryDictionaryRequest $request) {
-        $sourceLanguage = $request->validated('sourceLanguage');
-        $targetLanguage = $request->validated('targetLanguage');
+        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
+        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
         $color = $request->validated('color');
         $name  = $request->validated('name');
 
-        try {
-            $this->dictionaryImportService->createMyMemoryDictionary($sourceLanguage, $targetLanguage, $color, $name);
-        } catch(\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->dictionaryImportService->createMyMemoryDictionary($sourceLanguage, $targetLanguage, $color, $name);
+        
+        return response()->noContent();
     }
     
     public function createLibreTranslateDictionary(CreateLibreTranslateDictionaryRequest $request) {
-        $sourceLanguage = $request->validated('sourceLanguage');
-        $targetLanguage = $request->validated('targetLanguage');
+        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
+        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
         $color = $request->validated('color');
         $name  = $request->validated('name');
 
-        try {
-            $this->dictionaryImportService->createLibreTranslateDictionary($sourceLanguage, $targetLanguage, $color, $name);
-        } catch(\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->dictionaryImportService->createLibreTranslateDictionary($sourceLanguage, $targetLanguage, $color, $name);
+        
+        return response()->noContent();
     }
 
     public function createCustomApiDictionary(CreateCustomApiDictionaryRequest $request) {
-        $sourceLanguage = $request->validated('sourceLanguage');
-        $targetLanguage = $request->validated('targetLanguage');
+        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
+        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
         $color = $request->validated('color');
         $name  = $request->validated('name');
         $host  = $request->validated('api_host');
 
-        try {
-            $this->dictionaryImportService->createCustomApiDictionary($sourceLanguage, $targetLanguage, $color, $name, $host);
-        } catch(\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->dictionaryImportService->createCustomApiDictionary($sourceLanguage, $targetLanguage, $color, $name, $host);
+
+        return response()->noContent();
     }
 
     /*
