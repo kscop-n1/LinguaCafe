@@ -32,6 +32,9 @@ Route::group(['middleware' => 'web'], function () {
 Route::get('/login', [App\Http\Controllers\UserController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [App\Http\Controllers\UserController::class, 'authenticateUser']);
 
+// basic user data for the app
+Route::get('/user/data', [App\Http\Controllers\UserController::class, 'getUserData']);
+
 Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     Route::group(['middleware' => 'admin'], function () {

@@ -63,6 +63,12 @@
     }
 }
 
+#app-loader {
+    width: 100%;
+    height: 100%;
+    background-color: var(--v-background-base) !important;
+}
+
 #logo span  {
     font-family: Varela !important;
     font-size: 26px;

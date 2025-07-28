@@ -23,28 +23,8 @@ class HomeController extends Controller {
         //
     }
 
-    public function index() {
-        $selectedLanguage = Auth::user()->selected_language;
-        $userCount = User::count();
-        $userName = Auth::user()->name;
-        $userEmail = Auth::user()->email;
-        $isAdmin = Auth::user()->is_admin === 1;
-        $theme = $_COOKIE['theme'] ?? 'dark';
-        $themeSettings = $this->settingsService->getUserSettingsByName(
-            Auth::user()->id,
-            ['textStyling', 'vuetifyThemes']
-        );
-        
-        return view('home', [
-            'language' => $selectedLanguage,
-            'userCount' => $userCount,
-            'userName' => $userName,
-            'userEmail' => $userEmail,
-            'isAdmin' => $isAdmin,
-            'theme' => $theme,
-            'themeSettings' => $themeSettings,
-            'userUuid' => Auth::user()->uuid,
-        ]);
+    public function index() {       
+        return view('home');
     }
 
     public function getStatistics() {

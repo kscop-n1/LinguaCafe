@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Services\GoalService;
 use App\Services\UserService;
+use App\Services\SettingsService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 // request classes
 use App\Http\Requests\Users\CreateUserRequest;
@@ -16,11 +14,44 @@ use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Http\Requests\Users\AuthenticateUserRequest;
 
 class UserController extends Controller {
-    private $userService;
+    public function __construct(
+        private UserService $userService,
+        private SettingsService $settingsService
+    ) {
+        //
+    }
 
-    public function __construct(UserService $userService) {
-        $this->userService = $userService;
+    // initial data for the app
+    public function getUserData()
+    {
+        $userCount = User::count();
 
+        if(!Auth::check()) {
+            return response()->json([
+                'userCount' => $userCount,
+            ]);
+        }
+
+        $selectedLanguage = Auth::user()->selected_language;
+        $userName = Auth::user()->name;
+        $userEmail = Auth::user()->email;
+        $isAdmin = Auth::user()->is_admin === 1;
+        $theme = $_COOKIE['theme'] ?? 'dark';
+        $themeSettings = $this->settingsService->getUserSettingsByName(
+            Auth::user()->id,
+            ['textStyling', 'vuetifyThemes']
+        );
+        
+        return response()->json([
+            'language' => $selectedLanguage,
+            'userCount' => $userCount,
+            'userName' => $userName,
+            'userEmail' => $userEmail,
+            'isAdmin' => $isAdmin,
+            'theme' => $theme,
+            'themeSettings' => $themeSettings,
+            'userUuid' => Auth::user()->uuid,
+        ]);
     }
 
     public function isUserPasswordChanged() 
@@ -44,18 +75,11 @@ class UserController extends Controller {
 
     public function showLoginForm() 
     {
-        $userCount = User::count();
-        $theme = $_COOKIE['theme'] ?? 'light';
-
         if (Auth::check()) {
             return redirect()->intended('/');
         }
 
-        return view('auth.login', [
-            'userCount' => $userCount,
-            'userUuid' => '',
-            'theme' => $theme,
-        ]);
+        return view('auth.login');
     }
     
     public function authenticateUser(AuthenticateUserRequest $request) 
