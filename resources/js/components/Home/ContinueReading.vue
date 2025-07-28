@@ -30,7 +30,8 @@
             <v-card
                 outlined
                 class="bookmark relative rounded-lg mr-4 pa-2 pt-6"
-                v-for="bookmark in filteredBookmarks" 
+                v-for="(bookmark, bookmarkIndex) in filteredBookmarks"
+                :key="bookmarkIndex"
                 :to="'/chapters/read/' + bookmark.chapter.id"
             >
                     <v-btn 
