@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Book;
 
-// request classes
 use App\Models\Chapter;
 use App\Services\ChapterService;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Language\LanguageConfig;
 use App\Http\Resources\Chapter\ChapterResource;
 use App\Http\Requests\Chapters\CreateChapterRequest;
-use App\Http\Requests\Chapters\DeleteChapterRequest;
 use App\Http\Requests\Chapters\FinishChapterRequest;
 use App\Http\Requests\Chapters\UpdateChapterRequest;
 use App\Http\Resources\Chapter\ChapterResourceCollection;
-use App\Http\Requests\Chapters\GetChapterForEditorRequest;
-use App\Http\Requests\Chapters\GetChapterForReaderRequest;
-use App\Http\Requests\Chapters\RetryFailedChaptersRequest;
 
 class ChapterController extends Controller {
 
