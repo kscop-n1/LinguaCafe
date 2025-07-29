@@ -1252,8 +1252,8 @@
                     this.$store.commit('vocabularyBox/setImage', uniqueWord.image);
                     this.$store.commit('vocabularyBox/setWord', uniqueWord.word);
                     this.$store.commit('vocabularyBox/setReading', uniqueWord.reading);
-                    this.$store.commit('vocabularyBox/setBaseWord', uniqueWord.lemma);
-                    this.$store.commit('vocabularyBox/setBaseWordReading', uniqueWord.lemma_reading);
+                    this.$store.commit('vocabularyBox/setLemma', uniqueWord.lemma);
+                    this.$store.commit('vocabularyBox/setLemmaReading', uniqueWord.lemma_reading);
                     this.$store.commit('vocabularyBox/setTranslationText', uniqueWord.translation);
                     this.$store.commit('vocabularyBox/setStage', uniqueWord.stage);
                     if (uniqueWord.lemma !== '') {
@@ -1714,8 +1714,8 @@
             },
             updateVocabBoxData(newVocabBoxData) {
                 this.$store.commit('vocabularyBox/setReading', newVocabBoxData.reading);
-                this.$store.commit('vocabularyBox/setBaseWord', newVocabBoxData.baseWord);
-                this.$store.commit('vocabularyBox/setBaseWordReading', newVocabBoxData.baseWordReading);
+                this.$store.commit('vocabularyBox/setLemma', newVocabBoxData.lemma);
+                this.$store.commit('vocabularyBox/setLemmaReading', newVocabBoxData.lemmaReading);
                 this.$store.commit('vocabularyBox/setPhraseReading', newVocabBoxData.phraseReading);
                 this.$store.commit('vocabularyBox/setTranslationText', newVocabBoxData.translationText);
             },
@@ -1728,8 +1728,8 @@
                     if (this.uniqueWords[i].word.toLowerCase() == selectedWord.word.toLowerCase()) {
                         this.uniqueWords[i].translation = this.$store.state.vocabularyBox.translationText;
                         this.uniqueWords[i].reading = this.$store.state.vocabularyBox.reading;
-                        this.uniqueWords[i].lemma = this.$store.state.vocabularyBox.baseWord;
-                        this.uniqueWords[i].lemma_reading = this.$store.state.vocabularyBox.baseWordReading;
+                        this.uniqueWords[i].lemma = this.$store.state.vocabularyBox.lemma;
+                        this.uniqueWords[i].lemma_reading = this.$store.state.vocabularyBox.lemmaReading;
                         this.uniqueWords[i].stage = selectedWord.stage;
                     }
                 }
@@ -1746,8 +1746,8 @@
                     id: selectedWord.id,
                     translation: this.$store.state.vocabularyBox.translationText,
                     reading: this.$store.state.vocabularyBox.reading,
-                    lemma: this.$store.state.vocabularyBox.baseWord,
-                    lemma_reading: this.$store.state.vocabularyBox.baseWordReading,
+                    lemma: this.$store.state.vocabularyBox.lemma,
+                    lemma_reading: this.$store.state.vocabularyBox.lemmaReading,
                     lookup_count: selectedWord.lookup_count,
                 };
 

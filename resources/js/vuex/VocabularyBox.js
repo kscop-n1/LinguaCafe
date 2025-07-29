@@ -16,8 +16,8 @@ export default {
         // data for word
         word: '',
         reading: '',
-        baseWord: '',
-        baseWordReading: '',
+        lemma: '',
+        lemmaReading: '',
         stage: 0,
 
         // data for phrase
@@ -56,8 +56,8 @@ export default {
             state.phrase = [];
             state.reading = '';
             state.kanjiList = [];
-            state.baseWord = '';
-            state.baseWordReading = '';
+            state.lemma = '';
+            state.lemmaReading = '';
             state.stage = 2;
             state.type = 'empty';
         },
@@ -100,11 +100,11 @@ export default {
         setReading (state, value) {
             state.reading = value;
         },
-        setBaseWord (state, value) {
-            state.baseWord = value;
+        setLemma (state, value) {
+            state.lemma = value;
         },
-        setBaseWordReading (state, value) {
-            state.baseWordReading = value;
+        setLemmaReading (state, value) {
+            state.lemmaReading = value;
         },
         setTranslationText (state, value) {
             state.translationText = value;

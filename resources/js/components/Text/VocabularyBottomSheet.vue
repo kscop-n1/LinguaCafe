@@ -14,7 +14,7 @@
                             filled
                             dense
                             rounded
-                            v-model="baseWord"
+                            v-model="lemma"
                             @keyup="inputChanged"
                             @keydown.stop=";"
                         ></v-text-field>
@@ -42,7 +42,7 @@
                             filled
                             dense
                             rounded
-                            v-model="baseWordReading"
+                            v-model="lemmaReading"
                             @keyup="inputChanged"
                             @keydown.stop=";"
                         ></v-text-field>
@@ -279,8 +279,8 @@ export default {
         return {
             // data for word
             reading: '',
-            baseWord: '',
-            baseWordReading: '',
+            lemma: '',
+            lemmaReading: '',
             phraseReading: '',
             phraseText: '',
 
@@ -309,8 +309,8 @@ export default {
             stage: state => state.vocabularyBox.stage,
             inflections: state => state.vocabularyBox.inflections,
             _reading: state => state.vocabularyBox.reading,
-            _baseWord: state => state.vocabularyBox.baseWord,
-            _baseWordReading: state => state.vocabularyBox.baseWordReading,
+            _lemma: state => state.vocabularyBox.lemma,
+            _lemmaReading: state => state.vocabularyBox.lemmaReading,
             _phraseReading: state => state.vocabularyBox.phraseReading,
             _translationText: state => state.vocabularyBox.translationText,
             _searchField: state => state.vocabularyBox.searchField,
@@ -340,8 +340,8 @@ export default {
             updateDataFromStore() {
                 this.translationText = this._translationText;
                 this.reading = this._reading;
-                this.baseWord = this._baseWord;
-                this.baseWordReading = this._baseWordReading;
+                this.lemma = this._lemma;
+                this.lemmaReading = this._lemmaReading;
                 this.phraseReading = this._phraseReading;
                 this.searchField = this._searchField;
                 this.exampleSentenceText = this._exampleSentenceText;
@@ -384,8 +384,8 @@ export default {
 
                 this.$emit('updateVocabBoxData', {
                     reading: this.reading,
-                    baseWord: this.baseWord,
-                    baseWordReading: this.baseWordReading,
+                    lemma: this.lemma,
+                    lemmaReading: this.lemmaReading,
                     phraseReading: this.phraseReading,
                     translationText: this.translationText
                 });
