@@ -537,14 +537,14 @@
                 formData.append("skipHeader", this.dictionary.csvSkipHeader);
 
                 axios.post('/dictionaries/test-csv-file', formData).then((response) => {
-                    this.fileTestError = response.data.status !== 'success';
+                    this.fileTestError = response.data.data.status !== 'success';
                     this.fileTestLoading = false;
 
                     if (this.fileTestError) {
                         this.dictionary.file = null;
                     } else {
-                        this.fileTestSample = response.data.sample;
-                        this.fileRecordCount = response.data.recordCount;
+                        this.fileTestSample = response.data.data.sample;
+                        this.fileRecordCount = response.data.data.recordCount;
                     }
                 });
             },
@@ -563,11 +563,7 @@
                 axios.post('/dictionaries/import-csv-file', formData).then((response) => {
                     this.importing = false;
                     this.stepperPage ++;
-                    if (response.status === 200) {
-                        this.importResult = 'success';
-                    } else {
-                        this.importResult = 'error';
-                    }
+                    this.importResult = 'success';
                 }).catch((error) => {
                     this.importing = false;
                     this.stepperPage ++;

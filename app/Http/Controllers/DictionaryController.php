@@ -15,7 +15,6 @@ use App\Services\DictionaryImportService;
 // request classes
 use App\Http\Requests\Dictionaries\SearchApiRequest;
 use App\Http\Resources\Dictionary\DictionaryResource;
-use App\Http\Requests\Dictionaries\GetDictionaryRequest;
 use App\Http\Requests\Dictionaries\DeleteDictionaryRequest;
 use App\Http\Requests\Dictionaries\UpdateDictionaryRequest;
 use App\Http\Requests\Dictionaries\SearchDefinitionsRequest;
@@ -37,6 +36,7 @@ class DictionaryController extends Controller
     private $dictionaryService;
     private $dictionaryImportService;
     
+    //TODO: Should be separated into 3 files: DictionaryResourceController, DictionarySearchController and DictionaryImportController. Same for services
     public function __construct(DictionaryService $dictionaryService, DictionaryImportService $dictionaryImportService) {
         $this->dictionaryService = $dictionaryService;
         $this->dictionaryImportService = $dictionaryImportService;
@@ -172,75 +172,72 @@ class DictionaryController extends Controller
         return response()->noContent();
     }
 
-    /*
-        This function tests a .csv file, and returns a sample of the data.
-        This makes it faster to test a file and notice any problems before
-        the user actually imports a large file.
-    */
     public function testDictionaryCsvFile(TestDictionaryCsvFileRequest $request) {
         $file = $request->file('dictionary');
         $delimiter = $request->post('delimiter');
         $skipHeader = boolval($request->post('skipHeader') === 'true');
 
-        try {
-            $sample = $this->dictionaryImportService->testDictionaryCsvFile($file, $delimiter, $skipHeader);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $sample = $this->dictionaryImportService->testDictionaryCsvFile($file, $delimiter, $skipHeader);
 
-        return response()->json($sample, 200);
+        return response()->json([
+            'data' => $sample,
+        ]);
     }
 
     public function importDictionaryCsvFile(ImportDictionaryCsvFileRequest $request) {
         set_time_limit(2400);
         $file = $request->file('dictionary');
-        $skipHeader = boolval($request->post('skipHeader') === 'true');
-        $delimiter = $request->post('delimiter');
-        $dictionaryName = $request->post('dictionaryName');
-        $databaseTableName = $request->post('databaseName');
-        $sourceLanguage = $request->post('sourceLanguage');
-        $targetLanguage = $request->post('targetLanguage');
-        $color = $request->post('color');
+        $skipHeader = boolval($request->validated('skipHeader') === 'true');
+        $delimiter = $request->validated('delimiter');
+        $dictionaryName = $request->validated('dictionaryName');
+        $databaseTableName = $request->validated('databaseName');
+        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
+        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
+        $color = $request->validated('color');
 
-        try {
-            $this->dictionaryImportService->importDictionaryCsvFile(
-                $file, 
-                $skipHeader, 
-                $delimiter, 
-                $dictionaryName, 
-                $databaseTableName, 
-                $sourceLanguage, 
-                $targetLanguage, 
-                $color
-            );
+        $this->dictionaryImportService->importDictionaryCsvFile(
+            $file, 
+            $skipHeader, 
+            $delimiter, 
+            $dictionaryName, 
+            $databaseTableName, 
+            $sourceLanguage, 
+            $targetLanguage, 
+            $color
+        );
 
-        } catch(\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Dictionary has been imported successfully.', 200);
+        return response()->noContent();
     }
 
     public function getDictionaryFileInformation(GetDictionaryFileInformationRequest $request) {
         $dictionaryFile = $request->file('dictionaryFile');
-
         $languageConfigs = LanguageConfig::all();
-        $dictCcLanguageCodes = $languageConfigs->whereNotNull('dictCcCode')->pluck('name', 'dictCcCode')->toArray();
-        $databaseLanguageCodes = $languageConfigs->whereNotNull('databaseDictionaryTableName')->pluck('databaseDictionaryTableName', 'name')->toArray();
-        $supportedSourceLanguages = $languageConfigs->where('linguacafeSupport', '=', true)->pluck('name')->toArray();
 
-        try {
-            $dictionariesFound = $this->dictionaryImportService->getDictionaryFileInformation(
-                $dictionaryFile, 
-                $supportedSourceLanguages, 
-                $dictCcLanguageCodes, 
-                $databaseLanguageCodes
-            );
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $dictCcLanguageCodes = $languageConfigs
+            ->whereNotNull('dictCcCode')
+            ->pluck('name', 'dictCcCode')
+            ->toArray();
+
+        $databaseLanguageCodes = $languageConfigs
+            ->whereNotNull('databaseDictionaryTableName')
+            ->pluck('databaseDictionaryTableName', 'name')
+            ->toArray();
+
+        $supportedSourceLanguages = $languageConfigs
+            ->where('linguacafeSupport', '=', true)
+            ->pluck('name')
+            ->toArray();
+
+        $dictionaryFound = $this->dictionaryImportService->getDictionaryFileInformation(
+            $dictionaryFile, 
+            $supportedSourceLanguages, 
+            $dictCcLanguageCodes, 
+            $databaseLanguageCodes
+        );
         
-        return json_encode($dictionariesFound);
+        return response()->json([
+            'data' => $dictionaryFound,
+        ]);
     }
 
     public function importSupportedDictionary(ImportSupportedDictionaryRequest $request) {

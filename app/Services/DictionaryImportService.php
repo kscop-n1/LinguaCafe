@@ -8,6 +8,7 @@ use League\Csv\Reader;
 use App\Models\Radical;
 use App\Models\Dictionary;
 use App\Models\VocabularyJmdict;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Models\VocabularyJmdictWord;
 use Illuminate\Support\Facades\File;
@@ -16,6 +17,9 @@ use App\Models\VocabularyJmdictReading;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Language\LanguageConfig;
 use Illuminate\Database\Schema\Blueprint;
+use App\Exceptions\Dictionary\CsvDictionaryImportException;
+use App\DataTransferObjects\Dictionary\CsvDictionaryImportSampleData;
+use App\DataTransferObjects\Dictionary\SupportedDictionaryImportData;
 
 class DictionaryImportService {
 
@@ -27,44 +31,44 @@ class DictionaryImportService {
         Storage::delete($tempDictionaryFiles);
     }
 
-    public function getDictionaryFileInformation($dictionaryFile, $supportedSourceLanguages, $dictCcLanguageCodes, $databaseLanguageCodes) {
-        // delete old files from dictionaries temp folder
+    public function getDictionaryFileInformation(
+        UploadedFile $dictionaryFile, 
+        array $supportedSourceLanguages, 
+        array $dictCcLanguageCodes, 
+        array $databaseLanguageCodes
+    ): ?SupportedDictionaryImportData
+    {
         $this->deleteTempDictionaryFiles();
 
-        // move uploaded file to the dictionaries temp folder
         $fileName = $dictionaryFile->getClientOriginalName();
         $dictionaryFile->move(storage_path('app/temp/dictionaries'), $fileName);
 
-        // scan the new file
-        $dictionary = null;
-        
         // jmdict dictionary
         if ($fileName === 'jmdict.zip') {
-            $dictionary = new \stdClass();
-            $dictionary->name = 'JMDict';
-            $dictionary->databaseName = 'dict_jp_jmdict';
-            $dictionary->source_language = 'japanese';
-            $dictionary->target_language = 'english';
-            $dictionary->color = '#74E39A'; 
-            $dictionary->expectedRecordCount = 207690;
-            $dictionary->fileName = 'jmdict.zip';
-
-            // check if jmdict is imported
-            $recordCount = DB::table('dict_jp_jmdict')->count();
+            return new SupportedDictionaryImportData(
+                name: 'JMDict',
+                databaseName: 'dict_jp_jmdict',
+                sourceLanguage: 'japanese',
+                targetLanguage: 'english',
+                color: '#74E39A',
+                expectedRecordCount: 207690, 
+                fileName: 'jmdict.zip',
+            );
         }
 
         // cc cedict dictionary
         if ($fileName === 'cedict_ts.u8') {
-            $dictionary = new \stdClass();
-            $dictionary->name = 'cc-cedict';
-            $dictionary->databaseName = 'dict_zh_cedict';
-            $dictionary->source_language = 'chinese';
-            $dictionary->target_language = 'english';
-            $dictionary->color = '#EF4556'; 
-            $dictionary->expectedRecordCount = 0;
-            $dictionary->fileName = 'cedict_ts.u8';
+            $dictionary = new SupportedDictionaryImportData(
+                name: 'cc-cedict',
+                databaseName: 'dict_zh_cedict',
+                sourceLanguage: 'chinese',
+                targetLanguage: 'english',
+                color: '#EF4556',
+                expectedRecordCount: 0, 
+                fileName: 'cedict_ts.u8',
+            );
 
-            // check record count
+            // get record count
             $handle = fopen(Storage::path('temp/dictionaries/cedict_ts.u8'), "r");
             if ($handle) {
                 while (($line = fgets($handle)) !== false) {
@@ -75,51 +79,49 @@ class DictionaryImportService {
                 }
             }
             
-            // close file
             fclose($handle);
+            return $dictionary;
         }
 
         // HanDeDict dictionary
         if ($fileName === 'handedict.u8') {
-            $dictionary = new \stdClass();
-            $dictionary->name = 'HanDeDict';
-            $dictionary->databaseName = 'dict_zh_handedict';
-            $dictionary->source_language = 'chinese';
-            $dictionary->target_language = 'german';
-            $dictionary->color = '#EF4556'; 
-            $dictionary->expectedRecordCount = 0;
-            $dictionary->fileName = 'handedict.u8';
+            $recordCount = $this->getFileLineCount(Storage::path('temp/dictionaries/handedict.u8'));
 
-            // check record count
-            $dictionary->expectedRecordCount = $this->getFileLineCount(Storage::path('temp/dictionaries/handedict.u8'));
+            return new SupportedDictionaryImportData(
+                name: 'HanDeDict',
+                databaseName: 'dict_zh_handedict',
+                sourceLanguage: 'chinese',
+                targetLanguage: 'german',
+                color: '#EF4556',
+                expectedRecordCount: $recordCount, 
+                fileName: 'handedict.u8',
+            );
         }
 
         // kengdic dictionary
         if ($fileName === 'kengdic.tsv') {
-            $dictionary = new \stdClass();
-            $dictionary->name = 'kengdic';
-            $dictionary->databaseName = 'dict_ko_kengdic';
-            $dictionary->source_language = 'korean';
-            $dictionary->target_language = 'english';
-            $dictionary->color = '#DDBFE4'; 
-            $dictionary->expectedRecordCount =  117509;
-            $dictionary->fileName = 'kengdic.tsv';
-
-            return $dictionary;
+            return new SupportedDictionaryImportData(
+                name: 'kengdic',
+                databaseName: 'dict_ko_kengdic',
+                sourceLanguage: 'korean',
+                targetLanguage: 'english',
+                color: '#DDBFE4',
+                expectedRecordCount: 117509, 
+                fileName: 'kengdic.tsv',
+            );
         }
 
         // eurfa welsh dictionary
         if ($fileName === 'Eurfa_Welsh_Dictionary.csv') {
-            $dictionary = new \stdClass();
-            $dictionary->name = 'eurfa';
-            $dictionary->databaseName = 'dict_cy_eurfa';
-            $dictionary->source_language = 'welsh';
-            $dictionary->target_language = 'english';
-            $dictionary->color = '#32DB4D'; 
-            $dictionary->expectedRecordCount =  210579;
-            $dictionary->fileName = 'Eurfa_Welsh_Dictionary.csv';
-
-            return $dictionary;
+            return new SupportedDictionaryImportData(
+                name: 'eurfa',
+                databaseName: 'dict_cy_eurfa',
+                sourceLanguage: 'welsh',
+                targetLanguage: 'english',
+                color: '#32DB4D',
+                expectedRecordCount: 210579, 
+                fileName: 'Eurfa_Welsh_Dictionary.csv',
+            );
         }
         
         
@@ -164,16 +166,15 @@ class DictionaryImportService {
 
             // add the found dictionary to the list
             if ($supported) {
-                $dictionary = new \stdClass();
-                $dictionary->name = 'dictcc ' . $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[0]]] . '-'. $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[1]]];
-                $dictionary->databaseName = 'dict_' . $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[0]]] . '_' . $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[1]]] . '_dict_cc';
-                $dictionary->source_language = $dictCcLanguageCodes[$fileLanguage[0]];
-                $dictionary->target_language = $dictCcLanguageCodes[$fileLanguage[1]];
-                $dictionary->color = '#FF981B'; 
-                $dictionary->expectedRecordCount = $this->getFileLineCount(Storage::path('temp/dictionaries/' . $fileName));
-                $dictionary->fileName = $fileName;
-
-                return $dictionary;
+                return new SupportedDictionaryImportData(
+                    name: 'dictcc ' . $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[0]]] . '-'. $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[1]]],
+                    databaseName: 'dict_' . $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[0]]] . '_' . $databaseLanguageCodes[$dictCcLanguageCodes[$fileLanguage[1]]] . '_dict_cc',
+                    sourceLanguage: $dictCcLanguageCodes[$fileLanguage[0]],
+                    targetLanguage: $dictCcLanguageCodes[$fileLanguage[1]],
+                    color: '#FF981B',
+                    expectedRecordCount: $this->getFileLineCount(Storage::path('temp/dictionaries/' . $fileName)), 
+                    fileName: $fileName,
+                );
             }
         }
 
@@ -198,20 +199,19 @@ class DictionaryImportService {
             $language = strtolower($words[0]);
 
             if ($supported) {
-                $dictionary = new \stdClass();
-                $dictionary->name = 'wiktionary ' . $databaseLanguageCodes[$language];
-                $dictionary->databaseName = 'dict_' . $databaseLanguageCodes[$language] . '_wiktionary';
-                $dictionary->source_language = $language;
-                $dictionary->target_language = 'english';
-                $dictionary->color = '#E9CDA0'; 
-                $dictionary->expectedRecordCount = $this->getFileLineCount(Storage::path('temp/dictionaries/' . $fileName));
-                $dictionary->fileName =  $fileName;
-
-                return $dictionary;
+                return new SupportedDictionaryImportData(
+                    name: 'wiktionary ' . $databaseLanguageCodes[$language],
+                    databaseName: 'dict_' . $databaseLanguageCodes[$language] . '_wiktionary',
+                    sourceLanguage: $language,
+                    targetLanguage: 'english',
+                    color: '#E9CDA0',
+                    expectedRecordCount: $this->getFileLineCount(Storage::path('temp/dictionaries/' . $fileName)), 
+                    fileName: $fileName,
+                );
             }
         }
 
-        return $dictionary;
+        return null;
     }
 
     private function getFileLineCount($fileName) {
@@ -234,17 +234,17 @@ class DictionaryImportService {
         return $lineCount;
     }
 
-    public function testDictionaryCsvFile($file, $delimiter, $skipHeader) {
-        $returnData = new \stdClass();
-        $returnData->status = 'success';
-        $returnData->sample = [];
-        $returnData->recordCount = 0;
+    public function testDictionaryCsvFile(UploadedFile $file, string $delimiter, bool $skipHeader): CsvDictionaryImportSampleData
+    {
+        $sampleData = new CsvDictionaryImportSampleData(
+            status: 'success',
+            sample: [],
+            recordCount: 0,
+        );
 
-        // move file to a temp folder
         $fileName = bin2hex(openssl_random_pseudo_bytes(30)) . '.csv';
         $file->move(storage_path('app/temp'), $fileName);
         
-        // try to read file and collect sample rows
         try {
             $csv = Reader::createFromPath(storage_path('app/temp') . '/' . $fileName, 'r');
             $csv->setDelimiter($delimiter);
@@ -260,28 +260,38 @@ class DictionaryImportService {
                     throw new \Exception('Missing data.');
                 }
 
-                $sampleData = new \stdClass();
-                $sampleData->word = mb_strtolower($record[0], 'UTF-8');
-                $sampleData->translation = $record[1];
+                $sampleRecord = new \stdClass();
+                $sampleRecord->word = mb_strtolower($record[0], 'UTF-8');
+                $sampleRecord->translation = $record[1];
 
                 // this loop runs through the whole file to test for errors
                 if (($skipHeader && $index <= 3) || (!$skipHeader && $index < 3)) {
-                    $returnData->sample[] = $sampleData;
+                    $sampleData->sample[] = $sampleRecord;
                 }
 
-                $returnData->recordCount ++;
+                $sampleData->recordCount ++;
             }
         } catch (\Exception $exception) {
-            $returnData->sample = [];
-            $returnData->status = 'error';
+            $sampleData->sample = [];
+            $sampleData->status = 'error';
         }
 
         File::delete(storage_path('app/temp') . '/' . $fileName);
 
-        return $returnData;
+        return $sampleData;
     }
     
-    public function importDictionaryCsvFile($file, $skipHeader, $delimiter, $dictionaryName, $databaseTableName, $sourceLanguage, $targetLanguage, $color) {
+    public function importDictionaryCsvFile(
+        UploadedFile $file, 
+        bool $skipHeader, 
+        string $delimiter, 
+        string $dictionaryName, 
+        string $databaseTableName, 
+        LanguageConfig $sourceLanguage, 
+        LanguageConfig $targetLanguage, 
+        string $color
+    ): void
+    {
         set_time_limit(2400);
         
         if(!preg_match('/^[a-z0-9_]+$/', $databaseTableName)) {
@@ -313,8 +323,8 @@ class DictionaryImportService {
         $dictionary->name = $dictionaryName;
         $dictionary->type = 'custom_csv';
         $dictionary->database_table_name = $databaseTableName;
-        $dictionary->source_language = $sourceLanguage;
-        $dictionary->target_language = $targetLanguage;
+        $dictionary->source_language = $sourceLanguage->name;
+        $dictionary->target_language = $targetLanguage->name;
         $dictionary->color = $color;
         $dictionary->enabled = true;
         $dictionary->save();
@@ -351,8 +361,6 @@ class DictionaryImportService {
 
         DB::commit();
         File::delete(storage_path('app/temp') . '/' . $fileName);
-        
-        return true;
     }
     
     public function importSupportedDictionary($userUuid, $dictionaryName, $dictionaryFileName, $dictionarySourceLanguage, $dictionaryTargetLanguage, $dictionaryDatabaseName) {

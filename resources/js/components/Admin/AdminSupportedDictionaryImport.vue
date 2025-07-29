@@ -82,7 +82,7 @@
                                     <td>
                                         <v-img 
                                             class="border" 
-                                            :src="'/images/flags/' + dictionary.source_language + '.png'" 
+                                            :src="'/images/flags/' + dictionary.sourceLanguage + '.png'" 
                                             max-width="43" 
                                             height="28"
                                         ></v-img> 
@@ -93,7 +93,7 @@
                                     <td>
                                         <v-img 
                                             class="border" 
-                                            :src="'/images/flags/' + dictionary.target_language + '.png'" 
+                                            :src="'/images/flags/' + dictionary.targetLanguage + '.png'" 
                                             max-width="43" 
                                             height="28"
                                         ></v-img> 
@@ -229,11 +229,11 @@
 
                 this.dictionaryFileTest = 'loading';
                 axios.post('/dictionaries/get-supported-dictionary-file-information', formData).then((response) => {
-                    if (response.data === null) {
+                    if (response.data.data === null) {
                         this.dictionary = null;
                         this.dictionaryFileTest = 'error';
                     } else {
-                        this.dictionary = response.data;
+                        this.dictionary = response.data.data;
                         this.stepperPage = 2;
                         this.dictionaryFileTest = '';
                     }
@@ -261,8 +261,8 @@
                 this.stepperPage = 3;
                 
                 axios.post('/dictionaries/import', {
-                    'dictionarySourceLanguage': this.dictionary.source_language,
-                    'dictionaryTargetLanguage': this.dictionary.target_language,
+                    'dictionarySourceLanguage': this.dictionary.sourceLanguage,
+                    'dictionaryTargetLanguage': this.dictionary.targetLanguage,
                     'dictionaryName': this.dictionary.name,
                     'dictionaryDatabaseName': this.dictionary.databaseName,
                     'dictionaryFileName': this.dictionary.fileName
