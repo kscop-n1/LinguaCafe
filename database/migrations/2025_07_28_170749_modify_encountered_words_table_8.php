@@ -13,17 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::table("encountered_words")->chunkById(1000, function (Collection $encountered_words) {
-            foreach ($encountered_words as $word) {
-                DB::table("encountered_words")
-                    ->where('id', $word->id)
-                    ->update(['lemma' => $word->base_word]);
-            }
+        Schema::table('encountered_words', function (Blueprint $table) {
+            $table->dropColumn('lemma');
         });
 
-
-        Schema::table('encountered_words', function (Blueprint $table) {
-            $table->dropColumn('base_word');
+        Schema::table("encountered_words", function (Blueprint $table) {
+            $table->renameColumn('base_word', 'lemma');
         });
 
         Schema::table("encountered_words", function (Blueprint $table) {
