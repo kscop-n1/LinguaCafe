@@ -269,11 +269,7 @@
                 }).then((response) => {
                     this.$store.getters['shared/echo'].private('dictionary-import-progress.' + this.$store.getters['shared/userUuid']).stopListening('DictionaryImportProgressedEvent');
                     this.importing = false;
-                    if (response.status === 200) {
-                        this.importResult = 'success';
-                    } else {
-                        this.importResult = 'error';
-                    }
+                    this.importResult = 'success';
                 }).catch(() => {
                     this.$store.getters['shared/echo'].private('dictionary-import-progress.' + this.$store.getters['shared/userUuid']).stopListening('DictionaryImportProgressedEvent');
                     this.importing = false;

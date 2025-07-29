@@ -242,66 +242,40 @@ class DictionaryController extends Controller
 
     public function importSupportedDictionary(ImportSupportedDictionaryRequest $request) {
         set_time_limit(2400);
-        $userUuid = Auth::user()->uuid;
-        $dictionaryName = $request->post('dictionaryName');
-        $dictionaryFileName = $request->post('dictionaryFileName');
-        $dictionarySourceLanguage = $request->post('dictionarySourceLanguage');
-        $dictionaryTargetLanguage = $request->post('dictionaryTargetLanguage');
-        $dictionaryDatabaseName = $request->post('dictionaryDatabaseName');
+        $user = Auth::user();
+        $dictionaryName = $request->validated('dictionaryName');
+        $dictionaryFileName = $request->validated('dictionaryFileName');
+        $dictionarySourceLanguage = $request->validated('dictionarySourceLanguage');
+        $dictionaryTargetLanguage = $request->validated('dictionaryTargetLanguage');
+        $dictionaryDatabaseName = $request->validated('dictionaryDatabaseName');
         
         try {
             $this->dictionaryImportService->importSupportedDictionary(
-                $userUuid, 
+                $user, 
                 $dictionaryName, 
                 $dictionaryFileName, 
                 $dictionarySourceLanguage, 
                 $dictionaryTargetLanguage, 
                 $dictionaryDatabaseName
             );
-        } catch (\Throwable $t) {
+        } catch (\Throwable $error) {
             if ($dictionaryName !== 'JMDict') {
-                DB
-                    ::table('dictionaries')
+                DB::table('dictionaries')
                     ->where('database_table_name', $dictionaryDatabaseName)
                     ->delete();
 
                 Schema::dropIfExists($dictionaryDatabaseName);
             }
             
-            abort(500, $t->getMessage());
-        } catch (\Exception $e) {
-            if ($dictionaryName !== 'JMDict') {
-                DB
-                    ::table('dictionaries')
-                    ->where('database_table_name', $dictionaryDatabaseName)
-                    ->delete();
-
-                Schema::dropIfExists($dictionaryDatabaseName);
-            }
-            
-            abort(500, $e->getMessage());
+            throw $error;
         }
 
-        return response()->json('Dictionary has been imported successfully.', 200);
+        return response()->noContent();
     }
 
-    public function getDictionaryRecordCount($dictionaryTableName, GetDictionaryRecordCountRequest $request) {
-        try {
-            $recordCount = $this->dictionaryService->getDictionaryRecordCount($dictionaryTableName);
-        } catch(\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+    public function deleteDictionary(Dictionary $dictionary) {
+        $this->dictionaryService->deleteDictionary($dictionary);
 
-        return response()->json($recordCount, 200);
-    }
-
-    public function deleteDictionary($dictionaryId, DeleteDictionaryRequest $request) {
-        try {
-            $this->dictionaryService->deleteDictionary($dictionaryId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Dictionary has been deleted successfully.', 200);
+        return response()->noContent();
     }
 }

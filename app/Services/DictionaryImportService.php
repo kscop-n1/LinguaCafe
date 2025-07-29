@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Kanji;
 use League\Csv\Reader;
 use App\Models\Radical;
@@ -363,44 +364,47 @@ class DictionaryImportService {
         File::delete(storage_path('app/temp') . '/' . $fileName);
     }
     
-    public function importSupportedDictionary($userUuid, $dictionaryName, $dictionaryFileName, $dictionarySourceLanguage, $dictionaryTargetLanguage, $dictionaryDatabaseName) {
+    public function importSupportedDictionary(
+        User $user, 
+        string $dictionaryName, 
+        string $dictionaryFileName, 
+        // TODO: replace with LanguageConfig
+        string $dictionarySourceLanguage, 
+        string $dictionaryTargetLanguage, 
+        string $dictionaryDatabaseName,
+    ): void {
         set_time_limit(2400);
         
         // import jmdict files
         if ($dictionaryName == 'JMDict') {
-            $this->jmdictImport($userUuid);
+            $this->jmdictImport($user->uuid);
             $this->kanjiImport();
             $this->kanjiRadicalImport();
-
-            return true;
+            return;
         }
 
         // import cc cedict or HanDeDict file
         if ($dictionaryName == 'cc-cedict' || $dictionaryName == 'HanDeDict') {
-            $this->importCeDictOrHanDeDict($userUuid, $dictionaryName, $dictionaryTargetLanguage, $dictionaryDatabaseName, $dictionaryFileName);
-
-            return true;
+            $this->importCeDictOrHanDeDict($user->uuid, $dictionaryName, $dictionaryTargetLanguage, $dictionaryDatabaseName, $dictionaryFileName);
+            return;
         }
 
         // import kengdic file
         if ($dictionaryName == 'kengdic') {
-            $this->importKengdic($userUuid, $dictionaryName, $dictionaryDatabaseName, $dictionaryFileName);
-
-            return true;
+            $this->importKengdic($user->uuid, $dictionaryName, $dictionaryDatabaseName, $dictionaryFileName);
+            return;
         }
 
         // import eurfa files
         if ($dictionaryName == 'eurfa') {
-            $this->importEurfa($userUuid, $dictionaryName, $dictionaryDatabaseName, $dictionaryFileName);
-
-            return true;
+            $this->importEurfa($user->uuid, $dictionaryName, $dictionaryDatabaseName, $dictionaryFileName);
+            return;
         }
         
-
         // import dict cc files
         if (str_contains($dictionaryName, 'dictcc')) {
             $this->importDictCc(
-                $userUuid, 
+                $user->uuid, 
                 $dictionaryName, 
                 $dictionarySourceLanguage, 
                 $dictionaryTargetLanguage,
@@ -408,20 +412,20 @@ class DictionaryImportService {
                 $dictionaryDatabaseName
             );
 
-            return true;
+            return;
         }
 
         // import wiktionary files
         if (str_contains($dictionaryName, 'wiktionary')) {
             $this->importWiktionary(
-                $userUuid, 
+                $user->uuid, 
                 $dictionaryName, 
                 $dictionarySourceLanguage, 
                 $dictionaryFileName, 
                 $dictionaryDatabaseName
             );
             
-            return true;
+            return;
         }
     }
     

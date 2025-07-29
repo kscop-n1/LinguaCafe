@@ -2,21 +2,17 @@
 
 namespace App\Services;
 
-use League\Csv\Reader;
 use App\Models\Setting;
 use App\Models\DeeplCache;
 use App\Models\Dictionary;
 use App\Models\VocabularyJmdict;
-use Illuminate\Http\Client\Pool;
-
-// models
 use App\Models\ImportedDictionary;
+use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
-use App\Helpers\Language\LanguageConfig;
 use Illuminate\Support\Collection;
+use App\Helpers\Language\LanguageConfig;
 
 class DictionaryService {
 
@@ -423,34 +419,15 @@ class DictionaryService {
         }
     }
 
-    public function getDictionaryRecordCount($dictionaryTableName) {
-        if (!Schema::hasTable($dictionaryTableName)) {
-            throw new \Exception('Table not found.');
+
+    public function deleteDictionary(Dictionary $dictionary): void
+    {
+        $dictionary->delete();
+
+        $tableName = $dictionary->database_table_name;
+        if($tableName !== 'API') {
+            Schema::drop($tableName);
         }
-
-        $recordCount = DB::table($dictionaryTableName)->count();
-        
-        return $recordCount;
-    }
-
-    public function deleteDictionary($dictionaryId) {
-        $dictionary = Dictionary
-            ::where('id', $dictionaryId)
-            ->first();
-
-        if (!$dictionary) {
-            throw new \Exception('Dictionary does not exist.');
-        }
-
-        DB::transaction(function() use($dictionary, $dictionaryId) {
-            if($dictionary->database_table_name !== 'API') {
-                Schema::drop($dictionary->database_table_name);
-            }
-            
-            Dictionary::where('id', $dictionaryId)->delete();
-        });
-
-        return true;
     }
 
     private function searchImportedDictionary($dictionaryTable, $term, $strict = false) {
