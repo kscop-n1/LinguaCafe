@@ -31,20 +31,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('encountered_words', function (Blueprint $table) {
-            $table->string('base_word');
-        });
-
-        DB::table("encountered_words")->chunkById(1000, function (Collection $encountered_words) {
-            foreach ($encountered_words as $word) {
-                DB::table("encountered_words")
-                    ->where('id', $word->id)
-                    ->update(['base_word' => $word->lemma]);
-            }
+        Schema::table("encountered_words", function (Blueprint $table) {
+            $table->renameColumn('lemma', 'base_word');
         });
 
         Schema::table("encountered_words", function (Blueprint $table) {
             $table->renameColumn('lemma_reading', 'base_word_reading');
+        });
+
+        Schema::table('encountered_words', function (Blueprint $table) {
+            $table->string('lemma');
         });
     }
 };
