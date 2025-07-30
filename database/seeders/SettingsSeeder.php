@@ -117,5 +117,14 @@ class SettingsSeeder extends Seeder
                 ]),
             ]);
         }
+
+        // db backup compression setting
+        $setting = Setting::where('name', 'backupCompression')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupCompression',
+                'value' => json_encode(true),
+            ]);
+        }
     }
 }

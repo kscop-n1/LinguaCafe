@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BackupService
 {
-    public function createBackup(): void
+    public function createBackup(bool $compress = false): void
     {
         $host = ' -h ' . env('DB_HOST');
         $port = ' -P ' . env('DB_PORT');
@@ -20,15 +20,26 @@ class BackupService
         $path = '/var/www/html/storage/backup/';
         $prefix = 'linguacafe_';
         $fileName = $prefix . $timestamp . '.sql';
+        if ($compress) {
+            $fileName = $fileName . '.zip';
+        }
         $fullFilePath = $path . $fileName;
 
         $this->deleteOldBackups($prefix);
 
         $exitCode = null;
-        exec(
-            command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath,
-            result_code: $exitCode
-        );
+
+        if ($compress) {
+            exec(
+                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' | zip > ' . $fullFilePath, 
+                result_code: $exitCode
+            );
+        } else {
+            exec(
+                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath, 
+                result_code: $exitCode
+            );
+        }
 
         if ($exitCode !== 0) {
             throw new \Exception('Backup process failed.');
@@ -48,8 +59,8 @@ class BackupService
     private function getBackupFiles(string $prefix): array
     {
         $files = Storage::disk('backup')->files();
-        $files = Arr::where($files, function ($value) use ($prefix) {
-            return strpos($value, $prefix) === 0 && str_contains($value, '.sql');
+        $files = Arr::where($files, function ($value) use($prefix) {
+            return strpos($value, $prefix) === 0 && (str_ends_with($value, '.sql') || str_ends_with($value, '.zip'));
         });
 
         return $files;
