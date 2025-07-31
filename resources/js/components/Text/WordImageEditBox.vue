@@ -331,8 +331,8 @@
                     return
                 }
 
-                if (this.$store.state.vocabularyBox.baseWord.length) {
-                    this.searchTerm = this.$store.state.vocabularyBox.baseWord;
+                if (this.$store.state.vocabularyBox.lemma.length) {
+                    this.searchTerm = this.$store.state.vocabularyBox.lemma;
                     return
                 }
 
