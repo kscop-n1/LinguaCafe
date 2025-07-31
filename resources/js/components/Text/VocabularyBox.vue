@@ -23,7 +23,7 @@
                         <!-- Single word -->
                         <template v-if="type === 'word'">
                             <div class="vocab-box-subheader mb-2 mt-0"><span class="rounded-pill py-1 px-3">Word</span></div>
-                            <!-- With base word -->
+                            <!-- With lemma -->
                             <div class="expression mb-2 text-center default-font" v-if="lemma !== ''">
                                 <ruby>
                                     {{ lemma }}
@@ -40,7 +40,7 @@
                                 </ruby>
                             </div>
                             
-                            <!-- No base word -->
+                            <!-- No lemma -->
                             <div 
                                 class="expression mb-2 text-center default-font" 
                                 v-if="lemma == ''"
