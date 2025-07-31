@@ -343,13 +343,11 @@ class TextBlockService
                 if (in_array($this->processedWords[$wordIndex]->word, $wordsToSkip, true) || is_numeric($this->processedWords[$wordIndex]->word)) {
                     $encounteredWord['stage'] = 1;
                     $encounteredWord['lemma'] = '';
-                    $encounteredWord['lemma'] = '';
                     $encounteredWord['reading'] = '';
                     $encounteredWord['lemma_reading'] = '';
                 }
 
                 if ($encounteredWord['lemma'] == $encounteredWord['word']) {
-                    $encounteredWord['lemma'] = '';
                     $encounteredWord['lemma'] = '';
                     $encounteredWord['lemma_reading'] = '';
                 }
