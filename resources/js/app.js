@@ -177,6 +177,7 @@ import AdminExternalDictionaryImport from './components/Admin/AdminExternalDicti
 import AdminSupportedDictionaryImport from './components/Admin/AdminSupportedDictionaryImport'
 import AdminEditUserDialog from './components/Admin/AdminEditUserDialog'
 import AdminReviewSettings from './components/Admin/AdminReviewSettings'
+import AdminBackupSettings from './components/Admin/AdminBackupSettings'
 Vue.component('admin-dashboard', AdminDashboard)
 Vue.component('admin-user-settings', AdminUserSettings)
 Vue.component('admin-language-settings', AdminLanguageSettings)
@@ -195,6 +196,7 @@ Vue.component('admin-external-dictionary-import', AdminExternalDictionaryImport)
 Vue.component('admin-supported-dictionary-import', AdminSupportedDictionaryImport)
 Vue.component('admin-edit-user-dialog', AdminEditUserDialog)
 Vue.component('admin-review-settings', AdminReviewSettings)
+Vue.component('admin-backup-settings', AdminBackupSettings)
 
 // user manual
 const UserManual = require('./components/UserManual/UserManual.vue').default

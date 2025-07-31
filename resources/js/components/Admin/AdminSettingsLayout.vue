@@ -13,6 +13,7 @@
             <v-tab>Fonts</v-tab>
             <v-tab>API</v-tab>
             <v-tab>Reviews</v-tab>
+            <v-tab>Backups</v-tab>
         </v-tabs>
         <v-tabs-items
             v-model="tab"
@@ -41,6 +42,9 @@
             <v-tab-item :value="6">
                 <admin-review-settings></admin-review-settings>
             </v-tab-item>
+            <v-tab-item :value="7">
+                <admin-backup-settings></admin-backup-settings>
+            </v-tab-item>
         </v-tabs-items>
     </v-container>
     <v-container v-else> You do not have permission to access this page. </v-container>
@@ -60,6 +64,7 @@ export default {
                 'font-types': 4,
                 api: 5,
                 reviews: 6,
+                backups: 7,
             },
             tabUrls: [
                 'dashboard',
@@ -69,6 +74,7 @@ export default {
                 'font-types',
                 'api',
                 'reviews',
+                'backups',
             ],
         }
     },
