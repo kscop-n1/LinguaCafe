@@ -14,6 +14,8 @@
                     <li>Replaced Finnish tokenizer with stanza to improve lemmas.</li>
                     <li>Installed languages are now cached to load them faster.</li>
                     <li>Added context to custom API dictionary requests.</li>
+                    <li>Added continue reading feature.</li>
+                    <li>Added support for more subtitle formats.</li>
                 </ul>
 
 
@@ -26,7 +28,7 @@
 
                 <b>Other changes:</b>
                 <ul>
-                    <li>Lot of backend code has been refactored.</li>
+                    <li>Lot of code has been refactored.</li>
                 </ul>
             </v-card-text>
         </v-card>
