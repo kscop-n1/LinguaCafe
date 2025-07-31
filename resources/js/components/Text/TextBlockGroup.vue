@@ -695,7 +695,7 @@
                     var data = response.data.data;
                     var displayedInflections = ['Non-past', 'Non-past, polite', 'Past', 'Past, polite', 'Te-form', 'Potential', 'Passive', 'Causative', 'Causative Passive', 'Imperative'];
 
-                    for (var i = 0; i < data.length; i++) {
+                    for (var i = 0; i < data?.length; i++) {
                         if (!displayedInflections.includes(data[i].name)) {
                             continue;
                         }
