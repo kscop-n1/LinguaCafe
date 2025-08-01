@@ -2,22 +2,21 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Storage;
 use App\Models\Book;
+use Illuminate\Support\Facades\Storage;
 
-class ImageService {
-    
-    public function __construct() {
-    }
+class ImageService
+{
+    public function __construct() {}
 
     /*
         Checks if the user is authorized to download the image,
         and returns the absolute file path, or throws an exception.
     */
-    public function getBookImage($userId, $fileName) {
-        
-        $book = Book
-            ::where('user_id', $userId)
+    public function getBookImage($userId, $fileName)
+    {
+
+        $book = Book::where('user_id', $userId)
             ->where('cover_image', $fileName)
             ->first();
 

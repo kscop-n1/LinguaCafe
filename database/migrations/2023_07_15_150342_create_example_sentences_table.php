@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use App\Models\EncounteredWord;
 use App\Models\ExampleSentence;
 use App\Models\Phrase;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateExampleSentencesTable extends Migration
 {
@@ -31,14 +31,13 @@ class CreateExampleSentencesTable extends Migration
         });
 
         // Create example sentences from words.
-        $words = EncounteredWord
-            ::where('language', 'japanese')
+        $words = EncounteredWord::where('language', 'japanese')
             ->where('example_sentence', '<>', '')
             ->where('stage', '<', 0)
             ->get();
 
         foreach ($words as $word) {
-            $exampleSentence = new ExampleSentence();
+            $exampleSentence = new ExampleSentence;
             $exampleSentence->user_id = 1;
             $exampleSentence->language = $word->language;
             $exampleSentence->target_type = 'word';
@@ -51,7 +50,7 @@ class CreateExampleSentencesTable extends Migration
             $uniqueWords = [];
             foreach ($exampleSentenceWords as $exampleSentenceWord) {
                 $lowercaseWord = mb_strtolower($exampleSentenceWord, 'UTF-8');
-                $wordData = new \stdClass();
+                $wordData = new \stdClass;
                 $wordData->word = $lowercaseWord;
                 $wordData->phrase_ids = [];
 
@@ -68,13 +67,12 @@ class CreateExampleSentencesTable extends Migration
         }
 
         // Create example sentences from phrases.
-        $phrases = Phrase
-            ::where('language', 'japanese')
+        $phrases = Phrase::where('language', 'japanese')
             ->where('stage', '<', 0)
             ->get();
 
         foreach ($phrases as $phrase) {
-            $exampleSentence = new ExampleSentence();
+            $exampleSentence = new ExampleSentence;
             $exampleSentence->user_id = 1;
             $exampleSentence->language = $word->language;
             $exampleSentence->target_type = 'phrase';
@@ -82,13 +80,12 @@ class CreateExampleSentencesTable extends Migration
             $exampleSentence->words = [];
             $exampleSentence->unique_words = [];
 
-
             // find phrase instance in text
             $exampleSentenceWords = json_decode($phrase->words);
             $exampleSentenceWordsArray = [];
             $uniqueWords = [];
             foreach ($exampleSentenceWords as $exampleSentenceWord) {
-                $wordData = new \stdClass();
+                $wordData = new \stdClass;
                 $wordData->word = $exampleSentenceWord;
                 $wordData->phrase_ids = [];
 

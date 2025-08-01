@@ -6,7 +6,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-class BackupService {
+class BackupService
+{
     public function createBackup(): void
     {
         $host = ' -h ' . env('DB_HOST');
@@ -15,7 +16,7 @@ class BackupService {
         $password = ' -p' . env('DB_PASSWORD');
         $database = ' ' . env('DB_DATABASE');
         $timestamp = Carbon::now()->format('Y_m_d_H_i_s');
-        
+
         $path = '/var/www/html/storage/backup/';
         $prefix = 'linguacafe_';
         $fileName = $prefix . $timestamp . '.sql';
@@ -25,11 +26,11 @@ class BackupService {
 
         $exitCode = null;
         exec(
-            command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath, 
+            command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath,
             result_code: $exitCode
         );
 
-        if ($exitCode !== 0)  {
+        if ($exitCode !== 0) {
             throw new \Exception('Backup process failed.');
         }
     }
@@ -44,10 +45,10 @@ class BackupService {
         }
     }
 
-    private function getBackupFiles(string $prefix): array 
+    private function getBackupFiles(string $prefix): array
     {
         $files = Storage::disk('backup')->files();
-        $files = Arr::where($files, function ($value) use($prefix) {
+        $files = Arr::where($files, function ($value) use ($prefix) {
             return strpos($value, $prefix) === 0 && str_contains($value, '.sql');
         });
 

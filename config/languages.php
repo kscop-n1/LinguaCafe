@@ -4,7 +4,7 @@
     Format:
 
     'language' => [
-        'linguacafe_support' => bool, // can this language be learned in linguacafe 
+        'linguacafe_support' => bool, // can this language be learned in linguacafe
         'tokenizer' => null|string, // name of the tokenizer if linguacafe_supported, otherwise null
         'install_required' => bool,
         'words_separated_by_spaces' => bool,
@@ -32,7 +32,6 @@
 
 */
 
-
 return [
     'afrikaans' => [
         'linguacafe_support' => true,
@@ -50,7 +49,7 @@ return [
         'unicode_emoji' => '🇿🇦',
         'dictionaries' => [
             'Wiktionary',
-        ]
+        ],
     ],
     'albanian' => [
         'linguacafe_support' => false,
@@ -68,7 +67,7 @@ return [
         'unicode_emoji' => '🇦🇱',
         'dictionaries' => [
             'Wiktionary',
-        ]
+        ],
     ],
     'arabic' => [
         'linguacafe_support' => false,
@@ -86,7 +85,7 @@ return [
         'unicode_emoji' => '🇸🇦',
         'dictionaries' => [
 
-        ]
+        ],
     ],
     'armenian' => [
         'linguacafe_support' => true,
@@ -103,8 +102,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇦🇲',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'basque' => [
         'linguacafe_support' => true,
@@ -121,8 +120,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'belarusian' => [
         'linguacafe_support' => true,
@@ -139,8 +138,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇧🇾',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'bosnian' => [
         'linguacafe_support' => false,
@@ -158,7 +157,7 @@ return [
         'unicode_emoji' => '🇧🇦',
         'dictionaries' => [
 
-        ]
+        ],
     ],
     'buryat' => [
         'linguacafe_support' => true,
@@ -175,8 +174,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'bulgarian' => [
         'linguacafe_support' => true,
@@ -193,8 +192,8 @@ return [
         'dict_cc_code' => 'BG',
         'unicode_emoji' => '🇧🇬',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'brazilian portuguese' => [
         'linguacafe_support' => false,
@@ -211,8 +210,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇧🇷',
         'dictionaries' => [
-            
-        ]
+
+        ],
     ],
     'catalan' => [
         'linguacafe_support' => true,
@@ -230,7 +229,7 @@ return [
         'unicode_emoji' => '🇦🇩',
         'dictionaries' => [
 
-        ]
+        ],
     ],
     'chinese' => [
         'linguacafe_support' => true,
@@ -249,7 +248,7 @@ return [
         'dictionaries' => [
             'Wiktionary',
             'cc-cedict',
-        ]
+        ],
     ],
     // coptic tokenizer does not split words correctly
     // 'coptic' => [
@@ -284,7 +283,7 @@ return [
         'database_dictionary_table_name' => 'hr',
         'dict_cc_code' => 'HR',
         'unicode_emoji' => '🇭🇷',
-        'dictionaries' => []
+        'dictionaries' => [],
     ],
     'czech' => [
         'linguacafe_support' => true,
@@ -301,8 +300,8 @@ return [
         'dict_cc_code' => 'CS',
         'unicode_emoji' => '🇨🇿',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'danish' => [
         'linguacafe_support' => true,
@@ -319,8 +318,8 @@ return [
         'dict_cc_code' => 'DA',
         'unicode_emoji' => '🇩🇰',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'dutch' => [
         'linguacafe_support' => true,
@@ -337,8 +336,8 @@ return [
         'dict_cc_code' => 'NL',
         'unicode_emoji' => '🇳🇱',
         'dictionaries' => [
-            
-        ]
+
+        ],
     ],
     'english' => [
         'linguacafe_support' => true,
@@ -356,7 +355,7 @@ return [
         'unicode_emoji' => '🇬🇧',
         'dictionaries' => [
 
-        ]
+        ],
     ],
     'erzya' => [
         'linguacafe_support' => true,
@@ -373,8 +372,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'esperanto' => [
         'linguacafe_support' => false,
@@ -391,8 +390,8 @@ return [
         'dict_cc_code' => 'EO',
         'unicode_emoji' => '-',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'estonian' => [
         'linguacafe_support' => true,
@@ -409,8 +408,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇪🇪',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'faroese' => [
         'linguacafe_support' => true,
@@ -427,8 +426,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇫🇴',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'finnish' => [
         'linguacafe_support' => true,
@@ -445,8 +444,8 @@ return [
         'dict_cc_code' => 'FI',
         'unicode_emoji' => '🇫🇮',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'french' => [
         'linguacafe_support' => true,
@@ -463,8 +462,8 @@ return [
         'dict_cc_code' => 'FR',
         'unicode_emoji' => '🇫🇷',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'galician' => [
         'linguacafe_support' => true,
@@ -481,8 +480,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '-',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'german' => [
         'linguacafe_support' => true,
@@ -499,8 +498,8 @@ return [
         'dict_cc_code' => 'DE',
         'unicode_emoji' => '🇩🇪',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'greek' => [
         'linguacafe_support' => true,
@@ -517,8 +516,8 @@ return [
         'dict_cc_code' => 'EL',
         'unicode_emoji' => '🇬🇷',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     // need support for right to left text
     // 'hebrew' => [
@@ -554,8 +553,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇮🇳',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'hungarian' => [
         'linguacafe_support' => true,
@@ -573,7 +572,7 @@ return [
         'unicode_emoji' => '🇭🇺',
         'dictionaries' => [
             'Wiktionary',
-        ]
+        ],
     ],
     'icelandic' => [
         'linguacafe_support' => true,
@@ -590,8 +589,8 @@ return [
         'dict_cc_code' => 'IS',
         'unicode_emoji' => '🇮🇸',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'indonesian' => [
         'linguacafe_support' => true,
@@ -608,8 +607,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇮🇩',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'irish' => [
         'linguacafe_support' => true,
@@ -626,8 +625,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇮🇪',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'italian' => [
         'linguacafe_support' => true,
@@ -644,8 +643,8 @@ return [
         'dict_cc_code' => 'IT',
         'unicode_emoji' => '🇮🇹',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'japanese' => [
         'linguacafe_support' => true,
@@ -664,7 +663,7 @@ return [
         'dictionaries' => [
             'Wiktionary',
             'jmdict',
-        ]
+        ],
     ],
     'kazakh' => [
         'linguacafe_support' => true,
@@ -681,8 +680,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇰🇿',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'korean' => [
         'linguacafe_support' => true,
@@ -701,7 +700,7 @@ return [
         'dictionaries' => [
             'Wiktionary',
             'kengdic',
-        ]
+        ],
     ],
     'kyrgyz' => [
         'linguacafe_support' => true,
@@ -718,8 +717,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇰🇬',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     // 'kurmanji' => [
     // has stanza support, but found no dictionary at all, and it is a dialect
@@ -739,8 +738,8 @@ return [
         'dict_cc_code' => 'LA',
         'unicode_emoji' => '-',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'latvian' => [
         'linguacafe_support' => true,
@@ -757,8 +756,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇱🇻',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     // Tokenizer splits NEWLINE words.
     // 'ligurian' => [
@@ -794,8 +793,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇱🇹',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'macedonian' => [
         'linguacafe_support' => true,
@@ -812,8 +811,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇲🇰',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'maltese' => [
         'linguacafe_support' => true,
@@ -830,8 +829,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇲🇹',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     // Tokenizer splits NEWLINE words.
     // 'manx' => [
@@ -895,7 +894,7 @@ return [
         'unicode_emoji' => '-',
         'dictionaries' => [
             'Wiktionary',
-        ]
+        ],
     ],
 
     'norwegian' => [
@@ -914,7 +913,7 @@ return [
         'unicode_emoji' => '🇳🇴',
         'dictionaries' => [
             'Wiktionary',
-        ]
+        ],
     ],
     // right to left language
     // 'persian' => [
@@ -937,8 +936,8 @@ return [
         'dict_cc_code' => 'PL',
         'unicode_emoji' => '🇵🇱',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'portuguese' => [
         'linguacafe_support' => true,
@@ -955,8 +954,8 @@ return [
         'dict_cc_code' => 'PT',
         'unicode_emoji' => '🇵🇹',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'romanian' => [
         'linguacafe_support' => true,
@@ -973,8 +972,8 @@ return [
         'dict_cc_code' => 'RO',
         'unicode_emoji' => '🇷🇴',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'russian' => [
         'linguacafe_support' => true,
@@ -991,8 +990,8 @@ return [
         'dict_cc_code' => 'RU',
         'unicode_emoji' => '🇷🇺',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     // sentence segmentation does not work
     // 'sanskrit' => [
@@ -1029,7 +1028,7 @@ return [
         'unicode_emoji' => '🇷🇸',
         'dictionaries' => [
 
-        ]
+        ],
     ],
     'slovak' => [
         'linguacafe_support' => true,
@@ -1046,8 +1045,8 @@ return [
         'dict_cc_code' => 'SK',
         'unicode_emoji' => '🇸🇰',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'slovenian' => [
         'linguacafe_support' => true,
@@ -1064,8 +1063,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇸🇮',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'spanish' => [
         'linguacafe_support' => true,
@@ -1082,8 +1081,8 @@ return [
         'dict_cc_code' => 'ES',
         'unicode_emoji' => '🇪🇸',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     // 'swahili' => [
     //     'website_import_support' => true,
@@ -1107,7 +1106,7 @@ return [
         'unicode_emoji' => '🇸🇪',
         'dictionaries' => [
 
-        ]
+        ],
     ],
     'tamil' => [
         'linguacafe_support' => true,
@@ -1124,8 +1123,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇮🇳',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'telugu' => [
         'linguacafe_support' => true,
@@ -1142,8 +1141,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇮🇳',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'thai' => [
         'linguacafe_support' => true,
@@ -1160,8 +1159,8 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇹🇭',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'turkish' => [
         'linguacafe_support' => true,
@@ -1178,8 +1177,8 @@ return [
         'dict_cc_code' => 'TR',
         'unicode_emoji' => '🇹🇷',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
     'ukrainian' => [
         'linguacafe_support' => true,
@@ -1196,24 +1195,24 @@ return [
         'dict_cc_code' => null,
         'unicode_emoji' => '🇺🇦',
         'dictionaries' => [
-            'Wiktionary'
-        ]
+            'Wiktionary',
+        ],
     ],
-    
+
     // right to left
     // 'urdu' => [
     // 'dictionaries' => [
     //     'Wiktionary'
     // ]
     // ],
-    
+
     // right to left
     // 'uyghur' => [
     // 'dictionaries' => [
     //     'Wiktionary'
     // ]
     // ],
-    
+
     // 'vietnamese' => [
     //     'linguacafe_support' => false,
     //     'tokenizer' => 'stanza',
@@ -1250,6 +1249,6 @@ return [
         'dictionaries' => [
             'Wiktionary',
             'eurfa',
-        ]
+        ],
     ],
 ];

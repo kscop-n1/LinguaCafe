@@ -2,39 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TempFileService;
-
+use App\Helpers\Language\LanguageConfig;
 // services
+use App\Http\Requests\Vocabulary\CreateOrUpdateExampleSentenceRequest;
+use App\Http\Requests\Vocabulary\CreatePhraseRequest;
+// request classes
+use App\Http\Requests\Vocabulary\DeletePhraseRequest;
+use App\Http\Requests\Vocabulary\ExportToCsvRequest;
+use App\Http\Requests\Vocabulary\GetExampleSentenceRequest;
+use App\Http\Requests\Vocabulary\GetKanjiDetailsRequest;
+use App\Http\Requests\Vocabulary\GetPhraseRequest;
+use App\Http\Requests\Vocabulary\GetUniqueWordRequest;
+use App\Http\Requests\Vocabulary\ImportFromCsvRequest;
+use App\Http\Requests\Vocabulary\SearchKanjiRequest;
+use App\Http\Requests\Vocabulary\SearchVocabularyRequest;
+use App\Http\Requests\Vocabulary\UpdatePhraseRequest;
+use App\Http\Requests\Vocabulary\UpdateWordRequest;
+use App\Services\TempFileService;
 use App\Services\VocabularyService;
 use Illuminate\Support\Facades\Auth;
 
-// request classes
-use App\Helpers\Language\LanguageConfig;
-use App\Http\Requests\Vocabulary\GetPhraseRequest;
-use App\Http\Requests\Vocabulary\UpdateWordRequest;
-use App\Http\Requests\Vocabulary\ExportToCsvRequest;
-use App\Http\Requests\Vocabulary\SearchKanjiRequest;
-use App\Http\Requests\Vocabulary\CreatePhraseRequest;
-use App\Http\Requests\Vocabulary\DeletePhraseRequest;
-use App\Http\Requests\Vocabulary\UpdatePhraseRequest;
-use App\Http\Requests\Vocabulary\GetUniqueWordRequest;
-use App\Http\Requests\Vocabulary\ImportFromCsvRequest;
-use App\Http\Requests\Vocabulary\GetKanjiDetailsRequest;
-use App\Http\Requests\Vocabulary\SearchVocabularyRequest;
-use App\Http\Requests\Vocabulary\GetExampleSentenceRequest;
-use App\Http\Requests\Vocabulary\CreateOrUpdateExampleSentenceRequest;
-
-class VocabularyController extends Controller {
+class VocabularyController extends Controller
+{
     private $vocabularyService;
+
     private $tempFileService;
 
-    public function __construct(VocabularyService $vocabularyService, TempFileService $tempFileService) {
+    public function __construct(VocabularyService $vocabularyService, TempFileService $tempFileService)
+    {
         $this->vocabularyService = $vocabularyService;
         $this->tempFileService = $tempFileService;
     }
 
-
-    public function getUniqueWord($wordId, GetUniqueWordRequest $request) {
+    public function getUniqueWord($wordId, GetUniqueWordRequest $request)
+    {
         $userId = Auth::user()->id;
 
         try {
@@ -46,26 +47,27 @@ class VocabularyController extends Controller {
         return response()->json($word, 200);
     }
 
-    public function updateWord(UpdateWordRequest $request) {
+    public function updateWord(UpdateWordRequest $request)
+    {
         $userId = Auth::user()->id;
         $wordId = $request->post('id');
         $wordData = [];
         $wordStage = null;
 
         if ($request->has('translation')) {
-            $wordData['translation'] = $request->translation === NULL ? '' : $request->translation;
+            $wordData['translation'] = $request->translation === null ? '' : $request->translation;
         }
 
         if ($request->has('reading')) {
-            $wordData['reading'] = $request->reading === NULL ? '' : $request->reading;
+            $wordData['reading'] = $request->reading === null ? '' : $request->reading;
         }
 
         if ($request->has('lemma')) {
-            $wordData['lemma'] = $request->lemma === NULL ? '' : $request->lemma;
+            $wordData['lemma'] = $request->lemma === null ? '' : $request->lemma;
         }
 
         if ($request->has('lemma_reading')) {
-            $wordData['lemma_reading'] = $request->lemma_reading === NULL ? '' : $request->lemma_reading;
+            $wordData['lemma_reading'] = $request->lemma_reading === null ? '' : $request->lemma_reading;
         }
 
         if (isset($request->lookup_count)) {
@@ -93,7 +95,8 @@ class VocabularyController extends Controller {
         return response()->json('Word has been successfully updated.', 200);
     }
 
-    public function getPhrase($phraseId, GetPhraseRequest $request) {
+    public function getPhrase($phraseId, GetPhraseRequest $request)
+    {
         $userId = Auth::user()->id;
 
         try {
@@ -105,7 +108,8 @@ class VocabularyController extends Controller {
         return response()->json($phrase, 200);
     }
 
-    public function createPhrase(CreatePhraseRequest $request) {
+    public function createPhrase(CreatePhraseRequest $request)
+    {
         $userId = Auth::user()->id;
         $language = LanguageConfig::load(Auth::user()->selected_language);
         $words = json_decode($request->words);
@@ -122,18 +126,19 @@ class VocabularyController extends Controller {
         return response()->json($phraseId, 200);
     }
 
-    public function updatePhrase(UpdatePhraseRequest $request) {
+    public function updatePhrase(UpdatePhraseRequest $request)
+    {
         $userId = Auth::user()->id;
         $phraseId = $request->post('id');
         $phraseData = [];
         $phraseStage = null;
 
         if ($request->has('translation')) {
-            $phraseData['translation'] = $request->translation === NULL ? '' : $request->translation;
+            $phraseData['translation'] = $request->translation === null ? '' : $request->translation;
         }
 
         if ($request->has('reading')) {
-            $phraseData['reading'] = $request->reading === NULL ? '' : $request->reading;
+            $phraseData['reading'] = $request->reading === null ? '' : $request->reading;
         }
 
         if (isset($request->lookup_count)) {
@@ -157,11 +162,12 @@ class VocabularyController extends Controller {
         return response()->json('Phrase has been successfully updated.', 200);
     }
 
-    public function deletePhrase(DeletePhraseRequest $request) {
+    public function deletePhrase(DeletePhraseRequest $request)
+    {
         $userId = Auth::user()->id;
         $language = Auth::user()->selected_language;
         $phraseId = $request->post('phraseId');
-        
+
         try {
             $this->vocabularyService->deletePhrase($userId, $language, $phraseId);
         } catch (\Exception $e) {
@@ -171,9 +177,10 @@ class VocabularyController extends Controller {
         return response()->json('Phrase has been successfully deleted.', 200);
     }
 
-    public function getExampleSentence($targetType, $targetId, GetExampleSentenceRequest $request) {
+    public function getExampleSentence($targetType, $targetId, GetExampleSentenceRequest $request)
+    {
         $userId = Auth::user()->id;
-        
+
         try {
             $exampleSentence = $this->vocabularyService->getExampleSentence($userId, $targetType, $targetId);
         } catch (\Exception $e) {
@@ -183,7 +190,8 @@ class VocabularyController extends Controller {
         return response()->json($exampleSentence, 200);
     }
 
-    public function createOrUpdateExampleSentence(CreateOrUpdateExampleSentenceRequest $request) {
+    public function createOrUpdateExampleSentence(CreateOrUpdateExampleSentenceRequest $request)
+    {
         $language = Auth::user()->selected_language;
         $userId = Auth::user()->id;
         $targetType = $request->targetType;
@@ -199,7 +207,8 @@ class VocabularyController extends Controller {
         return response()->json('Example sentence has been successfully saved.', 200);
     }
 
-    public function searchVocabulary(SearchVocabularyRequest $request) {
+    public function searchVocabulary(SearchVocabularyRequest $request)
+    {
         $userId = Auth::user()->id;
         $language = LanguageConfig::load(Auth::user()->selected_language);
         $text = $request->text;
@@ -209,7 +218,7 @@ class VocabularyController extends Controller {
         $phrases = $request->phrases;
         $orderBy = $request->orderBy;
         $translation = $request->translation;
-        $page = $request->page; 
+        $page = $request->page;
 
         try {
             $searchResults = $this->vocabularyService->searchVocabulary($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $page);
@@ -220,7 +229,8 @@ class VocabularyController extends Controller {
         return response()->json($searchResults, 200);
     }
 
-    public function exportToCsv(ExportToCsvRequest $request) {
+    public function exportToCsv(ExportToCsvRequest $request)
+    {
         $userId = Auth::user()->id;
         $language = LanguageConfig::load(Auth::user()->selected_language);
         $text = $request->post('text');
@@ -250,10 +260,12 @@ class VocabularyController extends Controller {
         }
 
         $csv->output('vocabulary.csv');
+
         return response('', 200);
     }
 
-    public function searchKanji(SearchKanjiRequest $request) {
+    public function searchKanji(SearchKanjiRequest $request)
+    {
         $language = Auth::user()->selected_language;
         $userId = Auth::user()->id;
         $groupBy = $request->post('kanjiGroupBy');
@@ -268,7 +280,8 @@ class VocabularyController extends Controller {
         return response()->json($kanji, 200);
     }
 
-    public function getKanjiDetails(GetKanjiDetailsRequest $request) {
+    public function getKanjiDetails(GetKanjiDetailsRequest $request)
+    {
         $userId = Auth::user()->id;
         $kanjiCharacter = $request->post('kanji');
 
@@ -281,7 +294,8 @@ class VocabularyController extends Controller {
         return response()->json($kanjiData, 200);
     }
 
-    public function importFromCsv(ImportFromCsvRequest $request) {
+    public function importFromCsv(ImportFromCsvRequest $request)
+    {
         $userId = Auth::user()->id;
         $language = Auth::user()->selected_language;
         $importFile = $request->file('importFile');
@@ -298,6 +312,7 @@ class VocabularyController extends Controller {
         }
 
         $this->tempFileService->deleteTempFile($fileName);
+
         return response()->json($importResponseData, 200);
     }
 }

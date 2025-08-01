@@ -26,8 +26,8 @@ class CreateBackup extends Command
      */
     public function handle()
     {
-        $exitCode = (new BackupService())->createBackup();
-        
+        $exitCode = (new BackupService)->createBackup();
+
         return $exitCode;
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Helpers\Language;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class LanguageConfig
 {
@@ -23,8 +23,7 @@ class LanguageConfig
         public ?string $dictCcCode,
         public ?string $emoji,
         public Collection $dictionaries,
-    )
-    {
+    ) {
         //
     }
 
@@ -33,7 +32,7 @@ class LanguageConfig
     {
         return $this->installRequired;
     }
-    
+
     public function hasSpaces(): bool
     {
         return $this->wordsSeparatedBySpaces;
@@ -100,7 +99,7 @@ class LanguageConfig
 
         $languages = collect(config('languages'));
 
-        $languages->each(function(array $languageData, string $languageName) use($languageObjects) {
+        $languages->each(function (array $languageData, string $languageName) use ($languageObjects) {
             $languageObjects->push(self::create($languageName, $languageData));
         });
 
@@ -115,7 +114,7 @@ class LanguageConfig
         if (!isset($languages[$language])) {
             return null;
         }
-        
+
         return self::create($language, $languages[$language]);
     }
 

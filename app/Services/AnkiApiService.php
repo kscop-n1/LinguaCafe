@@ -2,14 +2,17 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Http;
 
-class AnkiApiService {
+class AnkiApiService
+{
     protected $ankiHost = '';
+
     protected $updateCards = false;
 
-    public function __construct() {
+    public function __construct()
+    {
         $ankiHostSetting = Setting::where('name', 'ankiConnectHost')->first();
         $ankiUpdateCardsSetting = Setting::where('name', 'ankiUpdateCards')->first();
         $this->ankiHost = json_decode($ankiHostSetting->value);
@@ -19,7 +22,8 @@ class AnkiApiService {
     /*
         Adds or updates a card in anki.
     */
-    public function addWord($language, $word, $reading, $translation, $exampleSentence) {
+    public function addWord($language, $word, $reading, $translation, $exampleSentence)
+    {
         // try to insert word into anki with api
         $firstInsertResult = $this->insertNote($language, $word, $reading, $translation, $exampleSentence);
 
@@ -30,9 +34,9 @@ class AnkiApiService {
             if ($createDeckResult !== 'success') {
                 throw new \Exception($createDeckResult);
             }
-            
+
             $secondInsertResult = $this->insertNote($language, $word, $reading, $translation, $exampleSentence);
-            
+
             if ($secondInsertResult !== 'success' && $secondInsertResult !== 'update success') {
                 throw new \Exception($secondInsertResult);
             }
@@ -50,7 +54,8 @@ class AnkiApiService {
     /*
         Sends an api call to anki to create new model and deck.
     */
-    private function createAnkiDeckAndModel($language) {
+    private function createAnkiDeckAndModel($language)
+    {
         $createModelData = '{
             "action": "createModel",
             "version": 6,
@@ -67,7 +72,7 @@ class AnkiApiService {
                 ]
             }
         }';
-        
+
         $createDeckData = '{
             "action": "createDeck",
             "version": 6,
@@ -78,10 +83,9 @@ class AnkiApiService {
 
         try {
             // create model anki api call
-            $createModelResult = Http
-                ::withBody($createModelData, 'application/json')
+            $createModelResult = Http::withBody($createModelData, 'application/json')
                 ->post($this->ankiHost);
-            
+
             $createModelResult = json_decode($createModelResult);
             if ($createModelResult->error !== null) {
                 if ($createModelResult->error !== 'Model name already exists') {
@@ -90,8 +94,7 @@ class AnkiApiService {
             }
 
             // create deck anki api call
-            $createDeckResult = Http
-                ::withBody($createDeckData, 'application/json')
+            $createDeckResult = Http::withBody($createDeckData, 'application/json')
                 ->post($this->ankiHost);
             $createDeckResult = json_decode($createDeckResult);
 
@@ -101,15 +104,16 @@ class AnkiApiService {
         } catch (\Exception $e) {
             return 'Error:' . $e->getMessage();
         }
-        
+
         return 'success';
     }
 
     /*
-        Sends an api call to anki to insert a new note. 
+        Sends an api call to anki to insert a new note.
         It will update the not if it already exists.
     */
-    private function insertNote($language, $word, $reading, $translation, $exampleSentence) {
+    private function insertNote($language, $word, $reading, $translation, $exampleSentence)
+    {
         $insertNoteApiData = '{
             "version": 6,
             "action": "addNote",
@@ -137,17 +141,16 @@ class AnkiApiService {
         }';
 
         try {
-            $insertNoteResult = Http
-                ::withBody($insertNoteApiData, 'application/json')
+            $insertNoteResult = Http::withBody($insertNoteApiData, 'application/json')
                 ->post($this->ankiHost);
 
             $insertNoteResult = json_decode($insertNoteResult);
-            
+
             // missing deck error
             if (is_string($insertNoteResult->error) && str_contains($insertNoteResult->error, 'was not found: LinguaCafe')) {
                 return 'Missing model or deck.';
             }
-            
+
             // update note if it's a duplicate
             if (is_string($insertNoteResult->error) && $insertNoteResult->error === 'cannot create note because it is a duplicate') {
                 if (!$this->updateCards) {
@@ -155,6 +158,7 @@ class AnkiApiService {
                 }
 
                 $updateNoteResponse = $this->updateNote($language, $word, $reading, $translation, $exampleSentence);
+
                 return $updateNoteResponse;
             }
 
@@ -176,7 +180,8 @@ class AnkiApiService {
     /*
         Sends an api call to anki to update a note.
     */
-    private function updateNote($language, $word, $reading, $translation, $exampleSentence) {
+    private function updateNote($language, $word, $reading, $translation, $exampleSentence)
+    {
         $findNoteApiData = '{
             "action": "findNotes",
             "version": 6,
@@ -186,12 +191,11 @@ class AnkiApiService {
         }';
 
         try {
-            $findNoteResult = Http
-                ::withBody($findNoteApiData, 'application/json')
+            $findNoteResult = Http::withBody($findNoteApiData, 'application/json')
                 ->post($this->ankiHost);
 
             $findNoteResult = json_decode($findNoteResult);
-            
+
             // error while requesting duplicate note id
             if (is_string($findNoteResult->error)) {
                 return 'Error retrieving duplicate note:' . $findNoteResult->error;
@@ -223,12 +227,11 @@ class AnkiApiService {
         }';
 
         try {
-            $updateNoteResult = Http
-                ::withBody($updateNoteApiData, 'application/json')
+            $updateNoteResult = Http::withBody($updateNoteApiData, 'application/json')
                 ->post($this->ankiHost);
 
             $updateNoteResult = json_decode($updateNoteResult);
-            
+
             // error while updating duplicate note
             if (is_string($updateNoteResult->error)) {
                 return 'Error updating note:' . $updateNoteResult->error;

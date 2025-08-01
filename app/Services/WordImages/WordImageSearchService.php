@@ -6,21 +6,22 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class WordImageSearchService 
+class WordImageSearchService
 {
     private $maxTries;
+
     private $delayBetweenTries;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->maxTries = 10;
         $this->delayBetweenTries = 1000;
     }
 
-    public function search(string $searchTerm) : Collection
+    public function search(string $searchTerm): Collection
     {
-        $bingUrl = "https://www.bing.com/images/search";
-        $searchUrl = $bingUrl . "?q=" . urlencode($searchTerm);
+        $bingUrl = 'https://www.bing.com/images/search';
+        $searchUrl = $bingUrl . '?q=' . urlencode($searchTerm);
 
         $imageSearchResponse = $this->makeBingRequests($searchUrl);
 
@@ -28,7 +29,7 @@ class WordImageSearchService
             throw new \Exception('Bing search has returned an empty page.');
         }
 
-        $imageSearchDom = new \DOMDocument();
+        $imageSearchDom = new \DOMDocument;
         libxml_use_internal_errors(true);
         $imageSearchDom->loadHTML($imageSearchResponse->body());
         libxml_clear_errors();
@@ -37,7 +38,7 @@ class WordImageSearchService
         $nodes = $xpath->query('//div[@class="imgpt"]/a/@m');
 
         $urls = [];
-        foreach($nodes as $node) {
+        foreach ($nodes as $node) {
             $jsonObject = json_decode($node->nodeValue);
 
             if ($jsonObject === null) {
@@ -50,7 +51,6 @@ class WordImageSearchService
             ];
         }
 
-
         return collect($urls)->take(20);
     }
 
@@ -61,7 +61,7 @@ class WordImageSearchService
 
         while ($retries < $this->maxTries && ($retries === 0 || !$this->validateResponse($response))) {
             $response = Http::get($url);
-            $retries ++;
+            $retries++;
 
             if (!$this->validateResponse($response)) {
                 usleep($this->delayBetweenTries * 1000);
@@ -71,17 +71,17 @@ class WordImageSearchService
         return $response;
     }
 
-    private function validateResponse(null|Response $response): bool
+    private function validateResponse(?Response $response): bool
     {
         if ($response === null) {
             return false;
         }
 
-        if(!$response->ok()) {
+        if (!$response->ok()) {
             return false;
         }
 
-        if(!strlen($response->body())) {
+        if (!strlen($response->body())) {
             return false;
         }
 

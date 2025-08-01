@@ -2,29 +2,26 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
 use App\Models\Book;
-use App\Models\User;
-use App\Models\Phrase;
-use App\Models\Chapter;
 use App\Models\Bookmark;
-
-use Illuminate\Support\Str;
-use App\Services\GoalService;
+use App\Models\Chapter;
 use App\Models\EncounteredWord;
 use App\Models\ExampleSentence;
 use App\Models\GoalAchievement;
+use App\Models\Phrase;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-class UserService {
-    
-    public function __construct() {
-    }
+class UserService
+{
+    public function __construct() {}
 
-    public function getUsers($userId) {
-        $users = User
-            ::select(['id', 'name', 'email', 'is_admin', 'password_changed', 'created_at'])
+    public function getUsers($userId)
+    {
+        $users = User::select(['id', 'name', 'email', 'is_admin', 'password_changed', 'created_at'])
             ->get();
 
         foreach ($users as $user) {
@@ -35,16 +32,17 @@ class UserService {
         return $users;
     }
 
-    public function updatePassword($user, $password) {
+    public function updatePassword($user, $password)
+    {
         $user->password = Hash::make($password);
         $user->password_changed = true;
         $user->save();
     }
 
-    public function createUser($name, $email, $password, $isAdmin, $passwordChanged) {
+    public function createUser($name, $email, $password, $isAdmin, $passwordChanged)
+    {
         // check for duplicated e-email address
-        $user = User
-            ::where('email', $email)
+        $user = User::where('email', $email)
             ->first();
 
         if ($user) {
@@ -52,7 +50,7 @@ class UserService {
         }
 
         // create user
-        $user = new User();
+        $user = new User;
         $user->name = $name;
         $user->email = $email;
         $user->is_admin = $isAdmin;
@@ -61,15 +59,15 @@ class UserService {
         $user->password = Hash::make($password);
         $user->save();
 
-        (new GoalService())->createGoalsForLanguage($user->id, 'spanish');
+        (new GoalService)->createGoalsForLanguage($user->id, 'spanish');
 
         return true;
     }
 
-    public function updateUser($userId, $name, $email, $isAdmin) {
+    public function updateUser($userId, $name, $email, $isAdmin)
+    {
         // check for duplicated e-email address
-        $user = User
-            ::where('email', $email)
+        $user = User::where('email', $email)
             ->where('id', '<>', $userId)
             ->first();
 
@@ -79,8 +77,7 @@ class UserService {
 
         // check if user can be set to not admin
         if (!$isAdmin) {
-            $otherAdminAccounts = User
-                ::where('id', '<>', $userId)
+            $otherAdminAccounts = User::where('id', '<>', $userId)
                 ->where('is_admin', true)
                 ->count();
 
@@ -90,14 +87,13 @@ class UserService {
         }
 
         // retrieve user
-        $user = User
-            ::where('id', $userId)
+        $user = User::where('id', $userId)
             ->first();
 
         if (!$user) {
             throw new \Exception('This user does not exist.');
         }
-        
+
         // update user
         $user->name = $name;
         $user->email = $email;
@@ -109,7 +105,7 @@ class UserService {
 
     public function deleteUserLanguageData($userId, $language): void
     {
-        DB::transaction(function() use($userId, $language) {
+        DB::transaction(function () use ($userId, $language) {
             Phrase::query()
                 ->where('user_id', $userId)
                 ->where('language', $language)
@@ -124,7 +120,7 @@ class UserService {
                 ->where('user_id', $userId)
                 ->where('language', $language)
                 ->delete();
-            
+
             Bookmark::query()
                 ->where('user_id', '=', $userId)
                 ->where('language', '=', $language)
@@ -134,7 +130,7 @@ class UserService {
                 ->where('user_id', $userId)
                 ->where('language', $language)
                 ->delete();
-            
+
             Book::query()
                 ->where('user_id', $userId)
                 ->where('language', $language)

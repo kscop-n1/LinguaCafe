@@ -2,28 +2,27 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use App\Helpers\Language\LanguageConfig;
 use App\Models\User;
-use Illuminate\Support\Str;
 use App\Services\LanguageService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use App\Helpers\Language\LanguageConfig;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class TextImportTest extends TestCase
 {
-    
     public function test_plain_text_import(): void
     {
         $this->artisan('migrate:fresh');
         $this->artisan('db:seed', ['--force']);
-        
+
         $user = User::factory()->create();
-        $installedLanguages = (new LanguageService())->getInstalledLanguages();
+        $installedLanguages = (new LanguageService)->getInstalledLanguages();
         $languages = $this->getInstalledLanguages();
 
-        $languages->each(function(LanguageConfig $language) use($user) {
+        $languages->each(function (LanguageConfig $language) use ($user) {
             $this->print('Importing ' . $language->name . ' text.');
 
             $this->actingAs($user)->get('/languages/select/' . $language->name);
@@ -31,7 +30,7 @@ class TextImportTest extends TestCase
 
             $fileName = Str::replace(' ', '_', $language->name) . '.txt';
             $text = Storage::disk('test')->get('texts/' . $fileName);
-        
+
             $response = $this->actingAs($user)->post('/import', [
                 'importType' => 'plain-text',
                 'eBookChapterSortMethod' => 'default',
@@ -45,7 +44,7 @@ class TextImportTest extends TestCase
 
             $response->assertStatus(200);
         });
-        
+
     }
 
     public function test_subtitle_import(): void
@@ -53,14 +52,14 @@ class TextImportTest extends TestCase
         $user = User::first();
         $languages = $this->getInstalledLanguages();
 
-        $languages->each(function(LanguageConfig $language) use($user) {
+        $languages->each(function (LanguageConfig $language) use ($user) {
             $this->print('Importing ' . $language->name . ' subtitle.');
 
             $this->actingAs($user)->get('/languages/select/' . $language->name);
             $user->refresh();
 
             $fileName = Str::replace(' ', '_', $language->name) . '.srt';
-            $fileContents =  Storage::disk('test')->get('subtitles/' . $fileName);
+            $fileContents = Storage::disk('test')->get('subtitles/' . $fileName);
 
             $file = new UploadedFile(
                 path: Storage::disk('test')->path('subtitles/' . $fileName),
@@ -74,7 +73,7 @@ class TextImportTest extends TestCase
 
             $fileContentResponse->assertStatus(200);
 
-            Storage::disk('test')->put('subtitles/' . $fileName, $fileContents);          
+            Storage::disk('test')->put('subtitles/' . $fileName, $fileContents);
 
             $response = $this->actingAs($user)->post('/import', [
                 'importType' => 'subtitle-file',
@@ -86,10 +85,10 @@ class TextImportTest extends TestCase
                 'maximumCharactersPerChapter' => 2000,
                 'importSubtitles' => $fileContentResponse->getContent(),
             ]);
-            
+
             $response->assertStatus(200);
         });
-        
+
         $this->print('Tests finished, test user: ' . $user->email);
     }
 
@@ -100,13 +99,14 @@ class TextImportTest extends TestCase
 
     private function getInstalledLanguages(): Collection
     {
-        $installedLanguages = (new LanguageService())->getInstalledLanguages();
+        $installedLanguages = (new LanguageService)->getInstalledLanguages();
         $installedLanguages = collect($installedLanguages);
-        return LanguageConfig::all()->filter(function(LanguageConfig $language) use($installedLanguages) {
+
+        return LanguageConfig::all()->filter(function (LanguageConfig $language) use ($installedLanguages) {
             if (!$language->hasLinguaCafeSupport()) {
                 return false;
             }
-            
+
             return $installedLanguages->contains($language->name) || !$language->requiresInstall();
         });
     }

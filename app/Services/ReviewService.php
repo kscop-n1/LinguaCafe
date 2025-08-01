@@ -2,27 +2,26 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
+use App\Helpers\Language\LanguageConfig;
 use App\Models\Book;
-use App\Models\Phrase;
 use App\Models\Chapter;
 use App\Models\EncounteredWord;
-use App\Helpers\Language\LanguageConfig;
+use App\Models\Phrase;
+use Carbon\Carbon;
 
-class ReviewService {
-    
-    public function __construct() {
-    }
+class ReviewService
+{
+    public function __construct() {}
 
-    public function getReviewItems($userId, LanguageConfig $language, $bookId, $chapterId, $practiceMode) {
+    public function getReviewItems($userId, LanguageConfig $language, $bookId, $chapterId, $practiceMode)
+    {
         // check if book exists
         if ($bookId !== -1) {
-            $book = Book
-                ::where('user_id', $userId)
+            $book = Book::where('user_id', $userId)
                 ->where('id', $bookId)
                 ->where('language', $language->name)
                 ->first();
-            
+
             if (!$book) {
                 throw new \Exception('Book does not exist, or it belongs to a different user.');
             }
@@ -30,68 +29,62 @@ class ReviewService {
 
         // check if chapter exists
         if ($chapterId !== -1) {
-            $chapter = Chapter
-                ::where('user_id', $userId)
+            $chapter = Chapter::where('user_id', $userId)
                 ->where('book_id', $bookId)
                 ->where('id', $chapterId)
                 ->where('language', $language->name)
                 ->first();
-            
+
             if (!$chapter) {
                 throw new \Exception('Chapter does not exist, or it belongs to a different book or user.');
             }
         }
 
         // base query
-        $reviewWords = EncounteredWord
-            ::where('user_id', $userId)
+        $reviewWords = EncounteredWord::where('user_id', $userId)
             ->where('language', $language->name)
             ->where('stage', '<', '0');
 
-        $reviewPhrases = Phrase
-            ::where('user_id', $userId)
+        $reviewPhrases = Phrase::where('user_id', $userId)
             ->where('language', $language->name)
             ->where('stage', '<', '0');
 
         // practice mode
         if (!$practiceMode) {
-            $reviewWords = $reviewWords->where(function($query) {
+            $reviewWords = $reviewWords->where(function ($query) {
                 $query->whereDate('next_review', '<=', Carbon::today()->toDateString());
                 $query->orWhere('relearning', true);
             });
 
-            $reviewPhrases = $reviewPhrases->where(function($query) {
+            $reviewPhrases = $reviewPhrases->where(function ($query) {
                 $query->whereDate('next_review', '<=', Carbon::today()->toDateString());
                 $query->orWhere('relearning', true);
             });
         }
-        
+
         // retrieve chapter words and phrases by chapter id
         $uniqueWords = [];
         $uniquePhraseIds = [];
         if ($chapterId !== -1 || $bookId !== -1) {
             if ($chapterId !== -1) {
-                $chapterIds = Chapter
-                    ::where('id', $chapterId)
+                $chapterIds = Chapter::where('id', $chapterId)
                     ->where('user_id', $userId)
                     ->pluck('id')
                     ->toArray();
             } else {
-                $chapterIds = Chapter
-                    ::where('book_id', $bookId)
+                $chapterIds = Chapter::where('book_id', $bookId)
                     ->where('user_id', $userId)
                     ->pluck('id')
                     ->toArray();
             }
 
             foreach ($chapterIds as $chapterId) {
-                $chapter = Chapter
-                    ::where('user_id', $userId)
+                $chapter = Chapter::where('user_id', $userId)
                     ->where('id', $chapterId)
                     ->first();
 
                 $words = $chapter->getProcessedText();
-                
+
                 foreach ($words as $word) {
                     if (!in_array(mb_strtolower($word->word), $uniqueWords, true)) {
                         array_push($uniqueWords, mb_strtolower($word->word, 'UTF-8'));
@@ -116,7 +109,7 @@ class ReviewService {
         $reviews = [];
         foreach ($reviewWords as $word) {
             $word->type = 'word';
-            $reviews[] = $word; 
+            $reviews[] = $word;
         }
 
         foreach ($reviewPhrases as $phrase) {

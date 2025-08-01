@@ -29,13 +29,12 @@ class ChapterResource extends JsonResource
             'unique_words' => $this->unique_words,
             'unique_word_ids' => $this->unique_word_ids,
             'processing_status' => $this->processing_status,
-            
+
             'type' => $this->type,
             'subtitle_timestamps' => $this->subtitle_timestamps,
 
-            // TODO: since its always empty, it should be removed and only be in websockets 
+            // TODO: since its always empty, it should be removed and only be in websockets
             'wordCount' => $this->when(isset($this->wordCount), $this->wordCount),
         ];
     }
 }
-

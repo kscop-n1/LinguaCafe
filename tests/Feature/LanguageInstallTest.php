@@ -2,17 +2,17 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use App\Helpers\Language\LanguageConfig;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use App\Helpers\Language\LanguageConfig;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class LanguageInstallTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     public function test_uninstall_languages(): void
     {
         $this->print("\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -41,14 +41,14 @@ class LanguageInstallTest extends TestCase
         $user = User::factory()->create();
 
         $this->print("Installing languages.\n");
-        
+
         $languages = LanguageConfig::all()
             ->where('installRequired', '=', true)
             ->pluck('name');
 
-        $this->print("Languages with install requirement: " . $languages->join(', ') . "\n");
+        $this->print('Languages with install requirement: ' . $languages->join(', ') . "\n");
 
-        $languages->each(function ($language) use($user) {
+        $languages->each(function ($language) use ($user) {
             $this->print("Installing {$language}.");
 
             $response = $this->actingAs($user)->post('/languages/install', [
@@ -60,10 +60,9 @@ class LanguageInstallTest extends TestCase
             $this->print("{$language} installed successfully.\n");
         });
 
-
         $this->print("Every language has been installed successfully.\n");
         $this->print('──────────────────────────────────────────────────────────');
-        
+
     }
 
     private function print(string $message): void

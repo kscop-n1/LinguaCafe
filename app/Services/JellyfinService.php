@@ -2,17 +2,20 @@
 
 namespace App\Services;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
-use App\Helpers\Language\LanguageConfig;
 
-class JellyfinService {
-
+class JellyfinService
+{
     private $jellyfinLanguageCodes = [];
+
     private $apiKey;
+
     private $apiHost;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->jellyfinLanguageCodes = LanguageConfig::all()->pluck('name', 'jellyfinCode')->toArray();
 
         $setting = Setting::where('name', 'jellyfinApiKey')->first();
@@ -21,29 +24,31 @@ class JellyfinService {
         $this->apiHost = json_decode($setting->value);
     }
 
-    public function makeRequest($method, $url) {
+    public function makeRequest($method, $url)
+    {
         $response = '';
 
         if ($method == 'GET') {
             $response = Http::withHeaders([
-                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="asdsafwafaw", Version="0.1"'
+                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="asdsafwafaw", Version="0.1"',
             ])->get($this->apiHost . $url);
         }
 
         if ($method == 'POST') {
             $response = Http::withHeaders([
-                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="asdsafwafaw", Version="0.1"'
+                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="asdsafwafaw", Version="0.1"',
             ])->post($this->apiHost . $url);
         }
 
         return $response->json();
     }
 
-    public function getJellyfinCurrentlyPlayedSubtitles () {
+    public function getJellyfinCurrentlyPlayedSubtitles()
+    {
         $calculatedSessions = [];
         $sessions = $this->makeRequest('GET', '/Sessions');
         for ($sessionCounter = 0; $sessionCounter < count($sessions); $sessionCounter++) {
-            if (!array_key_exists("NowPlayingItem", $sessions[$sessionCounter])) {
+            if (!array_key_exists('NowPlayingItem', $sessions[$sessionCounter])) {
                 continue;
             }
 
@@ -51,7 +56,7 @@ class JellyfinService {
                 continue;
             }
 
-            $session = new \stdClass();
+            $session = new \stdClass;
             $session->client = $sessions[$sessionCounter]['Client'];
             $session->userName = $sessions[$sessionCounter]['UserName'];
             $session->userId = $sessions[$sessionCounter]['NowPlayingItem']['Id'];
@@ -66,7 +71,7 @@ class JellyfinService {
             } else {
                 $session->movieName = $sessions[$sessionCounter]['NowPlayingItem']['Name'];
             }
-            
+
             $session->runTimeTicks = $sessions[$sessionCounter]['NowPlayingItem']['RunTimeTicks'];
             $session->nowPlayingItemId = $sessions[$sessionCounter]['NowPlayingItem']['Id'];
             $session->sessionId = $sessions[$sessionCounter]['Id'];
@@ -85,14 +90,14 @@ class JellyfinService {
                 }
 
                 $subtitleText = $this->makeRequest('GET', '/Videos/' . $session->nowPlayingItemId . '/' . $session->mediaSourceId . '/Subtitles/ ' . $mediaSource['MediaStreams'][$subtitleCounter]['Index'] . '/0/Stream.js');
-                
+
                 // add language for subtitles that Jellyfin did not recognise
                 if (!isset($mediaSource['MediaStreams'][$subtitleCounter]['Language'])) {
                     $mediaSource['MediaStreams'][$subtitleCounter]['Language'] = $mediaSource['MediaStreams'][$subtitleCounter]['Title'];
                 }
-                
+
                 // retrieve language. if not possible, use the jellyfin language code instead,
-                // so it can be viewed as an error message in the console and added to 
+                // so it can be viewed as an error message in the console and added to
                 // jellyfinLanguageCodes.
                 if (array_key_exists($mediaSource['MediaStreams'][$subtitleCounter]['Language'], $this->jellyfinLanguageCodes)) {
                     $language = $this->jellyfinLanguageCodes[$mediaSource['MediaStreams'][$subtitleCounter]['Language']];
@@ -101,8 +106,8 @@ class JellyfinService {
                     $language = $mediaSource['MediaStreams'][$subtitleCounter]['Language'];
                     $supportedLanguage = false;
                 }
-                
-                $subtitle = new \stdClass();
+
+                $subtitle = new \stdClass;
                 $subtitle->language = $language;
                 $subtitle->supportedLanguage = $supportedLanguage;
                 $subtitle->text = $subtitleText['TrackEvents'];

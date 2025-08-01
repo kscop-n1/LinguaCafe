@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Collection;
 
 return new class extends Migration
 {
@@ -17,11 +15,11 @@ return new class extends Migration
             $table->dropColumn('lemma');
         });
 
-        Schema::table("encountered_words", function (Blueprint $table) {
+        Schema::table('encountered_words', function (Blueprint $table) {
             $table->renameColumn('base_word', 'lemma');
         });
 
-        Schema::table("encountered_words", function (Blueprint $table) {
+        Schema::table('encountered_words', function (Blueprint $table) {
             $table->renameColumn('base_word_reading', 'lemma_reading');
         });
     }
@@ -31,11 +29,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table("encountered_words", function (Blueprint $table) {
+        Schema::table('encountered_words', function (Blueprint $table) {
             $table->renameColumn('lemma', 'base_word');
         });
 
-        Schema::table("encountered_words", function (Blueprint $table) {
+        Schema::table('encountered_words', function (Blueprint $table) {
             $table->renameColumn('lemma_reading', 'base_word_reading');
         });
 

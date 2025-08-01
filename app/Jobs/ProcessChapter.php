@@ -2,50 +2,53 @@
 
 namespace App\Jobs;
 
-use Exception;
-use Carbon\Carbon;
-use App\Models\Phrase;
-use App\Models\Chapter;
-use Illuminate\Bus\Queueable;
-use App\Models\EncounteredWord;
-
-// services
-use App\Services\ChapterService;
 use App\Enums\ChapterProcessingStatusEnum;
-
-// models
+use App\Models\Chapter;
+use App\Models\EncounteredWord;
+use App\Models\Phrase;
+use App\Services\ChapterService;
+// services
 use App\Services\QueueStatsService;
 use App\Services\VocabularyService;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+// models
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProcessChapter implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    
 
     private VocabularyService $vocabularyService;
+
     private ChapterService $chapterService;
+
     private QueueStatsService $queueStatsService;
 
     private $userId;
+
     private $userUuid;
+
     private $chapterId;
+
     private $language;
-    private $dispatchedAt, $startedAt;
+
+    private $dispatchedAt;
+
+    private $startedAt;
 
     public function __construct(
-        $userId, 
-        $userUuid, 
-        $chapterId, 
+        $userId,
+        $userUuid,
+        $chapterId,
         $language
-    ) 
-    {
-        $this->vocabularyService = new VocabularyService();
-        $this->chapterService = new ChapterService();
-        $this->queueStatsService = new QueueStatsService();
+    ) {
+        $this->vocabularyService = new VocabularyService;
+        $this->chapterService = new ChapterService;
+        $this->queueStatsService = new QueueStatsService;
 
         $this->userId = $userId;
         $this->userUuid = $userUuid;
@@ -54,7 +57,8 @@ class ProcessChapter implements ShouldQueue
         $this->dispatchedAt = Carbon::now();
     }
 
-    public function handle() {
+    public function handle()
+    {
         try {
             $this->startedAt = Carbon::now();
 
@@ -65,10 +69,9 @@ class ProcessChapter implements ShouldQueue
 
             // process chapter text
             $this->chapterService->processChapterText($this->userId, $this->chapterId);
-            
+
             // index phrases that were created while the job was running
-            $phrases = Phrase
-                ::where('user_id', $this->userId)
+            $phrases = Phrase::where('user_id', $this->userId)
                 ->where('language', $this->language)
                 ->where('created_at', '>=', $this->startedAt)
                 ->where('created_at', '<=', Carbon::now())
@@ -88,13 +91,12 @@ class ProcessChapter implements ShouldQueue
     }
 
     // Laravel does not pass context to it's own failed() method.
-    public function jobFailed() 
+    public function jobFailed()
     {
-        $chapter = Chapter
-            ::where('id', $this->chapterId)
+        $chapter = Chapter::where('id', $this->chapterId)
             ->where('user_id', $this->userId)
             ->first();
-        
+
         // set chapter processing status to failed
         $chapter->processing_status = ChapterProcessingStatusEnum::FAILED->value;
         $chapter->save();
@@ -105,8 +107,7 @@ class ProcessChapter implements ShouldQueue
 
     private function broadcastChapterStatusEvent(Chapter $chapter): void
     {
-        $words = EncounteredWord
-            ::select(['id', 'word', 'stage'])
+        $words = EncounteredWord::select(['id', 'word', 'stage'])
             ->where('user_id', $this->userId)
             ->where('language', $this->language)
             ->get()
@@ -116,12 +117,12 @@ class ProcessChapter implements ShouldQueue
         if ($chapter->processing_status === ChapterProcessingStatusEnum::PROCESSED->value) {
             $chapter->wordCount = $chapter->getWordCounts($words);
         }
-        
+
         event(new \App\Events\ChapterStateUpdatedEvent($this->userUuid, [
             $chapter->id => [
                 'processing_status' => $chapter->processing_status,
                 'wordCount' => $chapter->wordCount ?? null,
-            ]
+            ],
         ]));
     }
 }

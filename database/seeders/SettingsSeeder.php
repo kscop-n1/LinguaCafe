@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Seeder;
 use App\Models\Setting;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class SettingsSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'deeplApiKey',
-                'value' => json_encode('00000000-aaaa-aaaa-aaaa-000aaaa000aa:00')
+                'value' => json_encode('00000000-aaaa-aaaa-aaaa-000aaaa000aa:00'),
             ]);
         }
 
@@ -27,9 +27,9 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'deeplHost',
-                'value' => json_encode('https://api-free.deepl.com/v2')
+                'value' => json_encode('https://api-free.deepl.com/v2'),
             ]);
-        } else if (json_decode($setting->value) === 'https://api-free.deepl.com/v2/translate') {
+        } elseif (json_decode($setting->value) === 'https://api-free.deepl.com/v2/translate') {
             $setting->value = json_encode('https://api-free.deepl.com/v2');
             $setting->save();
         }
@@ -39,7 +39,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'libreTranslateHost',
-                'value' => json_encode('http://libretranslate:5000/translate')
+                'value' => json_encode('http://libretranslate:5000/translate'),
             ]);
         }
 
@@ -48,7 +48,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'jellyfinEnabled',
-                'value' => json_encode(false)
+                'value' => json_encode(false),
             ]);
         }
 
@@ -56,7 +56,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'jellyfinApiKey',
-                'value' => json_encode('00a0a000aaa00000a00aaaaa00a00a0a')
+                'value' => json_encode('00a0a000aaa00000a00aaaaa00a00a0a'),
             ]);
         }
 
@@ -64,7 +64,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'jellyfinHost',
-                'value' => json_encode('http://jellyfin:8096')
+                'value' => json_encode('http://jellyfin:8096'),
             ]);
         }
 
@@ -73,7 +73,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'ankiConnectHost',
-                'value' => json_encode('http://host.docker.internal:8765')
+                'value' => json_encode('http://host.docker.internal:8765'),
             ]);
         }
 
@@ -81,7 +81,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'ankiAutoAddCards',
-                'value' => json_encode(false)
+                'value' => json_encode(false),
             ]);
         }
 
@@ -89,7 +89,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'ankiUpdateCards',
-                'value' => json_encode(true)
+                'value' => json_encode(true),
             ]);
         }
 
@@ -97,7 +97,7 @@ class SettingsSeeder extends Seeder
         if (!$setting) {
             DB::table('settings')->insert([
                 'name' => 'ankiShowNotifications',
-                'value' => json_encode(true)
+                'value' => json_encode(true),
             ]);
         }
 
@@ -107,14 +107,14 @@ class SettingsSeeder extends Seeder
             DB::table('settings')->insert([
                 'name' => 'reviewIntervals',
                 'value' => json_encode([
-                    "-7" => [0],
-                    "-6" => [1],
-                    "-5" => [2, 3],
-                    "-4" => [6, 7, 8],
-                    "-3" => [15, 16, 17, 18],
-                    "-2" => [37, 38, 39, 40, 41, 42],
-                    "-1" => [94, 95, 96, 97, 98, 99, 100, 101],
-                ])
+                    '-7' => [0],
+                    '-6' => [1],
+                    '-5' => [2, 3],
+                    '-4' => [6, 7, 8],
+                    '-3' => [15, 16, 17, 18],
+                    '-2' => [37, 38, 39, 40, 41, 42],
+                    '-1' => [94, 95, 96, 97, 98, 99, 100, 101],
+                ]),
             ]);
         }
     }

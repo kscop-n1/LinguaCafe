@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use Exception;
-use App\Models\User;
-use App\Models\Chapter;
-use App\Models\Bookmark;
 use App\Enums\BookmarkTypeEnum;
+use App\Models\Bookmark;
+use App\Models\Chapter;
+use App\Models\User;
+use Exception;
 use Illuminate\Support\Collection;
 
-class BookmarkService {
-
+class BookmarkService
+{
     public function getNextChapterBookmarks(User $user): Collection
     {
         $bookmarks = Bookmark::query()
@@ -19,7 +19,7 @@ class BookmarkService {
             ->where('type', '=', BookmarkTypeEnum::NEXT_CHAPTER->value)
             ->with([
                 'chapter:id,name',
-                'book:id,name,cover_image'
+                'book:id,name,cover_image',
             ])
             ->orderBy('updated_at', 'desc')
             ->get();
@@ -53,7 +53,7 @@ class BookmarkService {
         }
 
         if (!$bookmark) {
-            $bookmark = new Bookmark();
+            $bookmark = new Bookmark;
             $bookmark->user_id = $user->id;
             $bookmark->language = $currentChapter->language;
             $bookmark->book_id = $currentChapter->book_id;

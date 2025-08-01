@@ -2,23 +2,26 @@
 
 namespace App\Services;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Helpers\Language\LanguageConfig;
 
-class LanguageService {
+class LanguageService
+{
     // stores the python service container's name
     private $pythonService;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->pythonService = env('PYTHON_CONTAINER_NAME', 'linguacafe-python-service');
     }
 
-    public function selectLanguage(User $user, LanguageConfig $language) {
+    public function selectLanguage(User $user, LanguageConfig $language)
+    {
         $installedLanguages = $this->getInstalledLanguages();
         /*
             This is an extra protection, to avoid switching to not installed
@@ -31,13 +34,14 @@ class LanguageService {
 
         $user->selected_language = $language->name;
         $user->save();
-        
+
         return true;
     }
 
-    public function getLanguageSelectionDialogData($supportedSourceLanguages, $installableLanguages) {
+    public function getLanguageSelectionDialogData($supportedSourceLanguages, $installableLanguages)
+    {
         $installedLanguages = $this->getInstalledLanguages();
-        
+
         // select installed languages only
         $languages = [];
         $notInstalledLanguages = 0;
@@ -45,21 +49,23 @@ class LanguageService {
             // if it is a language that must be installed, and it is not installed currently
             if (in_array($supportedLanguage, $installableLanguages, true)
                 && !in_array($supportedLanguage, $installedLanguages)) {
-                $notInstalledLanguages ++;
+                $notInstalledLanguages++;
+
                 continue;
             }
 
             $languages[] = $supportedLanguage;
         }
 
-        $responseData = new \stdClass();
+        $responseData = new \stdClass;
         $responseData->languages = $languages;
         $responseData->notInstalledLanguages = $notInstalledLanguages;
 
         return $responseData;
     }
-    
-    public function getInstalledLanguages() {
+
+    public function getInstalledLanguages()
+    {
         $installedPackages = Cache::get('installed_languages');
         if (!$installedPackages) {
             Log::info('Installed python packages cache is empty.');
@@ -80,12 +86,13 @@ class LanguageService {
         return $installedLanguages;
     }
 
-    public function installLanguage(LanguageConfig $language) {
+    public function installLanguage(LanguageConfig $language)
+    {
         if (!$language->requiresInstall()) {
             throw new \Exception('This language does not require install.');
         }
 
-        $installResult = Http::timeout(60*20)
+        $installResult = Http::timeout(60 * 20)
             ->post($this->pythonService . ':8678/packages/languages/install', [
                 'language' => $language->name,
                 'tokenizer' => $language->tokenizer,
@@ -101,12 +108,12 @@ class LanguageService {
             Storage::deleteDirectory('temp/kanjivg');
             Storage::deleteDirectory('images/kanjivg');
 
-            $file = file_get_contents("https://github.com/KanjiVG/kanjivg/archive/master.zip");
+            $file = file_get_contents('https://github.com/KanjiVG/kanjivg/archive/master.zip');
             file_put_contents($filePath, $file);
 
-            $zip = new \ZipArchive();
+            $zip = new \ZipArchive;
             $zipFile = $zip->open($filePath);
-            if ($zipFile === TRUE) {
+            if ($zipFile === true) {
                 $zip->extractTo($extractPath);
                 $zip->close();
 
@@ -121,9 +128,10 @@ class LanguageService {
         return $installResult;
     }
 
-    public function deleteInstalledLanguages($user, $installableLanguages) {
+    public function deleteInstalledLanguages($user, $installableLanguages)
+    {
         /*
-            Reset selected language to the default spanish, 
+            Reset selected language to the default spanish,
             so the user won't have a language selected that has been uninstalled.
         */
         if (in_array($user->selected_language, $installableLanguages)) {

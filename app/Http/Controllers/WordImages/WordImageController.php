@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\WordImages;
 
-use App\Models\Phrase;
-use Illuminate\Http\Request;
-use App\Models\EncounteredWord;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Services\WordImages\WordImageService;
-use App\Http\Requests\Images\WordImages\UploadWordImageRequest;
-use App\Http\Requests\Images\WordImages\UploadPhraseImageRequest;
-use App\Http\Requests\Images\WordImages\SetWordImageFromUrlRequest;
 use App\Http\Requests\Images\WordImages\SetPhraseImageFromUrlRequest;
+use App\Http\Requests\Images\WordImages\SetWordImageFromUrlRequest;
+use App\Http\Requests\Images\WordImages\UploadPhraseImageRequest;
+use App\Http\Requests\Images\WordImages\UploadWordImageRequest;
+use App\Models\EncounteredWord;
+use App\Models\Phrase;
+use App\Services\WordImages\WordImageService;
+use Illuminate\Support\Facades\Auth;
 
 class WordImageController extends Controller
 {
@@ -34,7 +33,7 @@ class WordImageController extends Controller
             ],
         ]);
     }
-    
+
     public function setPhraseImageFromUrl(SetPhraseImageFromUrlRequest $request, Phrase $phrase)
     {
         $url = $request->validated('url');
@@ -77,7 +76,7 @@ class WordImageController extends Controller
         ]);
     }
 
-    public function getWordImage(EncounteredWord $word) 
+    public function getWordImage(EncounteredWord $word)
     {
         $user = Auth::user();
         $imagePath = $this->wordImageService->getImagePath($user, $word);
@@ -85,7 +84,7 @@ class WordImageController extends Controller
         return response()->file($imagePath);
     }
 
-    public function getPhraseImage(Phrase $phrase) 
+    public function getPhraseImage(Phrase $phrase)
     {
         $user = Auth::user();
         $imagePath = $this->wordImageService->getImagePath($user, $phrase);

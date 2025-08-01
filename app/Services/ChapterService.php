@@ -2,33 +2,30 @@
 
 namespace App\Services;
 
-use App\Enums\BookmarkTypeEnum;
-use stdClass;
-use Exception;
-
-use App\Models\Book;
-use App\Models\User;
-use App\Models\Phrase;
-
-use App\Models\Chapter;
-use Illuminate\Support\Str;
+use App\Enums\ChapterProcessingStatusEnum;
+use App\Helpers\Language\LanguageConfig;
 use App\Jobs\ProcessChapter;
-use App\Services\BookService;
-use App\Services\GoalService;
+use App\Models\Book;
+use App\Models\Chapter;
 use App\Models\EncounteredWord;
-use App\Services\TextBlockService;
+use App\Models\Phrase;
+use App\Models\User;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\Language\LanguageConfig;
-use App\Enums\ChapterProcessingStatusEnum;
+use Illuminate\Support\Str;
+use stdClass;
 
-class ChapterService {
+class ChapterService
+{
     private BookService $bookService;
+
     private BookmarkService $bookmarkService;
 
-    public function __construct() {
-        $this->bookService = new BookService();
-        $this->bookmarkService = new BookmarkService();
+    public function __construct()
+    {
+        $this->bookService = new BookService;
+        $this->bookmarkService = new BookmarkService;
     }
 
     public function getChaptersForBook(User $user, Book $book): Collection
@@ -42,19 +39,19 @@ class ChapterService {
             ->where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->get();
- 
-            $chapters->transform(function(Chapter $chapter) {
-                $chapter->wordCount = [
-                    'total' => $chapter->word_count,
-                    'unique' => null,
-                    'known' => null,
-                    'highlighted' => null,
-                    'new' => null,
-                ];
 
-                return $chapter;
-            });
- 
+        $chapters->transform(function (Chapter $chapter) {
+            $chapter->wordCount = [
+                'total' => $chapter->word_count,
+                'unique' => null,
+                'known' => null,
+                'highlighted' => null,
+                'new' => null,
+            ];
+
+            return $chapter;
+        });
+
         return $chapters;
     }
 
@@ -80,8 +77,8 @@ class ChapterService {
 
         $chaptersWithWordCounts = [];
         $chapterCount = $chapters->count();
-        $chapters->each(function(Chapter $chapter, $chapterIndex) use(&$chaptersWithWordCounts, $words, $user, $chapterCount) {
-            $currentChapterWordCounts = new \stdClass();
+        $chapters->each(function (Chapter $chapter, $chapterIndex) use (&$chaptersWithWordCounts, $words, $user, $chapterCount) {
+            $currentChapterWordCounts = new \stdClass;
             $currentChapterWordCounts->wordCount = $chapter->getWordCounts($words);
 
             $chaptersWithWordCounts[$chapter->id] = $currentChapterWordCounts;
@@ -93,8 +90,8 @@ class ChapterService {
             }
         });
     }
-    
-    public function getChapterForEditor(User $user, Chapter $chapter): Chapter 
+
+    public function getChapterForEditor(User $user, Chapter $chapter): Chapter
     {
         if ($chapter->user_id !== $user->id) {
             throw new Exception('Chapter not found or unauthorized.');
@@ -107,13 +104,13 @@ class ChapterService {
         $transformedRawText = Str::replace(" NEWLINE \r\n", "\r\n", $chapter->raw_text);
         $chapter->raw_text = $transformedRawText;
         $chapter->makeHidden('processed_text');
-        
+
         return $chapter;
     }
 
     public function getChapterForReader(User $user, LanguageConfig $language, Chapter $chapter): stdClass
     {
-        
+
         if ($chapter->user_id !== $user->id) {
             throw new Exception('Chapter not found or unauthorized.');
         }
@@ -143,7 +140,7 @@ class ChapterService {
             ->keyBy('id')
             ->toArray();
 
-        $chapters->transform(function(Chapter $chapter) use($uniqueWordsForWordCounts) {
+        $chapters->transform(function (Chapter $chapter) use ($uniqueWordsForWordCounts) {
             $chapter->wordCount = [
                 'total' => $chapter->word_count,
                 'unique' => null,
@@ -151,13 +148,13 @@ class ChapterService {
                 'highlighted' => null,
                 'new' => null,
             ];
-                        
+
             if ($chapter->processing_status !== ChapterProcessingStatusEnum::PROCESSED->value) {
                 return $chapter;
             }
 
             $chapter->wordCount = $chapter->getWordCounts($uniqueWordsForWordCounts);
-            
+
             return $chapter;
         });
 
@@ -167,7 +164,7 @@ class ChapterService {
         $textBlock->prepareTextForReader();
         $textBlock->indexPhrases();
 
-        $data = new stdClass();
+        $data = new stdClass;
         $data->type = $chapter->type;
         $data->subtitleTimestamps = $chapter->subtitle_timestamps;
         $data->words = $textBlock->words;
@@ -181,20 +178,19 @@ class ChapterService {
         $data->languageSpaces = $language->hasSpaces();
         $data->chapters = $chapters;
         $data->wordCount = $chapter->word_count;
-        
+
         return $data;
     }
 
     public function finishChapter(
-        User $user, 
-        Chapter $chapter, 
-        bool $autoMoveWordsToKnown, 
-        array $uniqueWords, 
-        bool $autoLevelUpWords, 
-        array $leveledUpWords, 
+        User $user,
+        Chapter $chapter,
+        bool $autoMoveWordsToKnown,
+        array $uniqueWords,
+        bool $autoLevelUpWords,
+        array $leveledUpWords,
         array $leveledUpPhrases
-    ): void 
-    {
+    ): void {
         // automove words that the user sees the first time,
         // but they already know it to learned stage.
         DB::beginTransaction();
@@ -202,7 +198,7 @@ class ChapterService {
             foreach ($uniqueWords as $uniqueWordData) {
                 $saveData = [];
                 $saveData['read_count'] = $uniqueWordData->read_count;
-                
+
                 if ($uniqueWordData->stage == 2) {
                     $saveData['stage'] = 0;
                 }
@@ -216,11 +212,11 @@ class ChapterService {
 
         DB::commit();
 
-        $chapter->read_count ++;
+        $chapter->read_count++;
         $chapter->save();
 
         // updage today's reading achievement
-        (new GoalService())->updateGoalAchievement($user->id, $user->selected_language, 'read_words', $chapter->word_count);
+        (new GoalService)->updateGoalAchievement($user->id, $user->selected_language, 'read_words', $chapter->word_count);
 
         $this->bookmarkService->setNextChapterBookmark($user, $chapter);
 
@@ -249,16 +245,17 @@ class ChapterService {
                 ->firstOrFail();
 
             $word->setStage($word->stage + 1);
-            $word->save();  
+            $word->save();
         }
     }
 
-    public function createChapter(User $user, Book $book, string $name, string $text) {
+    public function createChapter(User $user, Book $book, string $name, string $text)
+    {
         if ($book->user_id !== $user->id) {
             throw new Exception('Book not found or unauthorized.');
         }
 
-        $chapter = new Chapter();
+        $chapter = new Chapter;
         $chapter->user_id = $user->id;
         $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
         $chapter->name = $name;
@@ -270,9 +267,9 @@ class ChapterService {
         $chapter->language = $book->language;
         $chapter->unique_words = '';
         $chapter->save();
-        
+
         $this->updateChapter($user, $chapter, $name, $text);
-        
+
         return true;
     }
 
@@ -284,24 +281,24 @@ class ChapterService {
         }
 
         DB::disableQueryLog();
-        
+
         $chapter->raw_text = $text;
         $chapter->name = $name;
         $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
         $chapter->save();
-        
+
         ProcessChapter::dispatch($user->id, $user->uuid, $chapter->id, $chapter->language);
     }
 
     // TODO: this method should be moved into its own ChapterProcessing service, together with retryFailedChapters
-    public function processChapterText($userId, $chapterId) {
+    public function processChapterText($userId, $chapterId)
+    {
         DB::disableQueryLog();
         $bookId = null;
 
-        DB::transaction(function() use(&$bookId, $userId, $chapterId) {
+        DB::transaction(function () use (&$bookId, $userId, $chapterId) {
             // retrieve chapter
-            $chapter = Chapter
-                ::lockForUpdate()
+            $chapter = Chapter::lockForUpdate()
                 ->where('id', $chapterId)
                 ->where('user_id', $userId)
                 ->first();
@@ -309,10 +306,10 @@ class ChapterService {
             if (!$chapter) {
                 throw new Exception('Chapter does not exist, or it belongs to a different user.');
             }
-            
+
             // process text
-            $textBlock = new TextBlockService($userId, $chapter->language);        
-            
+            $textBlock = new TextBlockService($userId, $chapter->language);
+
             if ($chapter->type == 'text') {
                 $textBlock->rawText = $chapter->raw_text;
                 $textBlock->tokenizeRawText();
@@ -321,15 +318,14 @@ class ChapterService {
                 $textBlock->rawText = $chapter->raw_text;
                 $timeStamps = $textBlock->tokenizeRawSubtitles();
             }
-            
+
             $textBlock->processTokenizedWords();
             $textBlock->collectUniqueWords();
             $textBlock->updateAllPhraseIds();
             $textBlock->createNewEncounteredWords();
 
             // collect unique word ID-s
-            $uniqueWordIds = DB
-                ::table('encountered_words')
+            $uniqueWordIds = DB::table('encountered_words')
                 ->select('id')
                 ->where('user_id', $userId)
                 ->where('language', $chapter->language)
@@ -345,16 +341,16 @@ class ChapterService {
             $chapter->subtitle_timestamps = json_encode($timeStamps);
             $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
             $chapter->save();
-            
-            $bookId = $chapter->book_id;    
+
+            $bookId = $chapter->book_id;
         });
-        
+
         $this->bookService->updateBookWordCount($userId, $bookId);
     }
 
     public function deleteChapter(User $user, Chapter $chapter): void
     {
-        
+
         if ($chapter->user_id !== $user->id) {
             throw new Exception('Chapter not found or unauthorized.');
         }
@@ -365,14 +361,15 @@ class ChapterService {
         $this->bookService->updateBookWordCount($user->id, $chapter->book_id);
     }
 
-    public function retryFailedChapters(User $user, Book $book) {
+    public function retryFailedChapters(User $user, Book $book)
+    {
         $chapters = Chapter::query()
             ->where('user_id', $user->id)
             ->where('book_id', $book->id)
             ->where('processing_status', ChapterProcessingStatusEnum::FAILED->value)
             ->get();
 
-        $chapters->each(function(Chapter $chapter) use($user) {
+        $chapters->each(function (Chapter $chapter) use ($user) {
             $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
             $chapter->save();
 

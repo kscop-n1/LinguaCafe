@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Str;
-use Illuminate\Console\Command;
 use App\Helpers\Language\LanguageConfig;
+use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class GenerateJellyfinReadmeTable extends Command
 {
@@ -17,16 +17,16 @@ class GenerateJellyfinReadmeTable extends Command
         $languages = LanguageConfig::all()
             ->whereNotNull('jellyfinFilenameSlug')
             ->where('linguacafeSupport', true);
-        
+
         $readmeTable = $this->getHeader();
 
-        $languages->each(function(LanguageConfig $language) use(&$readmeTable) {
-            $readmeTable .= "|";
-            $readmeTable .= Str::ucfirst($language->name) . "|";
+        $languages->each(function (LanguageConfig $language) use (&$readmeTable) {
+            $readmeTable .= '|';
+            $readmeTable .= Str::ucfirst($language->name) . '|';
             $readmeTable .= $language->jellyfinFilenameSlug . "|\r\n";
         });
 
-        echo ($readmeTable);
+        echo $readmeTable;
     }
 
     private function getHeader(): string

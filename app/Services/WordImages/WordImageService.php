@@ -2,16 +2,16 @@
 
 namespace App\Services\WordImages;
 
-use App\Models\User;
-use App\Models\Phrase;
-use Illuminate\Support\Carbon;
 use App\Models\EncounteredWord;
+use App\Models\Phrase;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-class WordImageService 
+class WordImageService
 {
-    public function __construct() 
+    public function __construct()
     {
         //
     }
@@ -20,16 +20,15 @@ class WordImageService
     {
         $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
         $timestamp = Carbon::now()->format('YmdHis');
-        $fileName = $model->id . '_' . $timestamp . '.' .  $extension;
+        $fileName = $model->id . '_' . $timestamp . '.' . $extension;
         $type = ($model instanceof EncounteredWord) ? 'words' : 'phrases';
 
-
-        $context  = stream_context_create(
-        [
-            'http' => [
-            'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36',
-            ],
-        ]);
+        $context = stream_context_create(
+            [
+                'http' => [
+                    'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36',
+                ],
+            ]);
         $image = file_get_contents($url, false, $context);
         Storage::put('/images/word_images/' . $type . '/' . $user->id . '/' . $fileName, $image);
 
@@ -42,7 +41,7 @@ class WordImageService
 
         return $fileName;
     }
-    
+
     public function uploadImage(User $user, EncounteredWord|Phrase $model, UploadedFile $imageFile): string
     {
         if ($model->user_id !== $user->id) {
@@ -51,7 +50,7 @@ class WordImageService
 
         $extension = $imageFile->clientExtension();
         $timestamp = Carbon::now()->format('YmdHis');
-        $fileName = $model->id . '_' . $timestamp . '.' .  $extension;
+        $fileName = $model->id . '_' . $timestamp . '.' . $extension;
         $type = ($model instanceof EncounteredWord) ? 'words' : 'phrases';
 
         $imageFile->move(storage_path('app/images/word_images/' . $type . '/' . $user->id), $fileName);
@@ -59,7 +58,7 @@ class WordImageService
         if ($model->image) {
             $this->deleteImage($user, $model);
         }
-        
+
         $model->image = $fileName;
         $model->save();
 
@@ -77,7 +76,7 @@ class WordImageService
         }
 
         $type = ($model instanceof EncounteredWord) ? 'words' : 'phrases';
-        
+
         return Storage::path('/images/word_images/' . $type . '/' . $user->id . '/' . $model->image);
     }
 
@@ -92,7 +91,7 @@ class WordImageService
         }
 
         $type = ($model instanceof EncounteredWord) ? 'words' : 'phrases';
-        
+
         Storage::delete('/images/word_images/' . $type . '/' . $user->id . '/' . $model->image);
 
         $model->image = null;

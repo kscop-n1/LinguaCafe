@@ -24,7 +24,6 @@ return new class extends Migration
             $table->unsignedBigInteger('word_index')->nullable();
             $table->enum('type', ['next_chapter', 'custom'])->default('custom');
 
-            
             $table->timestamps();
         });
     }

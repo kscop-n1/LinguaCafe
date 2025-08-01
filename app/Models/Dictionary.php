@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Dictionary extends Model
 {
     use HasFactory;
+
     protected $table = 'dictionaries';
+
     protected $fillable = [
         'name',
         'api_host',
@@ -24,8 +26,7 @@ class Dictionary extends Model
         if ($this->database_table_name == 'API') {
             $this->records = '-';
         } else {
-            $records = DB
-                ::table($this->database_table_name)
+            $records = DB::table($this->database_table_name)
                 ->selectRaw('count(*) as record_count')
                 ->get();
 

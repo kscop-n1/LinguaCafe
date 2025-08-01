@@ -25,7 +25,7 @@ class CreateChapterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:128',
-            'text' => 'string|nullable'
+            'text' => 'string|nullable',
         ];
     }
 }

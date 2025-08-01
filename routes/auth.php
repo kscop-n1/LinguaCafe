@@ -33,5 +33,5 @@ use Illuminate\Support\Facades\Route;
 //                 ->name('verification.send');
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->middleware('auth')
-                ->name('logout');
+    ->middleware('auth')
+    ->name('logout');

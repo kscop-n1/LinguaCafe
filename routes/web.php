@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookmarkController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 /*
     This function's authentication is inside the controller, because
@@ -39,28 +39,28 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/dev', [App\Http\Controllers\HomeController::class, 'index']);
-        
+
         // backup
         Route::get('/backups/create', [App\Http\Controllers\BackupController::class, 'createBackup']);
 
         // users
-        Route::get ('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
+        Route::get('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
         Route::post('/users/update', [App\Http\Controllers\UserController::class, 'updateUser']);
 
         // languages
         Route::post('/languages/install', [App\Http\Controllers\LanguageController::class, 'installLanguage']);
-        Route::get ('/languages/installed/list', [App\Http\Controllers\LanguageController::class, 'getInstalledLanguages']);
-        Route::delete ('/languages/installed/delete', [App\Http\Controllers\LanguageController::class, 'deleteInstalledLanguages']);
+        Route::get('/languages/installed/list', [App\Http\Controllers\LanguageController::class, 'getInstalledLanguages']);
+        Route::delete('/languages/installed/delete', [App\Http\Controllers\LanguageController::class, 'deleteInstalledLanguages']);
         Route::get('/languages/get-admin-language-settings-data', [App\Http\Controllers\LanguageController::class, 'getAdminLanguageSettingsData']);
-        
+
         // dictionaries
         Route::post('/dictionary/update', [App\Http\Controllers\DictionaryController::class, 'updateDictionary']);
-        
-        // vue routes            
+
+        // vue routes
         Route::get('/admin/{page?}', [App\Http\Controllers\HomeController::class, 'index']);
 
         // fonts
-        Route::get ('/fonts/get', [App\Http\Controllers\FontTypeController::class, 'getInstalledFontTypes']);
+        Route::get('/fonts/get', [App\Http\Controllers\FontTypeController::class, 'getInstalledFontTypes']);
         Route::post('/fonts/upload', [App\Http\Controllers\FontTypeController::class, 'uploadFontType']);
         Route::post('/fonts/update', [App\Http\Controllers\FontTypeController::class, 'updateFontType']);
         Route::post('/fonts/delete', [App\Http\Controllers\FontTypeController::class, 'deleteFontType']);
@@ -87,13 +87,11 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     });
 
     // images
-    Route::prefix('images')->group(function() {
+    Route::prefix('images')->group(function () {
         Route::get('/search/{searchEngine}/{searchTerm}', [App\Http\Controllers\WordImages\WordImageSearchController::class, 'search']);
-        
 
         Route::get('/word-image/get/{word}', [App\Http\Controllers\WordImages\WordImageController::class, 'getWordImage']);
         Route::get('/phrase-image/get/{phrase}', [App\Http\Controllers\WordImages\WordImageController::class, 'getPhraseImage']);
-        
 
         Route::post('/word-image/set-from-url/{word}', [App\Http\Controllers\WordImages\WordImageController::class, 'setWordImageFromUrl']);
         Route::post('/word-image/upload/{word}', [App\Http\Controllers\WordImages\WordImageController::class, 'uploadWordImage']);
@@ -110,13 +108,13 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // users
     Route::post('/users/update-password', [App\Http\Controllers\UserController::class, 'updatePassword']);
-    Route::get ('/users/is-password-changed', [App\Http\Controllers\UserController::class, 'isUserPasswordChanged']);
+    Route::get('/users/is-password-changed', [App\Http\Controllers\UserController::class, 'isUserPasswordChanged']);
     Route::delete('/users/delete-language-data/{language}', [App\Http\Controllers\UserController::class, 'deleteUserLanguageData']);
 
     // jellyfin
     Route::get('/jellyfin/subtitles', [App\Http\Controllers\JellyfinController::class, 'getJellyfinCurrentlyPlayedSubtitles']);
 
-    // vue routes    
+    // vue routes
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/user-settings', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/user-manual/{currentPage?}', [App\Http\Controllers\HomeController::class, 'index']);
@@ -172,9 +170,9 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/dictionaries/search/inflections', [App\Http\Controllers\DictionaryController::class, 'searchInflections']);
 
     // vocabulary
-    Route::get ('/vocabulary/words/get/{wordId}', [App\Http\Controllers\VocabularyController::class, 'getUniqueWord']);
+    Route::get('/vocabulary/words/get/{wordId}', [App\Http\Controllers\VocabularyController::class, 'getUniqueWord']);
     Route::post('/vocabulary/word/update', [App\Http\Controllers\VocabularyController::class, 'updateWord']);
-    Route::get ('/vocabulary/phrases/get/{phraseId}', [App\Http\Controllers\VocabularyController::class, 'getPhrase']);
+    Route::get('/vocabulary/phrases/get/{phraseId}', [App\Http\Controllers\VocabularyController::class, 'getPhrase']);
     Route::post('/vocabulary/phrases/create', [App\Http\Controllers\VocabularyController::class, 'createPhrase']);
     Route::post('/vocabulary/phrases/update', [App\Http\Controllers\VocabularyController::class, 'updatePhrase']);
     Route::post('/vocabulary/phrases/delete', [App\Http\Controllers\VocabularyController::class, 'deletePhrase']);
@@ -182,7 +180,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/vocabulary/search', [App\Http\Controllers\VocabularyController::class, 'searchVocabulary']);
     Route::post('/vocabulary/export-to-csv', [App\Http\Controllers\VocabularyController::class, 'exportToCsv']);
     Route::post('/vocabulary/import-from-csv', [App\Http\Controllers\VocabularyController::class, 'importFromCsv']);
-    Route::get ('/vocabulary/example-sentence/{targetType}/{targetId}', [App\Http\Controllers\VocabularyController::class, 'getExampleSentence']);
+    Route::get('/vocabulary/example-sentence/{targetType}/{targetId}', [App\Http\Controllers\VocabularyController::class, 'getExampleSentence']);
     Route::post('/kanji/search', [App\Http\Controllers\VocabularyController::class, 'searchKanji']);
     Route::post('/kanji/details', [App\Http\Controllers\VocabularyController::class, 'getKanjiDetails']);
 
@@ -195,14 +193,14 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // books
     Route::post('/books', [App\Http\Controllers\BookController::class, 'getBooks']);
-    Route::get ('/books/get-word-counts/{book}', [App\Http\Controllers\BookController::class, 'getBookWordCounts']);
+    Route::get('/books/get-word-counts/{book}', [App\Http\Controllers\BookController::class, 'getBookWordCounts']);
     Route::post('/books/create', [App\Http\Controllers\BookController::class, 'createBook']);
     Route::post('/books/update/{book}', [App\Http\Controllers\BookController::class, 'updateBook']);
     Route::delete('/books/delete/{book}', [App\Http\Controllers\BookController::class, 'deleteBook']);
     Route::get('/books/{book}', [App\Http\Controllers\BookController::class, 'getBook']);
 
     // chapters
-    Route::get ('/chapters/word-counts/{book}', [App\Http\Controllers\ChapterController::class, 'getChaptersBookCount']);
+    Route::get('/chapters/word-counts/{book}', [App\Http\Controllers\ChapterController::class, 'getChaptersBookCount']);
     Route::post('/chapters/get/reader/{chapter}', [App\Http\Controllers\ChapterController::class, 'getChapterForReader']);
     Route::post('/chapters/get/editor/{chapter}', [App\Http\Controllers\ChapterController::class, 'getChapter']);
     Route::delete('/chapters/delete/{chapter}', [App\Http\Controllers\ChapterController::class, 'deleteChapter']);

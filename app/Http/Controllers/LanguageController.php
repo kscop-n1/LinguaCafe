@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Language\LanguageConfig;
+// services
+use App\Http\Requests\Languages\ChangeLanguageRequest;
+use App\Http\Requests\Languages\InstallLanguageRequest;
+// request classes
+use App\Services\GoalService;
+use App\Services\LanguageService;
 use Illuminate\Support\Facades\Auth;
 
-// services
-use App\Services\LanguageService;
-use App\Services\GoalService;
-
-// request classes
-use App\Helpers\Language\LanguageConfig;
-use App\Http\Requests\Languages\InstallLanguageRequest;
-use App\Http\Requests\Languages\ChangeLanguageRequest;
-
-class LanguageController extends Controller {
+class LanguageController extends Controller
+{
     private $languageService;
+
     private $goalService;
 
-    function __construct(LanguageService $languageService, GoalService $goalService) {
+    public function __construct(LanguageService $languageService, GoalService $goalService)
+    {
         $this->languageService = $languageService;
         $this->goalService = $goalService;
     }
 
-    public function getLanguageSelectionDialogData() {
+    public function getLanguageSelectionDialogData()
+    {
         $supportedSourceLanguages = LanguageConfig::all()->where('linguacafeSupport', '=', true)->pluck('name')->toArray();
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
 
@@ -35,7 +37,8 @@ class LanguageController extends Controller {
         return response()->json($languageData, 200);
     }
 
-    public function getAdminLanguageSettingsData() {
+    public function getAdminLanguageSettingsData()
+    {
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
 
         try {
@@ -44,7 +47,7 @@ class LanguageController extends Controller {
             return response()->json($e->getMessage(), 500);
         }
 
-        $responseData = new \stdClass();
+        $responseData = new \stdClass;
         $responseData->languages = $installableLanguages;
         $responseData->installedLanguages = $installedLanguages;
 
@@ -56,7 +59,8 @@ class LanguageController extends Controller {
         Since this should never happen in the software, it does not
         throw an exception.
     */
-    public function selectLanguage($language, ChangeLanguageRequest $request) {
+    public function selectLanguage($language, ChangeLanguageRequest $request)
+    {
         $user = Auth::user();
         $languageConfig = LanguageConfig::load($language);
 
@@ -70,7 +74,8 @@ class LanguageController extends Controller {
         return response()->json('Language has been changed successfully.', 200);
     }
 
-    public function getInstalledLanguages() {
+    public function getInstalledLanguages()
+    {
         try {
             $installedLanguages = $this->languageService->getInstalledLanguages();
         } catch (\Exception $e) {
@@ -80,8 +85,8 @@ class LanguageController extends Controller {
         return response()->json($installedLanguages, 200);
     }
 
-
-    public function installLanguage(InstallLanguageRequest $request) {
+    public function installLanguage(InstallLanguageRequest $request)
+    {
         $language = LanguageConfig::load($request->post('language'));
 
         try {
@@ -90,16 +95,15 @@ class LanguageController extends Controller {
             return response()->json($e->getMessage(), 500);
         }
 
-        
         if ($installResult->getStatusCode() !== 200) {
-            return response()->json("An error has occured.", 500);
+            return response()->json('An error has occured.', 500);
         }
-        
 
         return response()->json('Language has been installed successfully.', 200);
     }
 
-    public function deleteInstalledLanguages() {
+    public function deleteInstalledLanguages()
+    {
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
         $user = Auth::user();
 
@@ -110,9 +114,9 @@ class LanguageController extends Controller {
         }
 
         if ($uninstallResult->getStatusCode() !== 200 && $uninstallResult->getStatusCode() !== 202) {
-            return response()->json("An error has occured.", 500);
+            return response()->json('An error has occured.', 500);
         }
 
-        return response()->json('Installed languages has been deleted successfully.', 200);        
+        return response()->json('Installed languages has been deleted successfully.', 200);
     }
 }

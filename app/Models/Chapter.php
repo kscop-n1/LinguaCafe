@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Book;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Chapter extends Model
 {
@@ -22,34 +21,37 @@ class Chapter extends Model
         'raw_text',
     ];
 
-    function getProcessedText() {
+    public function getProcessedText()
+    {
         return json_decode(gzuncompress($this->processed_text));
     }
 
-    function setProcessedText($processedText) {
+    public function setProcessedText($processedText)
+    {
         $this->processed_text = gzcompress(json_encode($processedText), 1);
     }
 
-    function getWordCounts($words) {
+    public function getWordCounts($words)
+    {
         $uniqueWordIds = json_decode($this->unique_word_ids);
-        $wordCounts = new \stdClass();
+        $wordCounts = new \stdClass;
         $wordCounts->total = $this->word_count;
         $wordCounts->unique = count($uniqueWordIds);
         $wordCounts->known = 0;
         $wordCounts->highlighted = 0;
         $wordCounts->new = 0;
-        
-        foreach($uniqueWordIds as $wordId) {
+
+        foreach ($uniqueWordIds as $wordId) {
             if ($words[$wordId]['stage'] < 0) {
-                $wordCounts->highlighted ++;
+                $wordCounts->highlighted++;
             }
 
             if ($words[$wordId]['stage'] == 0) {
-                $wordCounts->known ++;
+                $wordCounts->known++;
             }
 
             if ($words[$wordId]['stage'] == 2) {
-                $wordCounts->new ++;
+                $wordCounts->new++;
             }
         }
 
