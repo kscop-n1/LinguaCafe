@@ -1,9 +1,6 @@
 export default {
-    namespaced: true,
-    state: () => ({
-    }),
-    mutations: {
-    },
-    getters: {
-    }
+	namespaced: true,
+	state: () => ({}),
+	mutations: {},
+	getters: {},
 }

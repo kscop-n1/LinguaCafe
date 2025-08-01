@@ -1,71 +1,74 @@
 import { DefaultLocalStorageManager } from './LocalStorageManagerService'
-import defaultThemes from './../themes';
+import defaultThemes from './../themes'
 
 const localStorageManager = DefaultLocalStorageManager
 
 class ThemeService {
-    constructor() {
-        
-    }
+	constructor() {}
 
-    setDefaultVuetifyTheme(vuetifyHandler) {
-        // set vuetify theme
-        var themeName = localStorageManager.loadSetting('theme') || 'light';
-        vuetifyHandler.theme.dark = (themeName == 'dark');
+	setDefaultVuetifyTheme(vuetifyHandler) {
+		// set vuetify theme
+		var themeName = localStorageManager.loadSetting('theme') || 'light'
+		vuetifyHandler.theme.dark = themeName == 'dark'
 
-        // set default theme
-        if (localStorageManager.loadSetting('theme') === 'eink') {
-            vuetifyHandler.theme.themes['light'] = JSON.parse(JSON.stringify(defaultThemes.eink));
-        } else {
-            vuetifyHandler.theme.themes['light'] = JSON.parse(JSON.stringify(defaultThemes.light));
-        }
-        
-        vuetifyHandler.theme.themes['dark'] = JSON.parse(JSON.stringify(defaultThemes.dark));
-    }
+		// set default theme
+		if (localStorageManager.loadSetting('theme') === 'eink') {
+			vuetifyHandler.theme.themes['light'] = JSON.parse(JSON.stringify(defaultThemes.eink))
+		} else {
+			vuetifyHandler.theme.themes['light'] = JSON.parse(JSON.stringify(defaultThemes.light))
+		}
 
+		vuetifyHandler.theme.themes['dark'] = JSON.parse(JSON.stringify(defaultThemes.dark))
+	}
 
-    // applies the vuetify theme stored in the vuex store
-    setVuetifyTheme(vuetifyHandler, storeHandler) {
-        const vuetifyThemeSettings = storeHandler.state.shared.vuetifyThemeSettings
+	// applies the vuetify theme stored in the vuex store
+	setVuetifyTheme(vuetifyHandler, storeHandler) {
+		const vuetifyThemeSettings = storeHandler.state.shared.vuetifyThemeSettings
 
-        if (vuetifyThemeSettings === null) {
-            return
-        }
-        
-        let themeSettingNames = Object.keys(defaultThemes.light)
-        themeSettingNames.forEach((name) => {
-            if (localStorageManager.loadSetting('theme') === 'eink') {
-                vuetifyHandler.theme.themes['light'][name] = JSON.parse(JSON.stringify(defaultThemes['eink'][name]));
-            } else {
-                vuetifyHandler.theme.themes['light'][name] = vuetifyThemeSettings['light'][name] ?? JSON.parse(JSON.stringify(defaultThemes['light'][name]));
-            }
+		if (vuetifyThemeSettings === null) {
+			return
+		}
 
-            vuetifyHandler.theme.themes['dark'][name] = vuetifyThemeSettings['dark'][name] ?? JSON.parse(JSON.stringify(defaultThemes['dark'][name]));
-        });
-    }
+		let themeSettingNames = Object.keys(defaultThemes.light)
+		themeSettingNames.forEach(name => {
+			if (localStorageManager.loadSetting('theme') === 'eink') {
+				vuetifyHandler.theme.themes['light'][name] = JSON.parse(
+					JSON.stringify(defaultThemes['eink'][name])
+				)
+			} else {
+				vuetifyHandler.theme.themes['light'][name] =
+					vuetifyThemeSettings['light'][name] ??
+					JSON.parse(JSON.stringify(defaultThemes['light'][name]))
+			}
 
-    getCurrentTheme() {
-        if (localStorageManager.loadSetting('theme-auto')) {
-            return 'auto'
-        } else {
-            return localStorageManager.loadSetting('theme') || 'light';
-        };
-    }
+			vuetifyHandler.theme.themes['dark'][name] =
+				vuetifyThemeSettings['dark'][name] ??
+				JSON.parse(JSON.stringify(defaultThemes['dark'][name]))
+		})
+	}
 
-    getAutoTheme() {
-        let autoTheme;
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            autoTheme = 'dark';
-        } else {
-            autoTheme = 'light';
-        }
+	getCurrentTheme() {
+		if (localStorageManager.loadSetting('theme-auto')) {
+			return 'auto'
+		} else {
+			return localStorageManager.loadSetting('theme') || 'light'
+		}
+	}
 
-        return autoTheme;
-    }
+	getAutoTheme() {
+		let autoTheme
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			autoTheme = 'dark'
+		} else {
+			autoTheme = 'light'
+		}
 
-    isAuto() {
-        return localStorageManager.loadSetting('theme-auto') === true;
-    }
+		return autoTheme
+	}
+
+	isAuto() {
+		return localStorageManager.loadSetting('theme-auto') === true
+	}
 }
 
-export default new ThemeService();
+export default new ThemeService()

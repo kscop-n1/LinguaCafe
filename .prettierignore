@@ -1,0 +1,10 @@
+node_modules
+vendor
+public
+storage
+docker
+manual
+resources/vue3
+*.blade.php
+*.md
+TextBlockGroup.vue
