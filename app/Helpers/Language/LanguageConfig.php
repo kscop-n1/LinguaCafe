@@ -112,7 +112,7 @@ class LanguageConfig
         $language = Str::lower($language);
 
         if (!isset($languages[$language])) {
-            return null;
+            throw new \Exception('Language not found in config.');
         }
 
         return self::create($language, $languages[$language]);
