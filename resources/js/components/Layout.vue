@@ -283,6 +283,7 @@ export default {
 			const savedNavbarCollapsed = DefaultLocalStorageManager.loadSetting('navbar-collapsed')
 			this.navbarCollapsed = savedNavbarCollapsed ? savedNavbarCollapsed === 'true' : false
 
+			this.loadFontTypeService()
 			this.loading = false
 		})
 	},
