@@ -59,8 +59,8 @@
 		</div>
 		<v-card outlined class="rounded-lg pb-0 mb-32" :loading="deleting">
 			<v-card-text>
-				This action will delete <b>all</b> your data in {{ formattedLanguageText }}. Your
-				data in other languages will not be affected.
+				This action will delete <b>all</b> your data in {{ formattedLanguageText }}. Your data in
+				other languages will not be affected.
 
 				<div class="mt-4">
 					Data to be deleted:
@@ -75,9 +75,7 @@
 				</div>
 
 				<div id="delete-confirm-text" class="mt-6">
-					<label class="font-weight-bold"
-						>Type "delete all my {{ $props.language }} data"</label
-					>
+					<label class="font-weight-bold">Type "delete all my {{ $props.language }} data"</label>
 					<v-text-field
 						v-model="confirmText"
 						filled

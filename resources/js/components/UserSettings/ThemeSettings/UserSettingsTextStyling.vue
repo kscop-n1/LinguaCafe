@@ -1,10 +1,7 @@
 <template>
 	<div id="text-user-settings">
 		<!-- Reset text styling dialog -->
-		<reset-text-styling-dialog
-			v-model="resetTextStylingDialog"
-			@reset="resetDefaultTextStyling"
-		/>
+		<reset-text-styling-dialog v-model="resetTextStylingDialog" @reset="resetDefaultTextStyling" />
 
 		<!-- Text content -->
 		<v-card outlined class="rounded-lg mt-2" :loading="loading">
@@ -40,15 +37,11 @@
 								@click="toggleSettingLock('paddingHorizontal')"
 							>
 								<v-icon>{{
-									settingLocks.paddingHorizontal
-										? 'mdi-lock'
-										: 'mdi-lock-open-variant'
+									settingLocks.paddingHorizontal ? 'mdi-lock' : 'mdi-lock-open-variant'
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0 mt-4"> Horizontal padding </label>
@@ -80,9 +73,7 @@
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0 mt-4"> Top padding </label>
@@ -110,15 +101,11 @@
 								@click="toggleSettingLock('paddingBottom')"
 							>
 								<v-icon>{{
-									settingLocks.paddingBottom
-										? 'mdi-lock'
-										: 'mdi-lock-open-variant'
+									settingLocks.paddingBottom ? 'mdi-lock' : 'mdi-lock-open-variant'
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0 mt-4"> Bottom padding </label>
@@ -143,9 +130,7 @@
 								class="mr-1"
 								v-bind="attrs"
 								v-on="on"
-								@click="
-									toggleSettingLock('horizontalPaddingSpacelessLanguagesOnly')
-								"
+								@click="toggleSettingLock('horizontalPaddingSpacelessLanguagesOnly')"
 							>
 								<v-icon>{{
 									settingLocks.horizontalPaddingSpacelessLanguagesOnly
@@ -154,9 +139,7 @@
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0">
@@ -164,16 +147,14 @@
 
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								Some languages like Chinese, Japanese and Thai do not have spaces
-								between words. This option is for users who prefer having padding
-								only for these languages to improve readability, while disabling
-								padding for languages that do have spaces between words to avoid
-								words slightly moving on the screen when a word's level was changed.
+								Some languages like Chinese, Japanese and Thai do not have spaces between words.
+								This option is for users who prefer having padding only for these languages to
+								improve readability, while disabling padding for languages that do have spaces
+								between words to avoid words slightly moving on the screen when a word's level was
+								changed.
 							</v-card>
 						</v-menu>
 					</label>
@@ -181,8 +162,7 @@
 					<div class="w-100 pl-1">
 						<v-checkbox
 							v-model="
-								textStyling[selectedTheme][selectedLevel]
-									.horizontalPaddingSpacelessLanguagesOnly
+								textStyling[selectedTheme][selectedLevel].horizontalPaddingSpacelessLanguagesOnly
 							"
 							hide-details
 							density="compact"
@@ -211,9 +191,7 @@
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0 mt-4"> Border and wave width </label>
@@ -245,9 +223,7 @@
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0 mt-4"> Border radius </label>
@@ -279,9 +255,7 @@
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0 mt-4"> Border type </label>
@@ -311,15 +285,11 @@
 								@click="toggleSettingLock('borderPositions')"
 							>
 								<v-icon>{{
-									settingLocks.borderPositions
-										? 'mdi-lock'
-										: 'mdi-lock-open-variant'
+									settingLocks.borderPositions ? 'mdi-lock' : 'mdi-lock-open-variant'
 								}}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0"> Border positions </label>
@@ -359,21 +329,11 @@
 					<!-- Setting lock -->
 					<v-tooltip bottom color="primary">
 						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('fonts')"
-							>
-								<v-icon>{{
-									settingLocks.fonts ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
+							<v-btn icon class="mr-1" v-bind="attrs" v-on="on" @click="toggleSettingLock('fonts')">
+								<v-icon>{{ settingLocks.fonts ? 'mdi-lock' : 'mdi-lock-open-variant' }}</v-icon>
 							</v-btn>
 						</template>
-						<span
-							>Lock/group this setting together for every word and phrase level.</span
-						>
+						<span>Lock/group this setting together for every word and phrase level.</span>
 					</v-tooltip>
 
 					<label class="mb-0"> Font </label>
@@ -433,16 +393,11 @@
 											@click="toggleSettingLock('borderColor')"
 										>
 											<v-icon>{{
-												settingLocks.borderColor
-													? 'mdi-lock'
-													: 'mdi-lock-open-variant'
+												settingLocks.borderColor ? 'mdi-lock' : 'mdi-lock-open-variant'
 											}}</v-icon>
 										</v-btn>
 									</template>
-									<span
-										>Lock/group this setting together for every word and phrase
-										level.</span
-									>
+									<span>Lock/group this setting together for every word and phrase level.</span>
 								</v-tooltip>
 
 								Border color
@@ -455,19 +410,14 @@
 											outlined
 											width="48px"
 											height="26px"
-											:color="
-												textStyling[selectedTheme][selectedLevel]
-													.borderColor
-											"
+											:color="textStyling[selectedTheme][selectedLevel].borderColor"
 											depressed
 											v-on="on"
 										>
 										</v-card>
 									</template>
 									<v-color-picker
-										:value="
-											textStyling[selectedTheme][selectedLevel].borderColor
-										"
+										:value="textStyling[selectedTheme][selectedLevel].borderColor"
 										@input="colorChanged($event, 'borderColor')"
 									/>
 								</v-menu>
@@ -486,11 +436,7 @@
 								></v-text-field>
 							</td>
 							<td>
-								<v-btn
-									icon
-									title="Restore default"
-									@click="resetColor('borderColor')"
-								>
+								<v-btn icon title="Restore default" @click="resetColor('borderColor')">
 									<v-icon>mdi-restore</v-icon>
 								</v-btn>
 							</td>
@@ -508,16 +454,11 @@
 											@click="toggleSettingLock('textColor')"
 										>
 											<v-icon>{{
-												settingLocks.textColor
-													? 'mdi-lock'
-													: 'mdi-lock-open-variant'
+												settingLocks.textColor ? 'mdi-lock' : 'mdi-lock-open-variant'
 											}}</v-icon>
 										</v-btn>
 									</template>
-									<span
-										>Lock/group this setting together for every word and phrase
-										level.</span
-									>
+									<span>Lock/group this setting together for every word and phrase level.</span>
 								</v-tooltip>
 
 								Text color
@@ -530,9 +471,7 @@
 											outlined
 											width="48px"
 											height="26px"
-											:color="
-												textStyling[selectedTheme][selectedLevel].textColor
-											"
+											:color="textStyling[selectedTheme][selectedLevel].textColor"
 											depressed
 											v-on="on"
 										>
@@ -558,11 +497,7 @@
 								></v-text-field>
 							</td>
 							<td>
-								<v-btn
-									icon
-									title="Restore default"
-									@click="resetColor('textColor')"
-								>
+								<v-btn icon title="Restore default" @click="resetColor('textColor')">
 									<v-icon>mdi-restore</v-icon>
 								</v-btn>
 							</td>
@@ -580,16 +515,11 @@
 											@click="toggleSettingLock('backgroundColor')"
 										>
 											<v-icon>{{
-												settingLocks.backgroundColor
-													? 'mdi-lock'
-													: 'mdi-lock-open-variant'
+												settingLocks.backgroundColor ? 'mdi-lock' : 'mdi-lock-open-variant'
 											}}</v-icon>
 										</v-btn>
 									</template>
-									<span
-										>Lock/group this setting together for every word and phrase
-										level.</span
-									>
+									<span>Lock/group this setting together for every word and phrase level.</span>
 								</v-tooltip>
 
 								Background color
@@ -602,20 +532,14 @@
 											outlined
 											width="48px"
 											height="26px"
-											:color="
-												textStyling[selectedTheme][selectedLevel]
-													.backgroundColor
-											"
+											:color="textStyling[selectedTheme][selectedLevel].backgroundColor"
 											depressed
 											v-on="on"
 										>
 										</v-card>
 									</template>
 									<v-color-picker
-										:value="
-											textStyling[selectedTheme][selectedLevel]
-												.backgroundColor
-										"
+										:value="textStyling[selectedTheme][selectedLevel].backgroundColor"
 										@input="colorChanged($event, 'backgroundColor')"
 									/>
 								</v-menu>
@@ -623,9 +547,7 @@
 							<td>
 								<v-text-field
 									class="my-2"
-									v-model="
-										textStyling[selectedTheme][selectedLevel].backgroundColor
-									"
+									v-model="textStyling[selectedTheme][selectedLevel].backgroundColor"
 									ref="colorHex"
 									filled
 									rounded
@@ -636,11 +558,7 @@
 								></v-text-field>
 							</td>
 							<td>
-								<v-btn
-									icon
-									title="Restore default"
-									@click="resetColor('backgroundColor')"
-								>
+								<v-btn icon title="Restore default" @click="resetColor('backgroundColor')">
 									<v-icon>mdi-restore</v-icon>
 								</v-btn>
 							</td>
@@ -658,16 +576,11 @@
 											@click="toggleSettingLock('backgroundTransparency')"
 										>
 											<v-icon>{{
-												settingLocks.backgroundTransparency
-													? 'mdi-lock'
-													: 'mdi-lock-open-variant'
+												settingLocks.backgroundTransparency ? 'mdi-lock' : 'mdi-lock-open-variant'
 											}}</v-icon>
 										</v-btn>
 									</template>
-									<span
-										>Lock/group this setting together for every word and phrase
-										level.</span
-									>
+									<span>Lock/group this setting together for every word and phrase level.</span>
 								</v-tooltip>
 
 								Background transparency
@@ -675,10 +588,7 @@
 							<td colspan="3">
 								<div class="px-2">
 									<v-slider
-										v-model="
-											textStyling[selectedTheme][selectedLevel]
-												.backgroundTransparency
-										"
+										v-model="textStyling[selectedTheme][selectedLevel].backgroundTransparency"
 										max="100"
 										min="0"
 										step="1"
@@ -699,9 +609,7 @@
 				</div>
 
 				<div class="d-flex justify-end mt-2">
-					<v-btn rounded depressed color="primary" @click="showResetTextStylingDialog"
-						>Reset</v-btn
-					>
+					<v-btn rounded depressed color="primary" @click="showResetTextStylingDialog">Reset</v-btn>
 					<!-- <v-btn rounded depressed color="primary" @click="logTextStylingSettingsObject">Console log settings</v-btn> -->
 				</div>
 			</v-container>
@@ -905,11 +813,7 @@ export default {
 			this.levels.forEach(level => {
 				Object.assign(
 					this.highlightedStyling,
-					TextStylingService.getCssSettingObject(
-						this.textStyling,
-						this.selectedTheme,
-						level
-					)
+					TextStylingService.getCssSettingObject(this.textStyling, this.selectedTheme, level)
 				)
 			})
 
@@ -926,9 +830,8 @@ export default {
 			this.highlightedStyling[
 				`--interactive-text-${this.levelMapping[this.selectedLevel]}-background-color`
 			] = this.textStyling[this.selectedTheme][this.selectedLevel].backgroundColor
-			this.highlightedStyling[
-				`--interactive-text-${this.levelMapping[this.selectedLevel]}-color`
-			] = this.textStyling[this.selectedTheme][this.selectedLevel].textColor
+			this.highlightedStyling[`--interactive-text-${this.levelMapping[this.selectedLevel]}-color`] =
+				this.textStyling[this.selectedTheme][this.selectedLevel].textColor
 		},
 		loadInitialtextStylingSettingsData() {
 			this.textStyling = JSON.parse(JSON.stringify(defaultTextThemes))

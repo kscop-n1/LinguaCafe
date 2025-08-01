@@ -17,8 +17,8 @@
 					color="foreground"
 					border="left"
 				>
-					Your account and password was created by an admin. Please change your password
-					before continuing your language learning journey.
+					Your account and password was created by an admin. Please change your password before
+					continuing your language learning journey.
 
 					<div class="d-flex mt-4">
 						<v-spacer />
@@ -46,8 +46,7 @@
 						You can find more information about LinguaCafe on these links.
 						<div class="footer-link-box mb-1 mt-4">
 							<router-link to="/attributions"
-								><v-icon class="mr-2">mdi-copyright</v-icon
-								>Attributions</router-link
+								><v-icon class="mr-2">mdi-copyright</v-icon>Attributions</router-link
 							>
 						</div>
 						<div class="footer-link-box mb-1">

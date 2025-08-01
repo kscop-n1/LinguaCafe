@@ -47,15 +47,9 @@
 						<td>
 							{{ color.name }}
 
-							<v-menu
-								offset-y
-								nudge-top="-12px"
-								v-if="colorInformations[color.name] !== undefined"
-							>
+							<v-menu offset-y nudge-top="-12px" v-if="colorInformations[color.name] !== undefined">
 								<template v-slot:activator="{ on, attrs }">
-									<v-icon class="ml-1" v-bind="attrs" v-on="on"
-										>mdi-help-circle</v-icon
-									>
+									<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
 								</template>
 								<v-card outlined class="rounded-lg pa-4" width="320px">
 									{{ colorInformations[color.name] }}
@@ -302,9 +296,7 @@ export default {
 		},
 		resetColor(index) {
 			var name =
-				this.selectedTheme === 'light'
-					? this.lightTheme[index].name
-					: this.darkTheme[index].name
+				this.selectedTheme === 'light' ? this.lightTheme[index].name : this.darkTheme[index].name
 			var defaultValue = defaultThemes[this.selectedTheme][name]
 
 			if (this.selectedTheme == 'light') {
@@ -339,10 +331,7 @@ export default {
 					this.saveResult = ''
 					this.saving = false
 
-					this.$store.commit(
-						'shared/setVuetifyThemeSettings',
-						colorSettings.vuetifyThemes
-					)
+					this.$store.commit('shared/setVuetifyThemeSettings', colorSettings.vuetifyThemes)
 					this.$store.commit('shared/setTextStylingSettings', colorSettings.textStyling)
 					ThemeService.setVuetifyTheme(this.$vuetify, this.$store)
 				})

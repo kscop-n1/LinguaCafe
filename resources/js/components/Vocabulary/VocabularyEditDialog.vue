@@ -30,9 +30,7 @@
 						title="First time added to srs."
 					>
 						Added on {{ item.added_to_srs
-						}}<v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1"
-							>mdi-cards</v-icon
-						>
+						}}<v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1">mdi-cards</v-icon>
 					</v-chip>
 
 					<v-chip
@@ -176,53 +174,28 @@
 
 				<!-- Stage -->
 				<div id="vocabulary-edit-stage-buttons">
-					<v-btn
-						:value="-7"
-						:class="{ 'v-btn--active': item.stage == -7 }"
-						@click="setStage(-7)"
+					<v-btn :value="-7" :class="{ 'v-btn--active': item.stage == -7 }" @click="setStage(-7)"
 						>7</v-btn
 					>
-					<v-btn
-						:value="-6"
-						:class="{ 'v-btn--active': item.stage == -6 }"
-						@click="setStage(-6)"
+					<v-btn :value="-6" :class="{ 'v-btn--active': item.stage == -6 }" @click="setStage(-6)"
 						>6</v-btn
 					>
-					<v-btn
-						:value="-5"
-						:class="{ 'v-btn--active': item.stage == -5 }"
-						@click="setStage(-5)"
+					<v-btn :value="-5" :class="{ 'v-btn--active': item.stage == -5 }" @click="setStage(-5)"
 						>5</v-btn
 					>
-					<v-btn
-						:value="-4"
-						:class="{ 'v-btn--active': item.stage == -4 }"
-						@click="setStage(-4)"
+					<v-btn :value="-4" :class="{ 'v-btn--active': item.stage == -4 }" @click="setStage(-4)"
 						>4</v-btn
 					>
-					<v-btn
-						:value="-3"
-						:class="{ 'v-btn--active': item.stage == -3 }"
-						@click="setStage(-3)"
+					<v-btn :value="-3" :class="{ 'v-btn--active': item.stage == -3 }" @click="setStage(-3)"
 						>3</v-btn
 					>
-					<v-btn
-						:value="-2"
-						:class="{ 'v-btn--active': item.stage == -2 }"
-						@click="setStage(-2)"
+					<v-btn :value="-2" :class="{ 'v-btn--active': item.stage == -2 }" @click="setStage(-2)"
 						>2</v-btn
 					>
-					<v-btn
-						:value="-1"
-						:class="{ 'v-btn--active': item.stage == -1 }"
-						@click="setStage(-1)"
+					<v-btn :value="-1" :class="{ 'v-btn--active': item.stage == -1 }" @click="setStage(-1)"
 						>1</v-btn
 					>
-					<v-btn
-						:value="0"
-						:class="{ 'v-btn--active': item.stage == 0 }"
-						@click="setStage(0)"
-					>
+					<v-btn :value="0" :class="{ 'v-btn--active': item.stage == 0 }" @click="setStage(0)">
 						<v-icon>mdi-check</v-icon>
 					</v-btn>
 					<v-btn
@@ -274,9 +247,7 @@ export default {
 	},
 	mounted: function () {
 		axios
-			.get(
-				'/vocabulary/' + this.$props.itemType.toLowerCase() + 's/get/' + this.$props.itemId
-			)
+			.get('/vocabulary/' + this.$props.itemType.toLowerCase() + 's/get/' + this.$props.itemId)
 			.then(response => {
 				this.loading = false
 				this.item = response.data

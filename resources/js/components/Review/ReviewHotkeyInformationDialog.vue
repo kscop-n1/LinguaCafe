@@ -23,8 +23,7 @@
 				</div>
 
 				<div class="d-flex">
-					<span class="primary--text mr-6" style="width: 80px">x</span
-					><span>Again button</span>
+					<span class="primary--text mr-6" style="width: 80px">x</span><span>Again button</span>
 				</div>
 			</v-card-text>
 

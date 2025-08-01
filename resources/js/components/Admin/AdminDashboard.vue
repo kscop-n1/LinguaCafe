@@ -21,9 +21,8 @@
 					border="left"
 					dark
 				>
-					A backup of your database has been successfully created. Your backup can be
-					found inside the "/storage/backup/{{ backupCreationRequest.fileName }}"
-					directory.
+					A backup of your database has been successfully created. Your backup can be found inside
+					the "/storage/backup/{{ backupCreationRequest.fileName }}" directory.
 				</v-alert>
 
 				<!-- Error message -->

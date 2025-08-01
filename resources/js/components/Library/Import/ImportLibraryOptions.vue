@@ -2,9 +2,8 @@
 	<div>
 		<v-form ref="libraryLocationForm" v-model="isFormValid">
 			<v-alert dark border="left" type="info" color="primary" class="mt-4">
-				Your selected chapter name will be suffixed with indexes of the imported chapters.
-				For example if you choose the chapter name "Narnia chapter", then your chapter names
-				will be:<br /><br />
+				Your selected chapter name will be suffixed with indexes of the imported chapters. For
+				example if you choose the chapter name "Narnia chapter", then your chapter names will be:<br /><br />
 				<ul class="mb-0">
 					<li>Narnia chapter 1</li>
 					<li>Narnia chapter 2</li>
@@ -34,11 +33,7 @@
 				@change="formChanged"
 			>
 				<v-radio label="Create new book" value="new" :disabled="loading"></v-radio>
-				<v-radio
-					v-if="books.length > 0"
-					label="Use existing book"
-					value="existing"
-				></v-radio>
+				<v-radio v-if="books.length > 0" label="Use existing book" value="existing"></v-radio>
 			</v-radio-group>
 
 			<!-- Book selector for existing book -->

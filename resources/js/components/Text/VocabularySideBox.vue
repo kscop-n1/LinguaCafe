@@ -51,12 +51,7 @@
 							<v-icon>mdi-image-search</v-icon>
 						</v-btn>
 					</template>
-					<v-card
-						outlined
-						class="px-2"
-						width="320px"
-						v-if="$store.state.vocabularyBox.image"
-					>
+					<v-card outlined class="px-2" width="320px" v-if="$store.state.vocabularyBox.image">
 						<v-img
 							:src="
 								'/images/' +
@@ -75,12 +70,7 @@
 				><!-- Image search button -->
 
 				<!-- Inflections table button -->
-				<v-btn
-					v-if="tab == 0 && inflections.length"
-					icon
-					title="Show inflections"
-					@click="tab = 1"
-				>
+				<v-btn v-if="tab == 0 && inflections.length" icon title="Show inflections" @click="tab = 1">
 					<v-icon>mdi-list-box</v-icon>
 				</v-btn>
 
@@ -159,10 +149,7 @@
 				<!-- Reading fields -->
 				<div
 					class="d-flex"
-					v-if="
-						type == 'word' &&
-						($props.language == 'japanese' || $props.language == 'chinese')
-					"
+					v-if="type == 'word' && ($props.language == 'japanese' || $props.language == 'chinese')"
 				>
 					<v-text-field
 						class="default-font my-2"
@@ -209,10 +196,7 @@
 
 				<!-- Phrase reading -->
 				<v-textarea
-					v-if="
-						type !== 'word' &&
-						($props.language == 'japanese' || $props.language == 'chinese')
-					"
+					v-if="type !== 'word' && ($props.language == 'japanese' || $props.language == 'chinese')"
 					class="default-font my-2"
 					label="Reading"
 					filled
@@ -229,27 +213,13 @@
 				<!-- Stage buttons-->
 				<template v-if="type !== 'new-phrase'">
 					<div id="vocab-box-stage-buttons" class="mb-2">
-						<v-btn :class="{ 'v-btn--active': stage == -7 }" @click="setStage(-7)"
-							>7</v-btn
-						>
-						<v-btn :class="{ 'v-btn--active': stage == -6 }" @click="setStage(-6)"
-							>6</v-btn
-						>
-						<v-btn :class="{ 'v-btn--active': stage == -5 }" @click="setStage(-5)"
-							>5</v-btn
-						>
-						<v-btn :class="{ 'v-btn--active': stage == -4 }" @click="setStage(-4)"
-							>4</v-btn
-						>
-						<v-btn :class="{ 'v-btn--active': stage == -3 }" @click="setStage(-3)"
-							>3</v-btn
-						>
-						<v-btn :class="{ 'v-btn--active': stage == -2 }" @click="setStage(-2)"
-							>2</v-btn
-						>
-						<v-btn :class="{ 'v-btn--active': stage == -1 }" @click="setStage(-1)"
-							>1</v-btn
-						>
+						<v-btn :class="{ 'v-btn--active': stage == -7 }" @click="setStage(-7)">7</v-btn>
+						<v-btn :class="{ 'v-btn--active': stage == -6 }" @click="setStage(-6)">6</v-btn>
+						<v-btn :class="{ 'v-btn--active': stage == -5 }" @click="setStage(-5)">5</v-btn>
+						<v-btn :class="{ 'v-btn--active': stage == -4 }" @click="setStage(-4)">4</v-btn>
+						<v-btn :class="{ 'v-btn--active': stage == -3 }" @click="setStage(-3)">3</v-btn>
+						<v-btn :class="{ 'v-btn--active': stage == -2 }" @click="setStage(-2)">2</v-btn>
+						<v-btn :class="{ 'v-btn--active': stage == -1 }" @click="setStage(-1)">1</v-btn>
 						<v-btn :class="{ 'v-btn--active': stage == 0 }" @click="setStage(0)">
 							<v-icon small>mdi-check</v-icon>
 						</v-btn>
@@ -307,12 +277,7 @@
 
 				<div v-if="type !== 'word'" class="d-flex mt-2 pl-0">
 					<v-spacer />
-					<v-btn
-						small
-						rounded
-						color="success"
-						@click="addNewPhrase"
-						v-if="type == 'new-phrase'"
+					<v-btn small rounded color="success" @click="addNewPhrase" v-if="type == 'new-phrase'"
 						>Save phrase</v-btn
 					>
 					<v-btn small rounded color="error" @click="deletePhrase" v-if="type == 'phrase'"

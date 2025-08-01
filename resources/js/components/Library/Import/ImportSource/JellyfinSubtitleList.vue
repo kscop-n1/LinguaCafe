@@ -67,10 +67,7 @@
 			<div
 				class="regular-list-height subtitle rounded-pill my-2"
 				v-if="
-					!subtitleListLoading &&
-					!$props.subtitleLoading &&
-					!sessions.length &&
-					!subtitleListError
+					!subtitleListLoading && !$props.subtitleLoading && !sessions.length && !subtitleListError
 				"
 			>
 				<div id="no-subtitle-found-label">No subtitles found</div>
@@ -127,8 +124,8 @@
 					dark
 					icon="mdi-progress-clock"
 				>
-					Your selected subtitle is being processed. This can take 10 to 30 seconds. Once
-					processed, it will be cached for quicker loading in the future.
+					Your selected subtitle is being processed. This can take 10 to 30 seconds. Once processed,
+					it will be cached for quicker loading in the future.
 				</v-alert>
 			</div>
 		</v-card>
@@ -169,9 +166,7 @@ export default {
 							subtitleIndex--
 						) {
 							// remove unsupported language subtitle
-							if (
-								!sessions[sessionIndex].subtitles[subtitleIndex].supportedLanguage
-							) {
+							if (!sessions[sessionIndex].subtitles[subtitleIndex].supportedLanguage) {
 								console.log(
 									'unsupported language code:',
 									sessions[sessionIndex].subtitles[subtitleIndex].language
@@ -180,8 +175,7 @@ export default {
 
 							// remove note-selected language subtitle
 							if (
-								sessions[sessionIndex].subtitles[subtitleIndex].language !==
-								this.$props.language
+								sessions[sessionIndex].subtitles[subtitleIndex].language !== this.$props.language
 							) {
 								// sessions[sessionIndex].subtitles.splice(subtitleIndex, 1);
 							}

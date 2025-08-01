@@ -24,10 +24,7 @@
 					<v-tab-item :value="0">
 						<!-- Font type -->
 						<v-row v-if="fontTypes.length">
-							<v-col
-								cols="12"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Font type:</v-col
 							>
 							<v-col
@@ -57,24 +54,10 @@
 								class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3"
 								>Space between lines:</v-col
 							>
-							<v-col
-								class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center"
-							>
+							<v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
 								<v-slider
 									v-model="settings.lineSpacing"
-									:tick-labels="[
-										'Small',
-										'',
-										'',
-										'',
-										'',
-										'',
-										'',
-										'',
-										'',
-										'',
-										'Large',
-									]"
+									:tick-labels="['Small', '', '', '', '', '', '', '', '', '', 'Large']"
 									:tick-size="0"
 									:max="10"
 									thumb-label="always"
@@ -95,9 +78,7 @@
 								class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3"
 								>Maximum text width:</v-col
 							>
-							<v-col
-								class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center"
-							>
+							<v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
 								<v-slider
 									v-model="settings.maximumTextWidth"
 									:tick-labels="['Small', '', '', '', '', '', 'Full']"
@@ -124,9 +105,7 @@
 								class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3"
 								>Font size:</v-col
 							>
-							<v-col
-								class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center"
-							>
+							<v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
 								<v-slider
 									v-model="settings.fontSize"
 									:tick-labels="[
@@ -164,10 +143,7 @@
 
 						<!-- Hide all highlighting -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Hide all highlighting:</v-col
 							>
 							<v-col
@@ -185,10 +161,7 @@
 
 						<!-- Hide new word highlighting -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Hide new word highlighting:</v-col
 							>
 							<v-col
@@ -206,10 +179,7 @@
 
 						<!-- Vertical text -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Vertical text:</v-col
 							>
 							<v-col
@@ -228,10 +198,7 @@
 
 						<!-- Furigana on highlighted words -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Furigana on highlighted words:</v-col
 							>
 							<v-col
@@ -249,10 +216,7 @@
 
 						<!-- Furigana on new words -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Furigana on new words:</v-col
 							>
 							<v-col
@@ -270,10 +234,7 @@
 
 						<!-- Auto move words to known -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Auto move words to known:</v-col
 							>
 							<v-col
@@ -283,13 +244,10 @@
 							>
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
-										<v-icon class="mr-2" v-bind="attrs" v-on="on"
-											>mdi-help-circle-outline</v-icon
-										>
+										<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
-										Clicking the <b>Finish reading</b> button moves new words to
-										known.
+										Clicking the <b>Finish reading</b> button moves new words to known.
 									</v-card>
 								</v-menu>
 
@@ -303,10 +261,7 @@
 
 						<!-- Auto highlight words -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Auto highlight words:</v-col
 							>
 							<v-col
@@ -316,9 +271,7 @@
 							>
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
-										<v-icon class="mr-2" v-bind="attrs" v-on="on"
-											>mdi-help-circle-outline</v-icon
-										>
+										<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
 										Auto highlight words when you add a translation to them.
@@ -335,10 +288,7 @@
 
 						<!-- Auto level up words -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Auto level up words:</v-col
 							>
 							<v-col
@@ -348,14 +298,11 @@
 							>
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
-										<v-icon class="mr-2" v-bind="attrs" v-on="on"
-											>mdi-help-circle-outline</v-icon
-										>
+										<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
-										Clicking the 'Finished reading' button will automatically
-										level up any words and phrases for which you haven't opened
-										the vocabulary box.
+										Clicking the 'Finished reading' button will automatically level up any words and
+										phrases for which you haven't opened the vocabulary box.
 									</v-card>
 								</v-menu>
 
@@ -369,10 +316,7 @@
 
 						<!-- Show subtitle timestamps -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Show subtitle timestamps:</v-col
 							>
 							<v-col
@@ -396,9 +340,7 @@
 								class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3"
 								>Space between subtitles:</v-col
 							>
-							<v-col
-								class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center"
-							>
+							<v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
 								<v-slider
 									v-model="settings.spaceBetweenSubtitles"
 									:tick-labels="[
@@ -445,10 +387,7 @@
 
 						<!-- Text to speech -->
 						<v-row v-if="textToSpeechVoices.length">
-							<v-col
-								cols="12"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>TTS voice:</v-col
 							>
 							<v-col
@@ -472,10 +411,7 @@
 
 						<!-- Text to speech speed -->
 						<v-row v-if="textToSpeechVoices.length">
-							<v-col
-								cols="12"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>TTS speed:</v-col
 							>
 							<v-col
@@ -523,10 +459,7 @@
 					<v-tab-item :value="1">
 						<!-- Vocab box scroll into view -->
 						<v-row>
-							<v-col
-								cols="12"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Scroll to vocabulary method:</v-col
 							>
 							<v-col
@@ -550,11 +483,7 @@
 
 						<!-- Vocabulary sidebar -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
-							>
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">
 								Vocabulary sidebar:
 							</v-col>
 							<v-col
@@ -565,16 +494,13 @@
 								<!-- Vocabulary sidebar info box -->
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
-										<v-icon class="mr-2" v-bind="attrs" v-on="on"
-											>mdi-help-circle-outline</v-icon
-										>
+										<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
-										An always visible sidebar vocabulary in a fixed position,
-										that replaces the popup vocabulary. <br /><br />
-										This option is only available for devices with at least
-										960px screen width, and it is also only available in
-										subtitle reader if the media controls are hidden.
+										An always visible sidebar vocabulary in a fixed position, that replaces the
+										popup vocabulary. <br /><br />
+										This option is only available for devices with at least 960px screen width, and
+										it is also only available in subtitle reader if the media controls are hidden.
 									</v-card>
 								</v-menu>
 
@@ -588,11 +514,7 @@
 
 						<!-- Vocabulary bottom sheet -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
-							>
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">
 								Vocabulary bottom sheet:
 							</v-col>
 							<v-col
@@ -603,15 +525,13 @@
 								<!-- Vocabulary sidebar info box -->
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
-										<v-icon class="mr-2" v-bind="attrs" v-on="on"
-											>mdi-help-circle-outline</v-icon
-										>
+										<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
-										A bottom sheet vocabulary designed for mobile screens, that
-										replaces the popup vocabulary. <br /><br />
-										This option is only available for devices with less than or
-										equal to 768px screen width.
+										A bottom sheet vocabulary designed for mobile screens, that replaces the popup
+										vocabulary. <br /><br />
+										This option is only available for devices with less than or equal to 768px
+										screen width.
 									</v-card>
 								</v-menu>
 
@@ -628,10 +548,7 @@
 					<v-tab-item :value="2">
 						<!-- Vocabulary hover box -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Hover vocabulary box:</v-col
 							>
 							<v-col
@@ -641,13 +558,11 @@
 							>
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
-										<v-icon class="mr-2" v-bind="attrs" v-on="on"
-											>mdi-help-circle-outline</v-icon
-										>
+										<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
-										A minimalistic vocabulary box that appears when you move the
-										mouse over a word or phrase.
+										A minimalistic vocabulary box that appears when you move the mouse over a word
+										or phrase.
 									</v-card>
 								</v-menu>
 
@@ -661,10 +576,7 @@
 
 						<!-- Hover vocabulary box dictionary search -->
 						<v-row>
-							<v-col
-								cols="8"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Hover vocabulary dictionary search:</v-col
 							>
 							<v-col
@@ -688,9 +600,7 @@
 								class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3"
 								>Hover vocabulary delay:</v-col
 							>
-							<v-col
-								class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center"
-							>
+							<v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
 								<v-slider
 									v-model="settings.vocabularyHoverBoxDelay"
 									:tick-labels="['200ms', '', '', '', '', '', '', '', '1000ms']"
@@ -709,10 +619,7 @@
 
 						<!-- Hover vocabulary preferred position -->
 						<v-row>
-							<v-col
-								cols="12"
-								md="4"
-								class="switch-container d-flex align-center mt-0 mb-md-5"
+							<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 								>Preferred position:</v-col
 							>
 							<v-col
@@ -798,15 +705,7 @@ export default {
 					value: 'scroll-into-view-if-needed',
 				},
 			],
-			maximumTextWidthData: [
-				'800px',
-				'900px',
-				'1000px',
-				'1200px',
-				'1400px',
-				'1600px',
-				'100%',
-			],
+			maximumTextWidthData: ['800px', '900px', '1000px', '1200px', '1400px', '1600px', '100%'],
 		}
 	},
 	props: {

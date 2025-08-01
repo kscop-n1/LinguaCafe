@@ -25,48 +25,27 @@
 								<span class="rounded-pill py-1 px-3">Word</span>
 							</div>
 							<!-- With lemma -->
-							<div
-								class="expression mb-2 text-center default-font"
-								v-if="lemma !== ''"
-							>
+							<div class="expression mb-2 text-center default-font" v-if="lemma !== ''">
 								<ruby>
 									{{ lemma }}
-									<rt
-										v-if="
-											$props.language == 'japanese' ||
-											$props.language == 'chinese'
-										"
-									>
+									<rt v-if="$props.language == 'japanese' || $props.language == 'chinese'">
 										{{ lemmaReading }}
 									</rt>
 								</ruby>
 								<v-icon color="text">mdi-arrow-right-thick</v-icon>
 								<ruby>
 									{{ word }}
-									<rt
-										v-if="
-											$props.language == 'japanese' ||
-											$props.language == 'chinese'
-										"
-									>
+									<rt v-if="$props.language == 'japanese' || $props.language == 'chinese'">
 										{{ reading }}
 									</rt>
 								</ruby>
 							</div>
 
 							<!-- No lemma -->
-							<div
-								class="expression mb-2 text-center default-font"
-								v-if="lemma == ''"
-							>
+							<div class="expression mb-2 text-center default-font" v-if="lemma == ''">
 								<ruby>
 									{{ word }}
-									<rt
-										v-if="
-											$props.language == 'japanese' ||
-											$props.language == 'chinese'
-										"
-									>
+									<rt v-if="$props.language == 'japanese' || $props.language == 'chinese'">
 										{{ reading }}
 									</rt>
 								</ruby>
@@ -80,20 +59,13 @@
 							</div>
 							<!-- Phrase text -->
 							<div class="expression mb-2 default-font">
-								<template
-									v-for="(word, index) in phrase"
-									v-if="word.word !== 'NEWLINE'"
-								>
-									<span :class="{ 'mr-2': word.spaceAfter }">{{
-										word.word
-									}}</span>
+								<template v-for="(word, index) in phrase" v-if="word.word !== 'NEWLINE'">
+									<span :class="{ 'mr-2': word.spaceAfter }">{{ word.word }}</span>
 								</template>
 							</div>
 
 							<!-- Phrase reading -->
-							<template
-								v-if="$props.language == 'japanese' || $props.language == 'chinese'"
-							>
+							<template v-if="$props.language == 'japanese' || $props.language == 'chinese'">
 								<div class="vocab-box-subheader mb-2 mt-4">
 									<span class="rounded-pill py-1 px-3">Reading</span>
 								</div>
@@ -111,64 +83,30 @@
 								<v-menu offset-y left nudge-top="-12px">
 									<template v-slot:activator="{ on, attrs }">
 										<div>
-											<v-icon class="mr-2" v-bind="attrs" v-on="on"
-												>mdi-help-circle-outline</v-icon
-											>
+											<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 										</div>
 									</template>
 									<v-card outlined class="rounded-lg pa-4" width="320px">
-										A word's or phrase's level represents how well you know it.
-										The closer it is to 0, the closer you are to learn it, and
-										it will appear in reviews less frequently.<br /><br />
+										A word's or phrase's level represents how well you know it. The closer it is to
+										0, the closer you are to learn it, and it will appear in reviews less
+										frequently.<br /><br />
 
 										<v-icon class="mr-2">mdi-check</v-icon>
 										represents known words.<br />
 										<v-icon class="mr-2">mdi-close</v-icon>
-										represents ignored words. Ignored words do not count in
-										learned word statistics.
+										represents ignored words. Ignored words do not count in learned word statistics.
 									</v-card>
 								</v-menu>
 							</div>
 							<div id="vocab-box-stage-buttons" class="mb-4">
-								<v-btn
-									:class="{ 'v-btn--active': stage == -7 }"
-									@click="setStage(-7)"
-									>7</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == -6 }"
-									@click="setStage(-6)"
-									>6</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == -5 }"
-									@click="setStage(-5)"
-									>5</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == -4 }"
-									@click="setStage(-4)"
-									>4</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == -3 }"
-									@click="setStage(-3)"
-									>3</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == -2 }"
-									@click="setStage(-2)"
-									>2</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == -1 }"
-									@click="setStage(-1)"
-									>1</v-btn
-								>
-								<v-btn
-									:class="{ 'v-btn--active': stage == 0 }"
-									@click="setStage(0)"
-								>
+								<v-btn :class="{ 'v-btn--active': stage == -7 }" @click="setStage(-7)">7</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == -6 }" @click="setStage(-6)">6</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == -5 }" @click="setStage(-5)">5</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == -4 }" @click="setStage(-4)">4</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == -3 }" @click="setStage(-3)">3</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == -2 }" @click="setStage(-2)">2</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == -1 }" @click="setStage(-1)">1</v-btn>
+								<v-btn :class="{ 'v-btn--active': stage == 0 }" @click="setStage(0)">
 									<v-icon>mdi-check</v-icon>
 								</v-btn>
 								<v-btn
@@ -184,8 +122,7 @@
 						<!-- Translation -->
 						<v-textarea
 							:class="{
-								'mt-2':
-									$props.language !== 'japanese' && $props.language !== 'chinese',
+								'mt-2': $props.language !== 'japanese' && $props.language !== 'chinese',
 							}"
 							label="Translation"
 							filled
@@ -226,20 +163,10 @@
 
 					<v-card-actions v-if="type !== 'word'" class="mt-2 pl-0">
 						<v-spacer />
-						<v-btn
-							small
-							rounded
-							color="success"
-							@click="addNewPhrase"
-							v-if="type == 'new-phrase'"
+						<v-btn small rounded color="success" @click="addNewPhrase" v-if="type == 'new-phrase'"
 							>Save phrase</v-btn
 						>
-						<v-btn
-							small
-							rounded
-							color="error"
-							@click="deletePhrase"
-							v-if="type == 'phrase'"
+						<v-btn small rounded color="error" @click="deletePhrase" v-if="type == 'phrase'"
 							>Delete phrase</v-btn
 						>
 					</v-card-actions>
@@ -254,9 +181,7 @@
 								:class="{
 									'default-font': true,
 									'mt-2': true,
-									'mb-2':
-										$props.language !== 'japanese' &&
-										$props.language !== 'chinese',
+									'mb-2': $props.language !== 'japanese' && $props.language !== 'chinese',
 								}"
 								hide-details
 								label="Lemma"
@@ -271,9 +196,7 @@
 								:class="{
 									'default-font': true,
 									'mt-2': true,
-									'mb-2':
-										$props.language !== 'japanese' &&
-										$props.language !== 'chinese',
+									'mb-2': $props.language !== 'japanese' && $props.language !== 'chinese',
 								}"
 								hide-details
 								label="Word"
@@ -291,8 +214,7 @@
 						<div
 							class="d-flex"
 							v-if="
-								type == 'word' &&
-								($props.language == 'japanese' || $props.language == 'chinese')
+								type == 'word' && ($props.language == 'japanese' || $props.language == 'chinese')
 							"
 						>
 							<v-text-field
@@ -322,8 +244,7 @@
 						<!-- Phrase fields -->
 						<v-textarea
 							v-if="
-								type !== 'word' &&
-								($props.language == 'japanese' || $props.language == 'chinese')
+								type !== 'word' && ($props.language == 'japanese' || $props.language == 'chinese')
 							"
 							class="my-2 default-font"
 							label="Reading"
@@ -365,10 +286,7 @@
 
 				<!-- Word image edit dialog -->
 				<v-tab-item :value="3">
-					<word-image-edit-box
-						:height="'400px'"
-						@imageChanged="$emit('imageChanged', $event)"
-					/>
+					<word-image-edit-box :height="'400px'" @imageChanged="$emit('imageChanged', $event)" />
 				</v-tab-item>
 			</v-tabs-items>
 		</div>
@@ -376,9 +294,7 @@
 		<!-- Vocab box toolbar -->
 		<div class="vocab-box-toolbar d-flex flex-column align-center flex-wrap pt-1 rounded-r-lg">
 			<v-btn icon @click="close" title="Close"><v-icon>mdi-close</v-icon></v-btn>
-			<v-btn icon @click="tab = 1" title="Edit" v-if="tab == 0"
-				><v-icon>mdi-pencil</v-icon></v-btn
-			>
+			<v-btn icon @click="tab = 1" title="Edit" v-if="tab == 0"><v-icon>mdi-pencil</v-icon></v-btn>
 			<v-btn
 				icon
 				@click="addSelectedWordToAnki"
@@ -393,11 +309,7 @@
 				@click="textToSpeech"
 				><v-icon>mdi-bullhorn</v-icon></v-btn
 			>
-			<v-btn
-				icon
-				@click="tab = 2"
-				title="Show inflections"
-				v-if="tab == 0 && inflections.length"
+			<v-btn icon @click="tab = 2" title="Show inflections" v-if="tab == 0 && inflections.length"
 				><v-icon>mdi-list-box</v-icon></v-btn
 			>
 			<v-btn icon @click="tab = 0" v-if="tab !== 0" title="Back"

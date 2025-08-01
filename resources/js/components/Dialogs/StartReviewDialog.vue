@@ -31,9 +31,7 @@
 				></v-checkbox>
 				<v-menu offset-y left nudge-top="-12px" nudge-left="-88px">
 					<template v-slot:activator="{ on, attrs }">
-						<v-icon class="ml-2" v-bind="attrs" v-on="on"
-							>mdi-help-circle-outline</v-icon
-						>
+						<v-icon class="ml-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 					</template>
 					<v-card outlined class="rounded-lg pa-4" width="252px">
 						<span class="mb-1">In practice mode:</span>
@@ -93,12 +91,7 @@ export default {
 	methods: {
 		startReview() {
 			window.location.href =
-				'/review/' +
-				this.practiceMode +
-				'/' +
-				this.$props.bookId +
-				'/' +
-				this.$props.chapterId
+				'/review/' + this.practiceMode + '/' + this.$props.bookId + '/' + this.$props.chapterId
 			this.$emit('input', false)
 		},
 		close() {

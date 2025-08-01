@@ -73,18 +73,15 @@
 							color="error"
 							border="left"
 						>
-							The selected file is not a supported dictionary file. Please upload a
-							file from the sources listed in the user manual.
+							The selected file is not a supported dictionary file. Please upload a file from the
+							sources listed in the user manual.
 						</v-alert>
 					</v-stepper-content>
 
 					<!-- Import overview information -->
 					<v-stepper-content step="2">
 						Importing a large dictionary can take several minutes.
-						<v-simple-table
-							class="border no-hover mx-auto mt-2"
-							v-if="dictionary !== null"
-						>
+						<v-simple-table class="border no-hover mx-auto mt-2" v-if="dictionary !== null">
 							<tbody>
 								<tr>
 									<td>Dictionary name:</td>
@@ -103,11 +100,7 @@
 									<td>
 										<v-img
 											class="border"
-											:src="
-												'/images/flags/' +
-												dictionary.sourceLanguage +
-												'.png'
-											"
+											:src="'/images/flags/' + dictionary.sourceLanguage + '.png'"
 											max-width="43"
 											height="28"
 										></v-img>
@@ -118,11 +111,7 @@
 									<td>
 										<v-img
 											class="border"
-											:src="
-												'/images/flags/' +
-												dictionary.targetLanguage +
-												'.png'
-											"
+											:src="'/images/flags/' + dictionary.targetLanguage + '.png'"
 											max-width="43"
 											height="28"
 										></v-img>
@@ -189,9 +178,8 @@
 								border="left"
 								dark
 							>
-								The import process has failed. Please make sure your dictionary
-								files are the correct ones. If the problem still persist, please
-								create a
+								The import process has failed. Please make sure your dictionary files are the
+								correct ones. If the problem still persist, please create a
 								<a href="https://github.com/simjanos-dev/LinguaCafe">GitHub</a>
 								Issue.
 							</v-alert>
@@ -310,18 +298,14 @@ export default {
 				})
 				.then(response => {
 					this.$store.getters['shared/echo']
-						.private(
-							'dictionary-import-progress.' + this.$store.getters['shared/userUuid']
-						)
+						.private('dictionary-import-progress.' + this.$store.getters['shared/userUuid'])
 						.stopListening('DictionaryImportProgressedEvent')
 					this.importing = false
 					this.importResult = 'success'
 				})
 				.catch(() => {
 					this.$store.getters['shared/echo']
-						.private(
-							'dictionary-import-progress.' + this.$store.getters['shared/userUuid']
-						)
+						.private('dictionary-import-progress.' + this.$store.getters['shared/userUuid'])
 						.stopListening('DictionaryImportProgressedEvent')
 					this.importing = false
 					this.importResult = 'error'

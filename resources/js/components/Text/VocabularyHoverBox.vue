@@ -147,8 +147,7 @@ export default {
 		this.dictionaryList = []
 
 		if (this.$store.state.hoverVocabularyBox.userTranslation.length) {
-			this.userTranslationList =
-				this.$store.state.hoverVocabularyBox.userTranslation.split(';')
+			this.userTranslationList = this.$store.state.hoverVocabularyBox.userTranslation.split(';')
 		}
 
 		if (this.$store.state.hoverVocabularyBox.dictionaryTranslation.length) {

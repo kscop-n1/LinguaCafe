@@ -33,8 +33,7 @@
 				Vocabulary
 				<v-spacer></v-spacer>
 				<v-chip id="search-result-info" color="foreground" class="pl-1"
-					><v-icon class="mr-1" right>mdi-text-box-check</v-icon
-					>{{ wordCount }} results</v-chip
+					><v-icon class="mr-1" right>mdi-text-box-check</v-icon>{{ wordCount }} results</v-chip
 				>
 			</div>
 
@@ -70,12 +69,8 @@
 								v-on="on"
 							>
 								Level
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -151,12 +146,8 @@
 								v-on="on"
 							>
 								Book
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -192,12 +183,8 @@
 								v-on="on"
 							>
 								Chapter
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -233,12 +220,8 @@
 								v-on="on"
 							>
 								Translation
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -271,12 +254,8 @@
 								v-on="on"
 							>
 								Phrases
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -316,12 +295,8 @@
 								v-on="on"
 							>
 								Order by
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -329,30 +304,26 @@
 								<v-list-item
 									:class="{ 'v-list-item--active': filters.orderBy == 'words' }"
 									@click="applyFilter('orderBy', 'words')"
-									><v-icon class="mr-1">mdi-sort-alphabetical-ascending</v-icon
-									>Word</v-list-item
+									><v-icon class="mr-1">mdi-sort-alphabetical-ascending</v-icon>Word</v-list-item
 								>
 								<v-list-item
 									:class="{
 										'v-list-item--active': filters.orderBy == 'words desc',
 									}"
 									@click="applyFilter('orderBy', 'words desc')"
-									><v-icon class="mr-1">mdi-sort-alphabetical-descending</v-icon
-									>Word</v-list-item
+									><v-icon class="mr-1">mdi-sort-alphabetical-descending</v-icon>Word</v-list-item
 								>
 								<v-list-item
 									:class="{ 'v-list-item--active': filters.orderBy == 'stage' }"
 									@click="applyFilter('orderBy', 'stage')"
-									><v-icon class="mr-1">mdi-sort-numeric-ascending</v-icon
-									>Level</v-list-item
+									><v-icon class="mr-1">mdi-sort-numeric-ascending</v-icon>Level</v-list-item
 								>
 								<v-list-item
 									:class="{
 										'v-list-item--active': filters.orderBy == 'stage desc',
 									}"
 									@click="applyFilter('orderBy', 'stage desc')"
-									><v-icon class="mr-1">mdi-sort-numeric-descending</v-icon
-									>Level</v-list-item
+									><v-icon class="mr-1">mdi-sort-numeric-descending</v-icon>Level</v-list-item
 								>
 							</v-list-item-group>
 						</v-list>
@@ -368,9 +339,7 @@
 						<template v-if="filtersHidden"
 							><v-icon small class="mr-1">mdi-eye</v-icon>Show filters</template
 						>
-						<template v-else
-							><v-icon small class="mr-1">mdi-eye-off</v-icon>Hide filters</template
-						>
+						<template v-else><v-icon small class="mr-1">mdi-eye-off</v-icon>Hide filters</template>
 					</v-btn>
 
 					<!-- search result info -->
@@ -388,12 +357,8 @@
 								v-on="on"
 							>
 								<v-icon small class="mr-1">mdi-file-download</v-icon>Data
-								<v-icon v-if="attrs['aria-expanded'] === 'true'"
-									>mdi-chevron-up</v-icon
-								>
-								<v-icon v-if="attrs['aria-expanded'] !== 'true'"
-									>mdi-chevron-down</v-icon
-								>
+								<v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+								<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 						<v-list class="filter-popup pa-0" dense>
@@ -414,10 +379,7 @@
 			<thead>
 				<tr>
 					<th class="word">Word</th>
-					<th
-						class="reading"
-						v-if="$props.language == 'japanese' || $props.language == 'chinese'"
-					>
+					<th class="reading" v-if="$props.language == 'japanese' || $props.language == 'chinese'">
 						Reading
 					</th>
 					<th class="word-with-reading">Word</th>
@@ -458,13 +420,9 @@
 						<td class="word-with-reading default-font">
 							<ruby
 								>{{ word.word
-								}}<rt
-									v-if="
-										$props.language == 'japanese' ||
-										$props.language == 'chinese'
-									"
-									>{{ word.reading }}</rt
-								></ruby
+								}}<rt v-if="$props.language == 'japanese' || $props.language == 'chinese'">{{
+									word.reading
+								}}</rt></ruby
 							>
 						</td>
 					</template>
@@ -484,12 +442,7 @@
 
 					<td class="translation">{{ word.translation }}</td>
 					<td class="actions">
-						<v-btn
-							v-if="word.type == 'word'"
-							icon
-							title="Edit"
-							@click="editItem(word.id, 'Word')"
-						>
+						<v-btn v-if="word.type == 'word'" icon title="Edit" @click="editItem(word.id, 'Word')">
 							<v-icon>mdi-pencil</v-icon>
 						</v-btn>
 						<v-btn v-else icon title="Edit" @click="editItem(word.id, 'Phrase')">

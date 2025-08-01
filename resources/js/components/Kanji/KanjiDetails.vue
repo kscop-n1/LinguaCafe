@@ -30,25 +30,19 @@
 					<div class="kanji-info-group mt-3">
 						<div class="kanji-info-title">Meanings</div>
 						<div class="kanji-info my-2 pl-4">
-							<span class="mr-6" v-for="(meaning, index) in meanings">{{
-								meaning
-							}}</span>
+							<span class="mr-6" v-for="(meaning, index) in meanings">{{ meaning }}</span>
 						</div>
 					</div>
 					<div class="kanji-info-group my-4" v-if="readingsKun.length">
 						<div class="kanji-info-title">Kun'yomi</div>
 						<div class="kanji-info default-font my-2 pl-4">
-							<span class="mr-6" v-for="(reading, index) in readingsKun">{{
-								reading
-							}}</span>
+							<span class="mr-6" v-for="(reading, index) in readingsKun">{{ reading }}</span>
 						</div>
 					</div>
 					<div class="kanji-info-group" v-if="readingsOn.length">
 						<div class="kanji-info-title">On'yomi</div>
 						<div class="kanji-info default-font my-2 pl-4">
-							<span class="mr-6" v-for="(reading, index) in readingsOn">{{
-								reading
-							}}</span>
+							<span class="mr-6" v-for="(reading, index) in readingsOn">{{ reading }}</span>
 						</div>
 					</div>
 				</div>
@@ -66,11 +60,7 @@
 		<!-- Kanji words -->
 		<div class="subheader mt-8">Known words with {{ kanji }}</div>
 		<div id="kanji-words" class="h5">
-			<v-simple-table
-				id="kanji-words-table"
-				dense
-				class="mt-3 mb-4 border rounded-lg no-hover"
-			>
+			<v-simple-table id="kanji-words-table" dense class="mt-3 mb-4 border rounded-lg no-hover">
 				<thead>
 					<tr>
 						<th>Word</th>

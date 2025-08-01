@@ -36,23 +36,16 @@ export default {
 				this.text += selectedSubtitle.subtitle[i].Text + '\n    '
 
 				var startMinutes = parseInt(
-					Math.round(selectedSubtitle.subtitle[i].StartPositionTicks / 1000 / 1000) /
-						10 /
-						60
+					Math.round(selectedSubtitle.subtitle[i].StartPositionTicks / 1000 / 1000) / 10 / 60
 				).toString()
 				var startSeconds = parseInt(
-					(Math.round(selectedSubtitle.subtitle[i].StartPositionTicks / 1000 / 1000) /
-						10) %
-						60
+					(Math.round(selectedSubtitle.subtitle[i].StartPositionTicks / 1000 / 1000) / 10) % 60
 				).toString()
 				var endMinutes = parseInt(
-					Math.round(selectedSubtitle.subtitle[i].EndPositionTicks / 1000 / 1000) /
-						10 /
-						60
+					Math.round(selectedSubtitle.subtitle[i].EndPositionTicks / 1000 / 1000) / 10 / 60
 				).toString()
 				var endSeconds = parseInt(
-					(Math.round(selectedSubtitle.subtitle[i].EndPositionTicks / 1000 / 1000) / 10) %
-						60
+					(Math.round(selectedSubtitle.subtitle[i].EndPositionTicks / 1000 / 1000) / 10) % 60
 				).toString()
 
 				// add leading zeroes

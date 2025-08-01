@@ -70,9 +70,7 @@
 						<v-stepper-step
 							:complete="stepperPage > 4 && importResult === 'success'"
 							step="5"
-							:color="
-								stepperPage > 4 && importResult !== '' ? importResult : 'primary'
-							"
+							:color="stepperPage > 4 && importResult !== '' ? importResult : 'primary'"
 						>
 							Finish
 							<small>Complete import</small>
@@ -163,22 +161,13 @@
 						</v-stepper-content>
 						<v-stepper-content step="5">
 							<!-- Importing info -->
-							<v-alert
-								dark
-								border="left"
-								type="info"
-								color="primary"
-								v-if="importResult === ''"
-							>
-								Importing your selected text. Please be patient, it can take several
-								minutes based on:
+							<v-alert dark border="left" type="info" color="primary" v-if="importResult === ''">
+								Importing your selected text. Please be patient, it can take several minutes based
+								on:
 								<ul>
 									<li>How long is the text you are importing.</li>
 									<li>How many new words it contains.</li>
-									<li>
-										How many phrases you have saved that have to be indexed in
-										the text.
-									</li>
+									<li>How many phrases you have saved that have to be indexed in the text.</li>
 									<li>How fast is your computer.</li>
 								</ul>
 							</v-alert>
@@ -202,9 +191,9 @@
 								color="success"
 								v-if="importResult === 'success'"
 							>
-								Your book and chapters have been created successfully. The chapters
-								will be processed in the background and become available for reading
-								as soon as it's finished.
+								Your book and chapters have been created successfully. The chapters will be
+								processed in the background and become available for reading as soon as it's
+								finished.
 							</v-alert>
 						</v-stepper-content>
 					</v-stepper-items>
@@ -244,15 +233,11 @@
 						(stepperPage == 2 &&
 							importType === 'text-file' &&
 							(!isImportSourceValid || importText === '')) ||
-						(stepperPage == 2 &&
-							importType === 'subtitle-file' &&
-							!isImportSourceValid) ||
+						(stepperPage == 2 && importType === 'subtitle-file' && !isImportSourceValid) ||
 						(stepperPage == 2 &&
 							importType === 'youtube' &&
 							(!isImportSourceValid || importText === '')) ||
-						(stepperPage == 2 &&
-							importType === 'jellyfin-subtitle' &&
-							!isImportSourceValid) ||
+						(stepperPage == 2 && importType === 'jellyfin-subtitle' && !isImportSourceValid) ||
 						(stepperPage == 2 &&
 							importType === 'website' &&
 							(!isImportSourceValid || importText === '')) ||
@@ -390,9 +375,7 @@ export default {
 
 			if (this.importType === 'e-book') {
 				data.set('importFile', this.importFile)
-			} else if (
-				['youtube', 'plain-text', 'text-file', 'website'].includes(this.importType)
-			) {
+			} else if (['youtube', 'plain-text', 'text-file', 'website'].includes(this.importType)) {
 				data.set('importText', this.importText)
 			}
 			if (['jellyfin-subtitle', 'subtitle-file'].includes(this.importType)) {

@@ -19,11 +19,7 @@
 
 		<!-- Deepl dictionary creation -->
 		<admin-dictionary-api-import
-			v-if="
-				['deepl', 'mymemory', 'libretranslate', 'customapi'].includes(
-					selectedDictionaryType
-				)
-			"
+			v-if="['deepl', 'mymemory', 'libretranslate', 'customapi'].includes(selectedDictionaryType)"
 			:language="$props.language"
 			:selected-dictionary-type="selectedDictionaryType"
 			@import-finished="importFinished"

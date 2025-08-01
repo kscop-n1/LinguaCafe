@@ -9,8 +9,8 @@
 				</v-btn>
 			</v-card-title>
 			<v-card-text>
-				You can reset the text styling settings to default for your selected word status or
-				for the entire selected theme.
+				You can reset the text styling settings to default for your selected word status or for the
+				entire selected theme.
 				<div class="mt-2">The reset settings will not be saved automatically.</div>
 				<v-radio-group v-model="resetType" class="mt-4">
 					<v-radio label="Selected word level" value="level"></v-radio>

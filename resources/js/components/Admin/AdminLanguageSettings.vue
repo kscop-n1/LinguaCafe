@@ -49,18 +49,10 @@
 					<!-- Install -->
 					<td class="text-center">
 						<!-- Already installed icon -->
-						<v-icon color="success" v-if="language.installed">
-							mdi-check-circle
-						</v-icon>
+						<v-icon color="success" v-if="language.installed"> mdi-check-circle </v-icon>
 
 						<!-- Install button -->
-						<v-btn
-							v-else
-							rounded
-							depressed
-							color="primary"
-							@click="installLanguage(language.name)"
-						>
+						<v-btn v-else rounded depressed color="primary" @click="installLanguage(language.name)">
 							<v-icon class="mr-1">mdi-download</v-icon>
 							Install
 						</v-btn>

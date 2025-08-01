@@ -17,8 +17,7 @@
 					</div>
 
 					<div v-if="!characterLimitLoading">
-						{{ formatNumber(cachedDeeplTranslations).replace('&nbsp;', '') }} cached
-						translations.
+						{{ formatNumber(cachedDeeplTranslations).replace('&nbsp;', '') }} cached translations.
 					</div>
 
 					<!-- DeepL host input -->
@@ -118,8 +117,8 @@
 						border="left"
 						dark
 					>
-						DeepL API call failed. Please make sure that your API key is valid and DeepL
-						services are online.
+						DeepL API call failed. Please make sure that your API key is valid and DeepL services
+						are online.
 					</v-alert>
 				</v-card-text>
 			</v-card>
@@ -164,13 +163,11 @@
 						<!-- Auto add cards info box -->
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								Your words and phrases will be sent to Anki automatically when you
-								highlight them (set their level to 1-7).
+								Your words and phrases will be sent to Anki automatically when you highlight them
+								(set their level to 1-7).
 							</v-card>
 						</v-menu>
 					</label>
@@ -192,13 +189,11 @@
 						<!-- Update existing cards info box -->
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								If you send a word to Anki, and it already exists, then the
-								translation, reading and example sentence fields will be updated.
+								If you send a word to Anki, and it already exists, then the translation, reading and
+								example sentence fields will be updated.
 							</v-card>
 						</v-menu>
 					</label>
@@ -220,13 +215,11 @@
 						<!-- Show notifications info box -->
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								There will be a notification displayed on the screen when a word or
-								phrase is sent to Anki with a success or error message.
+								There will be a notification displayed on the screen when a word or phrase is sent
+								to Anki with a success or error message.
 							</v-card>
 						</v-menu>
 					</label>
@@ -252,13 +245,10 @@
 
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								You may want to disable Jellyfin if hosting LinguaCafe for multiple
-								users.
+								You may want to disable Jellyfin if hosting LinguaCafe for multiple users.
 							</v-card>
 						</v-menu>
 					</label>
@@ -376,9 +366,7 @@ export default {
 
 						if (this.characterLimit === null) {
 							this.characterLimitStatus =
-								this.settings.deeplApiKey === this.defaultDeeplApiKey
-									? 'default'
-									: 'error'
+								this.settings.deeplApiKey === this.defaultDeeplApiKey ? 'default' : 'error'
 						}
 					} else {
 						if (this.settings.deeplApiKey === this.defaultDeeplApiKey) {

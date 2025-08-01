@@ -26,19 +26,14 @@
 							<td class="text-center">{{ chapter.wordCount.total }}</td>
 							<td class="text-center">{{ chapter.wordCount.unique }}</td>
 							<td class="text-center">
-								<span class="rounded-pill highlighted">{{
-									chapter.wordCount.highlighted
-								}}</span>
+								<span class="rounded-pill highlighted">{{ chapter.wordCount.highlighted }}</span>
 							</td>
 							<td class="text-center">
 								<span class="rounded-pill new">{{ chapter.wordCount.new }}</span>
 							</td>
 							<td class="text-center">
 								<v-btn
-									v-if="
-										chapter.id != currentChapterId &&
-										chapter.processing_status === 'processed'
-									"
+									v-if="chapter.id != currentChapterId && chapter.processing_status === 'processed'"
 									depressed
 									rounded
 									small

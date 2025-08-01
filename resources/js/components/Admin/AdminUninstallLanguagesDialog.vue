@@ -38,8 +38,8 @@
 					type="error"
 					border="left"
 				>
-					An error has occurred while uninstalling the languages. Please wait a few
-					seconds, and try again.
+					An error has occurred while uninstalling the languages. Please wait a few seconds, and try
+					again.
 				</v-alert>
 
 				<!-- Installation in progress message -->

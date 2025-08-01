@@ -53,12 +53,7 @@
 						An error has occurred while saving.
 					</v-alert>
 
-					<v-alert
-						class="my-3"
-						border="left"
-						type="success"
-						v-if="saveResult == 'success'"
-					>
+					<v-alert class="my-3" border="left" type="success" v-if="saveResult == 'success'">
 						Chapter has been saved successfully.
 					</v-alert>
 

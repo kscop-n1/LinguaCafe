@@ -61,15 +61,7 @@ export default {
 				api: 5,
 				reviews: 6,
 			},
-			tabUrls: [
-				'dashboard',
-				'users',
-				'languages',
-				'dictionaries',
-				'font-types',
-				'api',
-				'reviews',
-			],
+			tabUrls: ['dashboard', 'users', 'languages', 'dictionaries', 'font-types', 'api', 'reviews'],
 		}
 	},
 	props: {

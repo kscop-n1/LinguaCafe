@@ -13,9 +13,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn rounded text @click="close">Cancel</v-btn>
-				<v-btn rounded text @click="logout"
-					><v-icon class="mr-1">mdi-logout</v-icon>Logout</v-btn
-				>
+				<v-btn rounded text @click="logout"><v-icon class="mr-1">mdi-logout</v-icon>Logout</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>

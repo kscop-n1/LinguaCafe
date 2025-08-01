@@ -14,10 +14,7 @@
 
 				<!-- Font type -->
 				<v-row v-if="fontTypes.length">
-					<v-col
-						cols="12"
-						md="4"
-						class="switch-container d-flex align-center mt-0 mb-md-5"
+					<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>Font type:</v-col
 					>
 					<v-col
@@ -88,11 +85,7 @@
 					<v-col cols="4" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>Sentence mode:</v-col
 					>
-					<v-col
-						cols="8"
-						md="8"
-						class="switch-container d-flex align-center mt-0 pt-3 justify-end"
-					>
+					<v-col cols="8" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
 						<v-select
 							v-model="settings.reviewSentenceMode"
 							:items="sentenceModes"
@@ -112,30 +105,20 @@
 
 				<!-- Vocabulary bottom sheet -->
 				<v-row>
-					<v-col
-						cols="8"
-						md="4"
-						class="switch-container d-flex align-center mt-0 mb-md-5"
-					>
+					<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">
 						Vocabulary bottom sheet:
 					</v-col>
-					<v-col
-						cols="4"
-						md="8"
-						class="switch-container d-flex align-center mt-0 pt-3 justify-end"
-					>
+					<v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
 						<!-- Vocabulary sidebar info box -->
 						<v-menu offset-y left nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="mr-2" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								A bottom sheet vocabulary designed for mobile screens, that replaces
-								the popup vocabulary. <br /><br />
-								This option is only available for devices with less than or equal to
-								768px screen width.
+								A bottom sheet vocabulary designed for mobile screens, that replaces the popup
+								vocabulary. <br /><br />
+								This option is only available for devices with less than or equal to 768px screen
+								width.
 							</v-card>
 						</v-menu>
 
@@ -156,28 +139,22 @@
 					type="error"
 					color="warning"
 				>
-					Hover vocabulary box only works if you set the "Sentence mode" option to
-					"Interactive text".
+					Hover vocabulary box only works if you set the "Sentence mode" option to "Interactive
+					text".
 				</v-alert>
 
 				<v-row>
 					<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>Hover vocabulary box:</v-col
 					>
-					<v-col
-						cols="4"
-						md="8"
-						class="switch-container d-flex align-center mt-0 pt-3 justify-end"
-					>
+					<v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
 						<v-menu offset-y left nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="mr-2" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								A minimalistic vocabulary box that appears when you move the mouse
-								over a word or phrase.
+								A minimalistic vocabulary box that appears when you move the mouse over a word or
+								phrase.
 							</v-card>
 						</v-menu>
 
@@ -194,11 +171,7 @@
 					<v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>Hover vocabulary dictionary search:</v-col
 					>
-					<v-col
-						cols="4"
-						md="8"
-						class="switch-container d-flex align-center mt-0 pt-3 justify-end"
-					>
+					<v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
 						<v-switch
 							v-model="settings.vocabularyHoverBoxSearch"
 							color="primary"
@@ -234,10 +207,7 @@
 
 				<!-- Hover vocabulary preferred position -->
 				<v-row>
-					<v-col
-						cols="12"
-						md="4"
-						class="switch-container d-flex align-center mt-0 mb-md-5"
+					<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>Preferred position:</v-col
 					>
 					<v-col
@@ -264,10 +234,7 @@
 
 				<!-- Text to speech -->
 				<v-row v-if="textToSpeechVoices.length">
-					<v-col
-						cols="12"
-						md="4"
-						class="switch-container d-flex align-center mt-0 mb-md-5"
+					<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>TTS voice:</v-col
 					>
 					<v-col
@@ -287,10 +254,7 @@
 							@change="saveSettings"
 						></v-select>
 					</v-col>
-					<v-col
-						cols="12"
-						md="4"
-						class="switch-container d-flex align-center mt-0 mb-md-5"
+					<v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5"
 						>TTS speed:</v-col
 					>
 					<v-col

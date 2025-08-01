@@ -40,8 +40,8 @@
 						border="left"
 						dark
 					>
-						It seems like this is your first time using LinguaCafe after installation.
-						Please create your first user, it will be automatically set as admin.
+						It seems like this is your first time using LinguaCafe after installation. Please create
+						your first user, it will be automatically set as admin.
 
 						<div class="d-flex mt-4">
 							<v-spacer />

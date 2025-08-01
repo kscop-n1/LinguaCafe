@@ -37,17 +37,13 @@
 
 			<!-- Subtitles loading -->
 			<div class="d-flex justify-center">
-				<v-progress-circular
-					v-if="loading"
-					indeterminate
-					color="primary"
-				></v-progress-circular>
+				<v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
 			</div>
 
 			<!-- Url error -->
 			<v-alert v-if="!loading && subtitles === null" border="left" type="error">
-				Could not retreive a list of subtitles. Please make sure that the url provided is
-				correct, and your internet connection is stable.
+				Could not retreive a list of subtitles. Please make sure that the url provided is correct,
+				and your internet connection is stable.
 			</v-alert>
 
 			<!-- Subtitle list -->
@@ -148,10 +144,7 @@ export default {
 
 					if (this.subtitles !== null) {
 						for (let i = 0; i < this.subtitles.length; i++) {
-							this.subtitles[i].displayText = this.subtitles[i].text.replaceAll(
-								'\n',
-								'<br>'
-							)
+							this.subtitles[i].displayText = this.subtitles[i].text.replaceAll('\n', '<br>')
 						}
 					}
 

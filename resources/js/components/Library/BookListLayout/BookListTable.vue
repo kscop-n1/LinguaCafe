@@ -75,25 +75,13 @@
 								<v-icon>mdi-dots-horizontal</v-icon>
 							</v-btn>
 						</template>
-						<v-btn
-							class="menu-button"
-							tile
-							color="white"
-							@click="showEditBookDialog(item)"
+						<v-btn class="menu-button" tile color="white" @click="showEditBookDialog(item)"
 							>Edit</v-btn
 						>
-						<v-btn
-							class="menu-button"
-							tile
-							color="white"
-							@click="showStartReviewDialog(item)"
+						<v-btn class="menu-button" tile color="white" @click="showStartReviewDialog(item)"
 							>Review</v-btn
 						>
-						<v-btn
-							class="menu-button"
-							tile
-							color="white"
-							@click="showDeleteBookDialog(item)"
+						<v-btn class="menu-button" tile color="white" @click="showDeleteBookDialog(item)"
 							>Delete</v-btn
 						>
 					</v-menu>

@@ -104,8 +104,7 @@
 						border="left"
 						dark
 					>
-						This is your current user, and this action will remove your own admin
-						rights.
+						This is your current user, and this action will remove your own admin rights.
 					</v-alert>
 
 					<v-alert
@@ -200,10 +199,7 @@ export default {
 					return true
 				},
 				passwordMatch: value => {
-					return (
-						value == this.password ||
-						'Password confirmation does not match the password.'
-					)
+					return value == this.password || 'Password confirmation does not match the password.'
 				},
 				email: value => {
 					const pattern =

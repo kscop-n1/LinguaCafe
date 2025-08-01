@@ -25,11 +25,7 @@
 					<v-btn title="Fullscreen" icon @click="fullscreen" v-if="!fullscreenMode"
 						><v-icon>mdi-arrow-expand-all</v-icon></v-btn
 					>
-					<v-btn
-						title="Exit fullscreen"
-						icon
-						@click="exitFullscreen"
-						v-if="fullscreenMode"
+					<v-btn title="Exit fullscreen" icon @click="exitFullscreen" v-if="fullscreenMode"
 						><v-icon>mdi-arrow-collapse-all</v-icon></v-btn
 					>
 					<v-btn title="Text reader settings" icon @click="openDialog('settings')"
@@ -54,14 +50,9 @@
 							settings.plainTextMode = !settings.plainTextMode
 							toolbarSettingChanged()
 						"
-						><v-icon :color="settings.plainTextMode ? 'primary' : ''"
-							>mdi-marker</v-icon
-						></v-btn
+						><v-icon :color="settings.plainTextMode ? 'primary' : ''">mdi-marker</v-icon></v-btn
 					>
-					<v-btn
-						title="Show hotkey information"
-						icon
-						@click="hotkeyDialog = !hotkeyDialog"
+					<v-btn title="Show hotkey information" icon @click="hotkeyDialog = !hotkeyDialog"
 						><v-icon>mdi-keyboard-outline</v-icon></v-btn
 					>
 				</div>
@@ -85,10 +76,7 @@
 			></text-reader-chapter-list>
 
 			<!-- Glossary -->
-			<text-reader-glossary
-				:glossary="glossary"
-				v-model="dialogs.glossary"
-			></text-reader-glossary>
+			<text-reader-glossary :glossary="glossary" v-model="dialogs.glossary"></text-reader-glossary>
 
 			<!-- Text -->
 			<v-card
@@ -107,9 +95,7 @@
 						? 'calc(100% - 24px - 24px)'
 						: 'calc(100% - 24px - 24px - 64px)',
 					'padding-right':
-						settings.vocabularySidebar && vocabularySidebarFits
-							? '400px !important'
-							: '0px',
+						settings.vocabularySidebar && vocabularySidebarFits ? '400px !important' : '0px',
 				}"
 			>
 				<v-card-text
@@ -149,9 +135,7 @@
 						:vocabulary-hover-box="settings.vocabularyHoverBox"
 						:vocabulary-hover-box-search="settings.vocabularyHoverBoxSearch"
 						:vocabulary-hover-box-delay="settings.vocabularyHoverBoxDelay"
-						:vocabulary-hover-box-preferred-position="
-							settings.vocabularyHoverBoxPreferredPosition
-						"
+						:vocabulary-hover-box-preferred-position="settings.vocabularyHoverBoxPreferredPosition"
 						:vocabulary-sidebar="settings.vocabularySidebar"
 						:vocabulary-bottom-sheet="settings.vocabularyBottomSheet"
 						:auto-highlight-words="settings.autoHighlightWords"
@@ -208,9 +192,8 @@
 					<v-card-text>
 						<!-- Text -->
 						You have finished reading this chapter: <b>{{ chapterName }}</b
-						>, and you have read <b>{{ formatNumber(wordCount) }}</b> words. Keep up the
-						good work, and your
-						<span class="text-capitalize">{{ language }}</span> skills will improve
+						>, and you have read <b>{{ formatNumber(wordCount) }}</b> words. Keep up the good work,
+						and your <span class="text-capitalize">{{ language }}</span> skills will improve
 						steadily. Consistency is key!
 
 						<template v-if="nextChapter === -1">
@@ -220,10 +203,7 @@
 
 						<!-- Leveled up words -->
 						<template
-							v-if="
-								settings.autoLevelUpWords &&
-								leveledUpWordsAndPhrases.wordsAndPhrases.length
-							"
+							v-if="settings.autoLevelUpWords && leveledUpWordsAndPhrases.wordsAndPhrases.length"
 						>
 							<div class="subheader mt-8">Leveled up words</div>
 							<v-data-table
@@ -257,12 +237,8 @@
 										<v-icon color="success" class="mr-1">mdi-check</v-icon>known
 									</template>
 									<template v-else>
-										<span class="finished-stage-level rounded-pill">{{
-											item.stage * -1
-										}}</span>
-										<v-icon class="finished-stage-arrow"
-											>mdi-arrow-right</v-icon
-										>
+										<span class="finished-stage-level rounded-pill">{{ item.stage * -1 }}</span>
+										<v-icon class="finished-stage-arrow">mdi-arrow-right</v-icon>
 										<span class="finished-stage-level rounded-pill">{{
 											(item.stage + 1) * -1
 										}}</span>
@@ -320,15 +296,7 @@ export default {
 				glossary: false,
 				chapters: false,
 			},
-			maximumTextWidthData: [
-				'800px',
-				'900px',
-				'1000px',
-				'1200px',
-				'1400px',
-				'1600px',
-				'100%',
-			],
+			maximumTextWidthData: ['800px', '900px', '1000px', '1200px', '1400px', '1600px', '100%'],
 			toolbarTop: 68,
 			theme: DefaultLocalStorageManager.loadSetting('theme') || 'light',
 			vocabularySidebarFits: true,
@@ -405,10 +373,8 @@ export default {
 					for (let j = 0; j < data.words.length; j++) {
 						// find the first word of timestamp
 						if (
-							data.words[j].sentence_index ==
-								this.subtitleTimestamps[i].sentenceIndexStart &&
-							(j == 0 ||
-								data.words[j - 1].sentence_index !== data.words[j].sentence_index)
+							data.words[j].sentence_index == this.subtitleTimestamps[i].sentenceIndexStart &&
+							(j == 0 || data.words[j - 1].sentence_index !== data.words[j].sentence_index)
 						) {
 							data.words[j].subtitleIndex = i
 						}

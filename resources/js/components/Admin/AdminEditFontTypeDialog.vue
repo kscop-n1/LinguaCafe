@@ -91,8 +91,7 @@
 					border="left"
 					dark
 				>
-					An error has occured while {{ $props.id === -1 ? 'uploading' : 'saving' }} the
-					font type.
+					An error has occured while {{ $props.id === -1 ? 'uploading' : 'saving' }} the font type.
 				</v-alert>
 
 				<!-- Select all checkbox -->
@@ -109,13 +108,7 @@
 				<v-spacer></v-spacer>
 
 				<!-- Cancel button -->
-				<v-btn
-					v-if="saveResult !== 'success'"
-					rounded
-					text
-					:disabled="saving"
-					@click="close"
-				>
+				<v-btn v-if="saveResult !== 'success'" rounded text :disabled="saving" @click="close">
 					Cancel
 				</v-btn>
 

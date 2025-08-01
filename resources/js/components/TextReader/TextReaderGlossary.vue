@@ -24,9 +24,7 @@
 							</div>
 							<div class="word default-font" v-if="word.lemma !== ''">
 								{{ word.lemma }}
-								<template v-if="word.lemma_reading.length"
-									>({{ word.lemma_reading }})</template
-								>
+								<template v-if="word.lemma_reading.length">({{ word.lemma_reading }})</template>
 								<i class="fas fa-long-arrow-alt-right mx-2"></i>
 								{{ word.word }}
 								<template v-if="word.reading.length">({{ word.reading }})</template>

@@ -2,24 +2,23 @@
 	<div id="user-manual-introduction" class="ma-4 mb-16">
 		<div class="subheader d-flex">LinguaCafe</div>
 		<v-card outlined class="rounded-lg pa-4">
-			LinguaCafe is a free self-hosted software that helps language learners acquire
-			vocabulary by reading. It provides a set of tools to read, look up, and review unknown
-			words as effortlessly as possible.
+			LinguaCafe is a free self-hosted software that helps language learners acquire vocabulary by
+			reading. It provides a set of tools to read, look up, and review unknown words as effortlessly
+			as possible.
 
 			<div class="mt-5">
-				It is not designed to teach you a language, rather it is meant to help you acquire
-				words by reading and listening to native material by providing tools that help you
-				understand unknown parts of texts. As a beginner learner it is very difficult to
-				start reading your first native text, and work your way through it. However with
-				LinguaCafe, the only thing that separates you from understanding an unknown word is
-				moving your cursor over it, and you can save it to study later as simply as clicking
-				on it.
+				It is not designed to teach you a language, rather it is meant to help you acquire words by
+				reading and listening to native material by providing tools that help you understand unknown
+				parts of texts. As a beginner learner it is very difficult to start reading your first
+				native text, and work your way through it. However with LinguaCafe, the only thing that
+				separates you from understanding an unknown word is moving your cursor over it, and you can
+				save it to study later as simply as clicking on it.
 			</div>
 
 			<div class="mt-5">
-				There are many people learning languages with different methods. If your's includes
-				reading, then LinguaCafe can be a great choice of tool. If you are unsure where to
-				start, I recommend you researching <b>immersion language learning</b>.
+				There are many people learning languages with different methods. If your's includes reading,
+				then LinguaCafe can be a great choice of tool. If you are unsure where to start, I recommend
+				you researching <b>immersion language learning</b>.
 			</div>
 
 			<div class="mt-5">
@@ -36,10 +35,9 @@
 			</div>
 
 			<div class="mt-5">
-				LinguaCafe is still in active development, improving and changing from month to
-				month. Please test it before you start actively using it, and make sure it is up to
-				you expectaions. If you have a bug report, feature request, or suggestion, you can
-				reach me on
+				LinguaCafe is still in active development, improving and changing from month to month.
+				Please test it before you start actively using it, and make sure it is up to you
+				expectaions. If you have a bug report, feature request, or suggestion, you can reach me on
 				<a href="https://discord.com/invite/wZYZYrdaeP">
 					<v-icon small>mdi-message-text</v-icon>
 					Discord

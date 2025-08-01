@@ -130,12 +130,7 @@
 				</div>
 
 				<!-- Calendar popup achievements-->
-				<div
-					id="calendar-popup-achievements"
-					class="pa-3"
-					v-if="popupMenu.day"
-					@click.stop=""
-				>
+				<div id="calendar-popup-achievements" class="pa-3" v-if="popupMenu.day" @click.stop="">
 					<v-tabs-items v-model="popupMenu.tab">
 						<!-- Popup menu info -->
 						<v-tab-item :value="0">
@@ -145,15 +140,10 @@
 										<td>Reviews due:</td>
 										<td>{{ popupMenu.day.reviewsDue }}</td>
 									</tr>
-									<tr
-										v-for="(achievement, index) in popupMenu.achievements"
-										:key="index"
-									>
+									<tr v-for="(achievement, index) in popupMenu.achievements" :key="index">
 										<td>{{ goalTexts[achievement.type] }}:</td>
 										<td v-if="achievement.goalQuantity">
-											{{ achievement.achievedQuantity }}/{{
-												achievement.goalQuantity
-											}}
+											{{ achievement.achievedQuantity }}/{{ achievement.goalQuantity }}
 										</td>
 										<td v-if="!achievement.goalQuantity">none</td>
 									</tr>
@@ -165,16 +155,11 @@
 						<v-tab-item :value="1">
 							<v-simple-table dense class="no-row-border no-hover">
 								<tbody>
-									<tr
-										v-for="(achievement, index) in popupMenu.achievements"
-										:key="index"
-									>
+									<tr v-for="(achievement, index) in popupMenu.achievements" :key="index">
 										<td>{{ goalTexts[achievement.type] }}:</td>
 										<td class="calendar-popup-input">
 											<v-text-field
-												v-model="
-													popupMenu.achievements[index].achievedQuantity
-												"
+												v-model="popupMenu.achievements[index].achievedQuantity"
 												class="mb-1"
 												type="number"
 												hide-details
@@ -187,8 +172,7 @@
 														popupMenu.achievements[index],
 														index,
 														popupMenu.achievements[index].id,
-														popupMenu.achievements[index]
-															.achievedQuantity
+														popupMenu.achievements[index].achievedQuantity
 													)
 												"
 											>
@@ -213,8 +197,7 @@
 								'no-achievement':
 									(selectedGoal == 'reviews_due' && !day.reviewsDue) ||
 									(selectedGoal !== 'reviews_due' &&
-										(day.achievement == null ||
-											day.achievement.achievedQuantity == 0)),
+										(day.achievement == null || day.achievement.achievedQuantity == 0)),
 								'half-achievement':
 									selectedGoal !== 'reviews_due' &&
 									day.achievement !== null &&
@@ -223,8 +206,7 @@
 									(selectedGoal == 'reviews_due' && day.reviewsDue) ||
 									(selectedGoal !== 'reviews_due' &&
 										day.achievement !== null &&
-										day.achievement.achievedQuantity >=
-											day.achievement.goalQuantity &&
+										day.achievement.achievedQuantity >= day.achievement.goalQuantity &&
 										day.achievement.goalQuantity !== 0),
 							}"
 							transition="fade-transition"
@@ -350,10 +332,7 @@ export default {
 			// add default goals to calendar (reading, reviews, new words)
 			var defaultGoalTypes = ['read_words', 'review', 'learn_words']
 			for (var i = 0; i < defaultGoalTypes.length; i++) {
-				if (
-					this.popupMenu.achievements.find(o => o.type == defaultGoalTypes[i]) ===
-					undefined
-				) {
+				if (this.popupMenu.achievements.find(o => o.type == defaultGoalTypes[i]) === undefined) {
 					this.popupMenu.achievements.push({
 						id: -1,
 						day: this.popupMenu.day.fullDate,
@@ -440,8 +419,7 @@ export default {
 							day.achievement = {
 								name: this.calendarData[i].achievements[j].name,
 								type: this.calendarData[i].achievements[j].type,
-								achievedQuantity:
-									this.calendarData[i].achievements[j].achievedQuantity,
+								achievedQuantity: this.calendarData[i].achievements[j].achievedQuantity,
 								goalQuantity: this.calendarData[i].achievements[j].goalQuantity,
 							}
 						}

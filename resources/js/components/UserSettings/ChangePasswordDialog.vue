@@ -112,10 +112,7 @@ export default {
 					return true
 				},
 				passwordMatch: value => {
-					return (
-						value == this.password ||
-						'Password confirmation does not match the password.'
-					)
+					return value == this.password || 'Password confirmation does not match the password.'
 				},
 			},
 		}

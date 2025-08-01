@@ -17,29 +17,24 @@
 					Hold Ctrl or Shift while scrolling to increase scroll size.
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">Up arrow</span
-					><span>Scroll up</span>
+					<span class="primary--text" style="width: 170px">Up arrow</span><span>Scroll up</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">Down arrow</span
-					><span>Scroll down</span>
+					<span class="primary--text" style="width: 170px">Down arrow</span><span>Scroll down</span>
 				</div>
 				<div class="hotkey d-flex">
 					<span class="primary--text" style="width: 170px">w</span><span>Scroll up</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">s</span
-					><span>Scroll down</span>
+					<span class="primary--text" style="width: 170px">s</span><span>Scroll down</span>
 				</div>
 
 				<label class="font-weight-bold mt-4 mb-0">Text</label>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">i</span
-					><span>Decrease font size</span>
+					<span class="primary--text" style="width: 170px">i</span><span>Decrease font size</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">o</span
-					><span>Increase font size</span>
+					<span class="primary--text" style="width: 170px">o</span><span>Increase font size</span>
 				</div>
 				<div class="hotkey d-flex">
 					<span class="primary--text" style="width: 170px">p</span
@@ -48,50 +43,39 @@
 
 				<label class="font-weight-bold mt-4 mb-0">Set level</label>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">x</span
-					><span>Set level to ignored</span>
+					<span class="primary--text" style="width: 170px">x</span><span>Set level to ignored</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">c</span
-					><span>Set level to new</span>
+					<span class="primary--text" style="width: 170px">c</span><span>Set level to new</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">0</span
-					><span>Set level to known</span>
+					<span class="primary--text" style="width: 170px">0</span><span>Set level to known</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">1</span
-					><span>Set level to 1</span>
+					<span class="primary--text" style="width: 170px">1</span><span>Set level to 1</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">2</span
-					><span>Set level to 2</span>
+					<span class="primary--text" style="width: 170px">2</span><span>Set level to 2</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">3</span
-					><span>Set level to 3</span>
+					<span class="primary--text" style="width: 170px">3</span><span>Set level to 3</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">4</span
-					><span>Set level to 4</span>
+					<span class="primary--text" style="width: 170px">4</span><span>Set level to 4</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">5</span
-					><span>Set level to 5</span>
+					<span class="primary--text" style="width: 170px">5</span><span>Set level to 5</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">6</span
-					><span>Set level to 6</span>
+					<span class="primary--text" style="width: 170px">6</span><span>Set level to 6</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">7</span
-					><span>Set level to 7</span>
+					<span class="primary--text" style="width: 170px">7</span><span>Set level to 7</span>
 				</div>
 
 				<label class="font-weight-bold mt-4 mb-0">Word selection</label>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">Esc</span
-					><span>Unselect word</span>
+					<span class="primary--text" style="width: 170px">Esc</span><span>Unselect word</span>
 				</div>
 				<div class="hotkey d-flex">
 					<span class="primary--text" style="width: 170px">Left arrow</span
@@ -118,12 +102,10 @@
 					><span>Select next new word</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">a</span
-					><span>Select previous word</span>
+					<span class="primary--text" style="width: 170px">a</span><span>Select previous word</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">d</span
-					><span>Select next word</span>
+					<span class="primary--text" style="width: 170px">d</span><span>Select next word</span>
 				</div>
 				<div class="hotkey d-flex">
 					<span class="primary--text" style="width: 170px">Shift + a</span
@@ -144,12 +126,10 @@
 
 				<label class="font-weight-bold mt-4 mb-0">Other</label>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">f</span
-					><span>Send word to anki</span>
+					<span class="primary--text" style="width: 170px">f</span><span>Send word to anki</span>
 				</div>
 				<div class="hotkey d-flex">
-					<span class="primary--text" style="width: 170px">v</span
-					><span>Text to speech</span>
+					<span class="primary--text" style="width: 170px">v</span><span>Text to speech</span>
 				</div>
 			</v-card-text>
 

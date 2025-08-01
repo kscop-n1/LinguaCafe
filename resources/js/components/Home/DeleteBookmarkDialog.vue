@@ -9,9 +9,7 @@
 					<v-icon>mdi-close</v-icon>
 				</v-btn>
 			</v-card-title>
-			<v-card-text class="pt-4 pb-6">
-				Are you sure you want to delete this bookmark?
-			</v-card-text>
+			<v-card-text class="pt-4 pb-6"> Are you sure you want to delete this bookmark? </v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn rounded text @click="close"> Cancel </v-btn>

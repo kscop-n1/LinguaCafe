@@ -127,10 +127,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr
-							v-for="(sampleWord, wordIndex) in $props.sampleWords.slice(0, 10)"
-							:key="wordIndex"
-						>
+						<tr v-for="(sampleWord, wordIndex) in $props.sampleWords.slice(0, 10)" :key="wordIndex">
 							<td class="default-font" v-if="fields.lemma">{{ sampleWord.lemma }}</td>
 							<td class="default-font" v-if="fields.word">
 								<!-- Word -->
@@ -185,12 +182,7 @@
 
 				<v-spacer></v-spacer>
 				<v-btn rounded text @click="close">Cancel</v-btn>
-				<v-btn
-					rounded
-					depressed
-					color="primary"
-					:disabled="!fields.any"
-					@click="exportToCsv"
+				<v-btn rounded depressed color="primary" :disabled="!fields.any" @click="exportToCsv"
 					>Export</v-btn
 				>
 			</v-card-actions>
@@ -256,10 +248,7 @@ export default {
 			} else {
 				this.fields.any = false
 			}
-			if (
-				this.fields.selectAll === true &&
-				Object.values(this.fields).some(el => el === false)
-			) {
+			if (this.fields.selectAll === true && Object.values(this.fields).some(el => el === false)) {
 				this.fields.selectAll = false
 			}
 		},

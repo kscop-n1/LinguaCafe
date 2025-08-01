@@ -3,16 +3,11 @@
 		<!-- Apis loading -->
 		<div class="search-result disabled" v-if="dictionaryApiSearchLoading">
 			<div class="search-result-title">
-				<div
-					class="dictionary-title-icon mr-1"
-					style="background-color: var(--v-primary-base)"
-				>
+				<div class="dictionary-title-icon mr-1" style="background-color: var(--v-primary-base)">
 					<v-icon small>mdi-translate</v-icon>
 				</div>
 				{{ $props.searchTerm }}
-				<div class="search-result-word default-font" :title="$props.searchTerm">
-					API search
-				</div>
+				<div class="search-result-word default-font" :title="$props.searchTerm">API search</div>
 			</div>
 			<div class="search-result-definition rounded pr-2">
 				loading
@@ -27,11 +22,7 @@
 		</div>
 
 		<!-- API translations -->
-		<div
-			v-else
-			class="search-result"
-			v-for="(searchResult, searchResultIndex) in apiSearchResults"
-		>
+		<div v-else class="search-result" v-for="(searchResult, searchResultIndex) in apiSearchResults">
 			<div class="search-result-title">
 				<div
 					class="dictionary-title-icon mr-1"
@@ -59,10 +50,7 @@
 		<!-- Dictionary loading -->
 		<div class="search-result disabled" v-if="dictionarySearchLoading">
 			<div class="search-result-title">
-				<div
-					class="dictionary-title-icon mr-1"
-					style="background-color: var(--v-primary-base)"
-				>
+				<div class="dictionary-title-icon mr-1" style="background-color: var(--v-primary-base)">
 					<v-icon small>mdi-list-box</v-icon>
 				</div>
 				<span class="default-font" :title="$props.searchTerm">{{ $props.searchTerm }}</span>
@@ -87,10 +75,7 @@
 			v-if="!dictionarySearchLoading && !dictionarySearchResultsFound"
 		>
 			<div class="search-result-title default-font" :title="$props.searchTerm">
-				<div
-					class="dictionary-title-icon mr-1"
-					style="background-color: var(--v-primary-base)"
-				>
+				<div class="dictionary-title-icon mr-1" style="background-color: var(--v-primary-base)">
 					<v-icon small>mdi-list-box</v-icon>
 				</div>
 				{{ $props.searchTerm }}
@@ -160,9 +145,7 @@
 						<div class="d-flex flex-wrap default-font">
 							<div v-for="(form, formIndex) in record.otherForms" :key="formIndex">
 								{{ form
-								}}<span class="mr-2" v-if="formIndex < record.otherForms.length - 1"
-									>,
-								</span>
+								}}<span class="mr-2" v-if="formIndex < record.otherForms.length - 1">, </span>
 							</div>
 						</div>
 					</template>
@@ -261,8 +244,7 @@ export default {
 						searchResult.records.push({
 							word: jmdictRecord.words.length ? jmdictRecord.words[0] : '',
 							otherForms: data[dictionaryIndex].jmdictRecords[jmdictIndex].words,
-							definitions:
-								data[dictionaryIndex].jmdictRecords[jmdictIndex].definitions,
+							definitions: data[dictionaryIndex].jmdictRecords[jmdictIndex].definitions,
 						})
 					}
 

@@ -1,11 +1,6 @@
 <template>
 	<v-dialog v-model="value" persistent scrollable width="800px">
-		<v-card
-			id="vocabulary-export-dialog"
-			class="rounded-lg"
-			:loading="loading"
-			min-height="400px"
-		>
+		<v-card id="vocabulary-export-dialog" class="rounded-lg" :loading="loading" min-height="400px">
 			<!-- Title bar -->
 			<v-card-title>
 				<span class="text-h5" v-if="importResult === null">Vocabulary import</span>
@@ -87,8 +82,8 @@
 						color="error"
 						v-if="!loading && importResult !== null && importResult.error"
 					>
-						An error has occured while importing. Please make sure that your file is in
-						the correct format.
+						An error has occured while importing. Please make sure that your file is in the correct
+						format.
 					</v-alert>
 				</template>
 

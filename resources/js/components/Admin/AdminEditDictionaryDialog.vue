@@ -46,9 +46,7 @@
 						<!-- Source language info box -->
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
 								The language that you are learning.
@@ -94,15 +92,12 @@
 						<!-- Target language info box -->
 						<v-menu offset-y nudge-top="-12px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on"
-									>mdi-help-circle-outline</v-icon
-								>
+								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 							</template>
 							<v-card outlined class="rounded-lg pa-4" width="320px">
-								The language that the dictionary translates to. For example if it's
-								a German -> English dictionary, you should select English as the
-								target language. Target language has no function, it's just a visual
-								help to arrange your dictionaries.
+								The language that the dictionary translates to. For example if it's a German ->
+								English dictionary, you should select English as the target language. Target
+								language has no function, it's just a visual help to arrange your dictionaries.
 							</v-card>
 						</v-menu>
 					</label>

@@ -30,8 +30,7 @@
 			<template v-if="totalReviews === 0">
 				<!-- Card title -->
 				<v-card-title>
-					<v-icon large color="error" class="mr-1">mdi-cards</v-icon>No cards to be
-					reviewed.
+					<v-icon large color="error" class="mr-1">mdi-cards</v-icon>No cards to be reviewed.
 				</v-card-title>
 
 				<!-- Card content -->
@@ -42,15 +41,14 @@
 			<template v-if="totalReviews > 0">
 				<!-- Card title -->
 				<v-card-title>
-					<v-icon large color="success" class="mr-1">mdi-bookmark-check</v-icon
-					>Congratulations!
+					<v-icon large color="success" class="mr-1">mdi-bookmark-check</v-icon>Congratulations!
 				</v-card-title>
 
 				<!-- Card content -->
 				<v-card-text>
-					You have finished reviewing{{ formatNumber(totalReviews) }} cards. Keep up the
-					good work, and your <span class="text-capitalize">{{ language }}</span> skills
-					will improve steadily. Consistency is key!
+					You have finished reviewing{{ formatNumber(totalReviews) }} cards. Keep up the good work,
+					and your <span class="text-capitalize">{{ language }}</span> skills will improve steadily.
+					Consistency is key!
 				</v-card-text>
 			</template>
 
@@ -97,20 +95,10 @@
 
 			<!-- Toolbar -->
 			<div id="toolbar">
-				<v-btn
-					title="Fullscreen"
-					icon
-					class="my-2"
-					@click="openFullscreen"
-					v-if="!fullscreen"
+				<v-btn title="Fullscreen" icon class="my-2" @click="openFullscreen" v-if="!fullscreen"
 					><v-icon>mdi-arrow-expand-all</v-icon></v-btn
 				>
-				<v-btn
-					title="Exit fullscreen"
-					icon
-					class="my-2"
-					@click="exitFullscreen"
-					v-if="fullscreen"
+				<v-btn title="Exit fullscreen" icon class="my-2" @click="exitFullscreen" v-if="fullscreen"
 					><v-icon>mdi-arrow-collapse-all</v-icon></v-btn
 				>
 				<v-btn title="Review settings" icon @click="settingsDialog = true"
@@ -128,13 +116,7 @@
 
 				<v-menu offset-y left class="rounded-lg">
 					<template v-slot:activator="{ on, attrs }">
-						<v-btn
-							icon
-							title="Example sentence mode"
-							class="my-2"
-							v-bind="attrs"
-							v-on="on"
-						>
+						<v-btn icon title="Example sentence mode" class="my-2" v-bind="attrs" v-on="on">
 							<v-icon>mdi-text-long</v-icon>
 						</v-btn>
 					</template>
@@ -213,10 +195,7 @@
 								"
 							>
 								<!-- Example sentence mode -->
-								<div
-									:style="{ 'font-size': settings.fontSize + 'px' }"
-									class="selected-font"
-								>
+								<div :style="{ 'font-size': settings.fontSize + 'px' }" class="selected-font">
 									<template v-if="reviews[currentReviewIndex].lemma !== ''"
 										>{{ reviews[currentReviewIndex].lemma }}
 										<v-icon>mdi-arrow-right-thick</v-icon>
@@ -242,12 +221,8 @@
 										:line-spacing="0"
 										:font-size="settings.fontSize"
 										:vocabulary-hover-box="settings.vocabularyHoverBox"
-										:vocabulary-hover-box-search="
-											settings.vocabularyHoverBoxSearch
-										"
-										:vocabulary-hover-box-delay="
-											settings.vocabularyHoverBoxDelay
-										"
+										:vocabulary-hover-box-search="settings.vocabularyHoverBoxSearch"
+										:vocabulary-hover-box-delay="settings.vocabularyHoverBoxDelay"
 										:vocabulary-hover-box-preferred-position="
 											settings.vocabularyHoverBoxPreferredPosition
 										"
@@ -263,16 +238,12 @@
 											reviews[currentReviewIndex] !== undefined
 										"
 									>
-										<div
-											class="phrase-words"
-											:style="{ 'font-size': settings.fontSize + 'px' }"
-										>
+										<div class="phrase-words" :style="{ 'font-size': settings.fontSize + 'px' }">
 											<span
 												v-for="(word, wordIndex) in exampleSentence.words"
 												:key="wordIndex"
 												:class="{ 'selected-font': true }"
-												>{{ word.word
-												}}<span v-if="word.spaceAfter">&nbsp;</span></span
+												>{{ word.word }}<span v-if="word.spaceAfter">&nbsp;</span></span
 											>
 										</div>
 									</template>
@@ -305,9 +276,7 @@
 									:style="{ 'font-size': settings.fontSize + 'px' }"
 								>
 									<template v-if="languageSpaces">
-										{{
-											JSON.parse(reviews[currentReviewIndex].words).join(' ')
-										}}
+										{{ JSON.parse(reviews[currentReviewIndex].words).join(' ') }}
 									</template>
 									<template v-else>
 										{{ JSON.parse(reviews[currentReviewIndex].words).join('') }}
@@ -332,12 +301,8 @@
 										:line-spacing="0"
 										:font-size="settings.fontSize"
 										:vocabulary-hover-box="settings.vocabularyHoverBox"
-										:vocabulary-hover-box-search="
-											settings.vocabularyHoverBoxSearch
-										"
-										:vocabulary-hover-box-delay="
-											settings.vocabularyHoverBoxDelay
-										"
+										:vocabulary-hover-box-search="settings.vocabularyHoverBoxSearch"
+										:vocabulary-hover-box-delay="settings.vocabularyHoverBoxDelay"
 										:vocabulary-bottom-sheet="settings.vocabularyBottomSheet"
 									/>
 
@@ -349,10 +314,7 @@
 											reviews[currentReviewIndex] !== undefined
 										"
 									>
-										<div
-											class="phrase-words"
-											:style="{ 'font-size': settings.fontSize + 'px' }"
-										>
+										<div class="phrase-words" :style="{ 'font-size': settings.fontSize + 'px' }">
 											<span
 												v-for="(word, wordIndex) in exampleSentence.words"
 												:key="wordIndex"
@@ -399,10 +361,7 @@
 								"
 							>
 								<!-- Single word  mode -->
-								<div
-									class="word selected-font"
-									:style="{ 'font-size': settings.fontSize + 'px' }"
-								>
+								<div class="word selected-font" :style="{ 'font-size': settings.fontSize + 'px' }">
 									<template v-if="reviews[currentReviewIndex].lemma !== ''"
 										>{{ reviews[currentReviewIndex].lemma }}
 										<v-icon>mdi-arrow-right-thick</v-icon>
@@ -418,14 +377,9 @@
 									reviews[currentReviewIndex].type == 'phrase'
 								"
 							>
-								<div
-									class="selected-font"
-									:style="{ 'font-size': settings.fontSize + 'px' }"
-								>
+								<div class="selected-font" :style="{ 'font-size': settings.fontSize + 'px' }">
 									<template v-if="languageSpaces">
-										{{
-											JSON.parse(reviews[currentReviewIndex].words).join(' ')
-										}}
+										{{ JSON.parse(reviews[currentReviewIndex].words).join(' ') }}
 									</template>
 									<template v-else>
 										{{ JSON.parse(reviews[currentReviewIndex].words).join('') }}
@@ -486,10 +440,7 @@
 									reviews[currentReviewIndex] !== undefined
 								"
 							>
-								<div
-									class="phrase-words"
-									:style="{ 'font-size': settings.fontSize + 'px' }"
-								>
+								<div class="phrase-words" :style="{ 'font-size': settings.fontSize + 'px' }">
 									<span
 										v-for="(word, wordIndex) in exampleSentence.words"
 										:key="wordIndex"
@@ -588,20 +539,17 @@ export default {
 				fontSize: DefaultLocalStorageManager.loadSetting('fontSize') || 20,
 				reviewSentenceMode:
 					DefaultLocalStorageManager.loadSetting('reviewSentenceMode') || 'plain-text',
-				vocabularyHoverBox:
-					DefaultLocalStorageManager.loadSetting('vocabularyHoverBox') || true,
+				vocabularyHoverBox: DefaultLocalStorageManager.loadSetting('vocabularyHoverBox') || true,
 				vocabularyHoverBoxSearch:
 					DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxSearch') || true,
 				vocabularyHoverBoxDelay:
 					DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxDelay') || 300,
 				vocabularyHoverBoxPreferredPosition:
-					DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxPreferredPosition') ||
-					'bottom',
+					DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxPreferredPosition') || 'bottom',
 				vocabularyBottomSheet:
 					DefaultLocalStorageManager.loadSetting('vocabularyBottomSheet') || true,
 			},
-			transitionDuration:
-				DefaultLocalStorageManager.loadSetting('theme') === 'eink' ? 0 : 400,
+			transitionDuration: DefaultLocalStorageManager.loadSetting('theme') === 'eink' ? 0 : 400,
 			fullscreen: false,
 			currentReviewIndex: -1,
 			reviews: [],
@@ -684,9 +632,7 @@ export default {
 				if (this.reviews[this.currentReviewIndex].reading.length) {
 					text = this.reviews[this.currentReviewIndex].reading
 				} else {
-					text = JSON.parse(this.reviews[this.currentReviewIndex].words).join(
-						joinSeparator
-					)
+					text = JSON.parse(this.reviews[this.currentReviewIndex].words).join(joinSeparator)
 				}
 			} else {
 				if (this.reviews[this.currentReviewIndex].reading.length) {
@@ -733,14 +679,8 @@ export default {
 		},
 		saveSettings() {
 			DefaultLocalStorageManager.saveSetting('fontSize', this.settings.fontSize)
-			DefaultLocalStorageManager.saveSetting(
-				'reviewSentenceMode',
-				this.settings.reviewSentenceMode
-			)
-			DefaultLocalStorageManager.saveSetting(
-				'vocabularyHoverBox',
-				this.settings.vocabularyHoverBox
-			)
+			DefaultLocalStorageManager.saveSetting('reviewSentenceMode', this.settings.reviewSentenceMode)
+			DefaultLocalStorageManager.saveSetting('vocabularyHoverBox', this.settings.vocabularyHoverBox)
 			DefaultLocalStorageManager.saveSetting(
 				'vocabularyHoverBoxSearch',
 				this.settings.vocabularyHoverBoxSearch
@@ -767,11 +707,7 @@ export default {
 			this.saveSettings()
 		},
 		reveal() {
-			if (
-				this.intoTheCorrectDeckAnimation ||
-				this.backToDeckAnimation ||
-				this.newCardAnimation
-			) {
+			if (this.intoTheCorrectDeckAnimation || this.backToDeckAnimation || this.newCardAnimation) {
 				return
 			}
 
@@ -876,10 +812,7 @@ export default {
 				increaseReviewAchievement = true
 			} else {
 				saveData.stage = this.reviews[this.currentReviewIndex].stage + 1
-				if (
-					saveData.stage <= 0 &&
-					saveData.stage > this.reviews[this.currentReviewIndex].stage
-				) {
+				if (saveData.stage <= 0 && saveData.stage > this.reviews[this.currentReviewIndex].stage) {
 					increaseReviewAchievement = true
 				}
 			}

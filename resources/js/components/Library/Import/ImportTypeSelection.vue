@@ -3,10 +3,7 @@
 		<label class="font-weight-bold">Select an import option</label>
 		<div class="import-type-group flex-wrap">
 			<!--Plain text -->
-			<div
-				class="import-type-button rounded-lg mx-2 mb-4"
-				@click="selectImportType('plain-text')"
-			>
+			<div class="import-type-button rounded-lg mx-2 mb-4" @click="selectImportType('plain-text')">
 				<div class="import-type-button-icon-box">
 					<v-icon large>mdi-text-box</v-icon>
 				</div>
@@ -14,10 +11,7 @@
 			</div>
 
 			<!-- Text file -->
-			<div
-				class="import-type-button rounded-lg mx-2 mb-4"
-				@click="selectImportType('text-file')"
-			>
+			<div class="import-type-button rounded-lg mx-2 mb-4" @click="selectImportType('text-file')">
 				<div class="import-type-button-icon-box">
 					<v-icon large>mdi-file-document</v-icon>
 				</div>
@@ -25,10 +19,7 @@
 			</div>
 
 			<!-- E-book -->
-			<div
-				class="import-type-button rounded-lg mx-2 mb-4"
-				@click="selectImportType('e-book')"
-			>
+			<div class="import-type-button rounded-lg mx-2 mb-4" @click="selectImportType('e-book')">
 				<div class="import-type-button-icon-box">
 					<v-icon large>mdi-book</v-icon>
 				</div>
@@ -36,10 +27,7 @@
 			</div>
 
 			<!-- Youtube -->
-			<div
-				class="import-type-button rounded-lg mx-2 mb-4"
-				@click="selectImportType('youtube')"
-			>
+			<div class="import-type-button rounded-lg mx-2 mb-4" @click="selectImportType('youtube')">
 				<div class="import-type-button-icon-box">
 					<v-icon large>mdi-youtube</v-icon>
 				</div>
@@ -130,17 +118,15 @@ export default {
 		language: String,
 	},
 	mounted() {
-		axios
-			.all([axios.get('/config/languages'), axios.get('/settings/is-jellyfin-enabled')])
-			.then(
-				axios.spread((response1, response2) => {
-					this.websiteImportSupported = response1.data.find(language => {
-						return language.name === this.$props.language
-					}).websiteImportSupport
-					this.jellyfinEnabled = response2.data
-					this.loading = false
-				})
-			)
+		axios.all([axios.get('/config/languages'), axios.get('/settings/is-jellyfin-enabled')]).then(
+			axios.spread((response1, response2) => {
+				this.websiteImportSupported = response1.data.find(language => {
+					return language.name === this.$props.language
+				}).websiteImportSupport
+				this.jellyfinEnabled = response2.data
+				this.loading = false
+			})
+		)
 	},
 	methods: {
 		selectImportType(type) {

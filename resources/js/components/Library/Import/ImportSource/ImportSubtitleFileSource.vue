@@ -24,8 +24,8 @@
 
 		<!-- Error -->
 		<v-alert v-if="!loading && error" border="left" type="error">
-			An error has occurred while retrieving the contents of the subtitle file. Please try
-			again, and if the error does not get resolved, create a GitHub issue.
+			An error has occurred while retrieving the contents of the subtitle file. Please try again,
+			and if the error does not get resolved, create a GitHub issue.
 		</v-alert>
 	</div>
 </template>

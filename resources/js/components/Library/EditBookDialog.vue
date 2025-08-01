@@ -36,8 +36,7 @@
 						@keyup="validateForm"
 					></v-text-field>
 
-					<label class="font-weight-bold mt-2" v-show="editImage">Book cover image</label
-					><br />
+					<label class="font-weight-bold mt-2" v-show="editImage">Book cover image</label><br />
 					<v-file-input
 						v-show="editImage"
 						v-model="image"
@@ -78,12 +77,7 @@
 						An error has occurred while saving.
 					</v-alert>
 
-					<v-alert
-						class="my-3"
-						border="left"
-						type="success"
-						v-if="saveResult == 'success'"
-					>
+					<v-alert class="my-3" border="left" type="success" v-if="saveResult == 'success'">
 						Chapter has been saved successfully.
 					</v-alert>
 				</v-form>

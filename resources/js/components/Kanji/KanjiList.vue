@@ -45,19 +45,13 @@
 			<!-- Skeleton loader -->
 			<template v-for="groupIndex in 3" v-if="loading">
 				<div class="subheader mt-8">
-					<v-skeleton-loader
-						class="skeleton-title ml-1 my-2 mb-0"
-						type="image"
-					></v-skeleton-loader>
+					<v-skeleton-loader class="skeleton-title ml-1 my-2 mb-0" type="image"></v-skeleton-loader>
 				</div>
 
 				<v-card outlined class="rounded-lg">
 					<v-card-text class="d-flex flex-wrap mt-0">
 						<template v-for="kanjiIndex in 24 + (groupIndex + 1) * 20">
-							<v-skeleton-loader
-								class="skeleton-button"
-								type="image"
-							></v-skeleton-loader>
+							<v-skeleton-loader class="skeleton-button" type="image"></v-skeleton-loader>
 						</template>
 					</v-card-text>
 				</v-card>
@@ -72,9 +66,9 @@
 				border="left"
 				v-if="groupBy == 1 && !loading"
 			>
-				The JLPT data is from the previous 4 level system, which was changed in 2010. There
-				is no official kanji list for the current JLPT. The old levels are similar to the
-				current ones, except that the old N2 is now divided between N2 and N3.
+				The JLPT data is from the previous 4 level system, which was changed in 2010. There is no
+				official kanji list for the current JLPT. The old levels are similar to the current ones,
+				except that the old N2 is now divided between N2 and N3.
 			</v-alert>
 
 			<!-- Kanji List -->
@@ -82,16 +76,12 @@
 				<div class="subheader mt-8" v-if="group.length">
 					<template v-if="groupIndex == 0">
 						{{ groupNames[groupBy][groupIndex] }} ({{
-							knownKanjiCounts[groupIndex] === undefined
-								? 0
-								: knownKanjiCounts[groupIndex].total
+							knownKanjiCounts[groupIndex] === undefined ? 0 : knownKanjiCounts[groupIndex].total
 						}})
 					</template>
 					<template v-else>
 						{{ groupNames[groupBy][groupIndex] }} ({{
-							knownKanjiCounts[groupIndex] === undefined
-								? 0
-								: knownKanjiCounts[groupIndex].total
+							knownKanjiCounts[groupIndex] === undefined ? 0 : knownKanjiCounts[groupIndex].total
 						}}/{{ totalKanjiCounts[groupIndex].total }})
 					</template>
 				</div>

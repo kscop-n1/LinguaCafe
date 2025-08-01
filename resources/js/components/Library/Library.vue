@@ -51,12 +51,7 @@
 						<v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
 					</v-btn>
 				</template>
-				<v-btn
-					class="menu-button justify-start"
-					tile
-					color="white"
-					@click="setLayout('table')"
-				>
+				<v-btn class="menu-button justify-start" tile color="white" @click="setLayout('table')">
 					<v-icon class="mr-1">mdi-view-list</v-icon>
 					List
 				</v-btn>
@@ -69,12 +64,7 @@
 					<v-icon class="mr-1">mdi-view-module</v-icon>
 					Cover only
 				</v-btn>
-				<v-btn
-					class="menu-button justify-start"
-					tile
-					color="white"
-					@click="setLayout('detailed')"
-				>
+				<v-btn class="menu-button justify-start" tile color="white" @click="setLayout('detailed')">
 					<v-icon class="mr-1">mdi-view-agenda</v-icon>
 					Detailed
 				</v-btn>

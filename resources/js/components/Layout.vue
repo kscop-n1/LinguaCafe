@@ -16,9 +16,7 @@
 					v-model="themeSelectionDialog"
 					@input="updateTheme"
 				></theme-selection-dialog>
-				<language-selection-dialog
-					v-model="languageSelectionDialog"
-				></language-selection-dialog>
+				<language-selection-dialog v-model="languageSelectionDialog"></language-selection-dialog>
 				<v-navigation-drawer
 					id="navigation-drawer"
 					app
@@ -66,24 +64,14 @@
 									<v-icon> mdi-arrow-collapse-left </v-icon>
 									<span class="pl-6"> Hide</span>
 								</v-list-item>
-								<v-list-item
-									class="navigation-button"
-									@click="themeSelectionDialog = true"
-								>
+								<v-list-item class="navigation-button" @click="themeSelectionDialog = true">
 									<v-icon> mdi-palette </v-icon>
 									<span class="pl-6"> Theme</span>
 								</v-list-item>
-								<v-list-item
-									class="navigation-button"
-									@click="languageSelectionDialog = true"
-								>
+								<v-list-item class="navigation-button" @click="languageSelectionDialog = true">
 									<v-img
 										class="border"
-										:src="
-											'/images/flags/' +
-											selectedLanguage.toLowerCase() +
-											'.png'
-										"
+										:src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'"
 										max-width="26"
 										height="17"
 									></v-img>
@@ -124,9 +112,7 @@
 								title="Select language"
 							>
 								<v-img
-									:src="
-										'/images/flags/' + selectedLanguage.toLowerCase() + '.png'
-									"
+									:src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'"
 									max-width="31"
 									height="20"
 								></v-img>
@@ -144,12 +130,7 @@
 					dark
 					background-color="primary"
 				>
-					<v-btn
-						class="text-decoration-none"
-						width="60"
-						style="float: left"
-						@click="drawer = true"
-					>
+					<v-btn class="text-decoration-none" width="60" style="float: left" @click="drawer = true">
 						<span>More</span>
 						<v-icon>mdi-menu</v-icon> </v-btn
 					><v-spacer></v-spacer>
@@ -249,8 +230,7 @@ export default {
 				settingsObject = TextStylingService.getDefaultTextStylingSettings()
 			}
 
-			const settingsCssObject =
-				TextStylingService.getTextStylingSettingsObject(settingsObject)
+			const settingsCssObject = TextStylingService.getTextStylingSettingsObject(settingsObject)
 			return settingsCssObject[this.theme]
 		},
 	},

@@ -34,10 +34,7 @@ class TextStylingService {
 		themes.forEach(theme => {
 			settings[theme] = {}
 			levels.forEach(level => {
-				Object.assign(
-					settings[theme],
-					this.getCssSettingObject(textStylingSettings, theme, level)
-				)
+				Object.assign(settings[theme], this.getCssSettingObject(textStylingSettings, theme, level))
 			})
 		})
 
@@ -90,23 +87,19 @@ class TextStylingService {
 		if (textStylingSettings[theme][level].horizontalPaddingSpacelessLanguagesOnly) {
 			cssVariables[`--interactive-text-${levelMapping[level]}-padding-left`] = '0px'
 			cssVariables[`--interactive-text-${levelMapping[level]}-padding-right`] = '0px'
-			cssVariables[
-				`--interactive-text-${levelMapping[level]}-spaceless-language-padding-left`
-			] = textStylingSettings[theme][level].paddingHorizontal + 'px'
-			cssVariables[
-				`--interactive-text-${levelMapping[level]}-spaceless-language-padding-right`
-			] = textStylingSettings[theme][level].paddingHorizontal + 'px'
+			cssVariables[`--interactive-text-${levelMapping[level]}-spaceless-language-padding-left`] =
+				textStylingSettings[theme][level].paddingHorizontal + 'px'
+			cssVariables[`--interactive-text-${levelMapping[level]}-spaceless-language-padding-right`] =
+				textStylingSettings[theme][level].paddingHorizontal + 'px'
 		} else {
 			cssVariables[`--interactive-text-${levelMapping[level]}-padding-left`] =
 				textStylingSettings[theme][level].paddingHorizontal + 'px'
 			cssVariables[`--interactive-text-${levelMapping[level]}-padding-right`] =
 				textStylingSettings[theme][level].paddingHorizontal + 'px'
-			cssVariables[
-				`--interactive-text-${levelMapping[level]}-spaceless-language-padding-left`
-			] = textStylingSettings[theme][level].paddingHorizontal + 'px'
-			cssVariables[
-				`--interactive-text-${levelMapping[level]}-spaceless-language-padding-right`
-			] = textStylingSettings[theme][level].paddingHorizontal + 'px'
+			cssVariables[`--interactive-text-${levelMapping[level]}-spaceless-language-padding-left`] =
+				textStylingSettings[theme][level].paddingHorizontal + 'px'
+			cssVariables[`--interactive-text-${levelMapping[level]}-spaceless-language-padding-right`] =
+				textStylingSettings[theme][level].paddingHorizontal + 'px'
 		}
 
 		// add colors

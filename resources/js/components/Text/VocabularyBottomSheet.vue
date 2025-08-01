@@ -11,8 +11,7 @@
 							:class="{
 								'default-font': true,
 								'mt-2': true,
-								'mb-2':
-									$props.language !== 'japanese' && $props.language !== 'chinese',
+								'mb-2': $props.language !== 'japanese' && $props.language !== 'chinese',
 							}"
 							hide-details
 							placeholder="Lemma"
@@ -28,8 +27,7 @@
 							:class="{
 								'default-font': true,
 								'mt-2': true,
-								'mb-2':
-									$props.language !== 'japanese' && $props.language !== 'chinese',
+								'mb-2': $props.language !== 'japanese' && $props.language !== 'chinese',
 							}"
 							hide-details
 							placeholder="Word"
@@ -46,10 +44,7 @@
 					<!-- Reading fields -->
 					<div
 						class="d-flex"
-						v-if="
-							type == 'word' &&
-							($props.language == 'japanese' || $props.language == 'chinese')
-						"
+						v-if="type == 'word' && ($props.language == 'japanese' || $props.language == 'chinese')"
 					>
 						<v-text-field
 							class="my-2 default-font"
@@ -95,8 +90,7 @@
 					<!-- Phrase reading -->
 					<v-textarea
 						v-if="
-							type !== 'word' &&
-							($props.language == 'japanese' || $props.language == 'chinese')
+							type !== 'word' && ($props.language == 'japanese' || $props.language == 'chinese')
 						"
 						class="my-2 default-font"
 						label="Reading"
@@ -195,10 +189,7 @@
 				<!-- Word image edit dialog -->
 				<v-tab-item :value="2">
 					<div class="d-block py-2">
-						<word-image-edit-box
-							:height="'400px'"
-							@imageChanged="$emit('imageChanged', $event)"
-						/>
+						<word-image-edit-box :height="'400px'" @imageChanged="$emit('imageChanged', $event)" />
 					</div>
 				</v-tab-item>
 			</v-tabs-items>
@@ -248,9 +239,7 @@
 				<template v-else>
 					<v-btn disabled icon><v-icon>mdi-cards</v-icon></v-btn>
 					<v-btn disabled icon><v-icon>mdi-bullhorn</v-icon></v-btn>
-					<v-btn icon @click="tab = 0" title="Back"
-						><v-icon>mdi-arrow-left</v-icon></v-btn
-					>
+					<v-btn icon @click="tab = 0" title="Back"><v-icon>mdi-arrow-left</v-icon></v-btn>
 				</template>
 			</div>
 

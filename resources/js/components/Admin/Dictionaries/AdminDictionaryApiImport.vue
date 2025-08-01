@@ -46,9 +46,7 @@
 					<!-- Source language info box -->
 					<v-menu offset-y nudge-top="-12px">
 						<template v-slot:activator="{ on, attrs }">
-							<v-icon class="ml-1" v-bind="attrs" v-on="on"
-								>mdi-help-circle-outline</v-icon
-							>
+							<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 						</template>
 						<v-card outlined class="rounded-lg pa-4" width="320px">
 							The language that you are learning.
@@ -65,9 +63,7 @@
 					filled
 					rounded
 					:error-messages="
-						dictionary.languagesValid
-							? []
-							: ['The source and target language cannot be the same!']
+						dictionary.languagesValid ? [] : ['The source and target language cannot be the same!']
 					"
 					@change="
 						updateDictionaryName()
@@ -101,9 +97,7 @@
 					<!-- Target language info box -->
 					<v-menu offset-y nudge-top="-12px">
 						<template v-slot:activator="{ on, attrs }">
-							<v-icon class="ml-1" v-bind="attrs" v-on="on"
-								>mdi-help-circle-outline</v-icon
-							>
+							<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 						</template>
 						<v-card outlined class="rounded-lg pa-4" width="320px">
 							The language that DeepL translates to.
@@ -120,9 +114,7 @@
 					filled
 					rounded
 					:error-messages="
-						dictionary.languagesValid
-							? []
-							: ['The source and target language cannot be the same!']
+						dictionary.languagesValid ? [] : ['The source and target language cannot be the same!']
 					"
 					@change="
 						updateDictionaryName()
@@ -295,10 +287,7 @@ export default {
 					return
 				}
 
-				if (
-					this.$props.selectedDictionaryType === 'mymemory' &&
-					dictionary.myMemoryCode === null
-				) {
+				if (this.$props.selectedDictionaryType === 'mymemory' && dictionary.myMemoryCode === null) {
 					return
 				}
 
@@ -321,17 +310,11 @@ export default {
 			this.targetLanguages = []
 
 			languages.forEach(dictionary => {
-				if (
-					this.$props.selectedDictionaryType === 'deepl' &&
-					dictionary.deeplCode === null
-				) {
+				if (this.$props.selectedDictionaryType === 'deepl' && dictionary.deeplCode === null) {
 					return
 				}
 
-				if (
-					this.$props.selectedDictionaryType === 'mymemory' &&
-					dictionary.myMemoryCode === null
-				) {
+				if (this.$props.selectedDictionaryType === 'mymemory' && dictionary.myMemoryCode === null) {
 					return
 				}
 

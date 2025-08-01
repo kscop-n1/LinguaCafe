@@ -195,8 +195,7 @@ export default {
 					dictionaryLoopIndex < this.dictionaries.length;
 					dictionaryLoopIndex++
 				) {
-					this.dictionaries[dictionaryLoopIndex].expanded =
-						dictionaryIndex == dictionaryLoopIndex
+					this.dictionaries[dictionaryLoopIndex].expanded = dictionaryIndex == dictionaryLoopIndex
 				}
 			}
 		},

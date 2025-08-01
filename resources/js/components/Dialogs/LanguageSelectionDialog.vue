@@ -24,8 +24,7 @@
 							</template>
 
 							<template v-else>
-								There are {{ notInstalledLanguages }} additional languages that can
-								be installed.
+								There are {{ notInstalledLanguages }} additional languages that can be installed.
 							</template>
 
 							<template v-if="!$store.getters['shared/userAdmin']">
@@ -33,13 +32,7 @@
 							</template>
 						</v-col>
 						<v-col class="shrink" v-if="$store.getters['shared/userAdmin']">
-							<v-btn
-								outlined
-								depressed
-								rounded
-								color="foreground"
-								@click="manageLanguages"
-							>
+							<v-btn outlined depressed rounded color="foreground" @click="manageLanguages">
 								<v-icon class="mr-1">mdi-cog</v-icon>
 								Manage languages
 							</v-btn>

@@ -6,14 +6,12 @@
 				E-book chapter order
 				<v-menu offset-y nudge-top="-12px">
 					<template v-slot:activator="{ on, attrs }">
-						<v-icon class="ml-1" v-bind="attrs" v-on="on"
-							>mdi-help-circle-outline</v-icon
-						>
+						<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
 					</template>
 					<v-card outlined class="rounded-lg pa-4" width="320px">
-						For some rare cases the chapter order can be incorrect after importing an
-						e-book. If it happened to you, please delete the imported book, and import
-						it again with the Spine option.
+						For some rare cases the chapter order can be incorrect after importing an e-book. If it
+						happened to you, please delete the imported book, and import it again with the Spine
+						option.
 					</v-card>
 				</v-menu>
 			</label>
@@ -59,8 +57,8 @@
 				type="error"
 				v-if="maximumCharactersPerChapter > defaultMaximumCharactersPerChapter"
 			>
-				Using larger chapter sizes can lead to performance issues. The default settings are
-				highly recommended!
+				Using larger chapter sizes can lead to performance issues. The default settings are highly
+				recommended!
 			</v-alert>
 		</v-form>
 	</div>
@@ -73,13 +71,9 @@ export default {
 			eBookChapterSortMethod: 'default',
 			isFormValid: false,
 			maximumCharactersPerChapter:
-				this.$props.language == 'chinese' || this.$props.language == 'japanese'
-					? 1500
-					: 3000,
+				this.$props.language == 'chinese' || this.$props.language == 'japanese' ? 1500 : 3000,
 			defaultMaximumCharactersPerChapter:
-				this.$props.language == 'chinese' || this.$props.language == 'japanese'
-					? 1500
-					: 3000,
+				this.$props.language == 'chinese' || this.$props.language == 'japanese' ? 1500 : 3000,
 
 			rules: {
 				maximumCharactersPerChapter: value => {

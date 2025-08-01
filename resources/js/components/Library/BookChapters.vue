@@ -114,12 +114,7 @@
 							{{ formatNumber(item.wordCount.highlighted) }}
 						</template>
 						<template v-else-if="item.wordCount.unique">
-							{{
-								(
-									(item.wordCount.highlighted / item.wordCount.unique) *
-									100
-								).toFixed(1)
-							}}%
+							{{ ((item.wordCount.highlighted / item.wordCount.unique) * 100).toFixed(1) }}%
 						</template>
 						<template v-else> 0% </template>
 					</div>
@@ -166,9 +161,7 @@
 						>
 						<v-menu rounded offset-y bottom left nudge-top="-5">
 							<template v-slot:activator="{ on, attrs }">
-								<v-btn icon v-bind="attrs" v-on="on"
-									><v-icon>mdi-dots-horizontal</v-icon></v-btn
-								>
+								<v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
 							</template>
 							<v-btn
 								width="100"
@@ -184,9 +177,7 @@
 								class="menu-button"
 								tile
 								color="white"
-								@click="
-									showStartReviewDialog(book.id, book.name, item.id, item.name)
-								"
+								@click="showStartReviewDialog(book.id, book.name, item.id, item.name)"
 							>
 								Review
 							</v-btn>

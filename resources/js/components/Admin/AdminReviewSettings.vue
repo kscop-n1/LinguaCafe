@@ -3,12 +3,12 @@
 		<!-- SRS info -->
 		<div class="subheader mt-4">Spaced repetition system</div>
 		<v-alert dark border="left" type="info" color="primary" class="mt-2 mb-4">
-			Numbers represent how many days later words will be reviewed again after a review or a
-			manual level change.<br /><br />
+			Numbers represent how many days later words will be reviewed again after a review or a manual
+			level change.<br /><br />
 
-			You can set multiple numbers for a single level by typing in numbers delimited by a
-			comma. In this case the next review date will be selected based on which day has the
-			least amount of reviews scheduled at the time of the level change.
+			You can set multiple numbers for a single level by typing in numbers delimited by a comma. In
+			this case the next review date will be selected based on which day has the least amount of
+			reviews scheduled at the time of the level change.
 		</v-alert>
 
 		<!-- SRS settings -->
@@ -101,11 +101,7 @@ export default {
 			this.saving = true
 
 			let reviewIntervalsArray = {}
-			for (
-				let intervalIndex = 0;
-				intervalIndex < this.reviewIntervals.length;
-				intervalIndex++
-			) {
+			for (let intervalIndex = 0; intervalIndex < this.reviewIntervals.length; intervalIndex++) {
 				let key = parseInt(this.reviewIntervals[intervalIndex].name) * -1
 				reviewIntervalsArray[key] = this.reviewIntervals[intervalIndex].values.split(',')
 				reviewIntervalsArray[key] = reviewIntervalsArray[key].map(Number)

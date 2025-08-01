@@ -171,10 +171,10 @@
 					<!-- Step 2: dictionary file -->
 					<v-stepper-content step="2">
 						<v-alert class="rounded-lg" color="primary" type="info" border="left" dark>
-							You can import a custom dictionary from a .csv file. It has to have 2
-							columns, the first containing a word and the second containing the
-							translations. You can provide multiple translations for a single word by
-							separating them with a semicolon ";" character. Example:<br /><br />
+							You can import a custom dictionary from a .csv file. It has to have 2 columns, the
+							first containing a word and the second containing the translations. You can provide
+							multiple translations for a single word by separating them with a semicolon ";"
+							character. Example:<br /><br />
 
 							Word|Translation<br />
 							å gjøre|to do;to make<br />
@@ -222,8 +222,8 @@
 							border="left"
 							dark
 						>
-							There has been an error reading the file. Please make sure it follows
-							the correct format and try again.
+							There has been an error reading the file. Please make sure it follows the correct
+							format and try again.
 						</v-alert>
 						<v-alert
 							v-if="dictionary.file && !fileTestLoading && !fileTestError"
@@ -247,11 +247,7 @@
 									<td class="font-weight-bold">Source language:</td>
 									<td>
 										<img
-											:src="
-												'/images/flags/' +
-												dictionary.sourceLanguage.toLowerCase() +
-												'.png'
-											"
+											:src="'/images/flags/' + dictionary.sourceLanguage.toLowerCase() + '.png'"
 											class="mr-2 border"
 											width="40"
 											height="26"
@@ -263,11 +259,7 @@
 									<td class="font-weight-bold">Target language:</td>
 									<td>
 										<img
-											:src="
-												'/images/flags/' +
-												dictionary.targetLanguage.toLowerCase() +
-												'.png'
-											"
+											:src="'/images/flags/' + dictionary.targetLanguage.toLowerCase() + '.png'"
 											class="mr-2 border"
 											width="40"
 											height="26"
@@ -330,25 +322,13 @@
 					<!-- Step 4: finish -->
 					<v-stepper-content step="4">
 						<div v-if="importResult == 'success'">
-							<v-alert
-								class="rounded-lg"
-								color="success"
-								type="success"
-								border="left"
-								dark
-							>
+							<v-alert class="rounded-lg" color="success" type="success" border="left" dark>
 								Dictionary has been successfully imported.
 							</v-alert>
 						</div>
 
 						<div v-if="importResult !== 'success'">
-							<v-alert
-								class="rounded-lg"
-								color="error"
-								type="error"
-								border="left"
-								dark
-							>
+							<v-alert class="rounded-lg" color="error" type="error" border="left" dark>
 								An error has occurred while importing the dictionary.
 							</v-alert>
 						</div>
@@ -364,8 +344,7 @@
 
 			<v-btn
 				v-if="
-					(stepperPage > 1 && stepperPage < 4) ||
-					(stepperPage == 4 && importResult !== 'success')
+					(stepperPage > 1 && stepperPage < 4) || (stepperPage == 4 && importResult !== 'success')
 				"
 				rounded
 				text
@@ -384,8 +363,7 @@
 				:disabled="
 					(stepperPage == 1 &&
 						(!this.dictionary.nameValidated || !this.dictionary.databaseValidated)) ||
-					(stepperPage == 2 &&
-						(fileTestLoading || fileTestError || !this.dictionary.file))
+					(stepperPage == 2 && (fileTestLoading || fileTestError || !this.dictionary.file))
 				"
 				:loading="stepperPage == 2 && fileTestLoading"
 				@click="stepperPage++"
@@ -516,8 +494,7 @@ export default {
 				})
 
 				if (language.databaseDictionaryTableName !== null) {
-					this.databaseNameLanguageCodes[language.name] =
-						language.databaseDictionaryTableName
+					this.databaseNameLanguageCodes[language.name] = language.databaseDictionaryTableName
 				}
 			})
 
@@ -587,10 +564,7 @@ export default {
 			formData.append('delimiter', this.dictionary.csvDelimiter)
 			formData.append('skipHeader', this.dictionary.csvSkipHeader)
 			formData.append('dictionaryName', this.dictionary.name)
-			formData.append(
-				'databaseName',
-				this.dictionary.databasePrefix + this.dictionary.databaseName
-			)
+			formData.append('databaseName', this.dictionary.databasePrefix + this.dictionary.databaseName)
 			formData.append('sourceLanguage', this.dictionary.sourceLanguage.toLowerCase())
 			formData.append('targetLanguage', this.dictionary.targetLanguage.toLowerCase())
 			formData.append('color', this.dictionary.color)

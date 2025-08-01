@@ -28,52 +28,23 @@
 					<v-card-title class="book-title pa-3">
 						<div class="book-title-text default-font">{{ book.name }}</div>
 						<v-spacer></v-spacer>
-						<v-menu
-							content-class="book-menu"
-							rounded
-							offset-y
-							bottom
-							left
-							nudge-top="-5"
-						>
+						<v-menu content-class="book-menu" rounded offset-y bottom left nudge-top="-5">
 							<template v-slot:activator="{ on, attrs }">
-								<v-btn icon v-bind="attrs" v-on="on"
-									><v-icon>mdi-dots-horizontal</v-icon></v-btn
-								>
+								<v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
 							</template>
-							<v-btn
-								class="menu-button"
-								tile
-								color="white"
-								@click="loadBookWordCounts()"
+							<v-btn class="menu-button" tile color="white" @click="loadBookWordCounts()"
 								>Load word counts</v-btn
 							>
-							<v-btn
-								class="menu-button"
-								tile
-								color="white"
-								@click="retryFailedImports()"
+							<v-btn class="menu-button" tile color="white" @click="retryFailedImports()"
 								>Retry failed imports</v-btn
 							>
-							<v-btn
-								class="menu-button"
-								tile
-								color="white"
-								@click="showEditBookDialog()"
+							<v-btn class="menu-button" tile color="white" @click="showEditBookDialog()"
 								>Edit</v-btn
 							>
-							<v-btn
-								class="menu-button"
-								tile
-								color="white"
-								@click="showStartReviewDialog()"
+							<v-btn class="menu-button" tile color="white" @click="showStartReviewDialog()"
 								>Review</v-btn
 							>
-							<v-btn
-								class="menu-button"
-								tile
-								color="white"
-								@click="showDeleteBookDialog()"
+							<v-btn class="menu-button" tile color="white" @click="showDeleteBookDialog()"
 								>Delete</v-btn
 							>
 						</v-menu>
@@ -118,12 +89,7 @@
 											{{ formatNumber(book.wordCount.known) }}
 										</template>
 										<template v-else-if="book.wordCount.unique">
-											{{
-												(
-													(book.wordCount.known / book.wordCount.unique) *
-													100
-												).toFixed(1)
-											}}%
+											{{ ((book.wordCount.known / book.wordCount.unique) * 100).toFixed(1) }}%
 										</template>
 										<template v-else> 0% </template>
 									</div>
@@ -137,13 +103,7 @@
 											{{ formatNumber(book.wordCount.highlighted) }}
 										</template>
 										<template v-else-if="book.wordCount.unique">
-											{{
-												(
-													(book.wordCount.highlighted /
-														book.wordCount.unique) *
-													100
-												).toFixed(1)
-											}}%
+											{{ ((book.wordCount.highlighted / book.wordCount.unique) * 100).toFixed(1) }}%
 										</template>
 										<template v-else> 0% </template>
 									</div>
@@ -157,12 +117,7 @@
 											{{ formatNumber(book.wordCount.new) }}
 										</template>
 										<template v-else-if="book.wordCount.unique">
-											{{
-												(
-													(book.wordCount.new / book.wordCount.unique) *
-													100
-												).toFixed(1)
-											}}%
+											{{ ((book.wordCount.new / book.wordCount.unique) * 100).toFixed(1) }}%
 										</template>
 										<template v-else> 0% </template>
 									</div>
@@ -221,8 +176,7 @@ import { DefaultLocalStorageManager } from './../../services/LocalStorageManager
 export default {
 	data: function () {
 		return {
-			wordCountDisplayType:
-				DefaultLocalStorageManager.loadSetting('word-count-display-type') || 0,
+			wordCountDisplayType: DefaultLocalStorageManager.loadSetting('word-count-display-type') || 0,
 			editBookChapterDialog: {
 				active: false,
 				bookId: -1,
@@ -253,10 +207,7 @@ export default {
 			}
 		},
 		saveWordCountDisplayType() {
-			DefaultLocalStorageManager.saveSetting(
-				'word-count-display-type',
-				this.wordCountDisplayType
-			)
+			DefaultLocalStorageManager.saveSetting('word-count-display-type', this.wordCountDisplayType)
 		},
 		addChapter() {
 			this.editBookChapterDialog.active = true

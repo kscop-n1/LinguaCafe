@@ -11,8 +11,8 @@
 
 			<v-card-text>
 				<v-alert class="rounded-lg" color="primary" type="info" border="left" dark>
-					This setting will only affect today's and upcoming days' goal. Past days' goals
-					will not be affected.
+					This setting will only affect today's and upcoming days' goal. Past days' goals will not
+					be affected.
 				</v-alert>
 
 				<label class="font-weight-bold">Goal quantity</label>
@@ -33,14 +33,7 @@
 				<v-spacer></v-spacer>
 
 				<v-btn rounded text @click="close">Cancel</v-btn>
-				<v-btn
-					rounded
-					depressed
-					color="primary"
-					@click="save"
-					:disabled="saving"
-					:loading="saving"
-				>
+				<v-btn rounded depressed color="primary" @click="save" :disabled="saving" :loading="saving">
 					Save
 				</v-btn>
 			</v-card-actions>

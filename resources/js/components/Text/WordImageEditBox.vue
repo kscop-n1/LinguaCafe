@@ -57,14 +57,7 @@
 					<v-icon>mdi-upload</v-icon>
 					Upload
 				</v-btn>
-				<v-btn
-					rounded
-					depressed
-					small
-					color="primary"
-					:disabled="loading"
-					@click="searchImages"
-				>
+				<v-btn rounded depressed small color="primary" :disabled="loading" @click="searchImages">
 					<v-icon>mdi-magnify</v-icon>
 					Search
 				</v-btn>
@@ -91,9 +84,7 @@
 			</v-form>
 
 			<div class="d-flex justify-end">
-				<v-btn rounded text small @click="cancelUploading" :disabled="loading">
-					Cancel
-				</v-btn>
+				<v-btn rounded text small @click="cancelUploading" :disabled="loading"> Cancel </v-btn>
 				<v-btn
 					rounded
 					depressed
@@ -137,28 +128,17 @@
 			<!-- Image search error -->
 			<div class="d-flex flex-wrap justify-end my-1" v-if="searchError">
 				<v-alert dense outlined type="error" class="rounded-lg mb-0">
-					Image search sometimes returns with an empty page due to web scraping
-					protection. Please try again.
+					Image search sometimes returns with an empty page due to web scraping protection. Please
+					try again.
 				</v-alert>
 
-				<v-btn
-					rounded
-					depressed
-					small
-					color="primary"
-					class="my-2 ml-2"
-					@click="searchImages"
-				>
+				<v-btn rounded depressed small color="primary" class="my-2 ml-2" @click="searchImages">
 					Try again
 				</v-btn>
 			</div>
 
 			<!-- Images -->
-			<div
-				class="images-box px-2"
-				:style="{ height: height }"
-				v-if="!loading && images.length"
-			>
+			<div class="images-box px-2" :style="{ height: height }" v-if="!loading && images.length">
 				<v-img
 					v-for="(image, imageIndex) in images"
 					:key="imageIndex"

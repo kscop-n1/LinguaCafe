@@ -19,13 +19,9 @@
 				>{{ todaysAchievedQuantity }} / {{ goalQuantity }}</v-progress-circular
 			>
 
-			<div v-if="name == 'Reading'">
-				Read {{ goalQuantity }} words from any imported text.
-			</div>
+			<div v-if="name == 'Reading'">Read {{ goalQuantity }} words from any imported text.</div>
 
-			<div v-if="name == 'Reviews'">
-				Review {{ goalQuantity }} flashcards which are due today.
-			</div>
+			<div v-if="name == 'Reviews'">Review {{ goalQuantity }} flashcards which are due today.</div>
 
 			<div v-if="name == 'New words'">
 				Highlight and save {{ goalQuantity }} new words for review.
