@@ -16,7 +16,7 @@
                     <img
                         v-if="book.cover_image"
                         class="cover-image"
-                        :src="'/images/book_images/' + book.cover_image"
+                        :src="'/images/book-images/' + book.id"
                     />
                     <div v-else class="d-flex flex-column h-100 justify-center align-center">
                         <NoBookCoverIcon />

@@ -58,7 +58,7 @@
                                 <img
                                     v-if="$props.bookCover"
                                     class="cover-image rounded-xl"
-                                    :src="'/images/book_images/' + $props.bookCover"
+                                    :src="'/images/book-images/' + $props.bookId"
                                     width="100px"
                                     :alt="$props.bookName + 'cover'"
                                 />

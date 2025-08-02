@@ -34,7 +34,7 @@
                 <img
                     v-if="bookmark.book.cover_image"
                     class="cover-image rounded-lg ma-2"
-                    :src="'/images/book_images/' + bookmark.book.cover_image"
+                    :src="'/images/book-images/' + bookmark.book.id"
                 />
                 <div v-else class="cover-image d-flex align-items-center mx-auto my-2">
                     <NoBookCoverIcon class="px-1" />

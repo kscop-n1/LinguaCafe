@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::get('/settings/get-anki-settings', [App\Http\Controllers\SettingsController::class, 'getAnkiSettings']);
 
     // images
-    Route::get('/images/book_images/{fileName}', [App\Http\Controllers\ImageController::class, 'getBookImage']);
+    Route::get('/images/book-images/{book}', [App\Http\Controllers\ImageController::class, 'getBookImage']);
     Route::get('/images/kanji/{fileName}', [App\Http\Controllers\ImageController::class, 'getKanjiImage']);
 
     // dictionaries

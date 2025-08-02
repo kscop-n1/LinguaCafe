@@ -14,7 +14,7 @@
                     <img
                         v-if="book.cover_image"
                         class="cover-image rounded-lg"
-                        :src="'/images/book_images/' + book.cover_image"
+                        :src="'/images/book-images/' + book.id"
                         @click="openBook(book.id)"
                     />
                     <div
