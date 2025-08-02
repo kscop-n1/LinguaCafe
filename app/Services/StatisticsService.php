@@ -2,28 +2,33 @@
 
 namespace App\Services;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Models\EncounteredWord;
 use App\Models\Goal;
 use App\Models\GoalAchievement;
+use App\Models\User;
 
 class StatisticsService
 {
     public function __construct() {}
 
-    public function getStatistics($userId, $language)
+    // TODO: should be refactored to return a DTO
+    public function getStatistics(User $user, LanguageConfig $language): \stdClass
     {
         $languageStatistics = new \stdClass;
 
-        $readingGoal = Goal::where('user_id', $userId)
-            ->where('language', $language)
+        $readingGoal = Goal::query()
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->where('type', 'read_words')
             ->first();
 
         $languageStatistics->days = new \stdClass;
         $languageStatistics->days->name = 'Days of activity';
         $languageStatistics->days->icon = 'mdi-calendar-check';
-        $languageStatistics->days->value = GoalAchievement::where('user_id', $userId)
-            ->where('language', $language)
+        $languageStatistics->days->value = GoalAchievement::query()
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->where('achieved_quantity', '<>', 0)
             ->distinct('day')
             ->count('day');
@@ -31,17 +36,19 @@ class StatisticsService
         $languageStatistics->readWordCount = new \stdClass;
         $languageStatistics->readWordCount->name = 'Read words';
         $languageStatistics->readWordCount->icon = 'mdi-book-open-variant';
-        $languageStatistics->readWordCount->value = GoalAchievement::where('user_id', $userId)
-            ->where('language', $language)
+        $languageStatistics->readWordCount->value = GoalAchievement::query()
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->where('goal_id', $readingGoal->id)
             ->sum('achieved_quantity');
 
-        if ($language == 'japanese') {
+        if ($language->name == 'japanese') {
             // get unique kanji
             $uniqueKanji = [];
-            $words = EncounteredWord::where('stage', '<=', 0)
+            $words = EncounteredWord::query()
+                ->where('stage', '<=', 0)
                 ->where('language', 'japanese')
-                ->where('user_id', $userId)
+                ->where('user_id', $user->id)
                 ->get();
 
             foreach ($words as $word) {
@@ -63,8 +70,8 @@ class StatisticsService
         $languageStatistics->known->name = 'Known words';
         $languageStatistics->known->icon = 'mdi-credit-card-check';
         $languageStatistics->known->value = EncounteredWord::select('id')->where('stage', 0)
-            ->where('user_id', $userId)
-            ->where('language', $language)
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->count('id');
 
         $languageStatistics->learning = new \stdClass;
@@ -72,8 +79,8 @@ class StatisticsService
         $languageStatistics->learning->icon = 'mdi-school';
         $languageStatistics->learning->value = EncounteredWord::select('id')
             ->where('stage', '<', 0)
-            ->where('user_id', $userId)
-            ->where('language', $language)
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->count('id');
 
         $languageStatistics->knownLemmas = new \stdClass;
@@ -81,8 +88,8 @@ class StatisticsService
         $languageStatistics->knownLemmas->icon = 'mdi-alpha-l-box';
         $languageStatistics->knownLemmas->value = EncounteredWord::select('lemma')
             ->where('stage', 0)
-            ->where('user_id', $userId)
-            ->where('language', $language)
+            ->where('user_id', $user->id)
+            ->where('language', $language->name)
             ->groupBy('lemma')
             ->having('lemma', '!=', '')
             ->get()->count();
