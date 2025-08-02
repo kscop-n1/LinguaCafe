@@ -1,620 +1,712 @@
 <template>
-	<div id="text-user-settings">
-		<!-- Reset text styling dialog -->
-		<reset-text-styling-dialog v-model="resetTextStylingDialog" @reset="resetDefaultTextStyling" />
+    <div id="text-user-settings">
+        <!-- Reset text styling dialog -->
+        <reset-text-styling-dialog
+            v-model="resetTextStylingDialog"
+            @reset="resetDefaultTextStyling"
+        />
 
-		<!-- Text content -->
-		<v-card outlined class="rounded-lg mt-2" :loading="loading">
-			<v-container class="pa-8" v-if="textStyling">
-				<!-- Switch buttons (small screen) -->
-				<div id="option-select-inputs" class="d-flex justify-space-between mb-4">
-					<div class="text-option-input">
-						<label class="mb-0"> Word level </label>
-						<v-select
-							:value="selectedLevel"
-							label="Level"
-							rounded
-							dense
-							filled
-							single-line
-							hide-details
-							:items="levels"
-							@change="selectedLevelInputChanged"
-						></v-select>
-					</div>
-				</div>
+        <!-- Text content -->
+        <v-card outlined class="rounded-lg mt-2" :loading="loading">
+            <v-container class="pa-8" v-if="textStyling">
+                <!-- Switch buttons (small screen) -->
+                <div id="option-select-inputs" class="d-flex justify-space-between mb-4">
+                    <div class="text-option-input">
+                        <label class="mb-0"> Word level </label>
+                        <v-select
+                            :value="selectedLevel"
+                            label="Level"
+                            rounded
+                            dense
+                            filled
+                            single-line
+                            hide-details
+                            :items="levels"
+                            @change="selectedLevelInputChanged"
+                        ></v-select>
+                    </div>
+                </div>
 
-				<!-- Horizontal padding -->
-				<div class="w-100 mt-4">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('paddingHorizontal')"
-							>
-								<v-icon>{{
-									settingLocks.paddingHorizontal ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Horizontal padding -->
+                <div class="w-100 mt-4">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('paddingHorizontal')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.paddingHorizontal
+                                        ? 'mdi-lock'
+                                        : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0 mt-4"> Horizontal padding </label>
-					<v-slider
-						v-model="textStyling[selectedTheme][selectedLevel].paddingHorizontal"
-						max="16"
-						min="0"
-						hide-details
-						thumb-label="always"
-						:thumb-size="24"
-						@change="settingChanged('paddingHorizontal')"
-					></v-slider>
-				</div>
+                    <label class="mb-0 mt-4"> Horizontal padding </label>
+                    <v-slider
+                        v-model="textStyling[selectedTheme][selectedLevel].paddingHorizontal"
+                        max="16"
+                        min="0"
+                        hide-details
+                        thumb-label="always"
+                        :thumb-size="24"
+                        @change="settingChanged('paddingHorizontal')"
+                    ></v-slider>
+                </div>
 
-				<!-- Top padding -->
-				<div class="w-100 mt-4">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('paddingTop')"
-							>
-								<v-icon>{{
-									settingLocks.paddingTop ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Top padding -->
+                <div class="w-100 mt-4">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('paddingTop')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.paddingTop ? 'mdi-lock' : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0 mt-4"> Top padding </label>
-					<v-slider
-						v-model="textStyling[selectedTheme][selectedLevel].paddingTop"
-						max="8"
-						min="0"
-						hide-details
-						thumb-label="always"
-						:thumb-size="24"
-						@change="settingChanged('paddingTop')"
-					></v-slider>
-				</div>
+                    <label class="mb-0 mt-4"> Top padding </label>
+                    <v-slider
+                        v-model="textStyling[selectedTheme][selectedLevel].paddingTop"
+                        max="8"
+                        min="0"
+                        hide-details
+                        thumb-label="always"
+                        :thumb-size="24"
+                        @change="settingChanged('paddingTop')"
+                    ></v-slider>
+                </div>
 
-				<!-- Bottom padding -->
-				<div class="w-100 mt-4">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('paddingBottom')"
-							>
-								<v-icon>{{
-									settingLocks.paddingBottom ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Bottom padding -->
+                <div class="w-100 mt-4">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('paddingBottom')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.paddingBottom
+                                        ? 'mdi-lock'
+                                        : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0 mt-4"> Bottom padding </label>
-					<v-slider
-						v-model="textStyling[selectedTheme][selectedLevel].paddingBottom"
-						max="8"
-						min="0"
-						hide-details
-						thumb-label="always"
-						:thumb-size="24"
-						@change="settingChanged('paddingBottom')"
-					></v-slider>
-				</div>
+                    <label class="mb-0 mt-4"> Bottom padding </label>
+                    <v-slider
+                        v-model="textStyling[selectedTheme][selectedLevel].paddingBottom"
+                        max="8"
+                        min="0"
+                        hide-details
+                        thumb-label="always"
+                        :thumb-size="24"
+                        @change="settingChanged('paddingBottom')"
+                    ></v-slider>
+                </div>
 
-				<!-- Padding settings -->
-				<div class="w-100 mb- mt-40">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('horizontalPaddingSpacelessLanguagesOnly')"
-							>
-								<v-icon>{{
-									settingLocks.horizontalPaddingSpacelessLanguagesOnly
-										? 'mdi-lock'
-										: 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Padding settings -->
+                <div class="w-100 mb- mt-40">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="
+                                    toggleSettingLock('horizontalPaddingSpacelessLanguagesOnly')
+                                "
+                            >
+                                <v-icon>{{
+                                    settingLocks.horizontalPaddingSpacelessLanguagesOnly
+                                        ? 'mdi-lock'
+                                        : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0">
-						Horizontal padding
+                    <label class="mb-0">
+                        Horizontal padding
 
-						<v-menu offset-y nudge-top="-12px">
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
-							</template>
-							<v-card outlined class="rounded-lg pa-4" width="320px">
-								Some languages like Chinese, Japanese and Thai do not have spaces between words.
-								This option is for users who prefer having padding only for these languages to
-								improve readability, while disabling padding for languages that do have spaces
-								between words to avoid words slightly moving on the screen when a word's level was
-								changed.
-							</v-card>
-						</v-menu>
-					</label>
+                        <v-menu offset-y nudge-top="-12px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                    >mdi-help-circle</v-icon
+                                >
+                            </template>
+                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                                Some languages like Chinese, Japanese and Thai do not have spaces
+                                between words. This option is for users who prefer having padding
+                                only for these languages to improve readability, while disabling
+                                padding for languages that do have spaces between words to avoid
+                                words slightly moving on the screen when a word's level was changed.
+                            </v-card>
+                        </v-menu>
+                    </label>
 
-					<div class="w-100 pl-1">
-						<v-checkbox
-							v-model="
-								textStyling[selectedTheme][selectedLevel].horizontalPaddingSpacelessLanguagesOnly
-							"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0"
-							label="For spaceless languages only"
-							@change="settingChanged('horizontalPaddingSpacelessLanguagesOnly')"
-						>
-						</v-checkbox>
-					</div>
-				</div>
+                    <div class="w-100 pl-1">
+                        <v-checkbox
+                            v-model="
+                                textStyling[selectedTheme][selectedLevel]
+                                    .horizontalPaddingSpacelessLanguagesOnly
+                            "
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0"
+                            label="For spaceless languages only"
+                            @change="settingChanged('horizontalPaddingSpacelessLanguagesOnly')"
+                        >
+                        </v-checkbox>
+                    </div>
+                </div>
 
-				<!-- Border width -->
-				<div class="w-100 mt-4">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('borderWidth')"
-							>
-								<v-icon>{{
-									settingLocks.borderWidth ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Border width -->
+                <div class="w-100 mt-4">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('borderWidth')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.borderWidth ? 'mdi-lock' : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0 mt-4"> Border and wave width </label>
-					<v-slider
-						v-model="textStyling[selectedTheme][selectedLevel].borderWidth"
-						max="8"
-						min="0"
-						hide-details
-						thumb-label="always"
-						:thumb-size="24"
-						@change="settingChanged('borderWidth')"
-					></v-slider>
-				</div>
+                    <label class="mb-0 mt-4"> Border and wave width </label>
+                    <v-slider
+                        v-model="textStyling[selectedTheme][selectedLevel].borderWidth"
+                        max="8"
+                        min="0"
+                        hide-details
+                        thumb-label="always"
+                        :thumb-size="24"
+                        @change="settingChanged('borderWidth')"
+                    ></v-slider>
+                </div>
 
-				<!-- Border radius -->
-				<div class="w-100 mt-4">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('borderRadius')"
-							>
-								<v-icon>{{
-									settingLocks.borderRadius ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Border radius -->
+                <div class="w-100 mt-4">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('borderRadius')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.borderRadius ? 'mdi-lock' : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0 mt-4"> Border radius </label>
-					<v-slider
-						v-model="textStyling[selectedTheme][selectedLevel].borderRadius"
-						max="32"
-						min="0"
-						hide-details
-						thumb-label="always"
-						:thumb-size="24"
-						@change="settingChanged('borderRadius')"
-					></v-slider>
-				</div>
+                    <label class="mb-0 mt-4"> Border radius </label>
+                    <v-slider
+                        v-model="textStyling[selectedTheme][selectedLevel].borderRadius"
+                        max="32"
+                        min="0"
+                        hide-details
+                        thumb-label="always"
+                        :thumb-size="24"
+                        @change="settingChanged('borderRadius')"
+                    ></v-slider>
+                </div>
 
-				<!-- Border type -->
-				<div class="w-100 mt-4">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('borderStyle')"
-							>
-								<v-icon>{{
-									settingLocks.borderStyle ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Border type -->
+                <div class="w-100 mt-4">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('borderStyle')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.borderStyle ? 'mdi-lock' : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0 mt-4"> Border type </label>
-					<v-select
-						v-model="textStyling[selectedTheme][selectedLevel].borderStyle"
-						label="Border type"
-						rounded
-						dense
-						filled
-						single-line
-						hide-details
-						:items="['solid', 'double', 'dotted', 'dashed']"
-						@change="settingChanged('borderStyle')"
-					></v-select>
-				</div>
+                    <label class="mb-0 mt-4"> Border type </label>
+                    <v-select
+                        v-model="textStyling[selectedTheme][selectedLevel].borderStyle"
+                        label="Border type"
+                        rounded
+                        dense
+                        filled
+                        single-line
+                        hide-details
+                        :items="['solid', 'double', 'dotted', 'dashed']"
+                        @change="settingChanged('borderStyle')"
+                    ></v-select>
+                </div>
 
-				<!-- Border positions -->
-				<div class="w-100 mb-0 mt-6">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								icon
-								class="mr-1"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleSettingLock('borderPositions')"
-							>
-								<v-icon>{{
-									settingLocks.borderPositions ? 'mdi-lock' : 'mdi-lock-open-variant'
-								}}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Border positions -->
+                <div class="w-100 mb-0 mt-6">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('borderPositions')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.borderPositions
+                                        ? 'mdi-lock'
+                                        : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0"> Border positions </label>
-					<div id="border-positions" class="d-flex">
-						<v-checkbox
-							v-model="textStyling[selectedTheme][selectedLevel].borderTop"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0 ml-1"
-							label="Top"
-							@change="settingChanged('borderTop')"
-						>
-						</v-checkbox>
-						<v-checkbox
-							v-model="textStyling[selectedTheme][selectedLevel].borderBottom"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0 ml-2"
-							label="Bottom"
-							@change="settingChanged('borderBottom')"
-						>
-						</v-checkbox>
-						<v-checkbox
-							v-model="textStyling[selectedTheme][selectedLevel].borderSides"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0 ml-2"
-							label="Sides"
-							@change="settingChanged('borderSides')"
-						>
-						</v-checkbox>
-					</div>
-				</div>
+                    <label class="mb-0"> Border positions </label>
+                    <div id="border-positions" class="d-flex">
+                        <v-checkbox
+                            v-model="textStyling[selectedTheme][selectedLevel].borderTop"
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0 ml-1"
+                            label="Top"
+                            @change="settingChanged('borderTop')"
+                        >
+                        </v-checkbox>
+                        <v-checkbox
+                            v-model="textStyling[selectedTheme][selectedLevel].borderBottom"
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0 ml-2"
+                            label="Bottom"
+                            @change="settingChanged('borderBottom')"
+                        >
+                        </v-checkbox>
+                        <v-checkbox
+                            v-model="textStyling[selectedTheme][selectedLevel].borderSides"
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0 ml-2"
+                            label="Sides"
+                            @change="settingChanged('borderSides')"
+                        >
+                        </v-checkbox>
+                    </div>
+                </div>
 
-				<!-- Font -->
-				<div class="w-100 mb-0 mt-6">
-					<!-- Setting lock -->
-					<v-tooltip bottom color="primary">
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn icon class="mr-1" v-bind="attrs" v-on="on" @click="toggleSettingLock('fonts')">
-								<v-icon>{{ settingLocks.fonts ? 'mdi-lock' : 'mdi-lock-open-variant' }}</v-icon>
-							</v-btn>
-						</template>
-						<span>Lock/group this setting together for every word and phrase level.</span>
-					</v-tooltip>
+                <!-- Font -->
+                <div class="w-100 mb-0 mt-6">
+                    <!-- Setting lock -->
+                    <v-tooltip bottom color="primary">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                class="mr-1"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="toggleSettingLock('fonts')"
+                            >
+                                <v-icon>{{
+                                    settingLocks.fonts ? 'mdi-lock' : 'mdi-lock-open-variant'
+                                }}</v-icon>
+                            </v-btn>
+                        </template>
+                        <span
+                            >Lock/group this setting together for every word and phrase level.</span
+                        >
+                    </v-tooltip>
 
-					<label class="mb-0"> Font </label>
+                    <label class="mb-0"> Font </label>
 
-					<div id="font-options" class="d-flex">
-						<v-checkbox
-							v-model="textStyling[selectedTheme][selectedLevel].bold"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0 ml-1"
-							label="Bold"
-							@change="settingChanged('bold')"
-						>
-						</v-checkbox>
-						<v-checkbox
-							v-model="textStyling[selectedTheme][selectedLevel].italic"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0 ml-2"
-							label="Italic"
-							@change="settingChanged('italic')"
-						>
-						</v-checkbox>
-						<v-checkbox
-							v-model="textStyling[selectedTheme][selectedLevel].wavyUnderline"
-							hide-details
-							density="compact"
-							class="d-inline-block mt-0 ml-2"
-							label="Wavy underline (removes borders)"
-							@change="settingChanged('wavyUnderline')"
-						>
-						</v-checkbox>
-					</div>
-				</div>
+                    <div id="font-options" class="d-flex">
+                        <v-checkbox
+                            v-model="textStyling[selectedTheme][selectedLevel].bold"
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0 ml-1"
+                            label="Bold"
+                            @change="settingChanged('bold')"
+                        >
+                        </v-checkbox>
+                        <v-checkbox
+                            v-model="textStyling[selectedTheme][selectedLevel].italic"
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0 ml-2"
+                            label="Italic"
+                            @change="settingChanged('italic')"
+                        >
+                        </v-checkbox>
+                        <v-checkbox
+                            v-model="textStyling[selectedTheme][selectedLevel].wavyUnderline"
+                            hide-details
+                            density="compact"
+                            class="d-inline-block mt-0 ml-2"
+                            label="Wavy underline (removes borders)"
+                            @change="settingChanged('wavyUnderline')"
+                        >
+                        </v-checkbox>
+                    </div>
+                </div>
 
-				<!-- Colors table -->
-				<v-simple-table class="rounded-lg no-hover border mt-4" v-if="!loading">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Color</th>
-							<th>Hex</th>
-							<th>Reset</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<!-- Setting lock -->
-								<v-tooltip bottom color="primary">
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											icon
-											class="mr-1"
-											v-bind="attrs"
-											v-on="on"
-											@click="toggleSettingLock('borderColor')"
-										>
-											<v-icon>{{
-												settingLocks.borderColor ? 'mdi-lock' : 'mdi-lock-open-variant'
-											}}</v-icon>
-										</v-btn>
-									</template>
-									<span>Lock/group this setting together for every word and phrase level.</span>
-								</v-tooltip>
+                <!-- Colors table -->
+                <v-simple-table class="rounded-lg no-hover border mt-4" v-if="!loading">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Color</th>
+                            <th>Hex</th>
+                            <th>Reset</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <!-- Setting lock -->
+                                <v-tooltip bottom color="primary">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            icon
+                                            class="mr-1"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="toggleSettingLock('borderColor')"
+                                        >
+                                            <v-icon>{{
+                                                settingLocks.borderColor
+                                                    ? 'mdi-lock'
+                                                    : 'mdi-lock-open-variant'
+                                            }}</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span
+                                        >Lock/group this setting together for every word and phrase
+                                        level.</span
+                                    >
+                                </v-tooltip>
 
-								Border color
-							</td>
-							<td>
-								<v-menu offset-y :close-on-content-click="false">
-									<template v-slot:activator="{ on, attrs }">
-										<v-card
-											class="border mx-auto"
-											outlined
-											width="48px"
-											height="26px"
-											:color="textStyling[selectedTheme][selectedLevel].borderColor"
-											depressed
-											v-on="on"
-										>
-										</v-card>
-									</template>
-									<v-color-picker
-										:value="textStyling[selectedTheme][selectedLevel].borderColor"
-										@input="colorChanged($event, 'borderColor')"
-									/>
-								</v-menu>
-							</td>
-							<td>
-								<v-text-field
-									class="my-2"
-									v-model="textStyling[selectedTheme][selectedLevel].borderColor"
-									ref="colorHex"
-									filled
-									rounded
-									dense
-									hide-details
-									maxlength="7"
-									@input="settingChanged('borderColor')"
-								></v-text-field>
-							</td>
-							<td>
-								<v-btn icon title="Restore default" @click="resetColor('borderColor')">
-									<v-icon>mdi-restore</v-icon>
-								</v-btn>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<!-- Setting lock -->
-								<v-tooltip bottom color="primary">
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											icon
-											class="mr-1"
-											v-bind="attrs"
-											v-on="on"
-											@click="toggleSettingLock('textColor')"
-										>
-											<v-icon>{{
-												settingLocks.textColor ? 'mdi-lock' : 'mdi-lock-open-variant'
-											}}</v-icon>
-										</v-btn>
-									</template>
-									<span>Lock/group this setting together for every word and phrase level.</span>
-								</v-tooltip>
+                                Border color
+                            </td>
+                            <td>
+                                <v-menu offset-y :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-card
+                                            class="border mx-auto"
+                                            outlined
+                                            width="48px"
+                                            height="26px"
+                                            :color="
+                                                textStyling[selectedTheme][selectedLevel]
+                                                    .borderColor
+                                            "
+                                            depressed
+                                            v-on="on"
+                                        >
+                                        </v-card>
+                                    </template>
+                                    <v-color-picker
+                                        :value="
+                                            textStyling[selectedTheme][selectedLevel].borderColor
+                                        "
+                                        @input="colorChanged($event, 'borderColor')"
+                                    />
+                                </v-menu>
+                            </td>
+                            <td>
+                                <v-text-field
+                                    class="my-2"
+                                    v-model="textStyling[selectedTheme][selectedLevel].borderColor"
+                                    ref="colorHex"
+                                    filled
+                                    rounded
+                                    dense
+                                    hide-details
+                                    maxlength="7"
+                                    @input="settingChanged('borderColor')"
+                                ></v-text-field>
+                            </td>
+                            <td>
+                                <v-btn
+                                    icon
+                                    title="Restore default"
+                                    @click="resetColor('borderColor')"
+                                >
+                                    <v-icon>mdi-restore</v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Setting lock -->
+                                <v-tooltip bottom color="primary">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            icon
+                                            class="mr-1"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="toggleSettingLock('textColor')"
+                                        >
+                                            <v-icon>{{
+                                                settingLocks.textColor
+                                                    ? 'mdi-lock'
+                                                    : 'mdi-lock-open-variant'
+                                            }}</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span
+                                        >Lock/group this setting together for every word and phrase
+                                        level.</span
+                                    >
+                                </v-tooltip>
 
-								Text color
-							</td>
-							<td>
-								<v-menu offset-y :close-on-content-click="false">
-									<template v-slot:activator="{ on, attrs }">
-										<v-card
-											class="border mx-auto"
-											outlined
-											width="48px"
-											height="26px"
-											:color="textStyling[selectedTheme][selectedLevel].textColor"
-											depressed
-											v-on="on"
-										>
-										</v-card>
-									</template>
-									<v-color-picker
-										:value="textStyling[selectedTheme][selectedLevel].textColor"
-										@input="colorChanged($event, 'textColor')"
-									/>
-								</v-menu>
-							</td>
-							<td>
-								<v-text-field
-									class="my-2"
-									v-model="textStyling[selectedTheme][selectedLevel].textColor"
-									ref="colorHex"
-									filled
-									rounded
-									dense
-									hide-details
-									maxlength="7"
-									@input="settingChanged('textColor')"
-								></v-text-field>
-							</td>
-							<td>
-								<v-btn icon title="Restore default" @click="resetColor('textColor')">
-									<v-icon>mdi-restore</v-icon>
-								</v-btn>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<!-- Setting lock -->
-								<v-tooltip bottom color="primary">
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											icon
-											class="mr-1"
-											v-bind="attrs"
-											v-on="on"
-											@click="toggleSettingLock('backgroundColor')"
-										>
-											<v-icon>{{
-												settingLocks.backgroundColor ? 'mdi-lock' : 'mdi-lock-open-variant'
-											}}</v-icon>
-										</v-btn>
-									</template>
-									<span>Lock/group this setting together for every word and phrase level.</span>
-								</v-tooltip>
+                                Text color
+                            </td>
+                            <td>
+                                <v-menu offset-y :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-card
+                                            class="border mx-auto"
+                                            outlined
+                                            width="48px"
+                                            height="26px"
+                                            :color="
+                                                textStyling[selectedTheme][selectedLevel].textColor
+                                            "
+                                            depressed
+                                            v-on="on"
+                                        >
+                                        </v-card>
+                                    </template>
+                                    <v-color-picker
+                                        :value="textStyling[selectedTheme][selectedLevel].textColor"
+                                        @input="colorChanged($event, 'textColor')"
+                                    />
+                                </v-menu>
+                            </td>
+                            <td>
+                                <v-text-field
+                                    class="my-2"
+                                    v-model="textStyling[selectedTheme][selectedLevel].textColor"
+                                    ref="colorHex"
+                                    filled
+                                    rounded
+                                    dense
+                                    hide-details
+                                    maxlength="7"
+                                    @input="settingChanged('textColor')"
+                                ></v-text-field>
+                            </td>
+                            <td>
+                                <v-btn
+                                    icon
+                                    title="Restore default"
+                                    @click="resetColor('textColor')"
+                                >
+                                    <v-icon>mdi-restore</v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Setting lock -->
+                                <v-tooltip bottom color="primary">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            icon
+                                            class="mr-1"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="toggleSettingLock('backgroundColor')"
+                                        >
+                                            <v-icon>{{
+                                                settingLocks.backgroundColor
+                                                    ? 'mdi-lock'
+                                                    : 'mdi-lock-open-variant'
+                                            }}</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span
+                                        >Lock/group this setting together for every word and phrase
+                                        level.</span
+                                    >
+                                </v-tooltip>
 
-								Background color
-							</td>
-							<td>
-								<v-menu offset-y :close-on-content-click="false">
-									<template v-slot:activator="{ on, attrs }">
-										<v-card
-											class="border mx-auto"
-											outlined
-											width="48px"
-											height="26px"
-											:color="textStyling[selectedTheme][selectedLevel].backgroundColor"
-											depressed
-											v-on="on"
-										>
-										</v-card>
-									</template>
-									<v-color-picker
-										:value="textStyling[selectedTheme][selectedLevel].backgroundColor"
-										@input="colorChanged($event, 'backgroundColor')"
-									/>
-								</v-menu>
-							</td>
-							<td>
-								<v-text-field
-									class="my-2"
-									v-model="textStyling[selectedTheme][selectedLevel].backgroundColor"
-									ref="colorHex"
-									filled
-									rounded
-									dense
-									hide-details
-									maxlength="7"
-									@input="settingChanged('backgroundColor')"
-								></v-text-field>
-							</td>
-							<td>
-								<v-btn icon title="Restore default" @click="resetColor('backgroundColor')">
-									<v-icon>mdi-restore</v-icon>
-								</v-btn>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<!-- Setting lock -->
-								<v-tooltip bottom color="primary">
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											icon
-											class="mr-1"
-											v-bind="attrs"
-											v-on="on"
-											@click="toggleSettingLock('backgroundTransparency')"
-										>
-											<v-icon>{{
-												settingLocks.backgroundTransparency ? 'mdi-lock' : 'mdi-lock-open-variant'
-											}}</v-icon>
-										</v-btn>
-									</template>
-									<span>Lock/group this setting together for every word and phrase level.</span>
-								</v-tooltip>
+                                Background color
+                            </td>
+                            <td>
+                                <v-menu offset-y :close-on-content-click="false">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-card
+                                            class="border mx-auto"
+                                            outlined
+                                            width="48px"
+                                            height="26px"
+                                            :color="
+                                                textStyling[selectedTheme][selectedLevel]
+                                                    .backgroundColor
+                                            "
+                                            depressed
+                                            v-on="on"
+                                        >
+                                        </v-card>
+                                    </template>
+                                    <v-color-picker
+                                        :value="
+                                            textStyling[selectedTheme][selectedLevel]
+                                                .backgroundColor
+                                        "
+                                        @input="colorChanged($event, 'backgroundColor')"
+                                    />
+                                </v-menu>
+                            </td>
+                            <td>
+                                <v-text-field
+                                    class="my-2"
+                                    v-model="
+                                        textStyling[selectedTheme][selectedLevel].backgroundColor
+                                    "
+                                    ref="colorHex"
+                                    filled
+                                    rounded
+                                    dense
+                                    hide-details
+                                    maxlength="7"
+                                    @input="settingChanged('backgroundColor')"
+                                ></v-text-field>
+                            </td>
+                            <td>
+                                <v-btn
+                                    icon
+                                    title="Restore default"
+                                    @click="resetColor('backgroundColor')"
+                                >
+                                    <v-icon>mdi-restore</v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Setting lock -->
+                                <v-tooltip bottom color="primary">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            icon
+                                            class="mr-1"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="toggleSettingLock('backgroundTransparency')"
+                                        >
+                                            <v-icon>{{
+                                                settingLocks.backgroundTransparency
+                                                    ? 'mdi-lock'
+                                                    : 'mdi-lock-open-variant'
+                                            }}</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span
+                                        >Lock/group this setting together for every word and phrase
+                                        level.</span
+                                    >
+                                </v-tooltip>
 
-								Background transparency
-							</td>
-							<td colspan="3">
-								<div class="px-2">
-									<v-slider
-										v-model="textStyling[selectedTheme][selectedLevel].backgroundTransparency"
-										max="100"
-										min="0"
-										step="1"
-										hide-details
-										thumb-label="always"
-										:thumb-size="24"
-										@change="settingChanged('backgroundTransparency')"
-									></v-slider>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</v-simple-table>
+                                Background transparency
+                            </td>
+                            <td colspan="3">
+                                <div class="px-2">
+                                    <v-slider
+                                        v-model="
+                                            textStyling[selectedTheme][selectedLevel]
+                                                .backgroundTransparency
+                                        "
+                                        max="100"
+                                        min="0"
+                                        step="1"
+                                        hide-details
+                                        thumb-label="always"
+                                        :thumb-size="24"
+                                        @change="settingChanged('backgroundTransparency')"
+                                    ></v-slider>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </v-simple-table>
 
-				<!-- Sample text -->
-				<div :style="highlightedStyling">
-					<user-settings-text-styling-sample />
-				</div>
+                <!-- Sample text -->
+                <div :style="highlightedStyling">
+                    <user-settings-text-styling-sample />
+                </div>
 
-				<div class="d-flex justify-end mt-2">
-					<v-btn rounded depressed color="primary" @click="showResetTextStylingDialog">Reset</v-btn>
-					<!-- <v-btn rounded depressed color="primary" @click="logTextStylingSettingsObject">Console log settings</v-btn> -->
-				</div>
-			</v-container>
-		</v-card>
-	</div>
+                <div class="d-flex justify-end mt-2">
+                    <v-btn rounded depressed color="primary" @click="showResetTextStylingDialog"
+                        >Reset</v-btn
+                    >
+                    <!-- <v-btn rounded depressed color="primary" @click="logTextStylingSettingsObject">Console log settings</v-btn> -->
+                </div>
+            </v-container>
+        </v-card>
+    </div>
 </template>
 
 <!-- 
@@ -625,227 +717,232 @@
 import defaultTextThemes from '../../../textThemes'
 import TextStylingService from '../../../services/TextStylingService'
 export default {
-	data: function () {
-		return {
-			loading: false,
-			resetTextStylingDialog: false,
-			selectedLevelIndex: 0,
-			settingLocks: {
-				horizontalPadding: false,
-				paddingTop: false,
-				paddingBottom: false,
-				horizontalPaddingSpacelessLanguagesOnly: false,
-				borderWidth: false,
-				borderRadius: false,
-				borderStyle: false,
-				borderPositions: false,
-				fonts: false,
-				borderColor: false,
-				textColor: false,
-				backgroundColor: false,
-				backgroundTransparency: false,
-			},
-			settingLockGroups: {
-				borderPositions: ['borderTop', 'borderBottom', 'borderSides'],
-				fonts: ['bold', 'italic', 'wavyUnderline'],
-			},
-			textStyling: null,
-			themes: ['light', 'dark', 'eink'],
-			levels: [
-				'Ignored word',
-				'New word',
-				'Known word',
-				'Level 1 word',
-				'Level 2 word',
-				'Level 3 word',
-				'Level 4 word',
-				'Level 5 word',
-				'Level 6 word',
-				'Level 7 word',
-				'Known phrase',
-				'Level 1 phrase',
-				'Level 2 phrase',
-				'Level 3 phrase',
-				'Level 4 phrase',
-				'Level 5 phrase',
-				'Level 6 phrase',
-				'Level 7 phrase',
-			],
-			/*
+    data: function () {
+        return {
+            loading: false,
+            resetTextStylingDialog: false,
+            selectedLevelIndex: 0,
+            settingLocks: {
+                horizontalPadding: false,
+                paddingTop: false,
+                paddingBottom: false,
+                horizontalPaddingSpacelessLanguagesOnly: false,
+                borderWidth: false,
+                borderRadius: false,
+                borderStyle: false,
+                borderPositions: false,
+                fonts: false,
+                borderColor: false,
+                textColor: false,
+                backgroundColor: false,
+                backgroundTransparency: false,
+            },
+            settingLockGroups: {
+                borderPositions: ['borderTop', 'borderBottom', 'borderSides'],
+                fonts: ['bold', 'italic', 'wavyUnderline'],
+            },
+            textStyling: null,
+            themes: ['light', 'dark', 'eink'],
+            levels: [
+                'Ignored word',
+                'New word',
+                'Known word',
+                'Level 1 word',
+                'Level 2 word',
+                'Level 3 word',
+                'Level 4 word',
+                'Level 5 word',
+                'Level 6 word',
+                'Level 7 word',
+                'Known phrase',
+                'Level 1 phrase',
+                'Level 2 phrase',
+                'Level 3 phrase',
+                'Level 4 phrase',
+                'Level 5 phrase',
+                'Level 6 phrase',
+                'Level 7 phrase',
+            ],
+            /*
                     On this page I used displayed level names. This object maps displayed level names to names that are used in css.
                 */
-			levelMapping: {
-				'Level 1 word': 'wordLevel-1',
-				'Level 2 word': 'wordLevel-2',
-				'Level 3 word': 'wordLevel-3',
-				'Level 4 word': 'wordLevel-4',
-				'Level 5 word': 'wordLevel-5',
-				'Level 6 word': 'wordLevel-6',
-				'Level 7 word': 'wordLevel-7',
-				'Known word': 'wordLevel0',
-				'Ignored word': 'wordLevel1',
-				'New word': 'wordLevel2',
-				'Selected word': 'wordLevelSelected',
-				'Known phrase': 'phraseLevel0',
-				'Level 1 phrase': 'phraseLevel-1',
-				'Level 2 phrase': 'phraseLevel-2',
-				'Level 3 phrase': 'phraseLevel-3',
-				'Level 4 phrase': 'phraseLevel-4',
-				'Level 5 phrase': 'phraseLevel-5',
-				'Level 6 phrase': 'phraseLevel-6',
-				'Level 7 phrase': 'phraseLevel-7',
-				'Selected pharse': 'phraseLevelSelected',
-			},
-			highlightedStyling: {},
-		}
-	},
-	props: {
-		selectedTheme: String,
-	},
-	computed: {
-		selectedLevel: function () {
-			return this.levels[this.selectedLevelIndex]
-		},
-	},
-	watch: {
-		selectedTheme: {
-			handler: function () {
-				console.log('selected theme changed')
-				this.updateSampleTextStyling()
-			},
-		},
-		selectedLevelIndex: {
-			handler: function () {
-				this.updateSampleTextStyling()
-			},
-		},
-	},
-	mounted() {
-		this.loadInitialtextStylingSettingsData()
-		this.updateSampleTextStyling()
+            levelMapping: {
+                'Level 1 word': 'wordLevel-1',
+                'Level 2 word': 'wordLevel-2',
+                'Level 3 word': 'wordLevel-3',
+                'Level 4 word': 'wordLevel-4',
+                'Level 5 word': 'wordLevel-5',
+                'Level 6 word': 'wordLevel-6',
+                'Level 7 word': 'wordLevel-7',
+                'Known word': 'wordLevel0',
+                'Ignored word': 'wordLevel1',
+                'New word': 'wordLevel2',
+                'Selected word': 'wordLevelSelected',
+                'Known phrase': 'phraseLevel0',
+                'Level 1 phrase': 'phraseLevel-1',
+                'Level 2 phrase': 'phraseLevel-2',
+                'Level 3 phrase': 'phraseLevel-3',
+                'Level 4 phrase': 'phraseLevel-4',
+                'Level 5 phrase': 'phraseLevel-5',
+                'Level 6 phrase': 'phraseLevel-6',
+                'Level 7 phrase': 'phraseLevel-7',
+                'Selected pharse': 'phraseLevelSelected',
+            },
+            highlightedStyling: {},
+        }
+    },
+    props: {
+        selectedTheme: String,
+    },
+    computed: {
+        selectedLevel: function () {
+            return this.levels[this.selectedLevelIndex]
+        },
+    },
+    watch: {
+        selectedTheme: {
+            handler: function () {
+                console.log('selected theme changed')
+                this.updateSampleTextStyling()
+            },
+        },
+        selectedLevelIndex: {
+            handler: function () {
+                this.updateSampleTextStyling()
+            },
+        },
+    },
+    mounted() {
+        this.loadInitialtextStylingSettingsData()
+        this.updateSampleTextStyling()
 
-		this.$emit('update', this.textStyling)
-	},
-	methods: {
-		getSettingLockGroupName(settingName) {
-			let settingLockGroupName = null
+        this.$emit('update', this.textStyling)
+    },
+    methods: {
+        getSettingLockGroupName(settingName) {
+            let settingLockGroupName = null
 
-			Object.entries(this.settingLockGroups).forEach(settingLockGroup => {
-				if (settingLockGroup[1].includes(settingName)) {
-					settingLockGroupName = settingLockGroup[0]
-				}
-			})
+            Object.entries(this.settingLockGroups).forEach(settingLockGroup => {
+                if (settingLockGroup[1].includes(settingName)) {
+                    settingLockGroupName = settingLockGroup[0]
+                }
+            })
 
-			return settingLockGroupName
-		},
-		toggleSettingLock(settingLockName) {
-			this.settingLocks[settingLockName] = !this.settingLocks[settingLockName]
+            return settingLockGroupName
+        },
+        toggleSettingLock(settingLockName) {
+            this.settingLocks[settingLockName] = !this.settingLocks[settingLockName]
 
-			if (!this.settingLocks[settingLockName]) {
-				return
-			}
+            if (!this.settingLocks[settingLockName]) {
+                return
+            }
 
-			let settings = this.settingLockGroups[settingLockName] ?? [settingLockName]
-			settings.forEach(setting => {
-				this.copySettingToEveryLevel(setting)
-			})
+            let settings = this.settingLockGroups[settingLockName] ?? [settingLockName]
+            settings.forEach(setting => {
+                this.copySettingToEveryLevel(setting)
+            })
 
-			this.updateSampleTextStyling()
-		},
-		showResetTextStylingDialog() {
-			this.resetTextStylingDialog = true
-		},
-		resetDefaultTextStyling(resetType) {
-			// reset only selected word/phrase level
-			if (resetType === 'level') {
-				this.textStyling[this.selectedTheme][this.selectedLevel] = JSON.parse(
-					JSON.stringify(defaultTextThemes[this.selectedTheme][this.selectedLevel])
-				)
-				this.updateSampleTextStyling()
-				return
-			}
+            this.updateSampleTextStyling()
+        },
+        showResetTextStylingDialog() {
+            this.resetTextStylingDialog = true
+        },
+        resetDefaultTextStyling(resetType) {
+            // reset only selected word/phrase level
+            if (resetType === 'level') {
+                this.textStyling[this.selectedTheme][this.selectedLevel] = JSON.parse(
+                    JSON.stringify(defaultTextThemes[this.selectedTheme][this.selectedLevel])
+                )
+                this.updateSampleTextStyling()
+                return
+            }
 
-			// reset whole theme
-			this.levels.forEach(level => {
-				this.textStyling[this.selectedTheme][level] = JSON.parse(
-					JSON.stringify(defaultTextThemes[this.selectedTheme][level])
-				)
-			})
+            // reset whole theme
+            this.levels.forEach(level => {
+                this.textStyling[this.selectedTheme][level] = JSON.parse(
+                    JSON.stringify(defaultTextThemes[this.selectedTheme][level])
+                )
+            })
 
-			this.updateSampleTextStyling()
-		},
-		selectedLevelInputChanged(value) {
-			this.selectedLevelIndex = this.levels.indexOf(value)
-		},
-		selectedThemeInputChanged(value) {
-			console.log('selectedThemeInputChanged', value)
-			// this.selectedThemeIndex = this.themes.indexOf(value);
-		},
-		resetColor(colorName) {
-			this.textStyling[this.selectedTheme][this.selectedLevel][colorName] = JSON.parse(
-				JSON.stringify(defaultTextThemes[this.selectedTheme][this.selectedLevel][colorName])
-			)
-			this.settingChanged(colorName)
-		},
-		colorChanged(color, colorName) {
-			this.textStyling[this.selectedTheme][this.selectedLevel][colorName] = color
-			this.settingChanged(colorName)
-		},
-		settingChanged(settingName) {
-			let settingLockGroup = this.getSettingLockGroupName(settingName) ?? settingName
-			if (this.settingLocks[settingLockGroup]) {
-				this.copySettingToEveryLevel(settingName)
-			}
+            this.updateSampleTextStyling()
+        },
+        selectedLevelInputChanged(value) {
+            this.selectedLevelIndex = this.levels.indexOf(value)
+        },
+        selectedThemeInputChanged(value) {
+            console.log('selectedThemeInputChanged', value)
+            // this.selectedThemeIndex = this.themes.indexOf(value);
+        },
+        resetColor(colorName) {
+            this.textStyling[this.selectedTheme][this.selectedLevel][colorName] = JSON.parse(
+                JSON.stringify(defaultTextThemes[this.selectedTheme][this.selectedLevel][colorName])
+            )
+            this.settingChanged(colorName)
+        },
+        colorChanged(color, colorName) {
+            this.textStyling[this.selectedTheme][this.selectedLevel][colorName] = color
+            this.settingChanged(colorName)
+        },
+        settingChanged(settingName) {
+            let settingLockGroup = this.getSettingLockGroupName(settingName) ?? settingName
+            if (this.settingLocks[settingLockGroup]) {
+                this.copySettingToEveryLevel(settingName)
+            }
 
-			this.updateSampleTextStyling()
-		},
-		copySettingToEveryLevel(settingName) {
-			const newValue = this.textStyling[this.selectedTheme][this.selectedLevel][settingName]
-			this.levels.forEach(level => {
-				console.log('copySetting', level, newValue)
-				this.textStyling[this.selectedTheme][level][settingName] = newValue
-			})
-		},
-		// updates the currently selected theme/word level settings
-		updateSampleTextStyling() {
-			this.highlightedStyling = {}
+            this.updateSampleTextStyling()
+        },
+        copySettingToEveryLevel(settingName) {
+            const newValue = this.textStyling[this.selectedTheme][this.selectedLevel][settingName]
+            this.levels.forEach(level => {
+                console.log('copySetting', level, newValue)
+                this.textStyling[this.selectedTheme][level][settingName] = newValue
+            })
+        },
+        // updates the currently selected theme/word level settings
+        updateSampleTextStyling() {
+            this.highlightedStyling = {}
 
-			this.levels.forEach(level => {
-				Object.assign(
-					this.highlightedStyling,
-					TextStylingService.getCssSettingObject(this.textStyling, this.selectedTheme, level)
-				)
-			})
+            this.levels.forEach(level => {
+                Object.assign(
+                    this.highlightedStyling,
+                    TextStylingService.getCssSettingObject(
+                        this.textStyling,
+                        this.selectedTheme,
+                        level
+                    )
+                )
+            })
 
-			this.textStyling = JSON.parse(JSON.stringify(this.textStyling))
-			this.$emit('update', this.textStyling)
-		},
-		logTextStylingSettingsObject() {
-			console.log('this.textStyling', this.textStyling)
-		},
-		updateSampleTextColors() {
-			this.highlightedStyling[
-				`--interactive-text-${this.levelMapping[this.selectedLevel]}-border-color`
-			] = this.textStyling[this.selectedTheme][this.selectedLevel].borderColor
-			this.highlightedStyling[
-				`--interactive-text-${this.levelMapping[this.selectedLevel]}-background-color`
-			] = this.textStyling[this.selectedTheme][this.selectedLevel].backgroundColor
-			this.highlightedStyling[`--interactive-text-${this.levelMapping[this.selectedLevel]}-color`] =
-				this.textStyling[this.selectedTheme][this.selectedLevel].textColor
-		},
-		loadInitialtextStylingSettingsData() {
-			this.textStyling = JSON.parse(JSON.stringify(defaultTextThemes))
-			this.loading = true
+            this.textStyling = JSON.parse(JSON.stringify(this.textStyling))
+            this.$emit('update', this.textStyling)
+        },
+        logTextStylingSettingsObject() {
+            console.log('this.textStyling', this.textStyling)
+        },
+        updateSampleTextColors() {
+            this.highlightedStyling[
+                `--interactive-text-${this.levelMapping[this.selectedLevel]}-border-color`
+            ] = this.textStyling[this.selectedTheme][this.selectedLevel].borderColor
+            this.highlightedStyling[
+                `--interactive-text-${this.levelMapping[this.selectedLevel]}-background-color`
+            ] = this.textStyling[this.selectedTheme][this.selectedLevel].backgroundColor
+            this.highlightedStyling[
+                `--interactive-text-${this.levelMapping[this.selectedLevel]}-color`
+            ] = this.textStyling[this.selectedTheme][this.selectedLevel].textColor
+        },
+        loadInitialtextStylingSettingsData() {
+            this.textStyling = JSON.parse(JSON.stringify(defaultTextThemes))
+            this.loading = true
 
-			axios.post('/settings/user/get', { settingNames: ['textStyling'] }).then(response => {
-				if (response.data.textStyling) {
-					this.textStyling = response.data.textStyling
-				}
+            axios.post('/settings/user/get', { settingNames: ['textStyling'] }).then(response => {
+                if (response.data.textStyling) {
+                    this.textStyling = response.data.textStyling
+                }
 
-				this.updateSampleTextStyling()
-				this.loading = false
-			})
-		},
-	},
+                this.updateSampleTextStyling()
+                this.loading = false
+            })
+        },
+    },
 }
 </script>

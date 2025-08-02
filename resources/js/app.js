@@ -12,12 +12,12 @@ window.Vue.use(VueRouter)
 import VueShowdown from 'vue-showdown'
 
 Vue.use(VueShowdown, {
-	// set default flavor of showdown
-	flavor: 'github',
-	// set default options of showdown (will override the flavor options)
-	options: {
-		emoji: false,
-	},
+    // set default flavor of showdown
+    flavor: 'github',
+    // set default options of showdown (will override the flavor options)
+    options: {
+        emoji: false,
+    },
 })
 
 // layout
@@ -226,27 +226,27 @@ const KanjiDetails = require('./components/Kanji/KanjiDetails.vue').default
 Vue.component('attributions', Attributions)
 
 const router = new VueRouter({
-	mode: 'history',
-	routes: [
-		{ path: '/dev', component: DevelopmentTools },
-		{ path: '/', component: Home },
-		{ path: '/user-settings', component: UserSettingsLayout },
-		{ path: '/admin/:page?', component: AdminSettingsLayout },
-		{ path: '/user-manual/:currentPage?', component: UserManual },
-		{ path: '/patch-notes', component: PatchNotes },
-		{ path: '/attributions', component: Attributions },
-		{ path: '/login', component: LoginForm },
-		{ path: '/books/:bookId?', component: Library },
-		{ path: '/chapters/read/:chapterId', component: TextReader },
-		{ path: '/review/:practiceMode?/:bookId?/:chapterId?', component: Review },
-		{ path: '/vocabulary/search', component: Vocabulary },
-		{
-			path: '/vocabulary/search/:text/:stage/:book/:chapter/:translation/:phrases/:orderBy/:page',
-			component: Vocabulary,
-		},
-		{ path: '/kanji/search', component: KanjiList },
-		{ path: '/kanji/:character', component: KanjiDetails },
-	],
+    mode: 'history',
+    routes: [
+        { path: '/dev', component: DevelopmentTools },
+        { path: '/', component: Home },
+        { path: '/user-settings', component: UserSettingsLayout },
+        { path: '/admin/:page?', component: AdminSettingsLayout },
+        { path: '/user-manual/:currentPage?', component: UserManual },
+        { path: '/patch-notes', component: PatchNotes },
+        { path: '/attributions', component: Attributions },
+        { path: '/login', component: LoginForm },
+        { path: '/books/:bookId?', component: Library },
+        { path: '/chapters/read/:chapterId', component: TextReader },
+        { path: '/review/:practiceMode?/:bookId?/:chapterId?', component: Review },
+        { path: '/vocabulary/search', component: Vocabulary },
+        {
+            path: '/vocabulary/search/:text/:stage/:book/:chapter/:translation/:phrases/:orderBy/:page',
+            component: Vocabulary,
+        },
+        { path: '/kanji/search', component: KanjiList },
+        { path: '/kanji/:character', component: KanjiDetails },
+    ],
 })
 
 // vuex
@@ -259,18 +259,18 @@ import VocabularyBoxStore from './vuex/VocabularyBox.js'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-	modules: {
-		shared: SharedStore,
-		interactiveText: InteractiveTextStore,
-		hoverVocabularyBox: HoverVocabularyBoxStore,
-		vocabularyBox: VocabularyBoxStore,
-	},
+    modules: {
+        shared: SharedStore,
+        interactiveText: InteractiveTextStore,
+        hoverVocabularyBox: HoverVocabularyBoxStore,
+        vocabularyBox: VocabularyBoxStore,
+    },
 })
 
 Vue.use(store)
 const app = new Vue({
-	router,
-	el: '#app',
-	vuetify,
-	store,
+    router,
+    el: '#app',
+    vuetify,
+    store,
 })
