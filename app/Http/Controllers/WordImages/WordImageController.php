@@ -20,6 +20,7 @@ class WordImageController extends Controller
         //
     }
 
+    // TODO: separate word and phrase into their own files
     public function setWordImageFromUrl(SetWordImageFromUrlRequest $request, EncounteredWord $word)
     {
         $url = $request->validated('url');
