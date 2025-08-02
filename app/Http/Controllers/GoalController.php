@@ -2,99 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GoalTypeEnum;
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Goals\UpdateCalendarDataRequest;
 use App\Http\Requests\Goals\UpdateGoalRequest;
+use App\Http\Resources\Goal\GoalResourceCollection;
+use App\Models\Goal;
 use App\Models\GoalAchievement;
 use App\Services\GoalService;
-// request classes
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// TODO: separate Goal and GoalAchievement related code into 2 controllers
 class GoalController extends Controller
 {
-    private $goalService;
-
-    public function __construct(GoalService $goalService)
-    {
-        $this->goalService = $goalService;
+    public function __construct(
+        private GoalService $goalService
+    ) {
+        //
     }
 
     public function getGoals()
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $user = Auth::user();
+        $language = LanguageConfig::load(Auth::user()->selected_language);
 
-        try {
-            $goals = $this->goalService->getGoals($userId, $language);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $goals = $this->goalService->getGoals($user, $language);
 
-        return response()->json($goals, 200);
+        return new GoalResourceCollection($goals);
     }
 
-    public function updateGoal(UpdateGoalRequest $request)
+    public function updateGoal(UpdateGoalRequest $request, Goal $goal)
     {
-        $userId = Auth::user()->id;
-        $goalId = $request->post('goalId');
+        $user = Auth::user();
         $newGoalQuantity = $request->post('newGoalQuantity');
 
-        try {
-            $this->goalService->updateGoal($userId, $goalId, $newGoalQuantity);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->goalService->updateGoal($user, $goal, $newGoalQuantity);
 
-        return response()->json('Goal has been updated successfully.', 200);
+        return response()->noContent();
     }
 
     public function getCalendarData()
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $user = Auth::user();
+        $language = LanguageConfig::load(Auth::user()->selected_language);
 
-        try {
-            $calendarData = $this->goalService->getCalendarData($userId, $language);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $calendarData = $this->goalService->getCalendarData($user, $language);
 
-        return $calendarData;
+        return response()->json([
+            'data' => $calendarData,
+        ]);
     }
 
-    /*
-        Updates a GoalAchievement, or creates one if it
-        doesn't exists yet for the given day and type.
-    */
-    public function updateCalendarData(UpdateCalendarDataRequest $request)
+    public function updateOrCreateGoalAchievement(UpdateCalendarDataRequest $request, ?GoalAchievement $goalAchievement = null)
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $achievementGoalId = $request->post('achievementGoalId');
-        $achievementType = $request->post('achievementType');
-        $day = $request->post('day');
-        $newValue = $request->post('newValue');
+        $user = Auth::user();
+        $language = LanguageConfig::load(Auth::user()->selected_language);
+        $goalType = GoalTypeEnum::from($request->validated('goalType'));
+        $day = $request->validated('day');
+        $quantity = $request->validated('quantity');
 
-        try {
-            $this->goalService->updateCalendarData($userId, $language, $achievementGoalId, $achievementType, $day, $newValue);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->goalService->updateOrCreateGoalAchievement($user, $language, $goalAchievement, $goalType, $day, $quantity);
 
-        return response()->json('Calendar data has been updated successfully.', 200);
+        return response()->noContent();
     }
 
     public function updateReviewGoalAchievement()
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
+        $user = Auth::user();
+        $language = LanguageConfig::load(Auth::user()->selected_language);
 
-        try {
-            $this->goalService->updateGoalAchievement($userId, $language, 'review', 1);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->goalService->updateOrCreateTodaysGoalAchievement($user, $language, GoalTypeEnum::REVIEW, 1);
 
-        return response()->json('Goals have been updated successfully.', 200);
+        return response()->noContent();
     }
 }

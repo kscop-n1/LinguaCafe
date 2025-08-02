@@ -11,6 +11,7 @@ class Goal extends Model
 {
     use HasFactory;
 
+    // TODO: move to service
     public function getTodaysQuantity()
     {
         $selectedLanguage = Auth::user()->selected_language;
@@ -44,6 +45,7 @@ class Goal extends Model
         }
     }
 
+    // TODO: move to service
     public function getTodaysReviewGoalQuantity()
     {
         $selectedLanguage = Auth::user()->selected_language;

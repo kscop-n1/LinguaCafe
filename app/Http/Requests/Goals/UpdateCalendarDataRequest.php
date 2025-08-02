@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Goals;
 
+use App\Enums\GoalTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCalendarDataRequest extends FormRequest
 {
@@ -24,10 +26,18 @@ class UpdateCalendarDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'achievementGoalId' => 'required|numeric|gte:-1',
-            'achievementType' => 'required|string',
-            'day' => 'required|string',
-            'newValue' => 'required',
+            'goalType' => [
+                'required',
+                Rule::enum(GoalTypeEnum::class),
+            ],
+            'day' => [
+                'required',
+                'string',
+            ],
+            'quantity' => [
+                'required',
+                'integer',
+            ],
         ];
     }
 }

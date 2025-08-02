@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GoalTypeEnum;
 use App\Helpers\Language\LanguageConfig;
 // services
 use App\Http\Requests\Review\GetReviewItemsRequest;
@@ -47,12 +48,12 @@ class ReviewController extends Controller
 
     public function updateReadWordsGoal(UpdateReviewGoalRequest $request)
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $readWords = $request->post('readWords');
+        $user = Auth::user();
+        $language = LanguageConfig::load(Auth::user()->selected_language);
+        $readWords = $request->validated('readWords');
 
         try {
-            $this->goalService->updateGoalAchievement($userId, $language, 'read_words', $readWords);
+            $this->goalService->updateOrCreateTodaysGoalAchievement($user, $language, GoalTypeEnum::READ_WORDS, $readWords);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }

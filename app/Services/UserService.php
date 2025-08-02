@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Models\Book;
 use App\Models\Bookmark;
 use App\Models\Chapter;
@@ -59,7 +60,7 @@ class UserService
         $user->password = Hash::make($password);
         $user->save();
 
-        (new GoalService)->createGoalsForLanguage($user->id, 'spanish');
+        (new GoalService)->createGoalsForLanguage($user, LanguageConfig::load('spanish'));
 
         return true;
     }

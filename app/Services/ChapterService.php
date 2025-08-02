@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\ChapterProcessingStatusEnum;
+use App\Enums\GoalTypeEnum;
 use App\Helpers\Language\LanguageConfig;
 use App\Jobs\ProcessChapter;
 use App\Models\Book;
@@ -215,8 +216,12 @@ class ChapterService
         $chapter->read_count++;
         $chapter->save();
 
-        // updage today's reading achievement
-        (new GoalService)->updateGoalAchievement($user->id, $user->selected_language, 'read_words', $chapter->word_count);
+        (new GoalService)->updateOrCreateTodaysGoalAchievement(
+            $user,
+            LanguageConfig::load($chapter->language),
+            GoalTypeEnum::READ_WORDS,
+            $chapter->word_count
+        );
 
         $this->bookmarkService->setNextChapterBookmark($user, $chapter);
 

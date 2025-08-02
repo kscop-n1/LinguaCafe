@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\GoalTypeEnum;
+use App\Helpers\Language\LanguageConfig;
 use App\Services\GoalService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// services
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Phrase extends Model
 {
@@ -26,7 +28,12 @@ class Phrase extends Model
     {
         // if it's a newly saved phrase, update today's achievement
         if ($this->stage >= 0 && $stage < 0) {
-            (new GoalService)->updateGoalAchievement($this->user_id, $this->language, 'learn_words', 1);
+            (new GoalService)->updateOrCreateTodaysGoalAchievement(
+                $this->user,
+                LanguageConfig::load($this->language),
+                GoalTypeEnum::LEARN_WORDS,
+                1
+            );
         }
 
         if ($this->stage >= 0 && $stage < 0 && $stage !== -7) {
@@ -64,5 +71,10 @@ class Phrase extends Model
         } else {
             $this->next_review = null;
         }
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

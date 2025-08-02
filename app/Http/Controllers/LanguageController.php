@@ -62,11 +62,11 @@ class LanguageController extends Controller
     public function selectLanguage($language, ChangeLanguageRequest $request)
     {
         $user = Auth::user();
-        $languageConfig = LanguageConfig::load($language);
+        $language = LanguageConfig::load($language);
 
         try {
-            $this->languageService->selectLanguage($user, $languageConfig);
-            $this->goalService->createGoalsForLanguage($user->id, $language);
+            $this->languageService->selectLanguage($user, $language);
+            $this->goalService->createGoalsForLanguage($user, $language);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\Language\LanguageConfig;
 use App\Models\User;
 use App\Services\GoalService;
 use Illuminate\Database\Migrations\Migration;
@@ -20,7 +21,7 @@ class ResetSelectedLanguage extends Migration
             $user->selected_language = 'spanish';
             $user->save();
 
-            $goalService->createGoalsForLanguage($user->id, 'spanish');
+            $goalService->createGoalsForLanguage($user, LanguageConfig::load('spanish'));
         }
     }
 

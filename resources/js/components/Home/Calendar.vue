@@ -150,12 +150,17 @@
                                         :key="index"
                                     >
                                         <td>{{ goalTexts[achievement.type] }}:</td>
-                                        <td v-if="achievement.goalQuantity">
+                                        <td
+                                            v-if="
+                                                achievement.goalQuantity ||
+                                                achievement.achievedQuantity
+                                            "
+                                        >
                                             {{ achievement.achievedQuantity }}/{{
                                                 achievement.goalQuantity
                                             }}
                                         </td>
-                                        <td v-if="!achievement.goalQuantity">none</td>
+                                        <td v-else>none</td>
                                     </tr>
                                 </tbody>
                             </v-simple-table>
@@ -288,20 +293,24 @@ export default {
         this.datePickerChanged()
     },
     methods: {
-        updateAchievement(achievement, achievementIndex, achievementGoalId, newValue) {
-            if (newValue === '' || newValue < 0) {
+        updateAchievement(achievement, achievementIndex, achievementGoalId, quantity) {
+            if (quantity === '' || quantity < 0) {
                 this.popupMenu.achievements[achievementIndex].achievedQuantity = 0
-                newValue = 0
+                quantity = 0
             }
 
             this.popupMenu.saving = true
 
+            let url = '/goals/achievement/update'
+            if (achievementGoalId) {
+                url += '/' + achievementGoalId
+            }
+
             axios
-                .post('/goals/achievement/update', {
-                    achievementGoalId: achievementGoalId,
-                    achievementType: achievement.type,
+                .post(url, {
+                    goalType: achievement.type,
                     day: achievement.day,
-                    newValue: newValue,
+                    quantity: quantity,
                 })
                 .then(() => {
                     this.loadCalendarData()
@@ -355,7 +364,7 @@ export default {
                     undefined
                 ) {
                     this.popupMenu.achievements.push({
-                        id: -1,
+                        id: null,
                         day: this.popupMenu.day.fullDate,
                         type: defaultGoalTypes[i],
                         goalQuantity: 0,
@@ -395,7 +404,7 @@ export default {
         },
         loadCalendarData() {
             axios.post('/goals/get-calendar-data').then(response => {
-                this.calendarData = response.data
+                this.calendarData = response.data.data
                 this.updateCalendar()
             })
         },
@@ -440,8 +449,9 @@ export default {
                             day.achievement = {
                                 name: this.calendarData[i].achievements[j].name,
                                 type: this.calendarData[i].achievements[j].type,
-                                achievedQuantity:
-                                    this.calendarData[i].achievements[j].achievedQuantity,
+                                achievedQuantity: parseInt(
+                                    this.calendarData[i].achievements[j].achievedQuantity
+                                ),
                                 goalQuantity: this.calendarData[i].achievements[j].goalQuantity,
                             }
                         }

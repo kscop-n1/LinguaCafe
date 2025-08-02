@@ -24,7 +24,6 @@ class UpdateGoalRequest extends FormRequest
     public function rules()
     {
         return [
-            'goalId' => 'required|numeric|gte:0',
             'newGoalQuantity' => 'required|numeric|gte:0',
         ];
     }
