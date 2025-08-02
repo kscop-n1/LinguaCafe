@@ -4,7 +4,7 @@ namespace App\Http\Requests\FontTypes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteFontTypeRequest extends FormRequest
+class CreateFontTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,10 @@ class DeleteFontTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|numeric|gte:0',
+            'name' => 'required|string|min:2|max:128',
+            'languages' => 'required|array',
+            'languages.*' => 'string',
+            'fontFile' => 'required|file',
         ];
     }
 }

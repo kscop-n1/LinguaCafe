@@ -2,42 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FontTypes\DeleteFontTypeRequest;
-use App\Http\Requests\FontTypes\GetFontTypeFileRequest;
-// request classes
-use App\Http\Requests\FontTypes\GetFontTypesForLanguageRequest;
+use App\Helpers\Language\LanguageConfig;
+use App\Http\Requests\FontTypes\CreateFontTypeRequest;
 use App\Http\Requests\FontTypes\UpdateFontTypeRequest;
-use App\Http\Requests\FontTypes\UploadFontTypeRequest;
+use App\Http\Resources\Font\FontTypeResourceCollection;
+use App\Models\FontType;
 use App\Services\FontTypeService;
 use Illuminate\Support\Facades\Storage;
 
 class FontTypeController extends Controller
 {
-    private $fontTypeService;
-
-    public function __construct(FontTypeService $fontTypeService)
-    {
-        $this->fontTypeService = $fontTypeService;
+    public function __construct(
+        private FontTypeService $fontTypeService
+    ) {
+        //
     }
 
     public function getInstalledFontTypes()
     {
-        try {
-            $fonts = $this->fontTypeService->getInstalledFontTypes();
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $fonts = $this->fontTypeService->getInstalledFontTypes();
 
-        return response()->json($fonts, 200);
+        return new FontTypeResourceCollection($fonts);
     }
 
-    public function getFontTypeFile($fileName, GetFontTypeFileRequest $request)
+    public function downloadFontTypeFile(string $fileName)
     {
-        /*
-            Files that start with the word Default are
-            default files stored in the public folder.
-        */
-
         if (mb_strpos($fileName, 'Default') === 0) {
             $imagePath = Storage::disk('default-files')->path('/fonts/' . $fileName);
         } else {
@@ -47,57 +36,40 @@ class FontTypeController extends Controller
         return response()->file($imagePath);
     }
 
-    public function getFontTypesForLanguage($language, GetFontTypesForLanguageRequest $request)
+    public function getFontTypesForLanguage(string $language)
     {
-        try {
-            $fonts = $this->fontTypeService->getFontTypesForLanguage(ucfirst($language));
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $language = LanguageConfig::load($language);
 
-        return response()->json($fonts, 200);
+        $fonts = $this->fontTypeService->getFontTypesForLanguage($language);
+
+        return new FontTypeResourceCollection($fonts);
     }
 
-    public function uploadFontType(UploadFontTypeRequest $request)
+    public function createFontType(CreateFontTypeRequest $request)
     {
         $fontFile = $request->file('fontFile');
-        $fontName = $request->post('name');
-        $fontLanguages = $request->post('languages');
+        $fontName = $request->validated('name');
+        $fontLanguages = $request->validated('languages');
 
-        try {
-            $this->fontTypeService->uploadFontType($fontFile, $fontName, $fontLanguages);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->fontTypeService->createFontType($fontFile, $fontName, $fontLanguages);
 
-        return response()->json('Font type file has been uploaded successfully.', 200);
+        return response()->noContent();
     }
 
-    public function updateFontType(UpdateFontTypeRequest $request)
+    public function updateFontType(UpdateFontTypeRequest $request, FontType $fontType)
     {
-        $fontId = $request->post('id');
-        $fontName = $request->post('name');
-        $fontLanguages = $request->post('languages');
+        $fontName = $request->validated('name');
+        $fontLanguages = $request->validated('languages');
 
-        try {
-            $this->fontTypeService->updateFontType($fontId, $fontName, $fontLanguages);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->fontTypeService->updateFontType($fontType, $fontName, $fontLanguages);
 
-        return response()->json('Font type file has been updated successfully.', 200);
+        return response()->noContent();
     }
 
-    public function deleteFontType(DeleteFontTypeRequest $request)
+    public function deleteFontType(FontType $fontType)
     {
-        $fontId = $request->post('id');
+        $this->fontTypeService->deleteFontType($fontType);
 
-        try {
-            $this->fontTypeService->deleteFontType($fontId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Font type file has been deleted successfully.', 200);
+        return response()->noContent();
     }
 }

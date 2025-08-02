@@ -6,7 +6,7 @@ class FontTypeService {
 		this.fonts = []
 
 		axios.get('/fonts/get-fonts-for-language/' + this.language).then(response => {
-			this.fonts = response.data
+			this.fonts = response.data.data
 
 			if (fontTypesLoaded !== null) {
 				fontTypesLoaded()

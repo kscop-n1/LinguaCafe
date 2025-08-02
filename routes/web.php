@@ -61,9 +61,9 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
         // fonts
         Route::get('/fonts/get', [App\Http\Controllers\FontTypeController::class, 'getInstalledFontTypes']);
-        Route::post('/fonts/upload', [App\Http\Controllers\FontTypeController::class, 'uploadFontType']);
-        Route::post('/fonts/update', [App\Http\Controllers\FontTypeController::class, 'updateFontType']);
-        Route::post('/fonts/delete', [App\Http\Controllers\FontTypeController::class, 'deleteFontType']);
+        Route::post('/fonts/upload', [App\Http\Controllers\FontTypeController::class, 'createFontType']);
+        Route::post('/fonts/update/{fontType}', [App\Http\Controllers\FontTypeController::class, 'updateFontType']);
+        Route::post('/fonts/delete/{fontType}', [App\Http\Controllers\FontTypeController::class, 'deleteFontType']);
 
         // settings
         Route::post('/settings/global/update', [App\Http\Controllers\SettingsController::class, 'updateGlobalSettings']);
@@ -150,7 +150,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // fonts
     Route::get('/fonts/get-fonts-for-language/{language}', [App\Http\Controllers\FontTypeController::class, 'getFontTypesForLanguage']);
-    Route::get('/fonts/file/{fileName}', [App\Http\Controllers\FontTypeController::class, 'getFontTypeFile']);
+    Route::get('/fonts/file/{fileName}', [App\Http\Controllers\FontTypeController::class, 'downloadFontTypeFile']);
 
     // settings
     Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);

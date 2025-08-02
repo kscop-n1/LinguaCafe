@@ -126,7 +126,7 @@ export default {
 			this.loading = true
 			this.fonts = []
 			axios.get('/fonts/get').then(response => {
-				this.fonts = response.data
+				this.fonts = response.data.data
 
 				this.fonts.forEach((value, index) => {
 					value.index = index

@@ -64,9 +64,7 @@ export default {
 		deleteFont() {
 			this.deleting = true
 			axios
-				.post('/fonts/delete', {
-					id: this.$props.id,
-				})
+				.post(`/fonts/delete/${this.$props.id}`)
 				.then(() => {
 					this.deleting = false
 					this.$emit('fonts-changed')

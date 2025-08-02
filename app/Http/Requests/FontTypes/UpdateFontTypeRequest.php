@@ -24,9 +24,9 @@ class UpdateFontTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|numeric|gte:0',
             'name' => 'required|string|min:2|max:128',
-            'languages' => 'required|string',
+            'languages' => 'required|array',
+            'languages.*' => 'required|string',
         ];
     }
 }

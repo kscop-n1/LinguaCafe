@@ -233,29 +233,24 @@ export default {
 				return
 			}
 
-			// collect selected languages
-			let formDataLanguages = []
-			this.languages.forEach(value => {
-				if (value.enabled) {
-					formDataLanguages.push(value.name)
-				}
-			})
-
 			// create form data object
 			let formData = new FormData()
 			formData.append('name', this.name)
-			formData.append('languages', JSON.stringify(formDataLanguages))
 			formData.append('fontFile', this.fontFile)
+
+			this.languages.forEach(value => {
+				if (value.enabled) {
+					formData.append('languages[]', value.name)
+				}
+			})
 
 			this.saving = true
 			axios
 				.post('/fonts/upload', formData)
 				.then(response => {
 					this.saving = false
-					if (response.status === 200) {
-						this.saveResult = 'success'
-						this.$emit('fonts-changed')
-					}
+					this.saveResult = 'success'
+					this.$emit('fonts-changed')
 				})
 				.catch(error => {
 					this.saving = false
@@ -263,29 +258,23 @@ export default {
 				})
 		},
 		updateFont() {
-			// collect selected languages
-			let formDataLanguages = []
+			// create form data object
+			let formData = new FormData()
+			formData.append('name', this.name)
+
 			this.languages.forEach(value => {
 				if (value.enabled) {
-					formDataLanguages.push(value.name)
+					formData.append('languages[]', value.name)
 				}
 			})
 
-			// create form data object
-			let formData = new FormData()
-			formData.append('id', this.$props.id)
-			formData.append('name', this.name)
-			formData.append('languages', JSON.stringify(formDataLanguages))
-
 			this.saving = true
 			axios
-				.post('/fonts/update', formData)
+				.post(`/fonts/update/${this.$props.id}`, formData)
 				.then(response => {
 					this.saving = false
-					if (response.status === 200) {
-						this.saveResult = 'success'
-						this.$emit('fonts-changed')
-					}
+					this.saveResult = 'success'
+					this.$emit('fonts-changed')
 				})
 				.catch(error => {
 					this.saving = false

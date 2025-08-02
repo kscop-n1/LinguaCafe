@@ -2,39 +2,41 @@
 
 namespace App\Services;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Models\FontType;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FontTypeService
 {
-    public function __construct() {}
-
-    /*
-        Scans the fonts directory for a list of available font types. It also returns
-        a list of enabled languages for them.
-    */
-    public function getInstalledFontTypes()
+    public function __construct()
     {
-        $fonts = FontType::get();
-
-        return $fonts;
+        //
     }
 
-    public function getFontTypesForLanguage($language)
+    public function getInstalledFontTypes(): Collection
     {
-        $fonts = FontType::orderBy('default', 'desc')
+        return FontType::get();
+    }
+
+    public function getFontTypesForLanguage(LanguageConfig $language): Collection
+    {
+        $fonts = FontType::query()
+            ->orderBy('default', 'desc')
             ->get();
 
         $fonts = $fonts->filter(function ($font) use ($language) {
-            $fontLanguages = json_decode($font->languages);
+            $fontLanguages = collect(json_decode($font->languages));
 
-            return in_array($language, $fontLanguages, true);
+            return $fontLanguages->contains(Str::ucfirst($language->name));
         });
 
-        return array_values($fonts->toArray());
+        return $fonts->values();
     }
 
-    public function uploadFontType($fontFile, $fontName, $fontLanguages)
+    public function createFontType(UploadedFile $fontFile, string $fontName, array $fontLanguages): void
     {
         /*
             File names that start with Default must be renamed.
@@ -46,53 +48,27 @@ class FontTypeService
             throw new \Exception('The font file already exists on the server.');
         }
 
-        // upload file
         $fontFile->move(storage_path('app/fonts'), $fileName);
 
-        // create font in database
         $fontType = new FontType;
         $fontType->filename = $fileName;
         $fontType->name = $fontName;
-        $fontType->languages = $fontLanguages;
+        $fontType->languages = json_encode($fontLanguages);
         $fontType->default = false;
         $fontType->save();
-
-        return true;
     }
 
-    public function updateFontType($fontId, $fontName, $fontLanguages)
+    public function updateFontType(FontType $fontType, string $fontName, array $fontLanguages): void
     {
-        $fontType = FontType::where('default', false)
-            ->where('id', $fontId)
-            ->first();
-
-        if (!$fontType) {
-            throw new \Exception('Font not found.');
-        }
-
         $fontType->name = $fontName;
-        $fontType->languages = $fontLanguages;
+        $fontType->languages = json_encode($fontLanguages);
         $fontType->save();
-
-        return true;
     }
 
-    public function deleteFontType($fontId)
+    public function deleteFontType(FontType $fontType): void
     {
-        $fontType = FontType::where('default', false)
-            ->where('id', $fontId)
-            ->first();
-
-        if (!$fontType) {
-            throw new \Exception('Font not found.');
-        }
-
-        // delete file
         Storage::delete('fonts/' . $fontType->filename);
 
-        // delete database record
         $fontType->delete();
-
-        return true;
     }
 }
