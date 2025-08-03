@@ -49,7 +49,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
         // languages
         Route::post('/languages/install', [App\Http\Controllers\LanguageController::class, 'installLanguage']);
-        Route::get('/languages/installed/list', [App\Http\Controllers\LanguageController::class, 'getInstalledLanguages']);
         Route::delete('/languages/installed/delete', [App\Http\Controllers\LanguageController::class, 'deleteInstalledLanguages']);
         Route::get('/languages/get-admin-language-settings-data', [App\Http\Controllers\LanguageController::class, 'getAdminLanguageSettingsData']);
 

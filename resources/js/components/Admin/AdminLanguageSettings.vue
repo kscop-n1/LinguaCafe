@@ -126,13 +126,14 @@ export default {
         loadLanguages() {
             this.languages = []
             axios.get('/languages/get-admin-language-settings-data').then(response => {
-                for (let i = 0; i < response.data.languages.length; i++) {
+                const responseData = response.data.data
+                for (let i = 0; i < responseData.languages.length; i++) {
                     this.languages.push({
-                        name: response.data.languages[i],
+                        name: responseData.languages[i],
                     })
 
                     // add installed information
-                    if (response.data.installedLanguages.includes(response.data.languages[i])) {
+                    if (responseData.installedLanguages.includes(responseData.languages[i])) {
                         this.languages[this.languages.length - 1].installed = true
                     } else {
                         this.languages[this.languages.length - 1].installed = false

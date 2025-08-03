@@ -116,7 +116,7 @@ export default {
                 .delete('/languages/installed/delete')
                 .then(response => {
                     this.uninstalling = false
-                    if (response.status === 200 || response.status === 202) {
+                    if (response.status === 204) {
                         this.uninstallResult = 'success'
                         window.location.href = '/admin/languages'
                     } else {

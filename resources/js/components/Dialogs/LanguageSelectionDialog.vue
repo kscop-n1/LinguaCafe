@@ -111,8 +111,8 @@ export default {
 
             // get selected and supported languages
             axios.get('/languages/get-language-selection-dialog-data').then(response => {
-                this.supportedLanguages = response.data.languages
-                this.notInstalledLanguages = response.data.notInstalledLanguages
+                this.supportedLanguages = response.data.data.languages
+                this.notInstalledLanguages = response.data.data.notInstalledLanguages
                 this.loading = false
             })
         },

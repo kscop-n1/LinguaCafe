@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\Language\LanguageConfig;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -20,51 +21,33 @@ class LanguageService
         $this->pythonService = env('PYTHON_CONTAINER_NAME', 'linguacafe-python-service');
     }
 
-    public function selectLanguage(User $user, LanguageConfig $language)
+    public function selectLanguage(User $user, LanguageConfig $language): void
     {
         $installedLanguages = $this->getInstalledLanguages();
-        /*
-            This is an extra protection, to avoid switching to not installed
-            languages. Since this should never happen in the software, it does not
-            throw an exception.
-        */
-        if ($language->requiresInstall() && !in_array($language->name, $installedLanguages, true)) {
-            return false;
+
+        if ($language->requiresInstall() && !$installedLanguages->contains($language->name)) {
+            throw new \Exception('This language is not installed.');
         }
 
         $user->selected_language = $language->name;
         $user->save();
-
-        return true;
     }
 
-    public function getLanguageSelectionDialogData($supportedSourceLanguages, $installableLanguages)
+    public function getLanguageSelectionDialogData(Collection $supportedSourceLanguages, Collection $installableLanguages): array
     {
         $installedLanguages = $this->getInstalledLanguages();
 
-        // select installed languages only
-        $languages = [];
-        $notInstalledLanguages = 0;
-        foreach ($supportedSourceLanguages as $supportedLanguage) {
-            // if it is a language that must be installed, and it is not installed currently
-            if (in_array($supportedLanguage, $installableLanguages, true)
-                && !in_array($supportedLanguage, $installedLanguages)) {
-                $notInstalledLanguages++;
+        $languages = $supportedSourceLanguages->filter(function (string $supportedLanguage) use ($installableLanguages, $installedLanguages) {
+            return !$installableLanguages->contains($supportedLanguage) || $installedLanguages->contains($supportedLanguage);
+        });
 
-                continue;
-            }
-
-            $languages[] = $supportedLanguage;
-        }
-
-        $responseData = new \stdClass;
-        $responseData->languages = $languages;
-        $responseData->notInstalledLanguages = $notInstalledLanguages;
-
-        return $responseData;
+        return [
+            'languages' => $languages,
+            'notInstalledLanguages' => $supportedSourceLanguages->count() - $languages->count(),
+        ];
     }
 
-    public function getInstalledLanguages()
+    public function getInstalledLanguages(): Collection
     {
         $installedPackages = Cache::get('installed_languages');
         if (!$installedPackages) {
@@ -83,13 +66,13 @@ class LanguageService
 
         $installedLanguages = array_merge($installedPackages->spacy_models, $installedPackages->stanza_models);
 
-        return $installedLanguages;
+        return collect($installedLanguages);
     }
 
-    public function installLanguage(LanguageConfig $language)
+    public function installLanguage(LanguageConfig $language): void
     {
         if (!$language->requiresInstall()) {
-            throw new \Exception('This language does not require install.');
+            throw new \Exception('This language doesn\'t require install.');
         }
 
         $installResult = Http::timeout(60 * 20)
@@ -99,6 +82,10 @@ class LanguageService
             ]);
 
         $this->reloadLanguageCache();
+
+        if ($installResult->getStatusCode() !== 200) {
+            throw new \Exception('An error has occurred while installing the language.');
+        }
 
         // Download KanjiVG
         if ($language->name == 'japanese') {
@@ -124,36 +111,30 @@ class LanguageService
                 throw new \Exception('KanjiVG zip file could not be extracted.');
             }
         }
-
-        return $installResult;
     }
 
-    public function deleteInstalledLanguages($user, $installableLanguages)
+    public function deleteInstalledLanguages(User $user, Collection $installableLanguages): void
     {
-        /*
-            Reset selected language to the default spanish,
-            so the user won't have a language selected that has been uninstalled.
-        */
-        if (in_array($user->selected_language, $installableLanguages)) {
+        if ($installableLanguages->contains($user->selected_language)) {
             $user->selected_language = 'spanish';
             $user->save();
         }
 
-        // delete KanjiVG files
         Storage::deleteDirectory('images/kanjivg');
 
-        // delete python language models
         $uninstallResult = Http::delete($this->pythonService . ':8678/packages/uninstall-all');
+        if ($uninstallResult->getStatusCode() !== 200 && $uninstallResult->getStatusCode() !== 202) {
+            throw new \Exception('An error has occurred while uninstalling languages.');
+        }
 
         $this->reloadLanguageCache();
-
-        return $uninstallResult;
     }
 
     public function reloadLanguageCache(): void
     {
         $installedPackages = Http::get($this->pythonService . ':8678/packages/list');
         $installedPackages = json_decode($installedPackages);
+
         Cache::put('installed_languages', $installedPackages);
 
         Log::info('Installed python packages has been re-cached.', [

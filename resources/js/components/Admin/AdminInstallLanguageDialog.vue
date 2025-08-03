@@ -125,7 +125,7 @@ export default {
                 })
                 .then(response => {
                     this.installing = false
-                    if (response.status === 200) {
+                    if (response.status === 204) {
                         this.installResult = 'success'
                         this.$emit('language-installed')
                     } else {

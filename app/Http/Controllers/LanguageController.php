@@ -3,120 +3,73 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Language\LanguageConfig;
-// services
 use App\Http\Requests\Languages\ChangeLanguageRequest;
 use App\Http\Requests\Languages\InstallLanguageRequest;
-// request classes
 use App\Services\GoalService;
 use App\Services\LanguageService;
 use Illuminate\Support\Facades\Auth;
 
 class LanguageController extends Controller
 {
-    private $languageService;
-
-    private $goalService;
-
-    public function __construct(LanguageService $languageService, GoalService $goalService)
-    {
-        $this->languageService = $languageService;
-        $this->goalService = $goalService;
+    public function __construct(
+        private LanguageService $languageService,
+        private GoalService $goalService
+    ) {
+        //
     }
 
-    public function getLanguageSelectionDialogData()
-    {
-        $supportedSourceLanguages = LanguageConfig::all()->where('linguacafeSupport', '=', true)->pluck('name')->toArray();
-        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
-
-        try {
-            $languageData = $this->languageService->getLanguageSelectionDialogData($supportedSourceLanguages, $installableLanguages);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
-
-        return response()->json($languageData, 200);
-    }
-
-    public function getAdminLanguageSettingsData()
-    {
-        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
-
-        try {
-            $installedLanguages = $this->languageService->getInstalledLanguages();
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
-
-        $responseData = new \stdClass;
-        $responseData->languages = $installableLanguages;
-        $responseData->installedLanguages = $installedLanguages;
-
-        return response()->json($responseData, 200);
-    }
-
-    /*
-        This function will not change the language if it's not installed.
-        Since this should never happen in the software, it does not
-        throw an exception.
-    */
     public function selectLanguage($language, ChangeLanguageRequest $request)
     {
         $user = Auth::user();
         $language = LanguageConfig::load($language);
 
-        try {
-            $this->languageService->selectLanguage($user, $language);
-            $this->goalService->createGoalsForLanguage($user, $language);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
+        $this->languageService->selectLanguage($user, $language);
+        $this->goalService->createGoalsForLanguage($user, $language);
 
-        return response()->json('Language has been changed successfully.', 200);
+        return response()->noContent();
     }
 
-    public function getInstalledLanguages()
+    public function getLanguageSelectionDialogData()
     {
-        try {
-            $installedLanguages = $this->languageService->getInstalledLanguages();
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
+        $supportedSourceLanguages = LanguageConfig::all()->where('linguacafeSupport', '=', true)->pluck('name');
+        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name');
 
-        return response()->json($installedLanguages, 200);
+        $languageData = $this->languageService->getLanguageSelectionDialogData($supportedSourceLanguages, $installableLanguages);
+
+        return response()->json([
+            'data' => $languageData,
+        ]);
+    }
+
+    public function getAdminLanguageSettingsData()
+    {
+        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
+        $installedLanguages = $this->languageService->getInstalledLanguages();
+
+        return response()->json([
+            'data' => [
+                'languages' => $installableLanguages,
+                'installedLanguages' => $installedLanguages,
+            ],
+        ]);
     }
 
     public function installLanguage(InstallLanguageRequest $request)
     {
-        $language = LanguageConfig::load($request->post('language'));
+        $language = LanguageConfig::load($request->validated('language'));
 
-        try {
-            $installResult = $this->languageService->installLanguage($language);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
+        $installResult = $this->languageService->installLanguage($language);
 
-        if ($installResult->getStatusCode() !== 200) {
-            return response()->json('An error has occured.', 500);
-        }
-
-        return response()->json('Language has been installed successfully.', 200);
+        return response()->noContent();
     }
 
     public function deleteInstalledLanguages()
     {
-        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
+        $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name');
         $user = Auth::user();
 
-        try {
-            $uninstallResult = $this->languageService->deleteInstalledLanguages($user, $installableLanguages);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
+        $this->languageService->deleteInstalledLanguages($user, $installableLanguages);
 
-        if ($uninstallResult->getStatusCode() !== 200 && $uninstallResult->getStatusCode() !== 202) {
-            return response()->json('An error has occured.', 500);
-        }
-
-        return response()->json('Installed languages has been deleted successfully.', 200);
+        return response()->noContent();
     }
 }
