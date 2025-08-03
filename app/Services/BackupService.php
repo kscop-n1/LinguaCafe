@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use Cron\CronExpression;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Facades\Storage;
+use InvalidArgumentException;
 
 class BackupService
 {
@@ -31,12 +34,12 @@ class BackupService
 
         if ($compress) {
             exec(
-                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' | zip > ' . $fullFilePath, 
+                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' | zip > ' . $fullFilePath,
                 result_code: $exitCode
             );
         } else {
             exec(
-                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath, 
+                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath,
                 result_code: $exitCode
             );
         }
@@ -59,10 +62,19 @@ class BackupService
     private function getBackupFiles(string $prefix): array
     {
         $files = Storage::disk('backup')->files();
-        $files = Arr::where($files, function ($value) use($prefix) {
+        $files = Arr::where($files, function ($value) use ($prefix) {
             return strpos($value, $prefix) === 0 && (str_ends_with($value, '.sql') || str_ends_with($value, '.zip'));
         });
 
         return $files;
+    }
+
+    public static function updateBackupSchedule(string $cron)
+    {
+        if (CronExpression::isValidExpression($cron)) {
+            Schedule::command('app:create-backup')->cron($cron)->withoutOverlapping();
+        } else {
+            throw new InvalidArgumentException("The provided cron expression ($cron) is invalid. Please provide a valid cron expression.");
+        }
     }
 }

@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Setting;
+use Cron\CronExpression;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SettingsSeeder extends Seeder
 {
@@ -125,6 +127,26 @@ class SettingsSeeder extends Seeder
                 'name' => 'backupCompression',
                 'value' => json_encode(true),
             ]);
+        }
+
+        // db backup schedule
+        $setting = Setting::where('name', 'backupInterval')->first();
+        if (!$setting) {
+            $cron = env('BACKUP_INTERVAL', '0 * * * *');
+            if (CronExpression::isValidExpression($cron)) {
+                DB::table('settings')->insert([
+                    'name' => 'backupInterval',
+                    'value' => json_encode($cron),
+                ]);
+
+            } else {
+                $defaultBackupInterval = '0,30 * * * *';
+                Log::info("A backup interval of ($cron) is invalid. Setting to default ($defaultBackupInterval)");
+                DB::table('settings')->insert([
+                    'name' => 'backupInterval',
+                    'value' => json_encode($defaultBackupInterval),
+                ]);
+            }
         }
     }
 }

@@ -2,11 +2,11 @@
     <div id="admin-backup-settings" v-if="settings">
         <v-form v-model="isFormValid">
             <!-- Database backup settings -->
-            <div class="subheader mt-4 mb-4 px-2">Backups</div>
-            <v-card outlined class="rounded-lg pa-4 pb-0 pt-0">
-                <v-card-text class="p-0">
+            <div class="subheader mt-4 mb-4">Database backups</div>
+            <v-card outlined class="rounded-lg p-3">
+                <v-card-text>
                     <!-- Database backup compression label -->
-                    <label class="font-weight-bold mt-4 mb-0">
+                    <label class="font-weight-bold">
                         Database backup compression
 
                         <!-- Database backup compression info box -->
@@ -33,7 +33,38 @@
                         dense
                         label="Enable compression (.zip)"
                     ></v-switch>
+
+                <!-- Database schedule settings -->
+                    <!-- Database backup schedule label -->
+                    <label class="font-weight-bold">
+                        Database backup schedule
+
+                        <!-- Database backup schedule info box -->
+                        <v-menu offset-y nudge-top="-12px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                    >mdi-help-circle-outline</v-icon
+                                >
+                            </template>
+                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                                This option configures how often backups of the database are taken using the <a href="https://en.wikipedia.org/wiki/Cron#Overview">Cron</a> format.
+                            </v-card>
+                        </v-menu>
+                    </label>
+                    <v-text-field
+                        class="font-mono"
+                        v-model="settings.backupInterval"
+                        filled
+                        dense
+                        rounded
+                        hide-details
+                        maxlength=75
+                        placeholder="0,30 * * * *"
+                        :disabled="saving"
+                        :rules="[rules.notEmpty, rules.validCron]"
+                    ></v-text-field>
                 </v-card-text>
+
             </v-card>
 
             <!-- Save result alerts -->
@@ -45,7 +76,9 @@
                 border="left"
                 dark
             >
-                An error has occurred while saving API settings.
+
+                <div v-if="saveErrorMsg.message">{{saveErrorMsg.message}}</div> 
+                <div v-else>An error has occurred while saving backup settings. {{saveErrorMsg}}</div>
             </v-alert>
 
             <!-- Save button -->
@@ -74,14 +107,15 @@ export default {
             settings: null,
             saving: false,
             saveStatus: '',
+            saveErrorMsg: '',
             rules: {
                 notEmpty: value => {
-                    if (!value.length) {
-                        return 'Field cannot be empty.'
-                    }
-
-                    return true
+                    return value?.length ? true : 'Field cannot be empty.'
                 },
+                validCron: value => {
+                    let cronRegex = /^((((\d+,)+\d+|(\d+(\/|-|#)\d+)|\d+L?|\*(\/\d+)?|L(-\d+)?|\?|[A-Z]{3}(-[A-Z]{3})?) ?){5,7})$/;
+                    return value.match(cronRegex) ? true : 'The schedule must be a valid CRON entry.'
+                }
             },
         }
     },
@@ -95,7 +129,7 @@ export default {
         loadSettings() {
             axios
                 .post('/settings/global/get', {
-                    settingNames: ['backupCompression'],
+                    settingNames: ['backupCompression', 'backupInterval'],
                 })
                 .then(result => {
                     this.settings = result.data
@@ -108,19 +142,22 @@ export default {
                 .post('/settings/global/update', {
                     settings: {
                         backupCompression: this.settings.backupCompression,
+                        backupInterval: this.settings.backupInterval,
                     },
                 })
                 .catch(error => {
                     this.saving = false
                     this.saveStatus = 'error'
+                    this.saveErrorMsg = error.response?.data
                 })
                 .then(response => {
-                    if (response.status !== 200) {
+                    if (response?.status !== 200) {
                         return
                     }
 
                     this.saving = false
                     this.saveStatus = 'success'
+                    this.saveErrorMsg = ''
                 })
         },
     },

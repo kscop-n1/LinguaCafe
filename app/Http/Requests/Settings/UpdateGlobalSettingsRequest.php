@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Settings;
 
+use App\Rules\ValidCronExpression;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateGlobalSettingsRequest extends FormRequest
@@ -17,6 +18,10 @@ class UpdateGlobalSettingsRequest extends FormRequest
             'settings' => [
                 'required',
                 'array',
+            ],
+            'settings.backupInterval' => [
+                'string',
+                new ValidCronExpression,
             ],
         ];
     }

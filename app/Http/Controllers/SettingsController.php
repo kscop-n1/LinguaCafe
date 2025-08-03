@@ -6,6 +6,7 @@ use App\Http\Requests\Settings\GetGlobalSettingsByNameRequest;
 use App\Http\Requests\Settings\GetUserSettingsByNameRequest;
 use App\Http\Requests\Settings\UpdateGlobalSettingsRequest;
 use App\Http\Requests\Settings\updateOrCreateUserSettingsRequest;
+use App\Services\BackupService;
 use App\Services\SettingsService;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,7 +52,16 @@ class SettingsController extends Controller
         $settings = $request->validated('settings');
         $settings = collect($settings);
 
-        $settings = $this->settingsService->updateGlobalSettings($settings);
+        try {
+            if ($settings->has('backupInterval')) {
+                BackupService::updateBackupSchedule($settings['backupInterval']);
+            }
+
+            $settings = $this->settingsService->updateGlobalSettings($settings);
+
+        } catch (\Exception $e) {
+            abort(500, $e->getMessage());
+        }
 
         return response()->noContent();
     }

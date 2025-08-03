@@ -6,8 +6,6 @@ use App\Models\Setting;
 use App\Services\BackupService;
 use Illuminate\Console\Command;
 
-use function PHPUnit\Framework\isNull;
-
 class CreateBackup extends Command
 {
     /**
@@ -32,7 +30,7 @@ class CreateBackup extends Command
         $backupCompression = Setting::where('name', 'backupCompression')->first()?->value;
         $backupCompressionEnabled = is_null($backupCompression) ? false : json_decode($backupCompression);
         $exitCode = (new BackupService)->createBackup($backupCompressionEnabled);
-        
+
         return $exitCode;
     }
 }
