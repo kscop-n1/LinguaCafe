@@ -2,25 +2,24 @@
 
 namespace App\Services;
 
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 
 class TempFileService
 {
-    // moves the uploaded file to the temp folder, and returns the filename
-    public function moveFileToTempFolder($userId, $importFile)
+    public function moveFileToTempFolder(User $user, UploadedFile $importFile): string
     {
         $randomString = bin2hex(openssl_random_pseudo_bytes(30));
         $extension = '.' . $importFile->getClientOriginalExtension();
-        $fileName = $userId . '_' . $randomString . $extension;
+        $fileName = $user->id . '_' . $randomString . $extension;
         $importFile->move(storage_path('app/temp'), $fileName);
 
         return $fileName;
     }
 
-    public function deleteTempFile($fileName)
+    public function deleteTempFile(string $fileName): void
     {
         File::delete(storage_path('app/temp') . '/' . $fileName);
-
-        return true;
     }
 }

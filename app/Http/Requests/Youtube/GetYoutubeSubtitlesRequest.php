@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Import;
+namespace App\Http\Requests\Youtube;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetSubtitleFileContentRequest extends FormRequest
+class GetYoutubeSubtitlesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetSubtitleFileContentRequest extends FormRequest
     public function rules()
     {
         return [
-            'subtitleFile' => 'required|file',
+            'url' => 'required|string|url',
         ];
     }
 }

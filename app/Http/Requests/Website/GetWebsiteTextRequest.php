@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Import;
+namespace App\Http\Requests\Website;
 
 use Illuminate\Foundation\Http\FormRequest;
 

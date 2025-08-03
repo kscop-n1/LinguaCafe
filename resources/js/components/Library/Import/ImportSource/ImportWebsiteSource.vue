@@ -93,7 +93,7 @@ export default {
                         url: this.url,
                     })
                     .then(response => {
-                        this.text = response.data
+                        this.text = response.data.data
                         this.textChanged()
                         this.loading = false
                         this.websiteRequestStatus = 'success'

@@ -42,7 +42,7 @@ class TextImportTest extends TestCase
                 'importText' => $text,
             ]);
 
-            $response->assertStatus(200);
+            $response->assertStatus(204);
         });
 
     }
@@ -86,7 +86,7 @@ class TextImportTest extends TestCase
                 'importSubtitles' => $fileContentResponse->getContent(),
             ]);
 
-            $response->assertStatus(200);
+            $response->assertStatus(204);
         });
 
         $this->print('Tests finished, test user: ' . $user->email);

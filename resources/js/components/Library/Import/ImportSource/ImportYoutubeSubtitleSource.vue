@@ -144,7 +144,7 @@ export default {
             axios
                 .post('/youtube/get-subtitle-list', { url: this.url })
                 .then(response => {
-                    this.subtitles = response.data
+                    this.subtitles = response.data.data
 
                     if (this.subtitles !== null) {
                         for (let i = 0; i < this.subtitles.length; i++) {

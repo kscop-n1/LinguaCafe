@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Import;
 
+use App\Enums\Import\EbookChapterSortMethodEnum;
+use App\Enums\Import\ImportTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ImportRequest extends FormRequest
 {
@@ -24,13 +27,45 @@ class ImportRequest extends FormRequest
     public function rules()
     {
         return [
-            'importType' => 'required|string',
-            'eBookChapterSortMethod' => 'required|string',
-            'textProcessingMethod' => 'required|string',
-            'bookId' => 'required|numeric|gte:-1',
-            'bookName' => 'nullable|string',
-            'chapterName' => 'required|string',
-            'maximumCharactersPerChapter' => 'required|numeric|gte:200|lte:20000',
+            'importType' => [
+                'required',
+                Rule::enum(ImportTypeEnum::class),
+            ],
+            'eBookChapterSortMethod' => [
+                'required',
+                Rule::enum(EbookChapterSortMethodEnum::class),
+            ],
+            'bookId' => [
+                'required',
+                'numeric',
+                'gte:-1',
+            ],
+            'bookName' => [
+                'nullable',
+                'string',
+            ],
+            'chapterName' => [
+                'required',
+                'string',
+            ],
+            'maximumCharactersPerChapter' => [
+                'required',
+                'numeric',
+                'gte:200',
+                'lte:20000',
+            ],
+            'importText' => [
+                'nullable',
+                'string',
+            ],
+            'importSubtitles' => [
+                'nullable',
+                'string',
+            ],
+            'importFile' => [
+                'nullable',
+                'file',
+            ],
         ];
     }
 }

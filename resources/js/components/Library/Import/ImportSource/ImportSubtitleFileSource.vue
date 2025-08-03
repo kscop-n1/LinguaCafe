@@ -79,7 +79,7 @@ export default {
             axios
                 .post('/subtitle/get-subtitle-file-content', formData)
                 .then(response => {
-                    this.subtitles = response.data
+                    this.subtitles = response.data.data
                     this.loading = false
 
                     this.$emit('subtitle-selected', {

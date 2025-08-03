@@ -417,11 +417,9 @@ export default {
                     this.importLoading = false
                 })
                 .then(response => {
-                    if (response.status == 200) {
-                        this.importResult = 'success'
-                        this.importLoading = false
-                        this.$emit('import-finished', false)
-                    }
+                    this.importResult = 'success'
+                    this.importLoading = false
+                    this.$emit('import-finished', false)
                 })
                 .catch(error => {
                     this.importResult = 'error'

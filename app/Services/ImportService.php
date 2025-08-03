@@ -3,155 +3,181 @@
 namespace App\Services;
 
 use App\Enums\ChapterProcessingStatusEnum;
+use App\Enums\Import\EbookChapterSortMethodEnum;
+use App\Enums\Import\ImportTypeEnum;
+use App\Enums\Import\TokenizerRequestTypeEnum;
+use App\Helpers\Language\LanguageConfig;
 use App\Models\Book;
 use App\Models\Chapter;
-// models
-use Illuminate\Support\Facades\Auth;
-// services
+use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class ImportService
 {
-    // stores the python service container's name
-    private $pythonService = '';
+    private TempFileService $tempFileService;
+
+    private $pythonServiceHost;
 
     public function __construct()
     {
-        $this->pythonService = env('PYTHON_CONTAINER_NAME', 'linguacafe-python-service');
+        $this->tempFileService = new TempFileService;
+        $this->pythonServiceHost = env('PYTHON_CONTAINER_NAME', 'linguacafe-python-service');
     }
 
-    public function importBook($userId, $userUuid, $chunkSize, $eBookChapterSortMethod, $textProcessingMethod, $file, $bookId, $bookName, $chapterName)
-    {
-        DB::disableQueryLog();
-        $selectedLanguage = Auth::user()->selected_language;
-
-        // tokenize book
-        $text = Http::post($this->pythonService . ':8678/tokenizer/import-book', [
-            'language' => $selectedLanguage,
-            'chapterSortMethod' => $eBookChapterSortMethod,
-            'importFile' => $file,
-            'chunkSize' => $chunkSize,
-        ]);
-
-        // import chunks
-        $chunks = json_decode($text);
-        $this->importChunks($chunks, $userId, $userUuid, $selectedLanguage, $bookName, $bookId, $chapterName);
-
-        return 'success';
-    }
-
-    public function importText($userId, $userUuid, $chunkSize, $textProcessingMethod, $importText, $bookId, $bookName, $chapterName)
-    {
-        DB::disableQueryLog();
-        $selectedLanguage = Auth::user()->selected_language;
-
-        // tokenize book
-        $chunks = Http::post($this->pythonService . ':8678/tokenizer/cut-and-tokenize-text', [
-            'language' => $selectedLanguage,
-            'text' => $importText,
-            'chunkSize' => $chunkSize,
-        ]);
-
-        // import chunks
-        $chunks = json_decode($chunks);
-        $this->importChunks($chunks, $userId, $userUuid, $selectedLanguage, $bookName, $bookId, $chapterName);
-
-        return 'success';
-    }
-
-    public function importSubtitles($userId, $userUuid, $chunkSize, $textProcessingMethod, $importSubtitles, $bookId, $bookName, $chapterName)
-    {
-        DB::disableQueryLog();
-        $selectedLanguage = Auth::user()->selected_language;
-
-        // import subtitles
-        $subtitles = Http::post($this->pythonService . ':8678/tokenizer/import-subtitles', [
-            'language' => $selectedLanguage,
-            'subtitles' => $importSubtitles,
-            'chunkSize' => $chunkSize,
-        ]);
-
-        // import chunks
-        $chunks = json_decode($subtitles);
-        $this->importChunks($chunks, $userId, $userUuid, $selectedLanguage, $bookName, $bookId, $chapterName, true);
-    }
-
-    /*
-
-        Imports chunks fo raw and tokenized texts. This function
-        is used by other import functions to avoid code dupication.
-    */
-    private function importChunks($chunks, $userId, $userUuid, $language, $bookName, $bookId, $chapterName, $isSubtitle = false)
-    {
-        // retrieve or create book
-        if ($bookId == -1) {
-            $book = new Book;
-            $book->user_id = $userId;
-            $book->cover_image = null;
-            $book->language = $language;
-            $book->name = $bookName;
-            $book->save();
-        } else {
-            $book = Book::where('user_id', $userId)
-                ->where('id', $bookId)
-                ->first();
-
-            if (!$book) {
-                return 'error';
-            }
+    public function import(
+        ImportTypeEnum $importType,
+        User $user,
+        LanguageConfig $language,
+        int $chunkSize,
+        EbookChapterSortMethodEnum $eBookChapterSortMethod,
+        string $chapterName,
+        ?Book $book,
+        ?string $bookName,
+        ?UploadedFile $importFile,
+        ?string $importText,
+        ?string $importSubtitles,
+    ): void {
+        if ($book && $book->user_id !== $user->id) {
+            throw new \Exception('Book not found or unauthorized.');
         }
 
-        // import each chunk as a chapter
+        $fileName = $importFile ? $this->tempFileService->moveFileToTempFolder($user, $importFile) : null;
+        try {
+            DB::disableQueryLog();
+
+            $requestUrl = $this->getImportRequestUrl($importType);
+            $requestPayload = $this->getImportRequestPayload(
+                $importType,
+                $language,
+                $chunkSize,
+                $eBookChapterSortMethod,
+                $this->getFullTempFilePath($fileName),
+                $importText ?? null,
+                $importSubtitles ?? null
+            );
+
+            $text = Http::post($requestUrl, $requestPayload);
+            $chunks = json_decode($text);
+
+            $this->importChapters($chunks, $user, $language, $bookName, $book, $chapterName, $importSubtitles !== null);
+        } catch (\Exception $e) {
+            if ($importFile) {
+                $this->tempFileService->deleteTempFile($fileName);
+            }
+
+            throw new \Exception($e->getMessage());
+        }
+
+        if ($importFile) {
+            $this->tempFileService->deleteTempFile($fileName);
+        }
+    }
+
+    private function getFullTempFilePath(?string $fileName): ?string
+    {
+        if (!$fileName) {
+            return null;
+        }
+
+        return storage_path('app/temp') . '/' . $fileName;
+    }
+
+    private function getImportRequestUrl(ImportTypeEnum $importType): string
+    {
+        $tokenizerRequestType = $this->getTokenizerRequestType($importType);
+
+        return match ($tokenizerRequestType) {
+            TokenizerRequestTypeEnum::E_BOOK => $this->pythonServiceHost . ':8678/tokenizer/import-book',
+            TokenizerRequestTypeEnum::SUBTITLE => $this->pythonServiceHost . ':8678/tokenizer/import-subtitles',
+            TokenizerRequestTypeEnum::TEXT => $this->pythonServiceHost . ':8678/tokenizer/cut-and-tokenize-text',
+        };
+    }
+
+    private function getImportRequestPayload(
+        ImportTypeEnum $importType,
+        LanguageConfig $language,
+        int $chunkSize,
+        EbookChapterSortMethodEnum $eBookChapterSortMethod,
+        ?string $fileName,
+        ?string $importText,
+        ?string $importSubtitles,
+    ): array {
+        $commonPayloadData = [
+            'language' => $language->name,
+            'chunkSize' => $chunkSize,
+        ];
+
+        $tokenizerRequestType = $this->getTokenizerRequestType($importType);
+        $requestTypeBasedImportData = match ($tokenizerRequestType) {
+            TokenizerRequestTypeEnum::E_BOOK => [
+                'chapterSortMethod' => $eBookChapterSortMethod->value,
+                'importFile' => $fileName,
+            ],
+            TokenizerRequestTypeEnum::SUBTITLE => [
+                'subtitles' => $importSubtitles,
+            ],
+            TokenizerRequestTypeEnum::TEXT => [
+                'text' => $importText,
+            ],
+        };
+
+        return [
+            ...$commonPayloadData,
+            ...$requestTypeBasedImportData,
+        ];
+    }
+
+    private function getTokenizerRequestType(ImportTypeEnum $importType): TokenizerRequestTypeEnum
+    {
+        return match ($importType) {
+            ImportTypeEnum::E_BOOK => TokenizerRequestTypeEnum::E_BOOK,
+            ImportTypeEnum::JELLYFIN_SUBTITLE => TokenizerRequestTypeEnum::SUBTITLE,
+            ImportTypeEnum::SUBTITLE_FILE => TokenizerRequestTypeEnum::SUBTITLE,
+            ImportTypeEnum::PLAIN_TEXT => TokenizerRequestTypeEnum::TEXT,
+            ImportTypeEnum::TEXT_FILE => TokenizerRequestTypeEnum::TEXT,
+            ImportTypeEnum::YOUTUBE => TokenizerRequestTypeEnum::TEXT,
+            ImportTypeEnum::WEBSITE => TokenizerRequestTypeEnum::TEXT,
+        };
+    }
+
+    private function importChapters(
+        array $chunks,
+        User $user,
+        LanguageConfig $language,
+        ?string $bookName,
+        ?Book $book,
+        $chapterName,
+        $isSubtitle = false
+    ): void {
+        if (!$book) {
+            $book = new Book;
+            $book->user_id = $user->id;
+            $book->cover_image = null;
+            $book->language = $language->name;
+            $book->name = $bookName;
+            $book->save();
+        }
+
         foreach ($chunks as $chunkIndex => $chunk) {
             $chapterNameCalculated = count($chunks) > 1 ? $chapterName . ' ' . ($chunkIndex + 1) : $chapterName;
 
             $chapter = new Chapter;
-            $chapter->user_id = $userId;
+            $chapter->user_id = $user->id;
             $chapter->name = $chapterNameCalculated;
             $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
             $chapter->read_count = 0;
             $chapter->word_count = 0;
             $chapter->book_id = $book->id;
-            $chapter->language = $language;
+            $chapter->language = $language->name;
             $chapter->unique_words = '';
             $chapter->subtitle_timestamps = '';
             $chapter->type = $isSubtitle ? 'subtitle' : 'text';
             $chapter->raw_text = $isSubtitle ? json_encode($chunk) : $chunk;
             $chapter->save();
 
-            \App\Jobs\ProcessChapter::dispatch($userId, $userUuid, $chapter->id, $language);
+            \App\Jobs\ProcessChapter::dispatch($user->id, $user->uuid, $chapter->id, $language->name);
         }
-
-        return true;
-    }
-
-    public function getYoutubeSubtitles($url)
-    {
-        $subtitleList = Http::post($this->pythonService . ':8678/youtube/get-subtitle-list', [
-            'url' => $url,
-        ]);
-
-        return json_decode($subtitleList);
-    }
-
-    public function getSubtitleFileContent($fileName)
-    {
-        $subtitleContent = Http::post($this->pythonService . ':8678/subtitles/read', [
-            'fileName' => $fileName,
-        ]);
-
-        $subtitleContent->throwUnlessStatus(200);
-
-        return json_decode($subtitleContent);
-    }
-
-    public function getWebsiteText($url)
-    {
-        $websiteText = Http::post($this->pythonService . ':8678/web/get-website-text', [
-            'url' => $url,
-        ]);
-
-        return json_decode($websiteText);
     }
 }
