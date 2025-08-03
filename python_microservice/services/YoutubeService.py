@@ -3,9 +3,10 @@ from youtube_transcript_api._errors import TranscriptsDisabled
 
 class YoutubeService:
     def getYoutubeSubtitleList(self, videoId):
-        ytt_api = YouTubeTranscriptApi()
+        youtubeApi = YouTubeTranscriptApi()
+        
         try:
-            subtitles = YouTubeTranscriptApi.list_transcripts(videoId)
+            subtitles = youtubeApi.list(videoId)
         except TranscriptsDisabled:
             return list()
 
