@@ -6,21 +6,18 @@ use App\Services\JellyfinService;
 
 class JellyfinController extends Controller
 {
-    private $jellyfinService;
-
-    public function __construct(JellyfinService $jellyfinService)
-    {
-        $this->jellyfinService = $jellyfinService;
+    public function __construct(
+        private JellyfinService $jellyfinService
+    ) {
+        //
     }
 
     public function getJellyfinCurrentlyPlayedSubtitles()
     {
-        try {
-            $subtitles = $this->jellyfinService->getJellyfinCurrentlyPlayedSubtitles();
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $subtitles = $this->jellyfinService->getJellyfinCurrentlyPlayedSubtitles();
 
-        return response()->json($subtitles, 200);
+        return response()->json([
+            'data' => $subtitles,
+        ]);
     }
 }

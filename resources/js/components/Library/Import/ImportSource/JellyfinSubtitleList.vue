@@ -158,8 +158,8 @@ export default {
             this.sessions = []
             axios
                 .get('/jellyfin/subtitles')
-                .then(result => {
-                    var sessions = result.data
+                .then(response => {
+                    var sessions = response.data.data
 
                     // remove unsupported and not-selected langauge subtitles
                     for (let sessionIndex = 0; sessionIndex < sessions.length; sessionIndex++) {

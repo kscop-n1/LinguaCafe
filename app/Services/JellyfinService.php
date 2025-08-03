@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\DataTransferObjects\Jellyfin\JellyfinSessionData;
+use App\DataTransferObjects\Jellyfin\JellyfinSubtitleData;
 use App\Helpers\Language\LanguageConfig;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
@@ -14,36 +16,42 @@ class JellyfinService
 
     private $apiHost;
 
+    // TODO: refactor and remove unused $session data
     public function __construct()
     {
         $this->jellyfinLanguageCodes = LanguageConfig::all()->pluck('name', 'jellyfinCode')->toArray();
 
-        $setting = Setting::where('name', 'jellyfinApiKey')->first();
-        $this->apiKey = json_decode($setting->value);
-        $setting = Setting::where('name', 'jellyfinHost')->first();
-        $this->apiHost = json_decode($setting->value);
+        $this->apiKey = Setting::query()
+            ->where('name', 'jellyfinApiKey')
+            ->firstOrFail()
+            ->decode();
+
+        $this->apiHost = Setting::query()
+            ->where('name', 'jellyfinHost')
+            ->firstOrFail()
+            ->decode();
     }
 
-    public function makeRequest($method, $url)
+    public function makeRequest($method, $url): mixed
     {
         $response = '';
 
         if ($method == 'GET') {
             $response = Http::withHeaders([
-                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="asdsafwafaw", Version="0.1"',
+                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="deviceIdPlaceholder", Version="0.1"',
             ])->get($this->apiHost . $url);
         }
 
         if ($method == 'POST') {
             $response = Http::withHeaders([
-                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="asdsafwafaw", Version="0.1"',
+                'Authorization' => 'MediaBrowser Token="' . $this->apiKey . '", Client="LinguaCafe", Device="Test", DeviceId="deviceIdPlaceholder", Version="0.1"',
             ])->post($this->apiHost . $url);
         }
 
         return $response->json();
     }
 
-    public function getJellyfinCurrentlyPlayedSubtitles()
+    public function getJellyfinCurrentlyPlayedSubtitles(): array
     {
         $calculatedSessions = [];
         $sessions = $this->makeRequest('GET', '/Sessions');
@@ -56,30 +64,36 @@ class JellyfinService
                 continue;
             }
 
-            $session = new \stdClass;
-            $session->client = $sessions[$sessionCounter]['Client'];
-            $session->userName = $sessions[$sessionCounter]['UserName'];
-            $session->userId = $sessions[$sessionCounter]['NowPlayingItem']['Id'];
-            $session->title = $sessions[$sessionCounter]['NowPlayingItem']['Name'];
-            $session->type = $sessions[$sessionCounter]['NowPlayingItem']['Type'];
-
-            // add movie name or series info
-            if ($session->type == 'Episode') {
-                $session->seriesName = $sessions[$sessionCounter]['NowPlayingItem']['SeriesName'];
-                $session->seriesEpisode = $sessions[$sessionCounter]['NowPlayingItem']['IndexNumber'];
-                $session->seriesSeason = str_replace('Season ', '', $sessions[$sessionCounter]['NowPlayingItem']['SeasonName']);
+            if ($sessions[$sessionCounter]['NowPlayingItem']['Type'] == 'Episode') {
+                $seriesName = $sessions[$sessionCounter]['NowPlayingItem']['SeriesName'];
+                $seriesEpisode = $sessions[$sessionCounter]['NowPlayingItem']['IndexNumber'];
+                $seriesSeason = str_replace('Season ', '', $sessions[$sessionCounter]['NowPlayingItem']['SeasonName']);
+                $movieName = null;
             } else {
-                $session->movieName = $sessions[$sessionCounter]['NowPlayingItem']['Name'];
+                $seriesName = null;
+                $seriesEpisode = null;
+                $seriesSeason = null;
+                $movieName = $sessions[$sessionCounter]['NowPlayingItem']['Name'];
             }
 
-            $session->runTimeTicks = $sessions[$sessionCounter]['NowPlayingItem']['RunTimeTicks'];
-            $session->nowPlayingItemId = $sessions[$sessionCounter]['NowPlayingItem']['Id'];
-            $session->sessionId = $sessions[$sessionCounter]['Id'];
-            $session->mediaSourceId = $sessions[$sessionCounter]['PlayState']['MediaSourceId'];
-            $session->subtitles = [];
+            $session = new JellyfinSessionData(
+                client: $sessions[$sessionCounter]['Client'],
+                userName: $sessions[$sessionCounter]['UserName'],
+                userId: $sessions[$sessionCounter]['UserId'],
+                title: $sessions[$sessionCounter]['NowPlayingItem']['Name'],
+                type: $sessions[$sessionCounter]['NowPlayingItem']['Type'],
+                seriesName: $seriesName,
+                seriesEpisode: $seriesEpisode,
+                seriesSeason: $seriesSeason,
+                movieName: $movieName,
+                runTimeTicks: $sessions[$sessionCounter]['NowPlayingItem']['RunTimeTicks'],
+                nowPlayingItemId: $sessions[$sessionCounter]['NowPlayingItem']['Id'],
+                sessionId: $sessions[$sessionCounter]['Id'],
+                mediaSourceId: $sessions[$sessionCounter]['PlayState']['MediaSourceId'],
+                subtitles: [],
+            );
 
             $calculatedSessions[] = $session;
-
             $mediaSource = $this->makeRequest('GET', '/Items/' . $session->nowPlayingItemId . '/PlaybackInfo?userId=' . $session->userId);
             $mediaSource = $mediaSource['MediaSources'][0];
 
@@ -107,10 +121,11 @@ class JellyfinService
                     $supportedLanguage = false;
                 }
 
-                $subtitle = new \stdClass;
-                $subtitle->language = $language;
-                $subtitle->supportedLanguage = $supportedLanguage;
-                $subtitle->text = $subtitleText['TrackEvents'];
+                $subtitle = new JellyfinSubtitleData(
+                    language: $language,
+                    supportedLanguage: $supportedLanguage,
+                    text: $subtitleText['TrackEvents'],
+                );
 
                 $calculatedSessions[count($calculatedSessions) - 1]->subtitles[] = $subtitle;
             }
