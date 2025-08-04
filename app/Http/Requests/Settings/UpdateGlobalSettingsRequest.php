@@ -15,14 +15,13 @@ class UpdateGlobalSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'settings' => [
-                'required',
-                'array',
-            ],
-            'settings.backupInterval' => [
-                'string',
-                new ValidCronExpression,
-            ],
+            'settings' => ['required', 'array'],
+            'settings.backupInterval' => ['string', new ValidCronExpression],
+            'settings.backupRetainDaily' => ['integer', 'between:0,50'],
+            'settings.backupRetainWeekly' => ['integer', 'between:0,50'],
+            'settings.backupRetainMonthly' => ['integer', 'between:0,50'],
+            'settings.backupRetainYearly' => ['integer', 'between:0,50'],
+            'settings.backupRetainMostRecent' => ['integer', 'between:0,50'],
         ];
     }
 }
