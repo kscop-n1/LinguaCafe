@@ -206,6 +206,7 @@
                 <book-chapters
                     ref="bookChapters"
                     :book-id="book.id"
+                    :book-name="book.name"
                     :word-count-display-type="wordCountDisplayType"
                     @word-count-changed="wordCountChanged"
                 ></book-chapters>

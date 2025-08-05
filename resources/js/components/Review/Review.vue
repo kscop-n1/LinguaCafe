@@ -627,17 +627,7 @@ export default {
     props: {},
     mounted: function () {
         var data = {
-            bookId: -1,
-            chapterId: -1,
             practiceMode: this.practiceMode,
-        }
-
-        if (this.$route.params.bookId !== undefined) {
-            data.bookId = parseInt(this.$route.params.bookId)
-        }
-
-        if (this.$route.params.chapterId !== undefined) {
-            data.chapterId = parseInt(this.$route.params.chapterId)
         }
 
         if (this.$route.params.practiceMode !== undefined) {
@@ -645,7 +635,16 @@ export default {
             this.practiceMode = this.$route.params.practiceMode === 'true'
         }
 
-        axios.post('/reviews', data).then(response => {
+        let url = '/reviews'
+        if (this.$route.params.bookId !== undefined && this.$route.params.bookId !== '-1') {
+            url += '/' + this.$route.params.bookId
+        }
+
+        if (this.$route.params.chapterId !== undefined && this.$route.params.chapterId !== '-1') {
+            url += '/' + this.$route.params.chapterId
+        }
+
+        axios.post(url, data).then(response => {
             var data = response.data
             this.reviews = data.reviews
             this.totalReviews = data.reviews.length

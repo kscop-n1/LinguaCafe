@@ -185,7 +185,12 @@
                                 tile
                                 color="white"
                                 @click="
-                                    showStartReviewDialog(book.id, book.name, item.id, item.name)
+                                    showStartReviewDialog(
+                                        $props.bookId,
+                                        $props.bookName,
+                                        item.id,
+                                        item.name
+                                    )
                                 "
                             >
                                 Review
@@ -249,6 +254,7 @@ export default {
     },
     props: {
         bookId: Number,
+        bookName: String,
         wordCountDisplayType: Number,
     },
     mounted() {
@@ -322,7 +328,6 @@ export default {
                 })
                 .then(
                     axios.spread((bookResponse, chaptersResponse) => {
-                        this.book = bookResponse.data.data
                         this.chapters = chaptersResponse.data.data
 
                         this.chapters.map(chapter => {

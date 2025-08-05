@@ -4,39 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Enums\GoalTypeEnum;
 use App\Helpers\Language\LanguageConfig;
-// services
 use App\Http\Requests\Review\GetReviewItemsRequest;
 use App\Http\Requests\Review\UpdateReviewGoalRequest;
-// request classes
+use App\Models\Book;
+use App\Models\Chapter;
 use App\Services\GoalService;
 use App\Services\ReviewService;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    private $reviewService;
-
-    private $goalService;
-
-    public function __construct(ReviewService $reviewService, GoalService $goalService)
-    {
-        $this->reviewService = $reviewService;
-        $this->goalService = $goalService;
+    public function __construct(
+        private ReviewService $reviewService,
+        private GoalService $goalService
+    ) {
+        //
     }
 
-    public function getReviewItems(GetReviewItemsRequest $request)
+    public function getReviewItems(GetReviewItemsRequest $request, ?Book $book = null, ?Chapter $chapter = null)
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
         $language = LanguageConfig::load(Auth::user()->selected_language);
-        $practiceMode = $request->post('practiceMode');
-        $chapterId = $request->post('chapterId');
-        $bookId = $request->post('bookId');
+        $practiceMode = $request->validated('practiceMode');
 
-        try {
-            $reviews = $this->reviewService->getReviewItems($userId, $language, $bookId, $chapterId, $practiceMode);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $reviews = $this->reviewService->getReviewItems($user, $language, $book, $chapter, $practiceMode);
 
         $reviewData = new \stdClass;
         $reviewData->reviews = $reviews;
@@ -52,12 +43,13 @@ class ReviewController extends Controller
         $language = LanguageConfig::load(Auth::user()->selected_language);
         $readWords = $request->validated('readWords');
 
-        try {
-            $this->goalService->updateOrCreateTodaysGoalAchievement($user, $language, GoalTypeEnum::READ_WORDS, $readWords);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->goalService->updateOrCreateTodaysGoalAchievement(
+            user: $user,
+            language: $language,
+            goalType: GoalTypeEnum::READ_WORDS,
+            achievedQuantity: $readWords
+        );
 
-        return response()->json('Review goal has been updated successfully.', 200);
+        return response()->noContent();
     }
 }
