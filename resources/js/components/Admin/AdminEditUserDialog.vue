@@ -223,13 +223,12 @@ export default {
             this.saving = true
 
             let data = {
-                userId: this.userId,
                 name: this.name,
                 email: this.email,
                 isAdmin: this.isAdmin,
             }
 
-            var url = '/users/update'
+            var url = `/users/update/${this.userId}`
             if (this.userId === -1) {
                 data.password = this.password
                 data.password_confirmation = this.passwordConfirmation
@@ -239,10 +238,6 @@ export default {
             axios
                 .post(url, data)
                 .then(response => {
-                    if (response.status !== 200) {
-                        return
-                    }
-
                     this.saving = false
                     this.errorMessage = 'success'
                     this.$emit('user-saved')

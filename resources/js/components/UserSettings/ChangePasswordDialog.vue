@@ -134,10 +134,6 @@ export default {
                     password_confirmation: this.passwordConfirmation,
                 })
                 .then(response => {
-                    if (response.status !== 200) {
-                        return
-                    }
-
                     this.saving = false
                     this.saveResult = 'success'
 

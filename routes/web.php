@@ -33,7 +33,7 @@ Route::get('/login', [App\Http\Controllers\UserController::class, 'showLoginForm
 Route::post('/login', [App\Http\Controllers\UserController::class, 'authenticateUser']);
 
 // basic user data for the app
-Route::get('/user/data', [App\Http\Controllers\UserController::class, 'getUserData']);
+Route::get('/user/data', [App\Http\Controllers\UserController::class, 'getInitUserData']);
 
 Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
         // users
         Route::get('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
-        Route::post('/users/update', [App\Http\Controllers\UserController::class, 'updateUser']);
+        Route::post('/users/update/{user}', [App\Http\Controllers\UserController::class, 'updateUser']);
 
         // languages
         Route::post('/languages/install', [App\Http\Controllers\LanguageController::class, 'installLanguage']);

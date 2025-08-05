@@ -41,7 +41,7 @@
                 :headers="[
                     { text: 'Name', value: 'name' },
                     { text: 'E-mail', value: 'email' },
-                    { text: 'Created', value: 'created_at_text', align: 'center' },
+                    { text: 'Created', value: 'created_at', align: 'center' },
                     { text: 'Admin', value: 'is_admin', align: 'center' },
                     { text: 'Actions', value: 'actions', align: 'center', sortable: false },
                 ]"
@@ -67,6 +67,7 @@
 
 <script>
 import { formatNumber } from './../../helper.js'
+const moment = require('moment')
 export default {
     data: function () {
         return {
@@ -113,7 +114,10 @@ export default {
             this.loading = true
             axios.get('/users/get').then(response => {
                 this.loading = false
-                this.users = response.data
+                this.users = response.data.data.map(user => {
+                    user.created_at = moment.utc(user.created_at).format('YYYY-MM-DD')
+                    return user
+                })
             })
         },
     },

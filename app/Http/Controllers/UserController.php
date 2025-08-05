@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Users\AuthenticateUserRequest;
 use App\Http\Requests\Users\CreateUserRequest;
 use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
-// request classes
+use App\Http\Resources\User\UserResourceCollection;
 use App\Models\User;
 use App\Services\SettingsService;
 use App\Services\UserService;
@@ -21,8 +22,7 @@ class UserController extends Controller
         //
     }
 
-    // initial data for the app
-    public function getUserData()
+    public function getInitUserData()
     {
         $userCount = User::count();
 
@@ -59,24 +59,21 @@ class UserController extends Controller
 
     public function isUserPasswordChanged()
     {
-        $passwordChanged = Auth::user()->password_changed;
-
-        return response()->json($passwordChanged, 200);
+        return response()->json([
+            'data' => (bool) Auth::user()->password_changed,
+        ]);
     }
 
     public function getUsers()
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
 
-        try {
-            $users = $this->userService->getUsers($userId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $users = $this->userService->getUsers($user);
 
-        return response()->json($users, 200);
+        return new UserResourceCollection($users);
     }
 
+    // TODO: move to authController
     public function showLoginForm()
     {
         if (Auth::check()) {
@@ -86,87 +83,72 @@ class UserController extends Controller
         return view('auth.login');
     }
 
+    // TODO: move to authController
     public function authenticateUser(AuthenticateUserRequest $request)
     {
-        $email = $request->post('email');
-        $password = $request->post('password');
+        $email = $request->validated('email');
+        $password = $request->validated('password');
 
-        if (Auth::attempt([
+        // TODO: move to service
+        if (!Auth::attempt([
             'email' => $email,
             'password' => $password,
         ])) {
-            $request->session()->regenerate();
-            Auth::logoutOtherDevices($password);
-
-            return response()->json('User has been logged in successfully.', 200);
-        } else {
-            return response()->json('Login error.', 500);
+            throw new \Exception('Login error.');
         }
+
+        $request->session()->regenerate();
+        Auth::logoutOtherDevices($password);
+
+        return response()->noContent();
     }
 
     public function updatePassword(UpdatePasswordRequest $request)
     {
         $user = Auth::user();
-        $password = $request->post('password');
+        $password = $request->validated('password');
 
-        try {
-            $this->userService->updatePassword($user, $password);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->userService->updatePassword($user, $password);
 
-        return response()->json('Password has been updated successfully.', 200);
+        return response()->noContent();
     }
 
     public function createUser(CreateUserRequest $request)
     {
         $userCount = User::count();
-        $name = $request->post('name');
-        $email = $request->post('email');
-        $password = $request->post('password');
-        $isAdmin = $request->post('isAdmin');
+        $name = $request->validated('name');
+        $email = $request->validated('email');
+        $password = $request->validated('password');
+        $isAdmin = $request->validated('isAdmin');
         $passwordChanged = $userCount === 0;
 
-        // If this is the first user, it can be created without any authorization.
         if (!Auth::check() && $userCount !== 0) {
-            abort(401, 'Not authorized to create a user.');
+            throw new \Exception('Not authorized to create a user.');
         }
 
-        try {
-            $this->userService->createUser($name, $email, $password, $isAdmin, $passwordChanged);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->userService->createUser($name, $email, $password, $isAdmin, $passwordChanged);
 
-        return response()->json('User has been created successfully.', 200);
+        return response()->noContent();
     }
 
-    public function updateUser(UpdateUserRequest $request)
+    public function updateUser(UpdateUserRequest $request, User $user)
     {
-        $userId = $request->post('userId');
-        $name = $request->post('name');
-        $email = $request->post('email');
-        $isAdmin = $request->post('isAdmin');
+        $name = $request->validated('name');
+        $email = $request->validated('email');
+        $isAdmin = $request->validated('isAdmin');
 
-        try {
-            $this->userService->updateUser($userId, $name, $email, $isAdmin);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->userService->updateUser($user, $name, $email, $isAdmin);
 
-        return response()->json('User has been updated successfully.', 200);
+        return response()->noContent();
     }
 
     public function deleteUserLanguageData($language)
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
+        $language = LanguageConfig::load($language);
 
-        try {
-            $this->userService->deleteUserLanguageData($userId, $language);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->userService->deleteUserLanguageData($user, $language);
 
-        return response()->json('User has been deleted successfully.', 200);
+        return response()->noContent();
     }
 }

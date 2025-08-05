@@ -11,7 +11,7 @@ use App\Models\ExampleSentence;
 use App\Models\GoalAchievement;
 use App\Models\Phrase;
 use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -20,37 +20,47 @@ class UserService
 {
     public function __construct() {}
 
-    public function getUsers($userId)
+    public function getUsers(User $user): Collection
     {
-        $users = User::select(['id', 'name', 'email', 'is_admin', 'password_changed', 'created_at'])
+        $users = User::query()
+            ->select([
+                'id',
+                'name',
+                'email',
+                'is_admin',
+                'password_changed',
+                'created_at',
+            ])
             ->get();
 
-        foreach ($users as $user) {
-            $user->created_at_text = Carbon::parse($user->created_at)->format('Y-m-d');
-            $user->is_current_user = $user->id === $userId;
-        }
+        $users->transform(function (User $item) use ($user) {
+            $item->is_current_user = $item->id === $user->id;
+
+            return $item;
+        });
 
         return $users;
     }
 
-    public function updatePassword($user, $password)
+    public function updatePassword(User $user, string $password): void
     {
         $user->password = Hash::make($password);
         $user->password_changed = true;
         $user->save();
     }
 
-    public function createUser($name, $email, $password, $isAdmin, $passwordChanged)
-    {
-        // check for duplicated e-email address
-        $user = User::where('email', $email)
-            ->first();
+    public function createUser(
+        string $name,
+        string $email,
+        string $password,
+        bool $isAdmin,
+        bool $passwordChanged
+    ): void {
 
-        if ($user) {
-            throw new \Exception('An other already exists with this email address.');
+        if (User::where('email', '=', $email)->exists()) {
+            throw new \Exception('An other user already exists with this email address.');
         }
 
-        // create user
         $user = new User;
         $user->name = $name;
         $user->email = $email;
@@ -61,85 +71,60 @@ class UserService
         $user->save();
 
         (new GoalService)->createGoalsForLanguage($user, LanguageConfig::load('spanish'));
-
-        return true;
     }
 
-    public function updateUser($userId, $name, $email, $isAdmin)
+    public function updateUser(User $user, string $name, string $email, bool $isAdmin): void
     {
-        // check for duplicated e-email address
-        $user = User::where('email', $email)
-            ->where('id', '<>', $userId)
-            ->first();
-
-        if ($user) {
-            throw new \Exception('An other user already exists with this email address.');
+        if (User::query()->where('email', '=', $email)->where('id', '!=', $user->id)->exists()) {
+            throw new \Exception('A user already exists with this email address.');
         }
 
-        // check if user can be set to not admin
-        if (!$isAdmin) {
-            $otherAdminAccounts = User::where('id', '<>', $userId)
-                ->where('is_admin', true)
-                ->count();
-
-            if ($otherAdminAccounts === 0) {
-                throw new \Exception('You cannot remove admin rights from the last admin user.');
-            }
+        if (!$isAdmin && !User::where('id', '!=', $user->id)->where('is_admin', true)->exists()) {
+            throw new \Exception('You cannot remove admin rights from the last admin user.');
         }
 
-        // retrieve user
-        $user = User::where('id', $userId)
-            ->first();
-
-        if (!$user) {
-            throw new \Exception('This user does not exist.');
-        }
-
-        // update user
         $user->name = $name;
         $user->email = $email;
         $user->is_admin = $isAdmin;
         $user->save();
-
-        return true;
     }
 
-    public function deleteUserLanguageData($userId, $language): void
+    public function deleteUserLanguageData(User $user, LanguageConfig $language): void
     {
-        DB::transaction(function () use ($userId, $language) {
+        DB::transaction(function () use ($user, $language) {
             Phrase::query()
-                ->where('user_id', $userId)
-                ->where('language', $language)
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
                 ->delete();
 
             EncounteredWord::query()
-                ->where('user_id', $userId)
-                ->where('language', $language)
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
                 ->delete();
 
             ExampleSentence::query()
-                ->where('user_id', $userId)
-                ->where('language', $language)
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
                 ->delete();
 
             Bookmark::query()
-                ->where('user_id', '=', $userId)
-                ->where('language', '=', $language)
+                ->where('user_id', '=', $user->id)
+                ->where('language', '=', $language->name)
                 ->delete();
 
             Chapter::query()
-                ->where('user_id', $userId)
-                ->where('language', $language)
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
                 ->delete();
 
             Book::query()
-                ->where('user_id', $userId)
-                ->where('language', $language)
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
                 ->delete();
 
             GoalAchievement::query()
-                ->where('user_id', $userId)
-                ->where('language', $language)
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
                 ->delete();
         });
     }

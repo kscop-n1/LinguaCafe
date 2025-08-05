@@ -111,7 +111,7 @@ export default {
     props: {},
     mounted() {
         axios.get('/users/is-password-changed').then(response => {
-            this.passwordChanged = Boolean(response.data)
+            this.passwordChanged = Boolean(response.data.data)
         })
     },
     methods: {
