@@ -137,7 +137,7 @@ export default {
                     this.websiteImportSupported = response1.data.find(language => {
                         return language.name === this.$props.language
                     }).websiteImportSupport
-                    this.jellyfinEnabled = response2.data
+                    this.jellyfinEnabled = response2.data.data
                     this.loading = false
                 })
             )

@@ -3,112 +3,104 @@
 namespace App\Services;
 
 use App\Models\Setting;
+use App\Models\User;
+use Illuminate\Support\Collection;
 
 class SettingsService
 {
-    public function __construct() {}
-
-    public function isJellyfinEnabled()
+    public function __construct()
     {
-        $isJellyfinEnabled = Setting::select('value', 'name')
-            ->where('user_id', -1)
-            ->where('name', 'jellyfinEnabled')
-            ->first();
+        //
+    }
 
-        if (!$isJellyfinEnabled) {
-            throw new \Exception('Missing jellyfinEnabled setting. This should never occur.');
-        }
+    public function isJellyfinEnabled(): bool
+    {
+        // TODO: setting user_id should be null instead of -1 for user settings
+        $isJellyfinEnabled = Setting::query()
+            ->select('value', 'name')
+            ->where('user_id', '=', -1)
+            ->where('name', 'jellyfinEnabled')
+            ->firstOrFail();
 
         return json_decode($isJellyfinEnabled->value);
     }
 
-    public function getAnkiSettings()
+    public function getAnkiSettings(): Collection
     {
-        $ankiSettings = Setting::select('value', 'name')
-            ->where('user_id', -1)
-            ->whereIn('name', ['ankiAutoAddCards', 'ankiShowNotifications'])
+        $ankiSettingNames = ['ankiAutoAddCards', 'ankiShowNotifications'];
+
+        $ankiSettings = Setting::query()
+            ->select('value', 'name')
+            ->where('user_id', '=', -1)
+            ->whereIn('name', $ankiSettingNames)
             ->get()
             ->keyBy('name')
-            ->map(function ($item, $key) {
+            ->map(function (Setting $item) {
                 return json_decode($item->value);
             });
-
-        if ($ankiSettings->isEmpty()) {
-            throw new \Exception('Missing anki settings. This should never occur.');
-        }
 
         return $ankiSettings;
     }
 
-    public function getGlobalSettingsByName($settingNames)
+    public function getGlobalSettingsByName($settingNames): Collection
     {
-        $settings = Setting::select('value', 'name')
-            ->where('user_id', -1)
+        $settings = Setting::query()
+            ->select('value', 'name')
+            ->where('user_id', '=', -1)
             ->whereIn('name', $settingNames)
             ->get()
             ->keyBy('name')
-            ->map(function ($item, $key) {
-                return json_decode($item->value);
+            ->map(function ($setting) {
+                return json_decode($setting->value);
             });
-
-        if ($settings->isEmpty()) {
-            throw new \Exception('No settings were found in the database.');
-        }
 
         return $settings;
     }
 
-    public function updateGlobalSettings($settings)
+    public function updateGlobalSettings(Collection $settings): void
     {
-        foreach ($settings as $settingName => $settingValue) {
-            $setting = Setting::where('name', $settingName)
+        $settings->each(function (mixed $settingValue, string $settingName) {
+            $setting = Setting::query()
+                ->where('name', $settingName)
                 ->where('user_id', -1)
-                ->first();
+                ->firstOrFail();
 
-            if ($setting) {
-                $setting->value = json_encode($settingValue);
-                $setting->save();
-            }
-        }
-
-        return true;
+            $setting->value = json_encode($settingValue);
+            $setting->save();
+        });
     }
 
-    public function getUserSettingsByName($userId, $settingNames)
+    public function getUserSettingsByName(User $user, Collection $settingNames): Collection
     {
-        $settings = Setting::select('value', 'name')
-            ->where('user_id', $userId)
+        $settings = Setting::query()
+            ->select('value', 'name')
+            ->where('user_id', '=', $user->id)
             ->whereIn('name', $settingNames)
             ->get()
             ->keyBy('name')
-            ->map(function ($item, $key) {
-                return json_decode($item->value);
+            ->map(function ($setting) {
+                return json_decode($setting->value);
             });
-
-        if ($settings->isEmpty()) {
-            return null;
-        }
 
         return $settings;
     }
 
-    public function updateUserSettings($userId, $settings)
+    public function updateOrCreateUserSettings(User $user, Collection $settings): void
     {
-        foreach ($settings as $settingName => $settingValue) {
-            $setting = Setting::where('name', $settingName)
-                ->where('user_id', $userId)
+        $settings->each(function (mixed $settingValue, string $settingName) use ($user) {
+            $setting = Setting::query()
+                ->where('name', $settingName)
+                ->where('user_id', $user->id)
                 ->first();
 
             if (!$setting) {
                 $setting = new Setting;
-                $setting->user_id = $userId;
+                $setting->user_id = $user->id;
                 $setting->name = $settingName;
             }
 
             $setting->value = json_encode($settingValue);
             $setting->save();
-        }
-
-        return true;
+        });
     }
 }

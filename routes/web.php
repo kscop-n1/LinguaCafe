@@ -152,7 +152,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // settings
     Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);
-    Route::post('/settings/user/update', [App\Http\Controllers\SettingsController::class, 'updateUserSettings']);
+    Route::post('/settings/user/update', [App\Http\Controllers\SettingsController::class, 'updateOrCreateUserSettings']);
     Route::get('/settings/is-jellyfin-enabled', [App\Http\Controllers\SettingsController::class, 'isJellyfinEnabled']);
     Route::get('/settings/get-anki-settings', [App\Http\Controllers\SettingsController::class, 'getAnkiSettings']);
 

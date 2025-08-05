@@ -414,7 +414,7 @@ export default {
                     ],
                 })
                 .then(result => {
-                    this.settings = result.data
+                    this.settings = result.data.data
                     this.loadDeeplCharacterLimits()
                 })
         },
@@ -441,18 +441,14 @@ export default {
                         libreTranslateHost: this.settings.libreTranslateHost,
                     },
                 })
+                .then(response => {
+                    this.saving = false
+                    this.saveStatus = 'success'
+                    this.loadDeeplCharacterLimits()
+                })
                 .catch(error => {
                     this.saving = false
                     this.saveStatus = 'error'
-                    this.loadDeeplCharacterLimits()
-                })
-                .then(response => {
-                    if (response.status !== 200) {
-                        return
-                    }
-
-                    this.saving = false
-                    this.saveStatus = 'success'
                     this.loadDeeplCharacterLimits()
                 })
         },

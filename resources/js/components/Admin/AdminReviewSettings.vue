@@ -127,11 +127,11 @@ export default {
                 .post('/settings/global/get', {
                     settingNames: ['reviewIntervals'],
                 })
-                .then(result => {
-                    Object.keys(result.data.reviewIntervals).forEach((key, index) => {
+                .then(response => {
+                    Object.keys(response.data.data.reviewIntervals).forEach((key, index) => {
                         this.reviewIntervals.push({
                             name: key * -1 + '',
-                            values: result.data.reviewIntervals[key].join(','),
+                            values: response.data.data.reviewIntervals[key].join(','),
                         })
                     })
 

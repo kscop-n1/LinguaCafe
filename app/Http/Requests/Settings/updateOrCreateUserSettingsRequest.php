@@ -4,7 +4,7 @@ namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGlobalSettingsRequest extends FormRequest
+class updateOrCreateUserSettingsRequest extends FormRequest
 {
     public function authorize()
     {

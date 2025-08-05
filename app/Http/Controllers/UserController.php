@@ -37,9 +37,12 @@ class UserController extends Controller
         $userEmail = Auth::user()->email;
         $isAdmin = Auth::user()->is_admin === 1;
         $theme = $_COOKIE['theme'] ?? 'dark';
+
+        $themeSettingNames = collect(['textStyling', 'vuetifyThemes']);
+
         $themeSettings = $this->settingsService->getUserSettingsByName(
-            Auth::user()->id,
-            ['textStyling', 'vuetifyThemes']
+            Auth::user(),
+            $themeSettingNames,
         );
 
         return response()->json([

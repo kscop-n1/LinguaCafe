@@ -329,8 +329,8 @@
             window.addEventListener('mousemove', this.closeHoverBox);
 
             axios.get('/settings/get-anki-settings').then((response) => {
-                this.ankiAutoAddCards = response.data.ankiAutoAddCards;
-                this.ankiShowNotifications = response.data.ankiShowNotifications;
+                this.ankiAutoAddCards = response.data.data.ankiAutoAddCards;
+                this.ankiShowNotifications = response.data.data.ankiShowNotifications;
             });
 
             axios.get('/dictionaries/api/is-enabled').then((response) => {

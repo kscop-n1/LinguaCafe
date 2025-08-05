@@ -3,100 +3,78 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Settings\GetGlobalSettingsByNameRequest;
-// services
 use App\Http\Requests\Settings\GetUserSettingsByNameRequest;
-// request classes
 use App\Http\Requests\Settings\UpdateGlobalSettingsRequest;
-use App\Http\Requests\Settings\UpdateUserSettingsRequest;
+use App\Http\Requests\Settings\updateOrCreateUserSettingsRequest;
 use App\Services\SettingsService;
 use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller
 {
-    private $settingsService;
-
-    public function __construct(SettingsService $settingsService)
-    {
-        $this->settingsService = $settingsService;
+    public function __construct(
+        private SettingsService $settingsService
+    ) {
+        //
     }
 
     public function isJellyfinEnabled()
     {
-        try {
-            $isJellyfinEnabled = $this->settingsService->isJellyfinEnabled();
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $isJellyfinEnabled = $this->settingsService->isJellyfinEnabled();
 
-        return response()->json($isJellyfinEnabled, 200);
+        return response()->json([
+            'data' => $isJellyfinEnabled,
+        ]);
     }
 
     public function getAnkiSettings()
     {
-        try {
-            $ankiSettings = $this->settingsService->getAnkiSettings();
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $ankiSettings = $this->settingsService->getAnkiSettings();
 
-        return response()->json($ankiSettings, 200);
+        return response()->json([
+            'data' => $ankiSettings,
+        ]);
     }
 
-    // returns an array of global settings
     public function getGlobalSettingsByName(GetGlobalSettingsByNameRequest $request)
     {
-        $settingNames = $request->post('settingNames');
+        $settingNames = $request->validated('settingNames');
 
-        try {
-            $settings = $this->settingsService->getGlobalSettingsByName($settingNames);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $settings = $this->settingsService->getGlobalSettingsByName($settingNames);
 
-        return response()->json($settings, 200);
+        return response()->json([
+            'data' => $settings,
+        ]);
     }
 
-    // saves an array of global settings
     public function updateGlobalSettings(UpdateGlobalSettingsRequest $request)
     {
-        $settings = $request->post('settings');
+        $settings = $request->validated('settings');
+        $settings = collect($settings);
 
-        try {
-            $settings = $this->settingsService->updateGlobalSettings($settings);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $settings = $this->settingsService->updateGlobalSettings($settings);
 
-        return response()->json('Settings have been updated successfully.', 200);
+        return response()->noContent();
     }
 
-    // returns an array of user settings
     public function getUserSettingsByName(GetUserSettingsByNameRequest $request)
     {
-        $userId = Auth::user()->id;
-        $settingNames = $request->post('settingNames');
+        $user = Auth::user();
+        $settingNames = $request->validated('settingNames');
+        $settingNames = collect($settingNames);
 
-        try {
-            $settings = $this->settingsService->getUserSettingsByName($userId, $settingNames);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $settings = $this->settingsService->getUserSettingsByName($user, $settingNames);
 
         return response()->json($settings, 200);
     }
 
-    // saves an array of user settings
-    public function updateUserSettings(UpdateUserSettingsRequest $request)
+    public function updateOrCreateUserSettings(updateOrCreateUserSettingsRequest $request)
     {
-        $userId = Auth::user()->id;
-        $settings = $request->post('settings');
+        $user = Auth::user();
+        $settings = $request->validated('settings');
+        $settings = collect($settings);
 
-        try {
-            $settings = $this->settingsService->updateUserSettings($userId, $settings);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $settings = $this->settingsService->updateOrCreateUserSettings($user, $settings);
 
-        return response()->json('Settings have been updated successfully.', 200);
+        return response()->noContent();
     }
 }
