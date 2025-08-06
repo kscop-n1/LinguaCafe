@@ -1,15 +1,17 @@
 import lxml_html_clean
 import lxml.html
 from ebooklib import epub
-import ebooklib 
+import ebooklib
 import re
 from . import TokenizerConfig
 
 config = TokenizerConfig.TokenizerConfig()
 
-class EbookService:
 
-    def loadEbookIntoChunks(self, importFile, language,  chunkSize, textProcessingMethod, chapterSortMethod):
+class EbookService:
+    def loadEbookIntoChunks(
+        self, importFile, language, chunkSize, textProcessingMethod, chapterSortMethod
+    ):
         content = self.loadEbookFile(importFile, chapterSortMethod)
         content = content.replace('\r\n', ' NEWLINE ')
         content = content.replace('\n', ' NEWLINE ')
@@ -22,7 +24,7 @@ class EbookService:
         # split text into chunks
         chunks = list()
         for sentenceIndex, sentence in enumerate(sentences):
-            if (len(chunks) == 0 or len(chunks[-1].replace(' NEWLINE ', '')) > chunkSize):
+            if len(chunks) == 0 or len(chunks[-1].replace(' NEWLINE ', '')) > chunkSize:
                 chunks.append('')
 
             chunks[-1] += sentences[sentenceIndex]
@@ -33,8 +35,13 @@ class EbookService:
 
     def loadEbookFile(self, file, sortMethod):
         # rp and rt tags are used in adding prononciation over words, we need to remove the content of the tags
-        cleaner = lxml_html_clean.Cleaner(allow_tags=[''], remove_unknown_tags=False, kill_tags = ['rp','rt'], page_structure=False)
-        
+        cleaner = lxml_html_clean.Cleaner(
+            allow_tags=[''],
+            remove_unknown_tags=False,
+            kill_tags=['rp', 'rt'],
+            page_structure=False,
+        )
+
         content = ''
         book = epub.read_epub(file)
         items = list(book.get_items())
@@ -49,7 +56,6 @@ class EbookService:
 
         for item in sortedItems:
             if item.get_type() == ebooklib.ITEM_DOCUMENT:
-                
                 # clean_html cannot be passed bytes but it cannot be passed a str
                 # with explicit encoding either. So you must convert it to a string
                 # and then use RegEx to remove the encoding declaration

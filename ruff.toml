@@ -21,7 +21,7 @@ indent-width = 4
 [lint]
 # See ruff lint rule abbreviations at https://docs.astral.sh/ruff/rules/
 select = ["E", "F", "B", "S", "A", "COM", "C4", "T10", "EM", "ISC", "ICN", "LOG", "INP", "PIE", "T20", "PLE", "RUF"]
-ignore = []
+ignore = ["COM812"]
 fixable = ["ALL"]
 
 # Allow unused variables when underscore-prefixed.
