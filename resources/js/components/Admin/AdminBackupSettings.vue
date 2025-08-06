@@ -2,38 +2,10 @@
     <div id="admin-backup-settings" v-if="settings">
         <v-form v-model="isFormValid">
             <!-- Database backup settings -->
-            <div class="subheader mt-4 mb-4">Database backups</div>
+
+            <div class="subheader mt-4 mb-4">Backup Scheduling</div>
             <v-card outlined class="rounded-lg p-3">
                 <v-card-text>
-                    <!-- Database backup compression label -->
-                    <label class="font-weight-bold">
-                        Database backup compression
-
-                        <!-- Database backup compression info box -->
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option will force future database backups to be compressed into
-                                a .zip format to save disk space. Existing backups will remain until
-                                the number of backups exceeds the retention limit.
-                            </v-card>
-                        </v-menu>
-                    </label>
-
-                    <!-- Database backup compression toggle -->
-                    <v-switch
-                        v-model="settings.backupCompression"
-                        class="mt-0"
-                        color="primary"
-                        hide-hints
-                        dense
-                        label="Enable compression (.zip)"
-                    ></v-switch>
-
                     <!-- Database backup schedule label -->
                     <label class="font-weight-bold">
                         Database backup schedule
@@ -66,9 +38,14 @@
                         :disabled="saving"
                         :rules="[rules.notEmpty, rules.validCron]"
                     ></v-text-field>
+                </v-card-text>
+            </v-card>
 
+            <div class="subheader mt-4 mb-4">Backup Retention</div>
+            <v-card outlined class="rounded-lg p-3">
+                <v-card-text>
                     <!-- Database backup most recenct label -->
-                    <label class="font-weight-bold mt-4">
+                    <label class="font-weight-bold">
                         Most recent
 
                         <v-menu offset-y nudge-top="-12px">
@@ -223,6 +200,40 @@
                 </v-card-text>
             </v-card>
 
+            <div class="subheader mt-4">Miscellaneous</div>
+            <v-card outlined class="rounded-lg p-3">
+                <v-card-text>
+                    <!-- Database backup compression label -->
+                    <label class="font-weight-bold">
+                        Database backup compression
+
+                        <!-- Database backup compression info box -->
+                        <v-menu offset-y nudge-top="-12px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                    >mdi-help-circle-outline</v-icon
+                                >
+                            </template>
+                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                                This option will force future database backups to be compressed into
+                                a .zip format to save disk space. Existing backups will remain until
+                                the number of backups exceeds the retention limit.
+                            </v-card>
+                        </v-menu>
+                    </label>
+
+                    <!-- Database backup compression toggle -->
+                    <v-switch
+                        v-model="settings.backupCompression"
+                        class="mt-0"
+                        color="primary"
+                        hide-hints
+                        dense
+                        label="Enable compression (.zip)"
+                    ></v-switch>
+                </v-card-text>
+            </v-card>
+
             <!-- Save result alerts -->
             <v-alert
                 v-if="!saving && saveStatus !== '' && saveStatus !== 'success'"
@@ -303,7 +314,7 @@ export default {
                     ],
                 })
                 .then(result => {
-                    this.settings = result.data
+                    this.settings = result.data.data
                 })
         },
         saveSettings() {
