@@ -332,19 +332,15 @@ export default {
                         backupRetainMostRecent: parseInt(this.settings.backupRetainMostRecent),
                     },
                 })
+                .then(response => {
+                    this.saving = false
+                    this.saveStatus = 'success'
+                    this.saveErrorMsg = ''
+                })
                 .catch(error => {
                     this.saving = false
                     this.saveStatus = 'error'
                     this.saveErrorMsg = error.response?.data
-                })
-                .then(response => {
-                    if (response?.status !== 200) {
-                        return
-                    }
-
-                    this.saving = false
-                    this.saveStatus = 'success'
-                    this.saveErrorMsg = ''
                 })
         },
     },

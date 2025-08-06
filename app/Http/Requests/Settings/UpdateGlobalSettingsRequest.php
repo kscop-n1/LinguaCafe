@@ -16,6 +16,7 @@ class UpdateGlobalSettingsRequest extends FormRequest
     {
         return [
             'settings' => ['required', 'array'],
+            'settings.backupCompression' => ['boolean'],
             'settings.backupInterval' => ['string', new ValidCronExpression],
             'settings.backupRetainDaily' => ['integer', 'between:0,50'],
             'settings.backupRetainWeekly' => ['integer', 'between:0,50'],
