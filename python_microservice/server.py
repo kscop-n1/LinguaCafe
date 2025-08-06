@@ -1,10 +1,7 @@
 from bottle import route, request, response, run, BaseRequest, HTTPResponse
 BaseRequest.MEMFILE_MAX = 1024 * 1024 * 100
-import sys
 import os
 import json
-import time
-import html
 from urllib import parse
 from newspaper import Article
 
@@ -121,7 +118,7 @@ def getWebsiteText():
     article.download()
     article.parse()
 
-    return json.dumps(article.text);
+    return json.dumps(article.text)
 
 @route('/packages/uninstall-all', method = 'DELETE')
 def remove_models():

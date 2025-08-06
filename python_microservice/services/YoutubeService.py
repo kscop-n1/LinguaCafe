@@ -16,7 +16,7 @@ class YoutubeService:
                 'language': subtitle.language, 
                 'languageLowerCase': subtitle.language.lower(), 
                 'languageCode': subtitle.language_code, 
-                'text': '\n'.join(line.text for line in subtitle.fetch())
+                'text': '\n'.join(line.text for line in subtitle.fetch()),
             })
 
         return subtitleList

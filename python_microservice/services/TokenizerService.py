@@ -54,7 +54,7 @@ class TokenizerService:
                 'start': subtitles[subtitleIndex]['start'],
                 'end': subtitles[subtitleIndex]['end'],
                 'sentenceIndexStart': tokenizedSubtitle[0]['si'],
-                'sentenceIndexEnd': tokenizedSubtitle[-1]['si']
+                'sentenceIndexEnd': tokenizedSubtitle[-1]['si'],
             })
                         
             tokenizedText = tokenizedText + tokenizedSubtitle
@@ -120,7 +120,7 @@ class TokenizerService:
                             "ip": word.upos == "PUNCT",
                             "sb": space_before if wordIndex == 0 else False,
                             "sa": space_after if isLastWord else False,
-                        }
+                        },
                     )
 
             sentenceIndex += 1
@@ -196,7 +196,7 @@ class TokenizerService:
                                 "ip": token.is_punct,
                                 "sb": space_before,
                                 "sa": bool(token.whitespace_),
-                            }
+                            },
                         )
                 else:
                     tokenizedWords.append(
@@ -211,7 +211,7 @@ class TokenizerService:
                             "ip": token.is_punct,
                             "sb": space_before,
                             "sa": bool(token.whitespace_),
-                        }
+                        },
                     )
 
         return tokenizedWords

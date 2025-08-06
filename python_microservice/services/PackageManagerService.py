@@ -26,7 +26,7 @@ class PackageManagerService:
         try:
             # spacy
             result = subprocess.run(
-                ["pip", "list"], capture_output=True, text=True, check=True
+                ["pip", "list"], capture_output=True, text=True, check=True,
             )
             
             installed = result.stdout.splitlines()[2:]
@@ -49,7 +49,7 @@ class PackageManagerService:
             installed_packages = {
                 'spacy_models': spacy_models,
                 'stanza_models': stanza_models,
-                'packages': other_packages
+                'packages': other_packages,
             }
 
             return installed_packages
@@ -69,7 +69,7 @@ class PackageManagerService:
                         "install",
                         "--target=/var/www/html/storage/app/packages/language_models/spacy",
                         config.spacy_urls[language],
-                    ]
+                    ],
                 )
                 
                 if language == "thai":
@@ -81,7 +81,7 @@ class PackageManagerService:
 
                 # Refresh installed python packages in runtime
                 importlib.invalidate_caches()
-            except subprocess.CalledProcessError as e:
+            except subprocess.CalledProcessError:
                 return False
         return True
 
