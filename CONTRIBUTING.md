@@ -32,8 +32,10 @@ Running the tests will delete everything from the database and uninstall every i
 
 Running the command without the `--with-language-installs` argument will skip uninstalling and installing language packages. If the language installs are skipped, the following tests will only test the installed languages.
 
-#### Code style
+#### Styling/formatting/linting
 
+
+#### **PHP**
 For PHP LC uses Pint as a linter. You can run it with ./vendor/bin/pint command, or use the Laravel Pint vscode plugin to autoformat on save. Please also break lines that seem too long, start eloquent queries with ::query(), and put chained commands in new lines.
 
 ```
@@ -44,7 +46,32 @@ For PHP LC uses Pint as a linter. You can run it with ./vendor/bin/pint command,
         ->first();
 ```
 
-For JS and Vue LC uses Prettier.
+#### **HTML, JS and Vue**
+Prettier. 
+
+#### **Python**
+Ruff
+
+#### **My VSCode config**
+
+```
+"[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+},
+"[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+},
+"[js]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+},
+"[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+},
+```
 
 #### Adding a new language
 
