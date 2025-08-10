@@ -1,0 +1,22 @@
+{
+    "name": "LinguaCafe Dev Web Server",
+    "dockerComposeFile": "../docker-compose-dev.yml",
+    "service": "webserver",
+    "workspaceFolder": "/var/www/html",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "laravel.vscode-laravel",
+                "vue.volar",
+                "xdebug.php-debug"
+            ],
+            "settings": {
+                "intelephense.format.enable": false,
+                "chat.agent.enabled": false,
+                "chat.commandCenter.enabled": false,
+                "telemetry.feedback.enabled": false
+            }
+        }
+    }
+}

@@ -19,8 +19,11 @@ services:
             - ./docker/vhost.conf:/etc/apache2/sites-available/000-default.conf
             - ./docker/supervisor-horizon.conf:/etc/supervisor/conf.d/horizon.conf
             - ./docker/supervisor-websockets.conf:/etc/supervisor/conf.d/websockets.conf
+            - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./docker/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
         environment:
             PYTHON_CONTAINER_NAME: linguacafe-python-service-dev
+            PHP_IDE_CONFIG: "serverName=localhost"
             DB_DATABASE: linguacafe-dev
             DB_USERNAME: linguacafe-dev
             DB_PASSWORD: linguacafe-dev
@@ -32,6 +35,7 @@ services:
         ports:
             - "6001:6001"
             - "3000:3000"
+            - "9003:9003"
             - "81:80"
         networks:
             - linguacafedev
@@ -63,7 +67,7 @@ services:
         image: redis:7.2-alpine
         container_name: linguacafe-redis-dev
         restart: unless-stopped
-        volumes: 
+        volumes:
             - ./cache:/data
         ports:
             - "6379:6379"

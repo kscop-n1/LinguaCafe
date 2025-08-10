@@ -35,16 +35,20 @@ RUN docker-php-ext-install pdo pdo_mysql fileinfo \
     && docker-php-ext-install intl \
     && docker-php-source delete
 
-#php config
+# install Xdebug deps
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+# php config
 RUN printf 'max_execution_time = 600\n' >> /usr/local/etc/php/conf.d/uploads.ini \
     && printf 'upload_max_filesize = 500M\n' >> /usr/local/etc/php/conf.d/uploads.ini \
     && printf 'post_max_size = 500M\n' >> /usr/local/etc/php/conf.d/uploads.ini \
     && printf 'memory_limit = 500M\n' >> /usr/local/etc/php/conf.d/uploads.ini
 
-    # enable htaccess
+# enable htaccess
 RUN a2enmod rewrite
 
-    # install composer
+# install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # for some reason i have to install this manually,
