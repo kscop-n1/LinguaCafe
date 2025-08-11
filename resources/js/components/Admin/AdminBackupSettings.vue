@@ -43,160 +43,170 @@
 
             <div class="subheader mt-4 mb-4">Backup Retention</div>
             <v-card outlined class="rounded-lg p-3">
-                <v-card-text>
-                    <!-- Database backup most recenct label -->
-                    <label class="font-weight-bold">
-                        Most recent
+                <v-card-text id="backup-retention-body">
+                    <div>
+                        <!-- Database backup most recenct label -->
+                        <label class="font-weight-bold">
+                            Keep Last
 
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option configures how many of the most recent backups should be
-                                kept.
-                            </v-card>
-                        </v-menu>
-                    </label>
+                            <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                        >mdi-help-circle-outline</v-icon
+                                    >
+                                </template>
+                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                    This option configures how many of the most recent backups
+                                    should be kept.
+                                </v-card>
+                            </v-menu>
+                        </label>
 
-                    <!-- Database backup most recent input -->
-                    <v-text-field
-                        v-model="settings.backupRetainMostRecent"
-                        filled
-                        dense
-                        rounded
-                        hide-details
-                        maxlength="2"
-                        placeholder="5"
-                        :disabled="saving"
-                        :rules="[rules.isInteger]"
-                    ></v-text-field>
+                        <!-- Database backup most recent input -->
+                        <v-text-field
+                            v-model="settings.backupRetainMostRecent"
+                            filled
+                            dense
+                            rounded
+                            hide-details
+                            maxlength="2"
+                            placeholder="5"
+                            :disabled="saving"
+                            :rules="[rules.isInteger]"
+                        ></v-text-field>
+                    </div>
 
-                    <!-- Database backup daily label -->
-                    <label class="font-weight-bold mt-4">
-                        Days
+                    <div>
+                        <!-- Database backup daily label -->
+                        <label class="font-weight-bold">
+                            Keep Daily
 
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option configures how many backups should be kept over the last
-                                "X" number of days. For example, a setting of 14 will keep at least
-                                one backup for each day of the last two weeks.
-                            </v-card>
-                        </v-menu>
-                    </label>
+                            <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                        >mdi-help-circle-outline</v-icon
+                                    >
+                                </template>
+                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                    This option configures how many backups should be kept over the
+                                    last "X" number of days. For example, a setting of 14 will keep
+                                    at least one backup for each day of the last two weeks.
+                                </v-card>
+                            </v-menu>
+                        </label>
 
-                    <!-- Database backup daily max input -->
-                    <v-text-field
-                        v-model="settings.backupRetainDaily"
-                        filled
-                        dense
-                        rounded
-                        hide-details
-                        maxlength="2"
-                        placeholder="5"
-                        :disabled="saving"
-                        :rules="[rules.isInteger]"
-                    ></v-text-field>
+                        <!-- Database backup daily max input -->
+                        <v-text-field
+                            v-model="settings.backupRetainDaily"
+                            filled
+                            dense
+                            rounded
+                            hide-details
+                            maxlength="2"
+                            placeholder="5"
+                            :disabled="saving"
+                            :rules="[rules.isInteger]"
+                        ></v-text-field>
+                    </div>
 
-                    <!-- Database backup weekly label -->
-                    <label class="font-weight-bold mt-4">
-                        Weeks
+                    <div>
+                        <!-- Database backup weekly label -->
+                        <label class="font-weight-bold">
+                            Keep Weekly
 
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option configures how many backups should be kept over the last
-                                "X" number of weeks. For example, a setting of 4 will keep at least
-                                one backup for each of the last 4 weeks.
-                            </v-card>
-                        </v-menu>
-                    </label>
+                            <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                        >mdi-help-circle-outline</v-icon
+                                    >
+                                </template>
+                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                    This option configures how many backups should be kept over the
+                                    last "X" number of weeks. For example, a setting of 4 will keep
+                                    at least one backup for each of the last 4 weeks.
+                                </v-card>
+                            </v-menu>
+                        </label>
 
-                    <!-- Database backup weekly max input -->
-                    <v-text-field
-                        v-model="settings.backupRetainWeekly"
-                        filled
-                        dense
-                        rounded
-                        hide-details
-                        maxlength="2"
-                        placeholder="4"
-                        :disabled="saving"
-                        :rules="[rules.isInteger]"
-                    ></v-text-field>
+                        <!-- Database backup weekly max input -->
+                        <v-text-field
+                            v-model="settings.backupRetainWeekly"
+                            filled
+                            dense
+                            rounded
+                            hide-details
+                            maxlength="2"
+                            placeholder="4"
+                            :disabled="saving"
+                            :rules="[rules.isInteger]"
+                        ></v-text-field>
+                    </div>
 
-                    <!-- Database backup monthly label -->
-                    <label class="font-weight-bold mt-4">
-                        Months
+                    <div>
+                        <!-- Database backup monthly label -->
+                        <label class="font-weight-bold">
+                            Keep Monthly
 
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option configures how many backups should be kept over the last
-                                "X" number of months. For example, a setting of 12 will keep at
-                                least one backup for each month of the last year.
-                            </v-card>
-                        </v-menu>
-                    </label>
+                            <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                        >mdi-help-circle-outline</v-icon
+                                    >
+                                </template>
+                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                    This option configures how many backups should be kept over the
+                                    last "X" number of months. For example, a setting of 12 will
+                                    keep at least one backup for each month of the last year.
+                                </v-card>
+                            </v-menu>
+                        </label>
 
-                    <!-- Database backup monthly max input -->
-                    <v-text-field
-                        v-model="settings.backupRetainMonthly"
-                        filled
-                        dense
-                        rounded
-                        hide-details
-                        maxlength="2"
-                        placeholder="6"
-                        :disabled="saving"
-                        :rules="[rules.isInteger]"
-                    ></v-text-field>
+                        <!-- Database backup monthly max input -->
+                        <v-text-field
+                            v-model="settings.backupRetainMonthly"
+                            filled
+                            dense
+                            rounded
+                            hide-details
+                            maxlength="2"
+                            placeholder="6"
+                            :disabled="saving"
+                            :rules="[rules.isInteger]"
+                        ></v-text-field>
+                    </div>
 
-                    <!-- Database backup yearly label -->
-                    <label class="font-weight-bold mt-4">
-                        Years
+                    <div>
+                        <!-- Database backup yearly label -->
+                        <label class="font-weight-bold">
+                            Keep Yearly
 
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option configures how many backups should be kept over the last
-                                "X" number of years. For example, a setting of 10 will keep at least
-                                one backup for each year of the last decade.
-                            </v-card>
-                        </v-menu>
-                    </label>
+                            <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                                        >mdi-help-circle-outline</v-icon
+                                    >
+                                </template>
+                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                    This option configures how many backups should be kept over the
+                                    last "X" number of years. For example, a setting of 10 will keep
+                                    at least one backup for each year of the last decade.
+                                </v-card>
+                            </v-menu>
+                        </label>
 
-                    <!-- Database backup yearly max input -->
-                    <v-text-field
-                        v-model="settings.backupRetainYearly"
-                        filled
-                        dense
-                        rounded
-                        hide-details
-                        maxlength="2"
-                        placeholder="5"
-                        :disabled="saving"
-                        :rules="[rules.isInteger]"
-                    ></v-text-field>
+                        <!-- Database backup yearly max input -->
+                        <v-text-field
+                            v-model="settings.backupRetainYearly"
+                            filled
+                            dense
+                            rounded
+                            hide-details
+                            maxlength="2"
+                            placeholder="5"
+                            :disabled="saving"
+                            :rules="[rules.isInteger]"
+                        ></v-text-field>
+                    </div>
                 </v-card-text>
             </v-card>
 
@@ -208,7 +218,7 @@
                         Database backup compression
 
                         <!-- Database backup compression info box -->
-                        <v-menu offset-y nudge-top="-12px">
+                        <v-menu>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-icon class="ml-1" v-bind="attrs" v-on="on"
                                     >mdi-help-circle-outline</v-icon

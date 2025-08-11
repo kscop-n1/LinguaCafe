@@ -52,7 +52,7 @@ class BackupService
         }
     }
 
-    private function deleteOldBackups(string $prefix): void
+    public static function deleteOldBackups(string $prefix): void
     {
         $retentionIntervals = [
             ['max' => (int) Setting::where('name', 'backupRetainYearly')->first()->value, 'interval' => DateInterval::createFromDateString('1 year')],
@@ -60,15 +60,16 @@ class BackupService
             ['max' => (int) Setting::where('name', 'backupRetainWeekly')->first()->value, 'interval' => DateInterval::createFromDateString('1 week')],
             ['max' => (int) Setting::where('name', 'backupRetainDaily')->first()->value, 'interval' => DateInterval::createFromDateString('1 day')],
         ];
+
         $filesToKeep = array_map(function ($path) {
             return [
                 'path' => $path,
-                'mtime' => Storage::disk('backup')->lastModified($path),
-                'keep' => false,
+                'mtime' => Storage::disk('backup')->lastModified($path), // when the file was created/last modified
+                'keep' => false, // whether the file should be kept or deleted
             ];
-        }, $this->getBackupFiles($prefix));
+        }, BackupService::getBackupFiles($prefix));
 
-        // Sort files by last modified time (newest first)
+        // Sort files by last modified time, most recent first
         usort($filesToKeep, fn ($fileA, $fileB) => $fileA['mtime'] < $fileB['mtime'] ? 1 : -1);
 
         // Mark 'X' most recent backups to be kept
@@ -80,20 +81,20 @@ class BackupService
         };
         $filesToKeep = array_replace($filesToKeep, array_map($markKeep, array_slice($filesToKeep, 0, $mostRecentRetentionCount, preserve_keys: true)));
 
-        // Mark backups to be kept by intervals
+        // Partition files by interval working backwards from the current time
         foreach ($retentionIntervals as $retentionInterval) {
-            // Partition files by interval
-            $intervalPartitions = [];
-            $needleDateTime = new DateTime;
-            $nextNeedleDateTime = new DateTime;
+            $filesPartitionedByInterval = [];
+            $partitionStart = new DateTime('now');
+            $partitionEnd = clone $partitionStart;
             $keepCount = $retentionInterval['max'];
             for ($i = 0; $i < $keepCount; $i++) {
-                $nextNeedleDateTime->sub($retentionInterval['interval']);
-                $intervalPartitions[] = array_filter($filesToKeep, fn ($file) => $file['mtime'] < $needleDateTime->getTimeStamp() && $file['mtime'] > $nextNeedleDateTime->getTimeStamp());
-                $needleDateTime = clone $nextNeedleDateTime;
+                $partitionStart->sub($retentionInterval['interval']);
+                $filesPartitionedByInterval[] = array_filter($filesToKeep, fn ($file) => $file['mtime'] > $partitionStart->getTimeStamp() && $file['mtime'] < $partitionEnd->getTimeStamp());
+                $partitionEnd = clone $partitionStart;
             }
 
-            foreach ($intervalPartitions as $key => $partition) {
+            // Mark the first (most recent backup) of each interval to be kept
+            foreach ($filesPartitionedByInterval as $partition) {
                 $partitionKeys = array_keys($partition);
                 if (array_key_exists(0, $partitionKeys)) {
                     $firstKey = $partitionKeys[0];
@@ -102,15 +103,15 @@ class BackupService
             }
         }
 
-        // Delete marked backup files
+        // Delete backup files that don't match the current retention rules
         foreach ($filesToKeep as $file) {
-            if ($file['keep'] == false) {
+            if (!$file['keep']) {
                 Storage::disk('backup')->delete($file['path']);
             }
         }
     }
 
-    private function getBackupFiles(string $prefix): array
+    public static function getBackupFiles(string $prefix): array
     {
         $files = Storage::disk('backup')->files();
         $files = Arr::where($files, function ($value) use ($prefix) {
