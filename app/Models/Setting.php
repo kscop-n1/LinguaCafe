@@ -11,6 +11,7 @@ class Setting extends Model
 
     public function decode()
     {
+        // TODO: check how it handles floats
         return json_decode($this->value);
     }
 }
