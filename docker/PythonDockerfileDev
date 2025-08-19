@@ -7,6 +7,7 @@ RUN apt-get update -y \
         python3-dev \
         pip \
         tzdata \
+        gdb \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -37,8 +38,10 @@ RUN pip install -U --no-cache-dir \
 #subtitle file parser
         pysubs2 \
 #website text parser
-        newspaper3k \ 
-        stanza
+        newspaper3k \
+        stanza \
+#python debugger adapter
+        debugpy
 
 RUN python3 -m spacy download de_core_news_sm \
     && python3 -m spacy download nb_core_news_sm \

@@ -1,0 +1,20 @@
+{
+    "name": "LinguaCafe Dev Python Service",
+    "dockerComposeFile": "../../docker-compose-dev.yml",
+    "service": "python",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "charliermarsh.ruff"
+            ],
+            "settings": {
+                "chat.agent.enabled": false,
+                "chat.commandCenter.enabled": false,
+                "telemetry.feedback.enabled": false,
+                "python.userEnvironmentExtension": true
+            }
+        }
+    }
+}

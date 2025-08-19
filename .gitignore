@@ -1,9 +1,9 @@
 !/public/css/vuetify.min.css
 .env.backup
 .phpunit.result.cache
-/.devcontainer/devcontainer.json
+.vscode
+devcontainer.json
 /.idea
-/.vscode
 /cache/*
 /docker/mysql/*
 /node_modules
