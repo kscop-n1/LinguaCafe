@@ -108,9 +108,9 @@ def getYoutubeSubtitleList():
     url = request.json.get('url')
     parsedUrl = parse.urlparse(url)
 
-    if parsedUrl.netloc == 'www.youtube.com': # parse regular Youtube links
+    if parsedUrl.netloc in ['www.youtube.com', 'm.youtube.com']: # parse regular Youtube links
         videoId = parse.parse_qs(parsedUrl.query)['v'][0]
-    elif parsedUrl.netloc == 'www.youtu.be' or parsedUrl.netloc == 'youtu.be': # parse Youtube shortlinks
+    elif parsedUrl.netloc in  ['www.youtu.be', 'youtu.be']: # parse Youtube shortlinks
         videoId = parsedUrl.path[1:]
     else:
         raise ValueError("A valid Youtube URL must be provided to retrieve a subtitle list.")
