@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\ChapterProcessingStatusEnum;
 use App\Enums\Import\EbookChapterSortMethodEnum;
+use App\Enums\Import\EbookTextProcessingMethodEnum;
 use App\Enums\Import\ImportTypeEnum;
 use App\Enums\Import\TokenizerRequestTypeEnum;
 use App\Helpers\Language\LanguageConfig;
@@ -32,6 +33,7 @@ class ImportService
         LanguageConfig $language,
         int $chunkSize,
         EbookChapterSortMethodEnum $eBookChapterSortMethod,
+        EbookTextProcessingMethodEnum $eBookTextProcessingMethod,
         string $chapterName,
         ?Book $book,
         ?string $bookName,
@@ -53,6 +55,7 @@ class ImportService
                 $language,
                 $chunkSize,
                 $eBookChapterSortMethod,
+                $eBookTextProcessingMethod,
                 $this->getFullTempFilePath($fileName),
                 $importText ?? null,
                 $importSubtitles ?? null
@@ -100,6 +103,7 @@ class ImportService
         LanguageConfig $language,
         int $chunkSize,
         EbookChapterSortMethodEnum $eBookChapterSortMethod,
+        EBookTextProcessingMethodEnum $eBookTextProcessingMethod,
         ?string $fileName,
         ?string $importText,
         ?string $importSubtitles,
@@ -113,6 +117,7 @@ class ImportService
         $requestTypeBasedImportData = match ($tokenizerRequestType) {
             TokenizerRequestTypeEnum::E_BOOK => [
                 'chapterSortMethod' => $eBookChapterSortMethod->value,
+                'textProcessingMethod' => $eBookTextProcessingMethod->value,
                 'importFile' => $fileName,
             ],
             TokenizerRequestTypeEnum::SUBTITLE => [

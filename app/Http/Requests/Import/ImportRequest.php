@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Import;
 
 use App\Enums\Import\EbookChapterSortMethodEnum;
+use App\Enums\Import\EbookTextProcessingMethodEnum;
 use App\Enums\Import\ImportTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -34,6 +35,10 @@ class ImportRequest extends FormRequest
             'eBookChapterSortMethod' => [
                 'required',
                 Rule::enum(EbookChapterSortMethodEnum::class),
+            ],
+            'textProcessingMethod' => [
+                'required',
+                Rule::enum(EbookTextProcessingMethodEnum::class),
             ],
             'bookId' => [
                 'required',

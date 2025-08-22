@@ -77,8 +77,11 @@ def loadEbookIntoChunks():
     importFile = request.json.get('importFile')
     language = transformLanguage(request.json.get('language'))
     chunkSize = request.json.get('chunkSize')
-    textProcessingMethod = request.json.get('textProcessingMethod')
     chapterSortMethod = request.json.get('chapterSortMethod')
+    try:
+        textProcessingMethod = EbookService.TextProcessingMethod[request.json.get('textProcessingMethod')]
+    except KeyError:
+        textProcessingMethod = EbookService.TextProcessingMethod.plaintext
 
     bookTextChunks = ebookService.loadEbookIntoChunks(
         importFile, language, chunkSize, textProcessingMethod, chapterSortMethod

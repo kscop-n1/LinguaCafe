@@ -36,6 +36,43 @@
                 </v-radio>
             </v-radio-group>
 
+            <!-- E-book processing method -->
+            <label class="font-weight-bold mt-2" v-if="$props.type === 'e-book'">
+                E-book processing method
+                <v-menu offset-y nudge-top="-12px">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon class="ml-1" v-bind="attrs" v-on="on"
+                            >mdi-help-circle-outline</v-icon
+                        >
+                    </template>
+                    <v-card outlined class="rounded-lg pa-4" width="320px">
+                        In some cases, processing with the "Plaintext" option may result in
+                        erroneous word tokenization. The "Preserve blocks" option inserts breaks
+                        between paragraphs and other block elements from the original ebook format
+                        to prevent these errors and to improve readability in some cases, though it
+                        may be slightly slower.
+                    </v-card>
+                </v-menu>
+            </label>
+
+            <v-radio-group
+                v-if="$props.type === 'e-book'"
+                v-model="textProcessingMethod"
+                @change="importOptionsChanged"
+                class="mt-0"
+            >
+                <v-radio value="plaintext">
+                    <template v-slot:label>
+                        <div>Plaintext</div>
+                    </template>
+                </v-radio>
+                <v-radio value="preserve_block_tags">
+                    <template v-slot:label>
+                        <div>Preserve blocks</div>
+                    </template>
+                </v-radio>
+            </v-radio-group>
+
             <!-- Text processing method label -->
             <label class="font-weight-bold mt-2">Maximum characters per chapter</label>
             <v-text-field
@@ -71,6 +108,7 @@ export default {
     data: function () {
         return {
             eBookChapterSortMethod: 'default',
+            textProcessingMethod: 'plaintext',
             isFormValid: false,
             maximumCharactersPerChapter:
                 this.$props.language == 'chinese' || this.$props.language == 'japanese'
@@ -110,6 +148,7 @@ export default {
             this.$emit('import-options-changed', {
                 maximumCharactersPerChapter: this.maximumCharactersPerChapter,
                 eBookChapterSortMethod: this.eBookChapterSortMethod,
+                textProcessingMethod: this.textProcessingMethod,
                 isValid: valid,
             })
         },
