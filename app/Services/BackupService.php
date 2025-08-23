@@ -3,14 +3,11 @@
 namespace App\Services;
 
 use App\Models\Setting;
-use Cron\CronExpression;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Facades\Storage;
-use InvalidArgumentException;
 
 class BackupService
 {
@@ -119,14 +116,5 @@ class BackupService
         });
 
         return $files;
-    }
-
-    public static function updateBackupSchedule(string $cron)
-    {
-        if (CronExpression::isValidExpression($cron)) {
-            Schedule::command('app:create-backup')->cron($cron)->withoutOverlapping();
-        } else {
-            throw new InvalidArgumentException("The provided cron expression ($cron) is invalid. Please provide a valid cron expression.");
-        }
     }
 }

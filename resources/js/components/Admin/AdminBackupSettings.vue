@@ -3,45 +3,7 @@
         <v-form v-model="isFormValid">
             <!-- Database backup settings -->
 
-            <div class="subheader mt-4 mb-4">Backup Scheduling</div>
-            <v-card outlined class="rounded-lg p-3">
-                <v-card-text>
-                    <!-- Database backup schedule label -->
-                    <label class="font-weight-bold">
-                        Database backup schedule
-
-                        <!-- Database backup schedule info box -->
-                        <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on"
-                                    >mdi-help-circle-outline</v-icon
-                                >
-                            </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
-                                This option configures how often backups of the database are taken
-                                using the
-                                <a href="https://en.wikipedia.org/wiki/Cron#Overview">Cron</a>
-                                format.
-                            </v-card>
-                        </v-menu>
-                    </label>
-
-                    <!-- Database backup schedule input -->
-                    <v-text-field
-                        v-model="settings.backupInterval"
-                        filled
-                        dense
-                        rounded
-                        hide-details
-                        maxlength="75"
-                        placeholder="0,30 * * * *"
-                        :disabled="saving"
-                        :rules="[rules.notEmpty, rules.validCron]"
-                    ></v-text-field>
-                </v-card-text>
-            </v-card>
-
-            <div class="subheader mt-4 mb-4">Backup Retention</div>
+            <div class="subheader mt-4">Backup Retention</div>
             <v-card outlined class="rounded-lg p-3">
                 <v-card-text id="backup-retention-body">
                     <div>
@@ -214,7 +176,7 @@
             <v-card outlined class="rounded-lg p-3">
                 <v-card-text>
                     <!-- Database backup compression label -->
-                    <label class="font-weight-bold">
+                    <label class="font-weight-bold mt-4 mb-0">
                         Database backup compression
 
                         <!-- Database backup compression info box -->
@@ -285,20 +247,16 @@ export default {
             settings: null,
             saving: false,
             saveStatus: '',
-            saveErrorMsg: '',
             rules: {
                 notEmpty: value => {
-                    return value?.length ? true : 'Field cannot be empty.'
+                    if (!value.length) {
+                        return 'Field cannot be empty.'
+                    }
+
+                    return true
                 },
                 isInteger: value => {
                     return Number.isInteger(parseInt(value))
-                },
-                validCron: value => {
-                    let cronRegex =
-                        /^((((\d+,)+\d+|(\d+(\/|-|#)\d+)|\d+L?|\*(\/\d+)?|L(-\d+)?|\?|[A-Z]{3}(-[A-Z]{3})?) ?){5,7})$/
-                    return value.match(cronRegex)
-                        ? true
-                        : 'The schedule must be a valid CRON entry.'
                 },
             },
         }
@@ -315,7 +273,6 @@ export default {
                 .post('/settings/global/get', {
                     settingNames: [
                         'backupCompression',
-                        'backupInterval',
                         'backupRetainDaily',
                         'backupRetainWeekly',
                         'backupRetainMonthly',
@@ -334,7 +291,6 @@ export default {
                 .post('/settings/global/update', {
                     settings: {
                         backupCompression: this.settings.backupCompression,
-                        backupInterval: this.settings.backupInterval,
                         backupRetainDaily: parseInt(this.settings.backupRetainDaily),
                         backupRetainWeekly: parseInt(this.settings.backupRetainWeekly),
                         backupRetainMonthly: parseInt(this.settings.backupRetainMonthly),
@@ -350,7 +306,6 @@ export default {
                 .catch(error => {
                     this.saving = false
                     this.saveStatus = 'error'
-                    this.saveErrorMsg = error.response?.data
                 })
         },
     },
