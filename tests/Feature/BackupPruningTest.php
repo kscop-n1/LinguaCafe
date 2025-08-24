@@ -46,9 +46,10 @@ class BackupPruning extends TestCase
         }
 
         $this->expectsDatabaseQueryCount(5);
-        BackupService::deleteOldBackups($prefix);
 
-        $backupFilesAfterPruning = BackupService::getBackupFiles($prefix);
+        $backupService = new BackupService;
+        $backupService->deleteOldBackups($prefix);
+        $backupFilesAfterPruning = $backupService->getBackupFiles($prefix);
 
         // These results assume the follow retention values
         // Latest: 5
