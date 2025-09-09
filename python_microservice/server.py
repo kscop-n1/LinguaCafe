@@ -5,6 +5,7 @@ import os
 import json
 from urllib import parse
 from newspaper import Article
+from youtube_transcript_api import IpBlocked, RequestBlocked
 
 from services import PackageManagerService
 from services import YoutubeService
@@ -106,9 +107,19 @@ def getYoutubeSubtitleList():
 
     url = request.json.get('url')
     parsedUrl = parse.urlparse(url)
-    videoId = parse.parse_qs(parsedUrl.query)['v'][0]
 
-    return json.dumps(youtubeService.getYoutubeSubtitleList(videoId))
+    if parsedUrl.netloc in ['www.youtube.com', 'm.youtube.com']: # parse regular Youtube links
+        videoId = parse.parse_qs(parsedUrl.query)['v'][0]
+    elif parsedUrl.netloc in  ['www.youtu.be', 'youtu.be']: # parse Youtube shortlinks
+        videoId = parsedUrl.path[1:]
+    else:
+        raise ValueError("A valid Youtube URL must be provided to retrieve a subtitle list.")
+
+    try:
+        subtitles = youtubeService.getYoutubeSubtitleList(videoId)
+        return json.dumps(subtitles)
+    except (IpBlocked, RequestBlocked):
+        return HTTPResponse(status=419, body='Error: your IP may have been blocked by Youtube.')
 
 
 @route('/subtitles/read', method='POST')
