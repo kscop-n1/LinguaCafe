@@ -10,6 +10,7 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh \
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         curl \
+        libicu-dev \
         libonig-dev \
         libpng-dev \
         libxml2-dev \
