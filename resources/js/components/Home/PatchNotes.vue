@@ -22,6 +22,7 @@
                     <li>Added context to custom API dictionary requests.</li>
                     <li>Added continue reading feature.</li>
                     <li>Added support for more subtitle formats.</li>
+                    <li>Added support for preserving white spaces in imported e-books.</li>
                 </ul>
 
                 <b>Bug fixes:</b>
