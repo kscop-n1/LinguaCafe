@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Import\EbookChapterSortMethodEnum;
+use App\Enums\Import\EBookTextProcessingMethodEnum;
 use App\Enums\Import\ImportTypeEnum;
 use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Import\ImportRequest;
@@ -25,6 +26,7 @@ class ImportController extends Controller
         $book = Book::find($request->validated('bookId'));
         $importType = ImportTypeEnum::from($request->validated('importType'));
         $eBookChapterSortMethod = EbookChapterSortMethodEnum::from($request->validated('eBookChapterSortMethod'));
+        $eBookTextProcessingMethod = EbookTextProcessingMethodEnum::from($request->validated('textProcessingMethod'));
         $bookName = $request->validated('bookName');
         $chapterName = $request->validated('chapterName');
         $chunkSize = intval($request->validated('maximumCharactersPerChapter'));
@@ -38,6 +40,7 @@ class ImportController extends Controller
             language: $language,
             chunkSize: $chunkSize,
             eBookChapterSortMethod: $eBookChapterSortMethod,
+            eBookTextProcessingMethod: $eBookTextProcessingMethod,
             chapterName: $chapterName,
             book: $book ?? null,
             bookName: $bookName ?? null,

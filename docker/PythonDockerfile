@@ -19,6 +19,7 @@ RUN pip install -U --no-cache-dir \
         wheel \
         lxml \
         lxml_html_clean \
+        html5lib \
 #youtube api
         youtube_transcript_api \
 #ebook library
