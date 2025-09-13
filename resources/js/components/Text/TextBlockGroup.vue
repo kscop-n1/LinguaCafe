@@ -1672,6 +1672,7 @@
                     for (let i = 0; i < this.phrases.length; i++) {
                         if (this.phrases[i].id == -1) {
                             this.phrases[i].id = parseInt(response.data.data);
+                            this.$store.commit('vocabularyBox/setId', this.phrases[i].id);
                         }
                     }
 
