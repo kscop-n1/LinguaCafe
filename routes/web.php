@@ -208,5 +208,4 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     // library import
     Route::post('/import', [App\Http\Controllers\ImportController::class, 'import']);
     Route::post('/youtube/get-subtitle-list', [App\Http\Controllers\Youtube\YoutubeController::class, 'getYoutubeSubtitles']);
-    Route::post('/website/get-text', [App\Http\Controllers\Website\WebsiteController::class, 'getWebsiteText']);
 });

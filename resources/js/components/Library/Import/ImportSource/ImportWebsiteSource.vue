@@ -89,7 +89,7 @@ export default {
                 this.websiteRequestStatus = ''
 
                 axios
-                    .post('/website/get-text', {
+                    .post('/api/library/import/get-website-text', {
                         url: this.url,
                     })
                     .then(response => {
