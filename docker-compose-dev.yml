@@ -79,7 +79,7 @@ services:
             - linguacafedev
     python:
         container_name: linguacafe-python-service-dev
-        command: "python3 /app/server.py"
+        command: "python3 -m debugpy --listen 5678 /app/server.py"
         restart: unless-stopped
         tty: true
         ports:
