@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Subtitle;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Subtitle\GetSubtitleFileContentRequest;
+use App\Http\Requests\Subtitle\ParseSubtitleFileRequest;
 use App\Services\Subtitle\SubtitleService;
 use App\Services\TempFileService;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ class SubtitleController extends Controller
         //
     }
 
-    public function getSubtitleFileContent(GetSubtitleFileContentRequest $request)
+    public function parseSubtitleFile(ParseSubtitleFileRequest $request)
     {
         $subtitleFile = $request->file('subtitleFile');
         $user = Auth::user();
@@ -26,10 +26,10 @@ class SubtitleController extends Controller
             $fileName = $this->tempFileService->moveFileToTempFolder($user, $subtitleFile);
 
             $subtitleContent = $this->subtitleService->getSubtitleFileContent(storage_path('app/temp') . '/' . $fileName);
-        } catch (\Exception $e) {
+        } catch (\Throwable $error) {
             $this->tempFileService->deleteTempFile($fileName);
 
-            throw new \Exception($e->getMessage());
+            throw new \Throwable($error->getMessage());
         }
 
         $this->tempFileService->deleteTempFile($fileName);
