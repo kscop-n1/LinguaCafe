@@ -592,10 +592,12 @@ export default {
                 })
                 .then(response => {
                     this.loading = false
-                    var data = response.data
-                    this.filters.bookIndex = data.bookIndex
+                    var data = response.data.data
                     this.words = data.words
                     this.books = data.books
+                    this.filters.bookIndex = this.books.findIndex(book => {
+                        return book.id === parseInt(this.filters.book)
+                    })
                     this.pageCount = data.pageCount
                     this.currentPage = parseInt(data.currentPage)
                     this.wordCount = data.wordCount

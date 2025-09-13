@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Language\LanguageConfig;
-// services
 use App\Http\Requests\Vocabulary\CreateOrUpdateExampleSentenceRequest;
 use App\Http\Requests\Vocabulary\CreatePhraseRequest;
-// request classes
-use App\Http\Requests\Vocabulary\DeletePhraseRequest;
 use App\Http\Requests\Vocabulary\ExportToCsvRequest;
-use App\Http\Requests\Vocabulary\GetExampleSentenceRequest;
 use App\Http\Requests\Vocabulary\GetKanjiDetailsRequest;
-use App\Http\Requests\Vocabulary\GetPhraseRequest;
-use App\Http\Requests\Vocabulary\GetUniqueWordRequest;
 use App\Http\Requests\Vocabulary\ImportFromCsvRequest;
 use App\Http\Requests\Vocabulary\SearchKanjiRequest;
 use App\Http\Requests\Vocabulary\SearchVocabularyRequest;
 use App\Http\Requests\Vocabulary\UpdatePhraseRequest;
 use App\Http\Requests\Vocabulary\UpdateWordRequest;
+use App\Http\Resources\Vocabulary\EncounteredWordResource;
+use App\Http\Resources\Vocabulary\PhraseResource;
+use App\Models\EncounteredWord;
+use App\Models\Phrase;
 use App\Services\TempFileService;
 use App\Services\VocabularyService;
 use Illuminate\Support\Facades\Auth;
@@ -34,230 +32,159 @@ class VocabularyController extends Controller
         $this->tempFileService = $tempFileService;
     }
 
-    public function getUniqueWord($wordId, GetUniqueWordRequest $request)
+    // TODO: separate vocabulary/encountered word resource and phrase resource into their own controllers and services
+    public function getUniqueWord(EncounteredWord $word)
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
 
-        try {
-            $word = $this->vocabularyService->getUniqueWord($userId, $wordId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
+        if ($user->id !== $word->user_id) {
+            throw new \Exception('User has no permission to access this word.');
         }
 
-        return response()->json($word, 200);
+        return new EncounteredWordResource($word);
     }
 
-    public function updateWord(UpdateWordRequest $request)
+    public function updateWord(UpdateWordRequest $request, EncounteredWord $word)
     {
-        $userId = Auth::user()->id;
-        $wordId = $request->post('id');
-        $wordData = [];
-        $wordStage = null;
+        $user = Auth::user();
 
-        if ($request->has('translation')) {
-            $wordData['translation'] = $request->translation === null ? '' : $request->translation;
-        }
+        $wordData = collect($request->validated())->except('stage');
 
-        if ($request->has('reading')) {
-            $wordData['reading'] = $request->reading === null ? '' : $request->reading;
-        }
+        $stage = $request->validated('stage');
 
-        if ($request->has('lemma')) {
-            $wordData['lemma'] = $request->lemma === null ? '' : $request->lemma;
-        }
+        $this->vocabularyService->updateWord($user, $word, $wordData, $stage);
 
-        if ($request->has('lemma_reading')) {
-            $wordData['lemma_reading'] = $request->lemma_reading === null ? '' : $request->lemma_reading;
-        }
-
-        if (isset($request->lookup_count)) {
-            $wordData['lookup_count'] = $request->lookup_count;
-        }
-
-        if (isset($request->read_count)) {
-            $wordData['read_count'] = $request->read_count;
-        }
-
-        if (isset($request->relearning)) {
-            $wordData['relearning'] = boolval($request->relearning);
-        }
-
-        if (isset($request->stage)) {
-            $wordStage = $request->stage;
-        }
-
-        try {
-            $this->vocabularyService->updateWord($userId, $wordId, $wordData, $wordStage);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Word has been successfully updated.', 200);
+        return response()->noContent();
     }
 
-    public function getPhrase($phraseId, GetPhraseRequest $request)
+    public function getPhrase(Phrase $phrase)
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
 
-        try {
-            $phrase = $this->vocabularyService->getPhrase($userId, $phraseId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
+        if ($user->id !== $phrase->user_id) {
+            throw new \Exception('User has no permission to access this phrase.');
         }
 
-        return response()->json($phrase, 200);
+        return new PhraseResource($phrase);
     }
 
     public function createPhrase(CreatePhraseRequest $request)
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
         $language = LanguageConfig::load(Auth::user()->selected_language);
         $words = json_decode($request->words);
         $stage = $request->stage;
         $reading = is_null($request->reading) ? '' : $request->reading;
         $translation = is_null($request->translation) ? '' : $request->translation;
 
-        try {
-            $phraseId = $this->vocabularyService->createPhrase($userId, $language, $words, $stage, $reading, $translation);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        // TODO: make phrase fields nullable
+        $phraseId = $this->vocabularyService->createPhrase($user, $language, $words, $stage, $reading, $translation);
 
-        return response()->json($phraseId, 200);
+        return response()->json([
+            'data' => $phraseId,
+        ]);
     }
 
-    public function updatePhrase(UpdatePhraseRequest $request)
+    public function updatePhrase(UpdatePhraseRequest $request, Phrase $phrase)
     {
-        $userId = Auth::user()->id;
-        $phraseId = $request->post('id');
-        $phraseData = [];
-        $phraseStage = null;
+        $user = Auth::user();
 
-        if ($request->has('translation')) {
-            $phraseData['translation'] = $request->translation === null ? '' : $request->translation;
-        }
+        $phraseData = collect($request->validated())->except('stage');
+        $stage = $request->validated('stage');
 
-        if ($request->has('reading')) {
-            $phraseData['reading'] = $request->reading === null ? '' : $request->reading;
-        }
+        $this->vocabularyService->updatePhrase($user, $phrase, $phraseData, $stage);
 
-        if (isset($request->lookup_count)) {
-            $phraseData['lookup_count'] = $request->lookup_count;
-        }
-
-        if (isset($request->relearning)) {
-            $phraseData['relearning'] = boolval($request->relearning);
-        }
-
-        if (isset($request->stage)) {
-            $phraseStage = $request->stage;
-        }
-
-        try {
-            $this->vocabularyService->updatePhrase($userId, $phraseId, $phraseData, $phraseStage);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
-
-        return response()->json('Phrase has been successfully updated.', 200);
+        return response()->noContent();
     }
 
-    public function deletePhrase(DeletePhraseRequest $request)
+    public function deletePhrase(Phrase $phrase)
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $phraseId = $request->post('phraseId');
+        $user = Auth::user();
 
-        try {
-            $this->vocabularyService->deletePhrase($userId, $language, $phraseId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->vocabularyService->deletePhrase($user, $phrase);
 
-        return response()->json('Phrase has been successfully deleted.', 200);
+        return response()->noContent();
     }
 
-    public function getExampleSentence($targetType, $targetId, GetExampleSentenceRequest $request)
+    public function getWordExampleSentence(EncounteredWord $word)
     {
-        $userId = Auth::user()->id;
+        $user = Auth::user();
 
-        try {
-            $exampleSentence = $this->vocabularyService->getExampleSentence($userId, $targetType, $targetId);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $exampleSentence = $this->vocabularyService->getExampleSentence($user, $word);
 
-        return response()->json($exampleSentence, 200);
+        return response()->json([
+            'data' => $exampleSentence,
+        ]);
+    }
+
+    public function getPhraseExampleSentence(Phrase $phrase)
+    {
+        $user = Auth::user();
+
+        $exampleSentence = $this->vocabularyService->getExampleSentence($user, $phrase);
+
+        return response()->json([
+            'data' => $exampleSentence,
+        ]);
     }
 
     public function createOrUpdateExampleSentence(CreateOrUpdateExampleSentenceRequest $request)
     {
-        $language = Auth::user()->selected_language;
-        $userId = Auth::user()->id;
-        $targetType = $request->targetType;
-        $targetId = $request->targetId;
-        $exampleSentenceWords = json_decode($request->exampleSentenceWords);
+        $user = Auth::user();
+        $language = LanguageConfig::load(Auth::user()->selected_language);
+        $targetType = $request->validated('targetType');
+        $targetId = $request->validated('targetId');
+        $exampleSentenceWords = json_decode($request->validated('exampleSentenceWords'));
 
-        try {
-            $this->vocabularyService->createOrUpdateExampleSentence($userId, $language, $targetType, $targetId, $exampleSentenceWords);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $this->vocabularyService->createOrUpdateExampleSentence(
+            $user,
+            $language,
+            $targetType,
+            $targetId,
+            $exampleSentenceWords
+        );
 
-        return response()->json('Example sentence has been successfully saved.', 200);
+        return response()->noContent();
     }
 
     public function searchVocabulary(SearchVocabularyRequest $request)
     {
-        $userId = Auth::user()->id;
-        $language = LanguageConfig::load(Auth::user()->selected_language);
-        $text = $request->text;
-        $bookId = $request->book;
-        $chapterId = $request->chapter;
-        $stage = $request->stage;
-        $phrases = $request->phrases;
-        $orderBy = $request->orderBy;
-        $translation = $request->translation;
-        $page = $request->page;
+        $user = Auth::user();
 
-        try {
-            $searchResults = $this->vocabularyService->searchVocabulary($userId, $language, $text, $bookId, $chapterId, $stage, $phrases, $orderBy, $translation, $page);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $searchResults = $this->vocabularyService->searchVocabulary(
+            user: $user,
+            language: LanguageConfig::load($user->selected_language),
+            text: $request->validated('text'),
+            bookId: $request->validated('book'),
+            chapterId: $request->validated('chapter'),
+            stage: $request->validated('stage'),
+            phrases: $request->validated('phrases'),
+            orderBy: $request->validated('orderBy'),
+            translation: $request->validated('translation'),
+            page: $request->validated('page')
+        );
 
-        return response()->json($searchResults, 200);
+        return response()->json([
+            'data' => $searchResults,
+        ]);
     }
 
     public function exportToCsv(ExportToCsvRequest $request)
     {
-        $userId = Auth::user()->id;
-        $language = LanguageConfig::load(Auth::user()->selected_language);
-        $text = $request->post('text');
-        $bookId = $request->post('book');
-        $chapterId = $request->post('chapter');
-        $stage = $request->post('stage');
-        $phrases = $request->post('phrases');
-        $orderBy = $request->post('orderBy');
-        $translation = $request->post('translation');
-        $fields = $request->post('fields');
+        $user = Auth::user();
 
-        try {
-            $csv = $this->vocabularyService->exportToCsv(
-                $userId,
-                $language,
-                $text,
-                $bookId,
-                $chapterId,
-                $stage,
-                $phrases,
-                $orderBy,
-                $translation,
-                $fields
-            );
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $csv = $this->vocabularyService->exportToCsv(
+            user: $user,
+            language: LanguageConfig::load($user->selected_language),
+            text: $request->validated('text'),
+            bookId: $request->validated('book'),
+            chapterId: $request->validated('chapter'),
+            stage: $request->validated('stage'),
+            phrases: $request->validated('phrases'),
+            orderBy: $request->validated('orderBy'),
+            translation: $request->validated('translation'),
+            fields: $request->validated('fields')
+        );
 
         $csv->output('vocabulary.csv');
 
@@ -266,53 +193,58 @@ class VocabularyController extends Controller
 
     public function searchKanji(SearchKanjiRequest $request)
     {
-        $language = Auth::user()->selected_language;
-        $userId = Auth::user()->id;
-        $groupBy = $request->post('kanjiGroupBy');
-        $showUnknown = $request->post('showUnknown');
+        $user = Auth::user();
 
-        try {
-            $kanji = $this->vocabularyService->searchKanji($userId, $language, $groupBy, $showUnknown);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $kanji = $this->vocabularyService->searchKanji(
+            user: $user,
+            language: LanguageConfig::load($user->selected_language),
+            groupBy: $request->validated('kanjiGroupBy'),
+            showUnknown: $request->validated('showUnknown')
+        );
 
         return response()->json($kanji, 200);
     }
 
     public function getKanjiDetails(GetKanjiDetailsRequest $request)
     {
-        $userId = Auth::user()->id;
-        $kanjiCharacter = $request->post('kanji');
 
-        try {
-            $kanjiData = $this->vocabularyService->getkanjiDetails($userId, $kanjiCharacter);
-        } catch (\Exception $e) {
-            abort(500, $e->getMessage());
-        }
+        $kanjiData = $this->vocabularyService->getkanjiDetails(
+            user: Auth::user(),
+            kanjiCharacter: $request->validated('kanji')
+        );
 
         return response()->json($kanjiData, 200);
     }
 
     public function importFromCsv(ImportFromCsvRequest $request)
     {
-        $userId = Auth::user()->id;
-        $language = Auth::user()->selected_language;
-        $importFile = $request->file('importFile');
-        $onlyUpdate = $request->post('onlyUpdate');
-        $skipHeader = $request->post('skipHeader');
-        $delimiter = $request->post('delimiter');
+        $user = Auth::user();
+        $language = LanguageConfig::load($user->selected_language);
 
         try {
-            $fileName = $this->tempFileService->moveFileToTempFolder($userId, $importFile);
-            $importResponseData = $this->vocabularyService->importFromCsv($userId, $language, $fileName, $delimiter, $onlyUpdate, $skipHeader);
-        } catch (\Exception $e) {
+            $fileName = $this->tempFileService->moveFileToTempFolder(
+                user: $user,
+                importFile: $request->file('importFile')
+            );
+
+            $importResponseData = $this->vocabularyService->importFromCsv(
+                user: $user,
+                language: $language,
+                fileName: $fileName,
+                delimiter: $request->validated('delimiter'),
+                onlyUpdate: $request->validated('onlyUpdate'),
+                skipHeader: $request->validated('skipHeader')
+            );
+        } catch (\Throwable $error) {
             $this->tempFileService->deleteTempFile($fileName);
-            abort(500, $e->getMessage());
+
+            throw $error;
         }
 
         $this->tempFileService->deleteTempFile($fileName);
 
-        return response()->json($importResponseData, 200);
+        return response()->json([
+            'data' => $importResponseData,
+        ], 200);
     }
 }

@@ -207,9 +207,9 @@ export default {
                     this.loading = false
                     this.importFile = null
                     this.importResult = {
-                        createdWords: response.data.createdWords,
-                        updatedWords: response.data.updatedWords,
-                        rejectedWords: response.data.rejectedWords,
+                        createdWords: response.data.data.createdWords,
+                        updatedWords: response.data.data.updatedWords,
+                        rejectedWords: response.data.data.rejectedWords,
                         error: false,
                     }
                 })

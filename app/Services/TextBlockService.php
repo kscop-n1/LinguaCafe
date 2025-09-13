@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DataTransferObjects\InteractiveText\InteractiveTextData;
 use App\Helpers\Language\LanguageConfig;
 use App\Models\Phrase;
 use Carbon\Carbon;
@@ -591,13 +592,12 @@ class TextBlockService
         contains variables which are required by
         TextBlockGroup vue component.
     */
-    public function getReaderData()
+    public function getReaderData(): InteractiveTextData
     {
-        $textBlock = new \stdClass;
-        $textBlock->words = $this->words;
-        $textBlock->uniqueWords = $this->uniqueWords;
-        $textBlock->phrases = $this->phrases;
-
-        return $textBlock;
+        return new InteractiveTextData(
+            words: collect($this->words),
+            uniqueWords: $this->uniqueWords,
+            phrases: $this->phrases,
+        );
     }
 }

@@ -859,14 +859,12 @@ export default {
             this.countReadWords()
 
             // update word or phrase in database
-            var url = '/vocabulary/word/update'
+            var url = `/vocabulary/word/update/${this.reviews[this.currentReviewIndex].id}`
             if (this.reviews[this.currentReviewIndex].type == 'phrase') {
-                url = '/vocabulary/phrases/update'
+                url = `/vocabulary/phrases/update/${this.reviews[this.currentReviewIndex].id}`
             }
 
-            var saveData = {
-                id: this.reviews[this.currentReviewIndex].id,
-            }
+            var saveData = {}
 
             var increaseReviewAchievement = false
             if (this.reviews[this.currentReviewIndex].relearning) {
@@ -914,13 +912,12 @@ export default {
             this.countReadWords()
 
             // update word or phrase in database
-            var url = '/vocabulary/word/update'
+            var url = `/vocabulary/word/update/${this.reviews[this.currentReviewIndex].id}`
             if (this.reviews[this.currentReviewIndex].type == 'phrase') {
-                url = '/vocabulary/phrases/update'
+                url = `/vocabulary/phrases/update/${this.reviews[this.currentReviewIndex].id}`
             }
 
             var saveData = {
-                id: this.reviews[this.currentReviewIndex].id,
                 savedDuringReview: true,
             }
 
@@ -974,12 +971,12 @@ export default {
                         this.reviews[this.currentReviewIndex].id
                 )
                 .then(response => {
-                    if (response.data.words !== undefined) {
+                    if (response.data.data.words !== undefined) {
                         this.exampleSentence = {
                             id: 0,
-                            words: response.data.words,
-                            phrases: response.data.phrases,
-                            uniqueWords: response.data.uniqueWords,
+                            words: response.data.data.words,
+                            phrases: response.data.data.phrases,
+                            uniqueWords: response.data.data.uniqueWords,
                         }
                     }
 

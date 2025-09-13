@@ -34,6 +34,8 @@ class EncounteredWord extends Model
         'updated_at',
     ];
 
+    // TODO: move to service
+    // TODO: refactor
     public function setStage($stage, $ignoreAchivement = false)
     {
         if ($this->stage >= 0 && $stage < 0 && !$ignoreAchivement) {

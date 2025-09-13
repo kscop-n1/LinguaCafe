@@ -10,4 +10,8 @@ class Radical extends Model
     use HasFactory;
 
     protected $table = 'dict_jp_kanji_radicals';
+
+    protected $casts = [
+        'radicals' => 'collection',
+    ];
 }

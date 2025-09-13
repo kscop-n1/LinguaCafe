@@ -1626,9 +1626,8 @@
                 // delete phrase
                 this.phrases.splice(deletedPhraseIndex, 1);
 
-                axios.post('/vocabulary/phrases/delete', {
-                    phraseId: deletedPhraseId
-                }).then(function (response) {
+                axios.post(`/vocabulary/phrases/delete/${deletedPhraseId}`).then(function (response) {
+                    //
                 });
 
 
@@ -1652,7 +1651,7 @@
                     }
                 }
 
-                var url = '/vocabulary/phrases/update';
+                var url = `/vocabulary/phrases/update/${this.phrases[this.selectedPhrase].id}`;
                 var saveData = {
                     reading: this.phrases[this.selectedPhrase].reading,
                     translation: this.phrases[this.selectedPhrase].translation,
@@ -1663,8 +1662,6 @@
                     saveData.words = JSON.stringify(this.phrases[this.selectedPhrase].words);
                     saveData.stage = this.phrases[this.selectedPhrase].stage;
                     url = '/vocabulary/phrases/create';
-                } else {
-                    saveData.id = this.phrases[this.selectedPhrase].id;
                 }
 
                 if (withStage) {
@@ -1674,7 +1671,7 @@
                 axios.post(url, saveData).then((response) => {
                     for (let i = 0; i < this.phrases.length; i++) {
                         if (this.phrases[i].id == -1) {
-                            this.phrases[i].id = parseInt(response.data);
+                            this.phrases[i].id = parseInt(response.data.data);
                         }
                     }
 
@@ -1743,7 +1740,6 @@
                 }
 
                 var saveData = {
-                    id: selectedWord.id,
                     translation: this.$store.state.vocabularyBox.translationText,
                     reading: this.$store.state.vocabularyBox.reading,
                     lemma: this.$store.state.vocabularyBox.lemma,
@@ -1755,7 +1751,7 @@
                     saveData.stage = selectedWord.stage;
                 }
 
-                axios.post('/vocabulary/word/update', saveData).catch(function (error) {
+                axios.post(`/vocabulary/word/update/${selectedWord.id}`, saveData).catch(function (error) {
                 });
 
                 if (exampleSentenceChanged) {

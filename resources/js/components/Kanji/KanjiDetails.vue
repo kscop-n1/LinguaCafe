@@ -154,7 +154,7 @@ export default {
             })
             .then(response => {
                 this.words = response.data.words
-                this.radicals = JSON.parse(response.data.radicals)
+                this.radicals = response.data.radicals
                 this.meanings = JSON.parse(response.data.kanji.meanings)
                 this.readingsOn = JSON.parse(response.data.kanji.readings_on)
                 this.readingsKun = JSON.parse(response.data.kanji.readings_kun)

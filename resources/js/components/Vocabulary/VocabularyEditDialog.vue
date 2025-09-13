@@ -279,7 +279,7 @@ export default {
             )
             .then(response => {
                 this.loading = false
-                this.item = response.data
+                this.item = response.data.data
 
                 if (this.$props.itemType == 'Phrase') {
                     if (this.$props.languageSpaces) {
@@ -309,7 +309,6 @@ export default {
         },
         saveWord: function () {
             var saveData = {
-                id: this.item.id,
                 translation: this.item.translation,
                 reading: this.item.reading,
                 lemma: this.item.lemma,
@@ -317,7 +316,7 @@ export default {
                 stage: this.item.stage,
             }
 
-            axios.post('/vocabulary/word/update', saveData).then(() => {
+            axios.post(`/vocabulary/word/update/${this.item.id}`, saveData).then(() => {
                 this.saved = true
                 this.saving = false
                 this.updateVocabularySearch()
@@ -325,13 +324,12 @@ export default {
         },
         savePhrase: function (withStage = false, exampleSentenceChanged = false) {
             var saveData = {
-                id: this.item.id,
                 reading: this.item.reading,
                 translation: this.item.translation,
                 stage: this.item.stage,
             }
 
-            axios.post('/vocabulary/phrases/update', saveData).then(() => {
+            axios.post(`/vocabulary/phrases/update/${this.item.id}`, saveData).then(() => {
                 this.saved = true
                 this.saving = false
                 this.updateVocabularySearch()
