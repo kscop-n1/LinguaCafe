@@ -13,14 +13,16 @@ class ManualController extends Controller
         //
     }
 
-    public function getUserManualTree()
+    public function index()
     {
         $manualTree = $this->manualService->getManualTree();
 
-        return response()->json($manualTree);
+        return response()->json([
+            'data' => $manualTree,
+        ]);
     }
 
-    public function getUserManualFile(string $fileName)
+    public function show(string $fileName)
     {
         return response()->file('./../manual/' . $fileName . '.md');
     }

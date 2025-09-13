@@ -49,8 +49,8 @@ export default {
         }
     },
     mounted() {
-        axios.get('/manual/get-menu-tree').then(response => {
-            this.pages = response.data
+        axios.get('/api/manual').then(response => {
+            this.pages = response.data.data
         })
 
         if (this.$route.params.currentPage !== undefined) {
@@ -107,7 +107,7 @@ export default {
         },
         loadManualFile(fileName) {
             this.userManualFile = null
-            axios.get('/manual/get-manual-file/' + fileName).then(response => {
+            axios.get('/api/manual/' + fileName).then(response => {
                 this.userManualFile = this.replaceElements(response.data)
 
                 if (window.location.hash) {

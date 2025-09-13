@@ -131,10 +131,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/statistics/get', [App\Http\Controllers\HomeController::class, 'getStatistics']);
     Route::get('/config/languages', [App\Http\Controllers\HomeController::class, 'getLanguageConfig']);
 
-    // user manual
-    Route::get('/manual/get-menu-tree', [App\Http\Controllers\Manual\ManualController::class, 'getUserManualTree']);
-    Route::get('/manual/get-manual-file/{fileName}', [App\Http\Controllers\Manual\ManualController::class, 'getUserManualFile']);
-
     // goals
     Route::post('/goals/get', [App\Http\Controllers\GoalController::class, 'getGoals']);
     Route::post('/goal/update/{goal}', [App\Http\Controllers\GoalController::class, 'updateGoal']);
