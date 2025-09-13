@@ -11,6 +11,8 @@ use App\Http\Resources\User\UserResourceCollection;
 use App\Models\User;
 use App\Services\SettingsService;
 use App\Services\UserService;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -99,6 +101,17 @@ class UserController extends Controller
 
         $request->session()->regenerate();
         Auth::logoutOtherDevices($password);
+
+        return response()->noContent();
+    }
+
+    public function logoutUser(Request $request): Response
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
 
         return response()->noContent();
     }

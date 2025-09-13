@@ -28,10 +28,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/users/create', [App\Http\Controllers\UserController::class, 'createUser']);
 });
 
-// login routes
-Route::get('/login', [App\Http\Controllers\UserController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [App\Http\Controllers\UserController::class, 'authenticateUser']);
-
 // basic user data for the app
 Route::get('/user/data', [App\Http\Controllers\UserController::class, 'getInitUserData']);
 
