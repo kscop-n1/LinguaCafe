@@ -34,12 +34,12 @@ class BackupService
 
         if ($compress) {
             exec(
-                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' | zip > ' . $fullFilePath,
+                command: 'mysqldump --skip-ssl --no-tablespaces' . $host . $port . $username . $password . $database . ' | zip > ' . $fullFilePath,
                 result_code: $exitCode
             );
         } else {
             exec(
-                command: 'mysqldump --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath,
+                command: 'mysqldump --skip-ssl --no-tablespaces' . $host . $port . $username . $password . $database . ' > ' . $fullFilePath,
                 result_code: $exitCode
             );
         }
@@ -51,14 +51,6 @@ class BackupService
 
     private function markMostRecentFiles(array &$files, int $n)
     {
-        /**
-         * Modify the input $files in place to 'keep' the first $n files
-         *
-         * @param  array  $files  Array of input files
-         * @param  int  $n  Number of (most recent) files to mark
-         */
-
-        // Sort files by last modified time, most recent first
         usort($files, fn ($fileA, $fileB) => $fileA['mtime'] < $fileB['mtime'] ? 1 : -1);
 
         $markKeep = function ($file) {
@@ -78,14 +70,6 @@ class BackupService
 
     private function filterFilesByInterval(array $files, int $start, int $end): array
     {
-        /**
-         * Filters array of files within the designated $start and $end timestamps
-         *
-         * @param  array  $files  Array of input files
-         * @param  int  $start  beginning timestamp
-         * @param  int  $end  ending timestamp
-         * @return array of files within $start and $end time interval
-         */
         return array_filter(
             $files,
             fn ($file) => $file['mtime'] > $start && $file['mtime'] < $end
@@ -94,14 +78,6 @@ class BackupService
 
     private function partitionFilesByInterval(array $files, int $maxIntervalCount, DateInterval $interval)
     {
-        /**
-         * Partition files by interval working backwards from the current time
-         *
-         * @param  array  $files  Array of input files
-         * @param  int  $maxIntervalCount  maximum number of intervals to partition
-         * @param  DateInterval  $interval  time interval being used to partition files
-         * @return array of partitioned files
-         */
         $filesPartitionedByInterval = [];
 
         // Partition files by interval
