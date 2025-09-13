@@ -117,5 +117,59 @@ class SettingsSeeder extends Seeder
                 ]),
             ]);
         }
+
+        // db backup compression setting
+        $setting = Setting::where('name', 'backupCompression')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupCompression',
+                'value' => json_encode(true),
+            ]);
+        }
+
+        // db backup retention (daily)
+        $setting = Setting::where('name', 'backupRetainDaily')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupRetainDaily',
+                'value' => json_encode(5),
+            ]);
+        }
+
+        // db backup retention (weekly)
+        $setting = Setting::where('name', 'backupRetainWeekly')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupRetainWeekly',
+                'value' => json_encode(3),
+            ]);
+        }
+
+        // db backup retention (monthly)
+        $setting = Setting::where('name', 'backupRetainMonthly')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupRetainMonthly',
+                'value' => json_encode(6),
+            ]);
+        }
+
+        // db backup retention (yearly)
+        $setting = Setting::where('name', 'backupRetainYearly')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupRetainYearly',
+                'value' => json_encode(3),
+            ]);
+        }
+
+        // db backup retention (most recent)
+        $setting = Setting::where('name', 'backupRetainMostRecent')->first();
+        if (!$setting) {
+            DB::table('settings')->insert([
+                'name' => 'backupRetainMostRecent',
+                'value' => json_encode(5),
+            ]);
+        }
     }
 }

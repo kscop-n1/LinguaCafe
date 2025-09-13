@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Setting;
 use App\Services\BackupService;
 use Illuminate\Console\Command;
 
@@ -26,7 +27,9 @@ class CreateBackup extends Command
      */
     public function handle()
     {
-        $exitCode = (new BackupService)->createBackup();
+        $backupCompression = Setting::where('name', 'backupCompression')->first()?->value;
+        $backupCompressionEnabled = is_null($backupCompression) ? false : json_decode($backupCompression);
+        $exitCode = (new BackupService)->createBackup($backupCompressionEnabled);
 
         return $exitCode;
     }
