@@ -34,7 +34,7 @@ class BackupService
 
         if ($compress) {
             exec(
-                command: 'mysqldump --skip-ssl --no-tablespaces' . $host . $port . $username . $password . $database . ' | zip > ' . $fullFilePath,
+                command: 'mysqldump --skip-ssl --no-tablespaces' . $host . $port . $username . $password . $database . ' | gzip > ' . $fullFilePath,
                 result_code: $exitCode
             );
         } else {
