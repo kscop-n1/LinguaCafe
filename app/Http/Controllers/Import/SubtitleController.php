@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Subtitle;
+namespace App\Http\Controllers\Import;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subtitle\ParseSubtitleFileRequest;

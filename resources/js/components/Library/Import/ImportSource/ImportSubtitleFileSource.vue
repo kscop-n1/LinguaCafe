@@ -77,7 +77,7 @@ export default {
             formData.set('subtitleFile', this.subtitleFile)
 
             axios
-                .post('/api/library/import/parse-subtitle-file', formData)
+                .post('/api/library/import/subtitles/parse', formData)
                 .then(response => {
                     this.subtitles = response.data.data
                     this.loading = false

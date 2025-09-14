@@ -411,7 +411,7 @@ export default {
             this.importResult = ''
 
             axios
-                .post('/import', data)
+                .post('/api/library/import', data)
                 .catch(() => {
                     this.importResult = 'error'
                     this.importLoading = false

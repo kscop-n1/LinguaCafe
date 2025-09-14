@@ -142,7 +142,7 @@ export default {
             this.error = false
 
             axios
-                .post('/youtube/get-subtitle-list', { url: this.url })
+                .post('/api/library/import/youtube/subtitles', { url: this.url })
                 .then(response => {
                     this.subtitles = response.data.data
 

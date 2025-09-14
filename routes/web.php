@@ -188,8 +188,4 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     // bookmarks
     Route::get('/bookmarks/next-chapter', [BookmarkController::class, 'getNextChapterBookmarks']);
     Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'deleteBookmark']);
-
-    // library import
-    Route::post('/import', [App\Http\Controllers\ImportController::class, 'import']);
-    Route::post('/youtube/get-subtitle-list', [App\Http\Controllers\Youtube\YoutubeController::class, 'getYoutubeSubtitles']);
 });

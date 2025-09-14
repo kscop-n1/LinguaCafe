@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Import;
 
 use App\Enums\Import\EbookChapterSortMethodEnum;
 use App\Enums\Import\EBookTextProcessingMethodEnum;
 use App\Enums\Import\ImportTypeEnum;
 use App\Helpers\Language\LanguageConfig;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Import\ImportRequest;
 use App\Models\Book;
 use App\Services\ImportService;
@@ -19,7 +20,7 @@ class ImportController extends Controller
         //
     }
 
-    public function import(ImportRequest $request)
+    public function __invoke(ImportRequest $request)
     {
         $user = Auth::user();
         $language = LanguageConfig::load($user->selected_language);

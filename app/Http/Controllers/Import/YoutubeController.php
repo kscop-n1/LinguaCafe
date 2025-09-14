@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Youtube;
+namespace App\Http\Controllers\Import;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Youtube\GetYoutubeSubtitlesRequest;
