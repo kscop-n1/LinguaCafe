@@ -414,9 +414,9 @@
                 <v-card outlined class="px-2" width="320px" v-if="$store.state.vocabularyBox.image">
                     <v-img
                         :src="
-                            '/images/' +
+                            '/api/images/' +
                             imageTypeUrlSlug +
-                            '/get/' +
+                            '/' +
                             $store.state.vocabularyBox.id +
                             '?fileName=' +
                             $store.state.vocabularyBox.image
@@ -464,10 +464,10 @@ export default {
         }),
         imageTypeUrlSlug() {
             if (this.$store.state.vocabularyBox.type === 'word') {
-                return 'word-image'
+                return 'word'
             }
 
-            return 'phrase-image'
+            return 'phrase'
         },
     },
     data: function () {

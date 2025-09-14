@@ -128,7 +128,7 @@
             @unselectAllWords="unselectAllWords"
             @updateVocabBoxData="updateVocabBoxData"
             @addNewPhrase="addNewPhrase"
-            @showDeletePhraseDialog="showDeletePhraseDialog"
+            @deletePhrase="deletePhrase"
             @addSelectedWordToAnki="addSelectedWordToAnki"
             @imageChanged="wordImageChanged"
         ></vocabulary-box>

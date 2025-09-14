@@ -101,7 +101,7 @@
         <!-- Image -->
         <div class="d-block w-100 my-2" v-if="image">
             <v-img
-                :src="'/images/' + imageTypeUrlSlug + '/get/' + image + '?rid=' + Math.random()"
+                :src="'/api/images/' + imageTypeUrlSlug + '/' + image + '?rid=' + Math.random()"
                 width="100%"
                 :aspect-ratio="16 / 9"
                 contain
@@ -135,10 +135,10 @@ export default {
         }),
         imageTypeUrlSlug() {
             if (this.hoveredPhrase === -1) {
-                return 'word-image'
+                return 'word'
             }
 
-            return 'phrase-image'
+            return 'phrase'
         },
     },
     props: {},

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\WordImages;
+namespace App\Services\Images;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class WordImageSearchService
+class ImageSearchService
 {
     private $maxTries;
 
@@ -29,7 +29,7 @@ class WordImageSearchService
             throw new \Exception('Bing search has returned an empty page.');
         }
 
-        $imageSearchDom = new \DOMDocument;
+        $imageSearchDom = new \DOMDocument();
         libxml_use_internal_errors(true);
         $imageSearchDom->loadHTML($imageSearchResponse->body());
         libxml_clear_errors();

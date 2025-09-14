@@ -6,9 +6,9 @@
                 v-if="$store.state.vocabularyBox.image"
                 ref="currentImage"
                 :src="
-                    '/images/' +
+                    '/api/images/' +
                     imageTypeUrlSlug +
-                    '/get/' +
+                    '/' +
                     $store.state.vocabularyBox.id +
                     '?fileName=' +
                     $store.state.vocabularyBox.image
@@ -186,10 +186,10 @@ export default {
     computed: {
         imageTypeUrlSlug() {
             if (this.$store.state.vocabularyBox.type === 'word') {
-                return 'word-image'
+                return 'word'
             }
 
-            return 'phrase-image'
+            return 'phrase'
         },
     },
     watch: {},
@@ -230,7 +230,7 @@ export default {
 
             this.loading = true
             axios
-                .post(`/images/${this.imageTypeUrlSlug}/set-from-url/${targetId}`, {
+                .post(`/api/images/${this.imageTypeUrlSlug}/update-from-url/${targetId}`, {
                     url: image.original,
                 })
                 .then(response => {
@@ -259,7 +259,7 @@ export default {
             const targetId = this.$store.state.vocabularyBox.id
 
             axios
-                .post(`/images/${this.imageTypeUrlSlug}/upload/${targetId}`, formData)
+                .post(`/api/images/${this.imageTypeUrlSlug}/update/${targetId}`, formData)
                 .then(response => {
                     this.$emit('imageChanged', response.data.data.image)
                     this.currentStep = 'selecting-method'
@@ -286,7 +286,7 @@ export default {
             const targetId = this.$store.state.vocabularyBox.id
 
             axios
-                .delete(`/images/${this.imageTypeUrlSlug}/delete/${targetId}`)
+                .delete(`/api/images/${this.imageTypeUrlSlug}/${targetId}`)
                 .then(response => {
                     this.$emit('imageChanged', null)
                     this.currentStep = 'selecting-method'
@@ -308,7 +308,7 @@ export default {
             this.searchError = false
 
             axios
-                .get(`/images/search/bing/${this.searchTerm}`)
+                .get(`/api/images/search/bing/${this.searchTerm}`)
                 .then(response => {
                     this.loading = false
                     this.images = response.data.data

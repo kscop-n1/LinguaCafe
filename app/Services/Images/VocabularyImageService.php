@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\WordImages;
+namespace App\Services\Images;
 
 use App\Models\EncounteredWord;
 use App\Models\Phrase;
@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-class WordImageService
+class VocabularyImageService
 {
     public function __construct()
     {

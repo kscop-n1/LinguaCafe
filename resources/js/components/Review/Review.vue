@@ -513,9 +513,9 @@
                             <v-img
                                 ref="currentImage"
                                 :src="
-                                    '/images/' +
+                                    '/api/images/' +
                                     imageTypeUrlSlug +
-                                    '/get/' +
+                                    '/' +
                                     reviews[currentReviewIndex].id +
                                     '?rid=' +
                                     Math.random() +
@@ -618,10 +618,10 @@ export default {
     computed: {
         imageTypeUrlSlug() {
             if (this.reviews[this.currentReviewIndex].type === 'word') {
-                return 'word-image'
+                return 'word'
             }
 
-            return 'phrase-image'
+            return 'phrase'
         },
     },
     props: {},
