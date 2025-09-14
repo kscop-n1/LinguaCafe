@@ -1463,7 +1463,7 @@
                     };
                 }
 
-                axios.post('/anki/add-card', data).catch((error) => {
+                axios.post('/api/anki/cards/add', data).catch((error) => {
                         if (!this.ankiShowNotifications) {
                             return;
                         }
@@ -1483,7 +1483,7 @@
                         return;
                     }
 
-                    this.snackBars.push({id: this.snackbarId, content: data.word, type: response.data});
+                    this.snackBars.push({id: this.snackbarId, content: data.word, type: response.data.data});
 
                     var snackbarToRemove = this.snackbarId;
                     this.snackbarId ++;

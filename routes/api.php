@@ -2,14 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/manual')
+Route::prefix('/anki')
     ->middleware(['auth', 'auth.session', 'web'])
-    ->group(base_path('routes/api/manual.php'));
+    ->group(base_path('routes/api/anki.php'));
+
+Route::prefix('/images')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/images.php'));
 
 Route::prefix('/library')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/library.php'));
 
-Route::prefix('/images')
+Route::prefix('/manual')
     ->middleware(['auth', 'auth.session', 'web'])
-    ->group(base_path('routes/api/images.php'));
+    ->group(base_path('routes/api/manual.php'));

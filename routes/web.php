@@ -163,9 +163,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/reviews/update', [App\Http\Controllers\ReviewController::class, 'updateReadWordsGoal']);
     Route::post('/reviews/{book?}/{chapter?}', [App\Http\Controllers\ReviewController::class, 'getReviewItems']);
 
-    // anki
-    Route::post('/anki/add-card', [App\Http\Controllers\AnkiController::class, 'addCardToAnki']);
-
     // books
     Route::post('/books', [App\Http\Controllers\BookController::class, 'getBooks']);
     Route::get('/books/get-word-counts/{book}', [App\Http\Controllers\BookController::class, 'getBookWordCounts']);
