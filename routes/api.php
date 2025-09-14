@@ -17,3 +17,7 @@ Route::prefix('/library')
 Route::prefix('/manual')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/manual.php'));
+
+Route::prefix('/system')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/system.php'));
