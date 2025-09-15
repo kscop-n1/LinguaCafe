@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Library;
 
+use App\Enums\BookmarkTypeEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\BookmarkResourceCollection;
 use App\Models\Bookmark;
 use App\Services\BookmarkService;
@@ -9,23 +11,21 @@ use Illuminate\Support\Facades\Auth;
 
 class BookmarkController extends Controller
 {
-    private BookmarkService $bookmarkService;
-
-    public function __construct()
+    public function __construct(private BookmarkService $bookmarkService)
     {
-        $this->bookmarkService = new BookmarkService;
+        //
     }
 
-    public function getNextChapterBookmarks()
+    public function index(?BookmarkTypeEnum $type = null)
     {
         $user = Auth::user();
 
-        $bookmarks = $this->bookmarkService->getNextChapterBookmarks($user);
+        $bookmarks = $this->bookmarkService->getBookmarks($user, $type);
 
         return new BookmarkResourceCollection($bookmarks);
     }
 
-    public function deleteBookmark(Bookmark $bookmark)
+    public function destroy(Bookmark $bookmark)
     {
         $user = Auth::user();
 

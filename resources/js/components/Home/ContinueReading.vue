@@ -81,7 +81,7 @@ export default {
         },
         deleteBookmarkDialog() {
             axios
-                .delete(`/bookmarks/${this.deleteBookmarkDialogPopup.bookmarkId}`)
+                .delete(`/api/library/bookmarks/${this.deleteBookmarkDialogPopup.bookmarkId}`)
                 .then(response => {
                     this.deleteBookmarkDialogPopup.show = false
                     this.loadBookmarks()
@@ -92,7 +92,7 @@ export default {
         },
         loadBookmarks() {
             this.currentPage = 1
-            axios.get('/bookmarks/next-chapter').then(response => {
+            axios.get('/api/library/bookmarks/next_chapter').then(response => {
                 this.bookmarks = response.data.data.filter(bookmark => {
                     if (!bookmark.chapter) {
                         return false

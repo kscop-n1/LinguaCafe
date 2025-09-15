@@ -5,6 +5,7 @@ use App\Http\Controllers\Import\SubtitleController;
 use App\Http\Controllers\Import\WebsiteController;
 use App\Http\Controllers\Import\YoutubeController;
 use App\Http\Controllers\Library\BookController;
+use App\Http\Controllers\Library\BookmarkController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/import')->group(function () {
@@ -32,4 +33,9 @@ Route::prefix('/books')->group(function () {
     Route::post('/', [BookController::class, 'store']);
     Route::post('/{book}', [BookController::class, 'update']);
     Route::delete('/{book}', [BookController::class, 'destroy']);
+});
+
+Route::prefix('/bookmarks')->group(function () {
+    Route::get('/{type?}', [BookmarkController::class, 'index']);
+    Route::delete('/{bookmark}', [BookmarkController::class, 'destroy']);
 });

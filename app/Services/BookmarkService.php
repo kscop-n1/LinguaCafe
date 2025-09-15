@@ -11,12 +11,14 @@ use Illuminate\Support\Collection;
 
 class BookmarkService
 {
-    public function getNextChapterBookmarks(User $user): Collection
+    public function getBookmarks(User $user, ?BookmarkTypeEnum $type): Collection
     {
         $bookmarks = Bookmark::query()
             ->where('user_id', '=', $user->id)
             ->where('language', '=', $user->selected_language)
-            ->where('type', '=', BookmarkTypeEnum::NEXT_CHAPTER->value)
+            ->when($type !== null, function ($query) use ($type) {
+                $query->where('type', '=', $type->value);
+            })
             ->with([
                 'chapter:id,name',
                 'book:id,name,cover_image',
@@ -53,7 +55,7 @@ class BookmarkService
         }
 
         if (!$bookmark) {
-            $bookmark = new Bookmark;
+            $bookmark = new Bookmark();
             $bookmark->user_id = $user->id;
             $bookmark->language = $currentChapter->language;
             $bookmark->book_id = $currentChapter->book_id;

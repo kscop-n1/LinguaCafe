@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -170,8 +169,4 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/chapters/create/{book}', [App\Http\Controllers\ChapterController::class, 'createChapter']);
     Route::get('/chapters/retry-failed-chapters/{book}', [App\Http\Controllers\ChapterController::class, 'retryFailedChapters']);
     Route::post('/chapters/{book}', [App\Http\Controllers\ChapterController::class, 'getChaptersForBook']);
-
-    // bookmarks
-    Route::get('/bookmarks/next-chapter', [BookmarkController::class, 'getNextChapterBookmarks']);
-    Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'deleteBookmark']);
 });
