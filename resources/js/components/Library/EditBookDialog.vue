@@ -179,22 +179,30 @@ export default {
 
             this.saving = true
 
-            var url = '/books/update'
+            var url, method
             var form = new FormData()
             form.set('name', this.name)
 
             if (this.$props.bookId === -1) {
-                url = '/books/create'
+                url = '/api/library/books'
+                method = 'post'
             } else {
-                url = `/books/update/${this.$props.bookId}`
+                url = `/api/library/books/${this.$props.bookId}`
+                method = 'post'
             }
 
             if (this.editImage) {
                 form.set('cover', this.image)
             }
 
-            axios
-                .post(url, form)
+            axios({
+                url: url,
+                method: method,
+                data: form,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
                 .catch(e => {
                     this.saveResult = 'error'
                     this.saving = false

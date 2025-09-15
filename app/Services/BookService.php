@@ -35,7 +35,7 @@ class BookService
         return $books;
     }
 
-    public function getBookWordCounts(User $user, Book $book): stdClass
+    public function getWordCounts(User $user, Book $book): stdClass
     {
         if ($book->user_id !== $user->id) {
             throw new Exception('Book not found or unauthorized.');
@@ -76,7 +76,7 @@ class BookService
 
     public function createBook(User $user, string $name, ?UploadedFile $bookCoverFile): void
     {
-        $book = new Book;
+        $book = new Book();
         $book->user_id = $user->id;
         $book->cover_image = null;
         $book->language = $user->selected_language;

@@ -215,12 +215,14 @@ export default {
             this.books[index].wordCountLoading = true
             this.books[index].wordCount = null
 
-            axios.get('/books/get-word-counts/' + this.books[index].id).then(response => {
-                if (response.data !== 'error') {
-                    this.books[index].wordCountLoading = false
-                    this.books[index].wordCount = response.data
-                }
-            })
+            axios
+                .get('/api/library/books/get-word-counts/' + this.books[index].id)
+                .then(response => {
+                    if (response.data !== 'error') {
+                        this.books[index].wordCountLoading = false
+                        this.books[index].wordCount = response.data
+                    }
+                })
         },
         showEditBookDialog(book = null) {
             this.editBookDialog.active = true
@@ -241,7 +243,7 @@ export default {
         },
         deleteBook() {
             axios
-                .delete(`/books/delete/${this.deleteBookDialog.bookId}`)
+                .delete(`/api/library/books/${this.deleteBookDialog.bookId}`)
                 .catch(() => {
                     this.errorDialog.active = true
                 })
@@ -282,7 +284,7 @@ export default {
             this.loadBooks()
         },
         loadBooks() {
-            axios.post('/books').then(response => {
+            axios.get('/api/library/books').then(response => {
                 this.openedBook = -1
                 for (let bookIndex = 0; bookIndex < response.data.length; bookIndex++) {
                     response.data[bookIndex].chaptersVisible = false

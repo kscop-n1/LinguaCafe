@@ -320,7 +320,7 @@ export default {
 
             axios
                 .all([
-                    axios.get(`/books/${this.$props.bookId}`),
+                    axios.get(`/api/library/books/${this.$props.bookId}`),
                     axios.post(`/chapters/${this.$props.bookId}`),
                 ])
                 .catch(error => {

@@ -146,7 +146,7 @@ export default {
     },
     props: {},
     mounted() {
-        axios.post('/books').then(response => {
+        axios.get('/api/library/books').then(response => {
             this.loading = false
             this.books = response.data
 

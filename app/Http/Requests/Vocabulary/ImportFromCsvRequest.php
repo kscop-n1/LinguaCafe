@@ -21,6 +21,7 @@ class ImportFromCsvRequest extends FormRequest
         ];
     }
 
+    // TODO: Check if I could rewrite these to use url params for these booleans instead
     protected function prepareForValidation(): void
     {
         /*

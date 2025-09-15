@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Library;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Books\CreateBookRequest;
-// request classes
 use App\Http\Requests\Books\UpdateBookRequest;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
-// services
 use App\Services\BookService;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
@@ -19,16 +17,7 @@ class BookController extends Controller
         //
     }
 
-    public function getBook(Book $book)
-    {
-        if ($book->user_id !== Auth::user()->id) {
-            throw new Exception('Book not found or unauthorized.');
-        }
-
-        return new BookResource($book);
-    }
-
-    public function getBooks()
+    public function index()
     {
         $user = Auth::user();
 
@@ -37,16 +26,25 @@ class BookController extends Controller
         return response()->json($books, 200);
     }
 
-    public function getBookWordCounts(Book $book)
+    public function show(Book $book)
+    {
+        if ($book->user_id !== Auth::user()->id) {
+            throw new \Exception('Book unauthorized.');
+        }
+
+        return new BookResource($book);
+    }
+
+    public function wordCounts(Book $book)
     {
         $user = Auth::user();
 
-        $wordCounts = $this->bookService->getBookWordCounts($user, $book);
+        $wordCounts = $this->bookService->getWordCounts($user, $book);
 
         return response()->json($wordCounts, 200);
     }
 
-    public function createBook(CreateBookRequest $request)
+    public function store(CreateBookRequest $request)
     {
         $user = Auth::user();
         $name = $request->validated('name');
@@ -57,7 +55,7 @@ class BookController extends Controller
         return response()->noContent();
     }
 
-    public function updateBook(UpdateBookRequest $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
         $user = Auth::user();
         $name = $request->validated('name');
@@ -68,7 +66,7 @@ class BookController extends Controller
         return response()->noContent();
     }
 
-    public function deleteBook(Book $book)
+    public function destroy(Book $book)
     {
         $user = Auth::user();
 

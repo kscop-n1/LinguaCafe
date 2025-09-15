@@ -273,7 +273,7 @@ export default {
             this.book.wordCountLoading = true
             this.book.wordCount = null
 
-            axios.get('/books/get-word-counts/' + this.book.id).then(response => {
+            axios.get('/api/library/books/word-counts/' + this.book.id).then(response => {
                 if (response.data !== 'error') {
                     this.book.wordCountLoading = false
                     this.book.wordCount = response.data
