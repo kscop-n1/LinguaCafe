@@ -140,14 +140,14 @@ export default {
             }
 
             this.saving = true
-            var url = `/chapters/update/${this.$props.chapterId}`
+            var url = `/api/library/books/chapters/${this.$props.chapterId}`
             var data = {
                 name: this.name,
                 text: this.text,
             }
 
             if (this.$props.chapterId === -1) {
-                url = `/chapters/create/${this.$props.bookId}`
+                url = `/api/library/books/chapters/create/${this.$props.bookId}`
             }
 
             axios
@@ -168,17 +168,19 @@ export default {
         },
         loadChapter() {
             if (this.$props.chapterId !== -1) {
-                axios.post(`/chapters/get/editor/${this.$props.chapterId}`).then(response => {
-                    this.name = response.data.data.name
-                    this.text = response.data.data.raw_text
-                    this.type = response.data.data.type
-                    this.loading = false
-                    this.$nextTick(() => {
-                        this.$refs.editChapterForm.validate()
+                axios
+                    .get(`/api/library/books/chapters/edit/${this.$props.chapterId}`)
+                    .then(response => {
+                        this.name = response.data.data.name
+                        this.text = response.data.data.raw_text
+                        this.type = response.data.data.type
+                        this.loading = false
+                        this.$nextTick(() => {
+                            this.$refs.editChapterForm.validate()
 
-                        this.$refs.chapterName.focus()
+                            this.$refs.chapterName.focus()
+                        })
                     })
-                })
             } else {
                 this.loading = false
                 this.$nextTick(() => {

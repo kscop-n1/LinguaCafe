@@ -306,7 +306,7 @@ export default {
         },
         deleteChapter() {
             axios
-                .delete(`/chapters/delete/${this.deleteBookChapterDialog.chapterId}`)
+                .delete(`/api/library/books/chapters/${this.deleteBookChapterDialog.chapterId}`)
                 .catch(() => {
                     this.errorDialog.active = true
                 })
@@ -321,7 +321,7 @@ export default {
             axios
                 .all([
                     axios.get(`/api/library/books/${this.$props.bookId}`),
-                    axios.post(`/chapters/${this.$props.bookId}`),
+                    axios.get(`/api/library/books/chapters/${this.$props.bookId}`),
                 ])
                 .catch(error => {
                     console.log('error:', error)
@@ -344,7 +344,9 @@ export default {
 
                         this.chaptersLoading = false
                         this.$nextTick(() => {
-                            axios.get('/chapters/word-counts/' + this.$props.bookId)
+                            axios.get(
+                                '/api/library/books/chapters/word-counts/' + this.$props.bookId
+                            )
                         })
                     })
                 )

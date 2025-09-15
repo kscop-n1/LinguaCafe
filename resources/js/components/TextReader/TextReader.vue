@@ -393,67 +393,70 @@ export default {
             return false
         }
 
-        axios.post(`/chapters/get/reader/${this.$route.params.chapterId}`).then(response => {
-            var data = response.data
-            this.type = data.type
+        axios
+            .post(`/api/library/books/chapters/reader/${this.$route.params.chapterId}`)
+            .then(response => {
+                var data = response.data
+                this.type = data.type
 
-            // set subtitle timestamps
-            if (this.type == 'subtitle') {
-                this.subtitleTimestamps = JSON.parse(data.subtitleTimestamps)
+                // set subtitle timestamps
+                if (this.type == 'subtitle') {
+                    this.subtitleTimestamps = JSON.parse(data.subtitleTimestamps)
 
-                for (let i = 0; i < this.subtitleTimestamps.length; i++) {
-                    for (let j = 0; j < data.words.length; j++) {
-                        // find the first word of timestamp
-                        if (
-                            data.words[j].sentence_index ==
-                                this.subtitleTimestamps[i].sentenceIndexStart &&
-                            (j == 0 ||
-                                data.words[j - 1].sentence_index !== data.words[j].sentence_index)
-                        ) {
-                            data.words[j].subtitleIndex = i
+                    for (let i = 0; i < this.subtitleTimestamps.length; i++) {
+                        for (let j = 0; j < data.words.length; j++) {
+                            // find the first word of timestamp
+                            if (
+                                data.words[j].sentence_index ==
+                                    this.subtitleTimestamps[i].sentenceIndexStart &&
+                                (j == 0 ||
+                                    data.words[j - 1].sentence_index !==
+                                        data.words[j].sentence_index)
+                            ) {
+                                data.words[j].subtitleIndex = i
+                            }
                         }
                     }
                 }
-            }
 
-            this.text = {
-                id: 0,
-                words: JSON.parse(JSON.stringify(data.words)),
-                phrases: JSON.parse(JSON.stringify(data.phrases)),
-                uniqueWords: JSON.parse(JSON.stringify(data.uniqueWords)),
-            }
-
-            this.bookName = data.bookName
-            this.chapterId = data.chapterId
-            this.wordCount = data.wordCount
-            this.chapterName = data.chapterName
-            this.bookId = data.bookId
-            this.language = data.language
-            this.languageSpaces = data.languageSpaces
-            this.chapters = data.chapters
-
-            document.getElementById('app').addEventListener('mouseup', this.finishSelection)
-            window.addEventListener('resize', this.updateToolbarPosition)
-            window.addEventListener('resize', this.vocabularySidebarTest)
-            window.addEventListener('scroll', this.updateToolbarPosition)
-            document
-                .getElementById('fullscreen-box')
-                .addEventListener('fullscreenchange', this.updateFullscreen)
-            for (let i = 0; i < this.chapters.length; i++) {
-                if (this.chapters[i].id == this.chapterId && i < this.chapters.length - 1) {
-                    this.nextChapter = this.chapters[i + 1].id
-                    break
+                this.text = {
+                    id: 0,
+                    words: JSON.parse(JSON.stringify(data.words)),
+                    phrases: JSON.parse(JSON.stringify(data.phrases)),
+                    uniqueWords: JSON.parse(JSON.stringify(data.uniqueWords)),
                 }
-            }
 
-            this.$forceUpdate()
-            this.$nextTick(() => {
-                this.updateGlossary()
+                this.bookName = data.bookName
+                this.chapterId = data.chapterId
+                this.wordCount = data.wordCount
+                this.chapterName = data.chapterName
+                this.bookId = data.bookId
+                this.language = data.language
+                this.languageSpaces = data.languageSpaces
+                this.chapters = data.chapters
+
+                document.getElementById('app').addEventListener('mouseup', this.finishSelection)
+                window.addEventListener('resize', this.updateToolbarPosition)
+                window.addEventListener('resize', this.vocabularySidebarTest)
+                window.addEventListener('scroll', this.updateToolbarPosition)
+                document
+                    .getElementById('fullscreen-box')
+                    .addEventListener('fullscreenchange', this.updateFullscreen)
+                for (let i = 0; i < this.chapters.length; i++) {
+                    if (this.chapters[i].id == this.chapterId && i < this.chapters.length - 1) {
+                        this.nextChapter = this.chapters[i + 1].id
+                        break
+                    }
+                }
+
+                this.$forceUpdate()
+                this.$nextTick(() => {
+                    this.updateGlossary()
+                })
+                this.updateToolbarPosition()
+                this.vocabularySidebarTest()
+                this.$forceUpdate()
             })
-            this.updateToolbarPosition()
-            this.vocabularySidebarTest()
-            this.$forceUpdate()
-        })
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.updateToolbarPosition)
@@ -575,7 +578,7 @@ export default {
             this.finished = true
 
             axios
-                .post(`/chapters/finish/${this.chapterId}`, {
+                .post(`/api/library/books/chapters/finish/${this.chapterId}`, {
                     uniqueWords: JSON.stringify(this.$refs.interactiveText.uniqueWords),
                     autoLevelUpWords: this.settings.autoLevelUpWords,
                     leveledUpWords: JSON.stringify(this.leveledUpWordsAndPhrases.wordIds),

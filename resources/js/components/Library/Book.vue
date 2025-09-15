@@ -250,7 +250,7 @@ export default {
             })
 
             if (isAnyChapterFailed) {
-                axios.get(`/chapters/retry-failed-chapters/${this.$props.book.id}`)
+                axios.get(`/api/library/books/retry-failed-chapters/${this.$props.book.id}`)
             }
         },
         saveWordCountDisplayType() {

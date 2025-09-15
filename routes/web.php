@@ -158,15 +158,4 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     // review
     Route::post('/reviews/update', [App\Http\Controllers\ReviewController::class, 'updateReadWordsGoal']);
     Route::post('/reviews/{book?}/{chapter?}', [App\Http\Controllers\ReviewController::class, 'getReviewItems']);
-
-    // chapters
-    Route::get('/chapters/word-counts/{book}', [App\Http\Controllers\ChapterController::class, 'getChaptersBookCount']);
-    Route::post('/chapters/get/reader/{chapter}', [App\Http\Controllers\ChapterController::class, 'getChapterForReader']);
-    Route::post('/chapters/get/editor/{chapter}', [App\Http\Controllers\ChapterController::class, 'getChapter']);
-    Route::delete('/chapters/delete/{chapter}', [App\Http\Controllers\ChapterController::class, 'deleteChapter']);
-    Route::post('/chapters/finish/{chapter}', [App\Http\Controllers\ChapterController::class, 'finishChapter']);
-    Route::post('/chapters/update/{chapter}', [App\Http\Controllers\ChapterController::class, 'updateChapter']);
-    Route::post('/chapters/create/{book}', [App\Http\Controllers\ChapterController::class, 'createChapter']);
-    Route::get('/chapters/retry-failed-chapters/{book}', [App\Http\Controllers\ChapterController::class, 'retryFailedChapters']);
-    Route::post('/chapters/{book}', [App\Http\Controllers\ChapterController::class, 'getChaptersForBook']);
 });

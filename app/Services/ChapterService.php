@@ -25,8 +25,8 @@ class ChapterService
 
     public function __construct()
     {
-        $this->bookService = new BookService;
-        $this->bookmarkService = new BookmarkService;
+        $this->bookService = new BookService();
+        $this->bookmarkService = new BookmarkService();
     }
 
     public function getChaptersForBook(User $user, Book $book): Collection
@@ -56,7 +56,7 @@ class ChapterService
         return $chapters;
     }
 
-    public function getChaptersBookCount(User $user, Book $book): void
+    public function getWordCounts(User $user, Book $book): void
     {
         if ($book->user_id !== $user->id) {
             throw new Exception('Book not found or unauthorized.');
@@ -79,7 +79,7 @@ class ChapterService
         $chaptersWithWordCounts = [];
         $chapterCount = $chapters->count();
         $chapters->each(function (Chapter $chapter, $chapterIndex) use (&$chaptersWithWordCounts, $words, $user, $chapterCount) {
-            $currentChapterWordCounts = new \stdClass;
+            $currentChapterWordCounts = new \stdClass();
             $currentChapterWordCounts->wordCount = $chapter->getWordCounts($words);
 
             $chaptersWithWordCounts[$chapter->id] = $currentChapterWordCounts;
@@ -165,7 +165,7 @@ class ChapterService
         $textBlock->prepareTextForReader();
         $textBlock->indexPhrases();
 
-        $data = new stdClass;
+        $data = new stdClass();
         $data->type = $chapter->type;
         $data->subtitleTimestamps = $chapter->subtitle_timestamps;
         $data->words = $textBlock->words;
@@ -216,7 +216,7 @@ class ChapterService
         $chapter->read_count++;
         $chapter->save();
 
-        (new GoalService)->updateOrCreateTodaysGoalAchievement(
+        (new GoalService())->updateOrCreateTodaysGoalAchievement(
             $user,
             LanguageConfig::load($chapter->language),
             GoalTypeEnum::READ_WORDS,
@@ -260,7 +260,7 @@ class ChapterService
             throw new Exception('Book not found or unauthorized.');
         }
 
-        $chapter = new Chapter;
+        $chapter = new Chapter();
         $chapter->user_id = $user->id;
         $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
         $chapter->name = $name;

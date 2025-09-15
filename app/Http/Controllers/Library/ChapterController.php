@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Library;
 
 use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Chapters\CreateChapterRequest;
@@ -12,6 +12,7 @@ use App\Models\Book;
 use App\Models\Chapter;
 use App\Services\ChapterService;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Horizon\Http\Controllers\Controller;
 
 class ChapterController extends Controller
 {
@@ -20,7 +21,7 @@ class ChapterController extends Controller
         //
     }
 
-    public function getChaptersForBook(Book $book)
+    public function index(Book $book)
     {
         $user = Auth::user();
 
@@ -29,16 +30,7 @@ class ChapterController extends Controller
         return new ChapterResourceCollection($chapters);
     }
 
-    public function getChaptersBookCount(Book $book)
-    {
-        $user = Auth::user();
-
-        $this->chapterService->getChaptersBookCount($user, $book);
-
-        return response()->noContent();
-    }
-
-    public function getChapter(Chapter $chapter)
+    public function show(Chapter $chapter)
     {
         $user = Auth::user();
 
@@ -47,7 +39,7 @@ class ChapterController extends Controller
         return new ChapterResource($transformedChapter);
     }
 
-    public function getChapterForReader(Chapter $chapter)
+    public function showForReader(Chapter $chapter)
     {
         $user = Auth::user();
         $language = LanguageConfig::load($user->selected_language);
@@ -57,7 +49,48 @@ class ChapterController extends Controller
         return response()->json($chapter, 200);
     }
 
-    public function finishChapter(FinishChapterRequest $request, Chapter $chapter)
+    public function store(CreateChapterRequest $request, Book $book)
+    {
+        $user = Auth::user();
+        $text = $request->validated('text');
+        $name = $request->validated('name');
+
+        $this->chapterService->createChapter(
+            $user,
+            $book,
+            $name,
+            $text ?? ''
+        );
+
+        return response()->json('Chapter has been created successfully.', 200);
+    }
+
+    public function update(UpdateChapterRequest $request, Chapter $chapter)
+    {
+        $user = Auth::user();
+        $text = $request->validated('text');
+        $name = $request->validated('name');
+
+        $this->chapterService->updateChapter(
+            $user,
+            $chapter,
+            $name,
+            $text ?? ''
+        );
+
+        return response()->noContent();
+    }
+
+    public function destroy(Chapter $chapter)
+    {
+        $user = Auth::user();
+
+        $this->chapterService->deleteChapter($user, $chapter);
+
+        return response()->noContent();
+    }
+
+    public function finish(FinishChapterRequest $request, Chapter $chapter)
     {
         $user = Auth::user();
         $uniqueWords = json_decode($request->validated('uniqueWords'));
@@ -79,52 +112,11 @@ class ChapterController extends Controller
         return response()->noContent();
     }
 
-    public function createChapter(CreateChapterRequest $request, Book $book)
-    {
-        $user = Auth::user();
-        $text = $request->validated('text');
-        $name = $request->validated('name');
-
-        $this->chapterService->createChapter(
-            $user,
-            $book,
-            $name,
-            $text ?? ''
-        );
-
-        return response()->json('Chapter has been created successfully.', 200);
-    }
-
-    public function updateChapter(UpdateChapterRequest $request, Chapter $chapter)
-    {
-        $user = Auth::user();
-        $text = $request->validated('text');
-        $name = $request->validated('name');
-
-        $this->chapterService->updateChapter(
-            $user,
-            $chapter,
-            $name,
-            $text ?? ''
-        );
-
-        return response()->noContent();
-    }
-
-    public function deleteChapter(Chapter $chapter)
+    public function wordCounts(Book $book)
     {
         $user = Auth::user();
 
-        $this->chapterService->deleteChapter($user, $chapter);
-
-        return response()->noContent();
-    }
-
-    public function retryFailedChapters(Book $book)
-    {
-        $user = Auth::user();
-
-        $this->chapterService->retryFailedChapters($user, $book);
+        $this->chapterService->getWordCounts($user, $book);
 
         return response()->noContent();
     }

@@ -8,12 +8,15 @@ use App\Http\Requests\Books\UpdateBookRequest;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use App\Services\BookService;
+use App\Services\ChapterService;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    public function __construct(private BookService $bookService)
-    {
+    public function __construct(
+        private BookService $bookService,
+        private ChapterService $chapterService,
+    ) {
         //
     }
 
@@ -33,15 +36,6 @@ class BookController extends Controller
         }
 
         return new BookResource($book);
-    }
-
-    public function wordCounts(Book $book)
-    {
-        $user = Auth::user();
-
-        $wordCounts = $this->bookService->getWordCounts($user, $book);
-
-        return response()->json($wordCounts, 200);
     }
 
     public function store(CreateBookRequest $request)
@@ -71,6 +65,24 @@ class BookController extends Controller
         $user = Auth::user();
 
         $this->bookService->deleteBook($user, $book);
+
+        return response()->noContent();
+    }
+
+    public function wordCounts(Book $book)
+    {
+        $user = Auth::user();
+
+        $wordCounts = $this->bookService->getWordCounts($user, $book);
+
+        return response()->json($wordCounts, 200);
+    }
+
+    public function retryFailedChapters(Book $book)
+    {
+        $user = Auth::user();
+
+        $this->chapterService->retryFailedChapters($user, $book);
 
         return response()->noContent();
     }
