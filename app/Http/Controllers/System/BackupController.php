@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class BackupController extends Controller
 {
-    public function create()
+    public function store()
     {
         Artisan::call('app:create-backup');
 
