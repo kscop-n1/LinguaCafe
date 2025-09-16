@@ -2,36 +2,42 @@
 
 namespace App\Http\Requests\Dictionaries;
 
+use App\Enums\DictionaryTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ImportSupportedDictionaryRequest extends FormRequest
+class StoreAPIDictionaryRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            'dictionaryName' => [
+            'sourceLanguage' => [
                 'required',
                 'string',
             ],
-            'dictionaryFileName' => [
+            'targetLanguage' => [
                 'required',
                 'string',
             ],
-            'dictionarySourceLanguage' => [
+            'color' => [
                 'required',
                 'string',
             ],
-            'dictionaryTargetLanguage' => [
+            'name' => [
                 'required',
                 'string',
             ],
-            'dictionaryDatabaseName' => [
+            'type' => [
                 'required',
+                Rule::in(DictionaryTypeEnum::apiTypes()),
+            ],
+            'api_host' => [
+                'required_if:type,custom_api',
                 'string',
             ],
         ];

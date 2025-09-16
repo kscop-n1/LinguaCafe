@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         Route::get('/languages/get-admin-language-settings-data', [App\Http\Controllers\LanguageController::class, 'getAdminLanguageSettingsData']);
 
         // dictionaries
-        Route::post('/dictionary/update', [App\Http\Controllers\DictionaryController::class, 'updateDictionary']);
+        Route::post('/dictionary/update', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'updateDictionary']);
 
         // vue routes
         Route::get('/admin/{page?}', [App\Http\Controllers\HomeController::class, 'index']);
@@ -61,20 +61,22 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         Route::post('/settings/global/get', [App\Http\Controllers\SettingsController::class, 'getGlobalSettingsByName']);
 
         // dictionaries
-        Route::post('/dictionaries/get-supported-dictionary-file-information', [App\Http\Controllers\DictionaryController::class, 'getDictionaryFileInformation']);
-        Route::post('/dictionaries/import', [App\Http\Controllers\DictionaryController::class, 'importSupportedDictionary']);
-        Route::get('/dictionaries/deepl/get-usage', [App\Http\Controllers\DictionaryController::class, 'getDeeplCharacterLimit']);
-        Route::get('/dictionaries/get', [App\Http\Controllers\DictionaryController::class, 'getDictionaries']);
-        Route::get('/dictionaries/get/{dictionary}', [App\Http\Controllers\DictionaryController::class, 'getDictionary']);
-        Route::post('/dictionaries/update/{dictionary}', [App\Http\Controllers\DictionaryController::class, 'updateDictionary']);
-        Route::post('/dictionaries/test-csv-file', [App\Http\Controllers\DictionaryController::class, 'testDictionaryCsvFile']);
-        Route::post('/dictionaries/import-csv-file', [App\Http\Controllers\DictionaryController::class, 'importDictionaryCsvFile']);
-        Route::post('/dictionaries/create-deepl', [App\Http\Controllers\DictionaryController::class, 'createDeeplDictionary']);
-        Route::post('/dictionaries/create-my-memory', [App\Http\Controllers\DictionaryController::class, 'createMyMemoryDictionary']);
-        Route::post('/dictionaries/create-custom-api', [App\Http\Controllers\DictionaryController::class, 'createCustomApiDictionary']);
-        Route::post('/dictionaries/create-libre-translate', [App\Http\Controllers\DictionaryController::class, 'createLibreTranslateDictionary']);
-        Route::delete('/dictionaries/delete/{dictionary}', [App\Http\Controllers\DictionaryController::class, 'deleteDictionary']);
-        Route::get('/jmdict/xml-to-text', [App\Http\Controllers\DictionaryController::class, 'jmdictXmlToText']);
+        Route::post('/dictionaries/get-supported-dictionary-file-information', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'getDictionaryFileInformation']);
+        Route::post('/dictionaries/import', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'importSupportedDictionary']);
+        Route::get('/dictionaries/deepl/get-usage', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'getDeeplCharacterLimit']);
+        Route::get('/dictionaries/get', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'getDictionaries']);
+        Route::get('/dictionaries/get/{dictionary}', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'getDictionary']);
+        Route::post('/dictionaries/update/{dictionary}', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'updateDictionary']);
+        Route::post('/dictionaries/test-csv-file', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'testDictionaryCsvFile']);
+        Route::post('/dictionaries/import-csv-file', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'importDictionaryCsvFile']);
+
+        Route::post('/dictionaries/create-deepl', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'createDeeplDictionary']);
+        Route::post('/dictionaries/create-my-memory', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'createMyMemoryDictionary']);
+        Route::post('/dictionaries/create-custom-api', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'createCustomApiDictionary']);
+        Route::post('/dictionaries/create-libre-translate', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'createLibreTranslateDictionary']);
+
+        Route::delete('/dictionaries/delete/{dictionary}', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'deleteDictionary']);
+        Route::get('/jmdict/xml-to-text', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'jmdictXmlToText']);
     });
 
     // languages
@@ -133,11 +135,11 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::get('/images/kanji/{fileName}', [App\Http\Controllers\ImageController::class, 'getKanjiImage']);
 
     // dictionaries
-    Route::post('/dictionaries/api/search', [App\Http\Controllers\DictionaryController::class, 'searchApiDictionaries']);
-    Route::get('/dictionaries/api/is-enabled', [App\Http\Controllers\DictionaryController::class, 'isAnyApiDictionaryEnabled']);
-    Route::post('/dictionaries/search', [App\Http\Controllers\DictionaryController::class, 'searchDefinitions']);
-    Route::post('/dictionaries/search-for-hover-vocabulary', [App\Http\Controllers\DictionaryController::class, 'searchDefinitionsForHoverVocabulary']);
-    Route::post('/dictionaries/search/inflections', [App\Http\Controllers\DictionaryController::class, 'searchInflections']);
+    Route::post('/dictionaries/api/search', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'searchApiDictionaries']);
+    Route::get('/dictionaries/api/is-enabled', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'isAnyApiDictionaryEnabled']);
+    Route::post('/dictionaries/search', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'searchDefinitions']);
+    Route::post('/dictionaries/search-for-hover-vocabulary', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'searchDefinitionsForHoverVocabulary']);
+    Route::post('/dictionaries/search/inflections', [App\Http\Controllers\Dictionaries\DictionaryController::class, 'searchInflections']);
 
     // vocabulary
     Route::get('/vocabulary/words/get/{word}', [App\Http\Controllers\VocabularyController::class, 'getUniqueWord']);

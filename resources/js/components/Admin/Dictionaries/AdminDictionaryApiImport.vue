@@ -369,6 +369,23 @@ export default {
                 this.dictionary.targetLanguage[0].toUpperCase() +
                 this.dictionary.targetLanguage[1].toUpperCase()
         },
+        getpayloadType() {
+            if (this.$props.selectedDictionaryType === 'deepl') {
+                return 'deepl '
+            }
+
+            if (this.$props.selectedDictionaryType === 'mymemory') {
+                return 'my_memory '
+            }
+
+            if (this.$props.selectedDictionaryType === 'libretranslate') {
+                return 'libre_translate '
+            }
+
+            if (this.$props.selectedDictionaryType === 'customapi') {
+                return 'custom_api'
+            }
+        },
         getDictionaryNameSlug() {
             if (this.$props.selectedDictionaryType === 'deepl') {
                 return 'DeepL '
@@ -401,9 +418,12 @@ export default {
         },
         createDictionary() {
             this.createResult = 'saving'
-            const url = this.getCreateDictionaryUrl()
+            const url = '/api/admin/dictionaries/store-api'
             axios
-                .post(url, this.dictionary)
+                .post(url, {
+                    ...this.dictionary,
+                    type: this.getpayloadType(),
+                })
                 .then(response => {
                     this.createResult = 'success'
                     this.$emit('import-finished')
@@ -411,25 +431,6 @@ export default {
                 .catch(error => {
                     this.createResult = 'error'
                 })
-        },
-        getCreateDictionaryUrl() {
-            if (this.$props.selectedDictionaryType === 'deepl') {
-                return '/dictionaries/create-deepl'
-            }
-
-            if (this.$props.selectedDictionaryType === 'mymemory') {
-                return '/dictionaries/create-my-memory'
-            }
-
-            if (this.$props.selectedDictionaryType === 'libretranslate') {
-                return '/dictionaries/create-libre-translate'
-            }
-
-            if (this.$props.selectedDictionaryType === 'customapi') {
-                return '/dictionaries/create-custom-api'
-            }
-
-            return ''
         },
         close() {
             this.$emit('close')

@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('/admin')
+    ->middleware(['auth', 'auth.session', 'web', 'admin'])
+    ->group(base_path('routes/api/admin.php'));
+
 Route::prefix('/anki')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/anki.php'));

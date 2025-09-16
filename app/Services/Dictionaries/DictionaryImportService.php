@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Dictionaries;
 
 use App\DataTransferObjects\Dictionary\CsvDictionaryImportSampleData;
 use App\DataTransferObjects\Dictionary\SupportedDictionaryImportData;
+use App\Enums\DictionaryTypeEnum;
 use App\Helpers\Language\LanguageConfig;
 use App\Models\Dictionary;
 use App\Models\Kanji;
@@ -260,7 +261,7 @@ class DictionaryImportService
                     throw new \Exception('Missing data.');
                 }
 
-                $sampleRecord = new \stdClass;
+                $sampleRecord = new \stdClass();
                 $sampleRecord->word = mb_strtolower($record[0], 'UTF-8');
                 $sampleRecord->translation = $record[1];
 
@@ -318,7 +319,7 @@ class DictionaryImportService
             $table->timestamps();
         });
 
-        $dictionary = new Dictionary;
+        $dictionary = new Dictionary();
         $dictionary->name = $dictionaryName;
         $dictionary->type = 'custom_csv';
         $dictionary->database_table_name = $databaseTableName;
@@ -792,7 +793,7 @@ class DictionaryImportService
                     }
                 }
 
-                $radicalObject = new \stdClass;
+                $radicalObject = new \stdClass();
                 $radicalObject->radical = $processedRadical;
                 $radicalObject->strokes = $radicalStrokeCountsData[$radical];
 
@@ -800,7 +801,7 @@ class DictionaryImportService
             }
 
             // save radical
-            $radical = new Radical;
+            $radical = new Radical();
             $radical->kanji = trim($data[0]);
             $radical->radicals = json_encode($processedRadicals);
             $radical->save();
@@ -826,8 +827,8 @@ class DictionaryImportService
 
         DB::statement('DELETE FROM dict_jp_kanji');
 
-        $doc = new \DOMDocument;
-        $reader = new \XMLReader;
+        $doc = new \DOMDocument();
+        $reader = new \XMLReader();
         $reader->open(base_path() . '/storage/app/temp/dictionaries/kanjidic2.xml');
         $index = 0;
 
@@ -836,7 +837,7 @@ class DictionaryImportService
         while ($reader->name === 'character') {
             $node = simplexml_import_dom($doc->importNode($reader->expand(), true));
 
-            $kanji = new Kanji;
+            $kanji = new Kanji();
             $kanji->kanji = $node->literal->__toString();
             $meanings = [];
             $readings_on = [];
@@ -929,7 +930,7 @@ class DictionaryImportService
         $extractPath = Storage::path('temp/dictionaries');
 
         // extract jmdict.zip file
-        $zip = new \ZipArchive;
+        $zip = new \ZipArchive();
         $zipFile = $zip->open($filePath);
         if ($zipFile === true) {
             $zip->extractTo($extractPath);
@@ -946,7 +947,7 @@ class DictionaryImportService
             $data = explode('|', str_replace(["\r\n", "\r", "\n"], '', $line));
 
             // save main vocab model
-            $vocabulary = new VocabularyJmdict;
+            $vocabulary = new VocabularyJmdict();
             $vocabulary->translations = $data[2];
 
             if (mb_strlen($data[3]) > 2) {
@@ -960,7 +961,7 @@ class DictionaryImportService
             // save vocab words
             $words = explode(';', $data[0]);
             foreach ($words as $word) {
-                $jmdictWord = new VocabularyJmdictWord;
+                $jmdictWord = new VocabularyJmdictWord();
                 $jmdictWord->word = $word;
                 $jmdictWord->dict_jp_jmdict_id = $vocabulary->id;
                 $jmdictWord->save();
@@ -978,7 +979,7 @@ class DictionaryImportService
                     $restrictions = '';
                 }
 
-                $jmdictReading = new VocabularyJmdictReading;
+                $jmdictReading = new VocabularyJmdictReading();
                 $jmdictReading->reading = $reading;
                 $jmdictReading->word_restrictions = $restrictions;
                 $jmdictReading->dict_jp_jmdict_id = $vocabulary->id;
@@ -1007,14 +1008,14 @@ class DictionaryImportService
     public function jmdictXmlToText()
     {
         $file = fopen(base_path() . '/storage/app/temp/dictionaries/jmdict.txt', 'w');
-        $doc = new \DOMDocument;
-        $reader = new \XMLReader;
+        $doc = new \DOMDocument();
+        $reader = new \XMLReader();
         $reader->open(base_path() . '/storage/app/temp/dictionaries/JMdict_e.xml');
         $index = 0;
 
         while ($reader->read() && $reader->name !== 'entry');
         while ($reader->name === 'entry') {
-            $entry = new \stdClass;
+            $entry = new \stdClass();
             $entry->all_words = '';
             $entry->all_readings = '';
             $node = simplexml_import_dom($doc->importNode($reader->expand(), true));
@@ -1066,7 +1067,7 @@ class DictionaryImportService
 
                 // definitions
                 for ($j = 0; $j < count($node->sense[$i]->gloss); $j++) {
-                    $translation = new \stdClass;
+                    $translation = new \stdClass();
                     $translation->restrictions = $restrictions;
                     $translation->definition = $node->sense[$i]->gloss[$j]->__toString();
                     array_push($entry->translations, $translation);
@@ -1092,69 +1093,18 @@ class DictionaryImportService
         echo 'finished';
     }
 
-    // TODO: should be one createApiDictionary function instead of 4 separate
-    public function createDeeplDictionary(
-        LanguageConfig $sourceLanguage,
-        LanguageConfig $targetLanguage,
-        string $color,
-        string $name
-    ): void {
-        $dictionary = new Dictionary;
-        $dictionary->name = $name;
-        $dictionary->type = 'deepl';
-        $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage->name;
-        $dictionary->target_language = $targetLanguage->name;
-        $dictionary->color = $color;
-        $dictionary->enabled = true;
-        $dictionary->save();
-    }
-
-    public function createMyMemoryDictionary(
-        LanguageConfig $sourceLanguage,
-        LanguageConfig $targetLanguage,
-        string $color,
-        string $name
-    ): void {
-        $dictionary = new Dictionary;
-        $dictionary->name = $name;
-        $dictionary->type = 'my_memory';
-        $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage->name;
-        $dictionary->target_language = $targetLanguage->name;
-        $dictionary->color = $color;
-        $dictionary->enabled = true;
-        $dictionary->save();
-    }
-
-    public function createLibreTranslateDictionary(
-        LanguageConfig $sourceLanguage,
-        LanguageConfig $targetLanguage,
-        string $color,
-        string $name
-    ): void {
-        $dictionary = new Dictionary;
-        $dictionary->name = $name;
-        $dictionary->type = 'libre_translate';
-        $dictionary->database_table_name = 'API';
-        $dictionary->source_language = $sourceLanguage->name;
-        $dictionary->target_language = $targetLanguage->name;
-        $dictionary->color = $color;
-        $dictionary->enabled = true;
-        $dictionary->save();
-    }
-
-    public function createCustomApiDictionary(
+    public function storeApiDictionary(
         LanguageConfig $sourceLanguage,
         LanguageConfig $targetLanguage,
         string $color,
         string $name,
-        string $host
+        DictionaryTypeEnum $type,
+        ?string $apiHost,
     ): void {
-        $dictionary = new Dictionary;
+        $dictionary = new Dictionary();
         $dictionary->name = $name;
-        $dictionary->type = 'custom_api';
-        $dictionary->api_host = $host;
+        $dictionary->type = $type->value;
+        $dictionary->api_host = $apiHost;
         $dictionary->database_table_name = 'API';
         $dictionary->source_language = $sourceLanguage->name;
         $dictionary->target_language = $targetLanguage->name;

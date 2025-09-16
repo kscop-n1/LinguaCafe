@@ -1,27 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dictionaries;
 
+use App\Enums\DictionaryTypeEnum;
 use App\Helpers\Language\LanguageConfig;
-use App\Http\Requests\Dictionaries\CreateCustomApiDictionaryRequest;
-use App\Http\Requests\Dictionaries\CreateDeeplDictionaryRequest;
-use App\Http\Requests\Dictionaries\CreateLibreTranslateDictionaryRequest;
-use App\Http\Requests\Dictionaries\CreateMyMemoryDictionaryRequest;
-// services
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Dictionaries\GetDictionaryFileInformationRequest;
 use App\Http\Requests\Dictionaries\ImportDictionaryCsvFileRequest;
-// request classes
 use App\Http\Requests\Dictionaries\ImportSupportedDictionaryRequest;
 use App\Http\Requests\Dictionaries\SearchApiRequest;
 use App\Http\Requests\Dictionaries\SearchDefinitionsForHoverVocabularyRequest;
 use App\Http\Requests\Dictionaries\SearchDefinitionsRequest;
 use App\Http\Requests\Dictionaries\SearchInflectionsRequest;
+use App\Http\Requests\Dictionaries\StoreApiDictionaryRequest;
 use App\Http\Requests\Dictionaries\TestDictionaryCsvFileRequest;
 use App\Http\Requests\Dictionaries\UpdateDictionaryRequest;
 use App\Http\Resources\Dictionary\DictionaryResource;
 use App\Http\Resources\Dictionary\DictionaryResourceCollection;
 use App\Models\Dictionary;
-use App\Services\DictionaryImportService;
+use App\Services\Dictionaries\DictionaryImportService;
 use App\Services\DictionaryService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -134,51 +131,23 @@ class DictionaryController extends Controller
         ]);
     }
 
-    public function createDeeplDictionary(CreateDeeplDictionaryRequest $request)
+    public function storeApi(StoreApiDictionaryRequest $request)
     {
         $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
         $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
         $color = $request->validated('color');
         $name = $request->validated('name');
+        $type = DictionaryTypeEnum::from($request->validated('type'));
+        $apiHost = $request->validated('api_host');
 
-        $this->dictionaryImportService->createDeeplDictionary($sourceLanguage, $targetLanguage, $color, $name);
-
-        return response()->noContent();
-    }
-
-    public function createMyMemoryDictionary(CreateMyMemoryDictionaryRequest $request)
-    {
-        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
-        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
-        $color = $request->validated('color');
-        $name = $request->validated('name');
-
-        $this->dictionaryImportService->createMyMemoryDictionary($sourceLanguage, $targetLanguage, $color, $name);
-
-        return response()->noContent();
-    }
-
-    public function createLibreTranslateDictionary(CreateLibreTranslateDictionaryRequest $request)
-    {
-        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
-        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
-        $color = $request->validated('color');
-        $name = $request->validated('name');
-
-        $this->dictionaryImportService->createLibreTranslateDictionary($sourceLanguage, $targetLanguage, $color, $name);
-
-        return response()->noContent();
-    }
-
-    public function createCustomApiDictionary(CreateCustomApiDictionaryRequest $request)
-    {
-        $sourceLanguage = LanguageConfig::load($request->validated('sourceLanguage'));
-        $targetLanguage = LanguageConfig::load($request->validated('targetLanguage'));
-        $color = $request->validated('color');
-        $name = $request->validated('name');
-        $host = $request->validated('api_host');
-
-        $this->dictionaryImportService->createCustomApiDictionary($sourceLanguage, $targetLanguage, $color, $name, $host);
+        $this->dictionaryImportService->storeApiDictionary(
+            $sourceLanguage,
+            $targetLanguage,
+            $color,
+            $name,
+            $type,
+            $apiHost
+        );
 
         return response()->noContent();
     }
