@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 RUN curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh \
     && chmod +x ./nodesource_setup.sh \
