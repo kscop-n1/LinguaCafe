@@ -48,7 +48,8 @@ class SettingsController extends Controller
 
     public function updateGlobalSettings(UpdateGlobalSettingsRequest $request)
     {
-        $settings = $request->validated('settings');
+        // TODO: replace ->post() with ->validated(), and add validation for every setting
+        $settings = $request->post('settings');
         $settings = collect($settings);
 
         $settings = $this->settingsService->updateGlobalSettings($settings);
