@@ -4,7 +4,7 @@ namespace App\Http\Requests\Chapters;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetChapterForEditorRequest extends FormRequest
+class StoreChapterRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,10 +14,14 @@ class GetChapterForEditorRequest extends FormRequest
     public function rules()
     {
         return [
-            'chapterId' => [
+            'name' => [
                 'required',
-                'numeric',
-                'gte:0',
+                'string',
+                'max:128',
+            ],
+            'text' => [
+                'string',
+                'nullable',
             ],
         ];
     }

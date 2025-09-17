@@ -147,7 +147,7 @@ export default {
             }
 
             if (this.$props.chapterId === -1) {
-                url = `/api/library/books/chapters/create/${this.$props.bookId}`
+                url = `/api/library/books/chapters/store/${this.$props.bookId}`
             }
 
             axios

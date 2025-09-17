@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Library;
 
 use App\Helpers\Language\LanguageConfig;
-use App\Http\Requests\Chapters\CreateChapterRequest;
 use App\Http\Requests\Chapters\FinishChapterRequest;
+use App\Http\Requests\Chapters\StoreChapterRequest;
 use App\Http\Requests\Chapters\UpdateChapterRequest;
 use App\Http\Resources\Chapter\ChapterResource;
 use App\Http\Resources\Chapter\ChapterResourceCollection;
@@ -49,7 +49,7 @@ class ChapterController extends Controller
         return response()->json($chapter, 200);
     }
 
-    public function store(CreateChapterRequest $request, Book $book)
+    public function store(StoreChapterRequest $request, Book $book)
     {
         $user = Auth::user();
         $text = $request->validated('text');

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Library;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Books\CreateBookRequest;
+use App\Http\Requests\Books\StoreBookRequest;
 use App\Http\Requests\Books\UpdateBookRequest;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
@@ -38,7 +38,7 @@ class BookController extends Controller
         return new BookResource($book);
     }
 
-    public function store(CreateBookRequest $request)
+    public function store(StoreBookRequest $request)
     {
         $user = Auth::user();
         $name = $request->validated('name');

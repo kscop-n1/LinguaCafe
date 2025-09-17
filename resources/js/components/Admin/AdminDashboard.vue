@@ -78,7 +78,7 @@ export default {
             this.backupCreationRequest.loading = true
 
             axios
-                .get('/api/system/backups/create')
+                .get('/api/admin/backups/create')
                 .then(response => {
                     this.backupCreationRequest.loading = false
                     this.backupCreationRequest.success = true

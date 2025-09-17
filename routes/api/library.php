@@ -40,7 +40,7 @@ Route::prefix('/books')->group(function () {
         Route::get('/{book}', [ChapterController::class, 'index']);
         Route::get('/edit/{chapter}', [ChapterController::class, 'show']);
         Route::post('/reader/{chapter}', [ChapterController::class, 'showForReader']);
-        Route::post('/create/{book}', [ChapterController::class, 'store']);
+        Route::post('/store/{book}', [ChapterController::class, 'store']);
         Route::post('/{chapter}', [ChapterController::class, 'update']);
         Route::delete('/{chapter}', [ChapterController::class, 'destroy']);
         Route::get('/word-counts/{book}', [ChapterController::class, 'wordCounts']);
