@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Fonts;
 
 use App\Helpers\Language\LanguageConfig;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FontTypes\CreateFontTypeRequest;
+use App\Http\Requests\FontTypes\StoreFontTypeRequest;
 use App\Http\Requests\FontTypes\UpdateFontTypeRequest;
 use App\Http\Resources\Font\FontTypeResourceCollection;
 use App\Models\FontType;
@@ -46,7 +46,7 @@ class FontTypeController extends Controller
         return response()->file($imagePath);
     }
 
-    public function store(CreateFontTypeRequest $request)
+    public function store(StoreFontTypeRequest $request)
     {
         $fontFile = $request->file('fontFile');
         $fontName = $request->validated('name');

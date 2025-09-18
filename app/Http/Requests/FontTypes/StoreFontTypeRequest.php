@@ -4,7 +4,7 @@ namespace App\Http\Requests\FontTypes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFontTypeRequest extends FormRequest
+class StoreFontTypeRequest extends FormRequest
 {
     public function authorize()
     {
@@ -25,8 +25,11 @@ class UpdateFontTypeRequest extends FormRequest
                 'array',
             ],
             'languages.*' => [
-                'required',
                 'string',
+            ],
+            'fontFile' => [
+                'required',
+                'file',
             ],
         ];
     }
