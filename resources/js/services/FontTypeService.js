@@ -5,7 +5,7 @@ class FontTypeService {
         this.language = language
         this.fonts = []
 
-        axios.get('/fonts/get-fonts-for-language/' + this.language).then(response => {
+        axios.get('/api/fonts/language/' + this.language).then(response => {
             this.fonts = response.data.data
 
             if (fontTypesLoaded !== null) {
@@ -45,18 +45,18 @@ class FontTypeService {
     }
 
     loadSelectedFontTypeIntoDom() {
-        const fileName = this.getSelectedFontTypeFileName()
-        if (!fileName) return
+        const fontType = this.this.getSelectedFontTypeId()
+        if (!fontType) return
 
-        let fontStyleText = `@font-face { font-family: selectedFont; src: url('/fonts/file/${fileName}'); } .selected-font { font-family: selectedFont !important; }`
+        let fontStyleText = `@font-face { font-family: selectedFont; src: url('/api/fonts/${fontType}'); } .selected-font { font-family: selectedFont !important; }`
         document.getElementById('dynamic-selected-font').innerHTML = fontStyleText
     }
 
     loadDefaultFontTypeIntoDom() {
         if (!this.fonts.length) return
 
-        const fileName = this.fonts[0].filename
-        let fontStyleText = `@font-face { font-family: defaultFont; src: url('/fonts/file/${fileName}'); } .default-font, .default-font * { font-family: defaultFont !important; }`
+        const fontType = this.fonts[0].id
+        let fontStyleText = `@font-face { font-family: defaultFont; src: url('/api/fonts/${fontType}'); } .default-font, .default-font * { font-family: defaultFont !important; }`
         document.getElementById('dynamic-default-font').innerHTML = fontStyleText
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Fonts;
 
 use App\Helpers\Language\LanguageConfig;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\FontTypes\CreateFontTypeRequest;
 use App\Http\Requests\FontTypes\UpdateFontTypeRequest;
 use App\Http\Resources\Font\FontTypeResourceCollection;
@@ -18,25 +19,14 @@ class FontTypeController extends Controller
         //
     }
 
-    public function getInstalledFontTypes()
+    public function index()
     {
         $fonts = $this->fontTypeService->getInstalledFontTypes();
 
         return new FontTypeResourceCollection($fonts);
     }
 
-    public function downloadFontTypeFile(string $fileName)
-    {
-        if (mb_strpos($fileName, 'Default') === 0) {
-            $imagePath = Storage::disk('default-files')->path('/fonts/' . $fileName);
-        } else {
-            $imagePath = Storage::path('/fonts/' . $fileName);
-        }
-
-        return response()->file($imagePath);
-    }
-
-    public function getFontTypesForLanguage(string $language)
+    public function indexForLanguage(string $language)
     {
         $language = LanguageConfig::load($language);
 
@@ -45,7 +35,18 @@ class FontTypeController extends Controller
         return new FontTypeResourceCollection($fonts);
     }
 
-    public function createFontType(CreateFontTypeRequest $request)
+    public function show(FontType $fontType)
+    {
+        if (mb_strpos($fontType->filename, 'Default') === 0) {
+            $imagePath = Storage::disk('default-files')->path('/fonts/' . $fontType->filename);
+        } else {
+            $imagePath = Storage::path('/fonts/' . $fontType->filename);
+        }
+
+        return response()->file($imagePath);
+    }
+
+    public function store(CreateFontTypeRequest $request)
     {
         $fontFile = $request->file('fontFile');
         $fontName = $request->validated('name');
@@ -56,7 +57,7 @@ class FontTypeController extends Controller
         return response()->noContent();
     }
 
-    public function updateFontType(UpdateFontTypeRequest $request, FontType $fontType)
+    public function update(UpdateFontTypeRequest $request, FontType $fontType)
     {
         $fontName = $request->validated('name');
         $fontLanguages = $request->validated('languages');
@@ -66,7 +67,7 @@ class FontTypeController extends Controller
         return response()->noContent();
     }
 
-    public function deleteFontType(FontType $fontType)
+    public function destroy(FontType $fontType)
     {
         $this->fontTypeService->deleteFontType($fontType);
 

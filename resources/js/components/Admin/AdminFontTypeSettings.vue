@@ -125,7 +125,7 @@ export default {
         loadFonts() {
             this.loading = true
             this.fonts = []
-            axios.get('/fonts/get').then(response => {
+            axios.get('/api/admin/fonts').then(response => {
                 this.fonts = response.data.data
 
                 this.fonts.forEach((value, index) => {

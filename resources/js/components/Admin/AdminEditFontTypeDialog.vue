@@ -253,7 +253,7 @@ export default {
 
             this.saving = true
             axios
-                .post('/fonts/upload', formData)
+                .post('/api/admin/fonts/store', formData)
                 .then(response => {
                     this.saving = false
                     this.saveResult = 'success'
@@ -277,7 +277,7 @@ export default {
 
             this.saving = true
             axios
-                .post(`/fonts/update/${this.$props.id}`, formData)
+                .post(`/api/admin/fonts/${this.$props.id}`, formData)
                 .then(response => {
                     this.saving = false
                     this.saveResult = 'success'

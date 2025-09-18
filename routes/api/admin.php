@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dictionaries\DictionaryController;
 use App\Http\Controllers\Dictionaries\DictionaryImportController;
+use App\Http\Controllers\Fonts\FontTypeController;
 use App\Http\Controllers\System\BackupController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,13 @@ Route::prefix('/dictionaries')->group(function () {
     Route::post('/store-api', [DictionaryController::class, 'storeApi']);
     Route::post('/{dictionary}', [DictionaryController::class, 'update']);
     Route::delete('/{dictionary}', [DictionaryController::class, 'destroy']);
+});
+
+Route::prefix('/fonts')->group(function () {
+    Route::get('/', [FontTypeController::class, 'index']);
+    Route::post('/store', [FontTypeController::class, 'store']);
+    Route::post('/{fontType}', [FontTypeController::class, 'update']);
+    Route::delete('/{fontType}', [FontTypeController::class, 'destroy']);
 });
 
 Route::post('/backups', [BackupController::class, 'store']);

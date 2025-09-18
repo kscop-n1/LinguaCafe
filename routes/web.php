@@ -47,12 +47,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         // vue routes
         Route::get('/admin/{page?}', [App\Http\Controllers\HomeController::class, 'index']);
 
-        // fonts
-        Route::get('/fonts/get', [App\Http\Controllers\FontTypeController::class, 'getInstalledFontTypes']);
-        Route::post('/fonts/upload', [App\Http\Controllers\FontTypeController::class, 'createFontType']);
-        Route::post('/fonts/update/{fontType}', [App\Http\Controllers\FontTypeController::class, 'updateFontType']);
-        Route::post('/fonts/delete/{fontType}', [App\Http\Controllers\FontTypeController::class, 'deleteFontType']);
-
         // settings
         Route::post('/settings/global/update', [App\Http\Controllers\SettingsController::class, 'updateGlobalSettings']);
         Route::post('/settings/global/get', [App\Http\Controllers\SettingsController::class, 'getGlobalSettingsByName']);
@@ -98,10 +92,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/goals/get-calendar-data', [App\Http\Controllers\GoalController::class, 'getCalendarData']);
     Route::post('/goals/achievement/update/{goalAchievement?}', [App\Http\Controllers\GoalController::class, 'updateOrCreateGoalAchievement']);
     Route::post('/goals/achievement/review/update', [App\Http\Controllers\GoalController::class, 'updateReviewGoalAchievement']);
-
-    // fonts
-    Route::get('/fonts/get-fonts-for-language/{language}', [App\Http\Controllers\FontTypeController::class, 'getFontTypesForLanguage']);
-    Route::get('/fonts/file/{fileName}', [App\Http\Controllers\FontTypeController::class, 'downloadFontTypeFile']);
 
     // settings
     Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);

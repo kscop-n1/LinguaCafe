@@ -14,6 +14,10 @@ Route::prefix('/dictionaries')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/dictionaries.php'));
 
+Route::prefix('/fonts')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/fonts.php'));
+
 Route::prefix('/images')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/images.php'));
