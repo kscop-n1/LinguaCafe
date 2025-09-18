@@ -262,7 +262,7 @@ export default {
 
             this.dictionaryFileTest = 'loading'
             axios
-                .post('/dictionaries/get-supported-dictionary-file-information', formData)
+                .post('/api/admin/dictionaries/import/validate', formData)
                 .then(response => {
                     if (response.data.data === null) {
                         this.dictionary = null
@@ -301,7 +301,7 @@ export default {
             this.stepperPage = 3
 
             axios
-                .post('/dictionaries/import', {
+                .post('/api/admin/dictionaries/import', {
                     dictionarySourceLanguage: this.dictionary.sourceLanguage,
                     dictionaryTargetLanguage: this.dictionary.targetLanguage,
                     dictionaryName: this.dictionary.name,

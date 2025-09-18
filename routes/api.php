@@ -10,6 +10,10 @@ Route::prefix('/anki')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/anki.php'));
 
+Route::prefix('/dictionaries')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/dictionaries.php'));
+
 Route::prefix('/images')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/images.php'));

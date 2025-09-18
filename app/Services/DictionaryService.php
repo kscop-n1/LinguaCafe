@@ -72,7 +72,7 @@ class DictionaryService
 
         // go through each dictionary and search in them
         foreach ($dictionaries as $dictionary) {
-            $searchResultDictionary = new \stdClass;
+            $searchResultDictionary = new \stdClass();
             $searchResultDictionary->name = $dictionary->name;
             $searchResultDictionary->color = $dictionary->color;
 
@@ -245,7 +245,7 @@ class DictionaryService
             if ($dictionaryType === 'deepl') {
                 $definition = json_decode($response->body())->translations[0]->text;
 
-                $deeplCache = new DeeplCache;
+                $deeplCache = new DeeplCache();
                 $deeplCache->source_language = $sourceLanguage->name;
                 $deeplCache->target_language = $responseAdditionalInfo[$responseIndex]['targetLanguage'];
                 $deeplCache->hash = $termHash;
@@ -413,12 +413,12 @@ class DictionaryService
 
     public function deleteDictionary(Dictionary $dictionary): void
     {
-        $dictionary->delete();
-
         $tableName = $dictionary->database_table_name;
         if ($tableName !== 'API') {
             Schema::drop($tableName);
         }
+
+        $dictionary->delete();
     }
 
     private function searchImportedDictionary($dictionaryTable, $term, $strict = false)
@@ -459,7 +459,7 @@ class DictionaryService
             }
 
             if (!$duplicate) {
-                $record = new \stdClass;
+                $record = new \stdClass();
                 $record->word = $word->word;
                 $record->definitions = $definitions;
                 $records[] = $record;
@@ -511,7 +511,7 @@ class DictionaryService
 
         $translations = [];
         foreach ($search as $result) {
-            $translation = new \stdClass;
+            $translation = new \stdClass();
             $translation->words = [];
             $translation->definitions = [];
             $translation->conjugations = $result->conjugations == '' ? [] : json_decode($result->conjugations);

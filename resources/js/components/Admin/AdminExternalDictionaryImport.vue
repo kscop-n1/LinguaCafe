@@ -568,7 +568,7 @@ export default {
             formData.append('delimiter', this.dictionary.csvDelimiter)
             formData.append('skipHeader', this.dictionary.csvSkipHeader)
 
-            axios.post('/dictionaries/test-csv-file', formData).then(response => {
+            axios.post('/api/admin/dictionaries/import/csv/validate', formData).then(response => {
                 this.fileTestError = response.data.data.status !== 'success'
                 this.fileTestLoading = false
 
@@ -596,7 +596,7 @@ export default {
             formData.append('color', this.dictionary.color)
 
             axios
-                .post('/dictionaries/import-csv-file', formData)
+                .post('/api/admin/dictionaries/import/csv', formData)
                 .then(response => {
                     this.importing = false
                     this.stepperPage++

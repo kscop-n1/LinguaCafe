@@ -224,7 +224,7 @@ export default {
     mounted: function () {
         axios
             .all([
-                axios.get('/dictionaries/get/' + this.$props.dictionaryId),
+                axios.get('/api/admin/dictionaries/' + this.$props.dictionaryId),
                 axios.get('/config/languages'),
             ])
             .then(
@@ -246,7 +246,7 @@ export default {
         save() {
             this.saveResult = 'saving'
             axios
-                .post(`/dictionaries/update/${this.dictionary.id}`, this.dictionary)
+                .post(`/api/admin/dictionaries/${this.dictionary.id}`, this.dictionary)
                 .then(response => {
                     this.saveResult = 'success'
                     this.$emit('dictionary-saved')

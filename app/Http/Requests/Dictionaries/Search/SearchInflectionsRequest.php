@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Dictionaries;
+namespace App\Http\Requests\Dictionaries\Search;
 
 use Illuminate\Foundation\Http\FormRequest;
 

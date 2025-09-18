@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Dictionaries;
+namespace App\Http\Requests\Dictionaries\Import;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchDefinitionsRequest extends FormRequest
+class ValidateDictionaryCsvFileRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,13 +14,19 @@ class SearchDefinitionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'dictionary' => [
                 'required',
-                'string',
+                'file',
             ],
-            'term' => [
+            'delimiter' => [
                 'required',
                 'string',
+                'max:1',
+            ],
+            'skipHeader' => [
+                'required',
+                'string',
+                'in:true,false',
             ],
         ];
     }

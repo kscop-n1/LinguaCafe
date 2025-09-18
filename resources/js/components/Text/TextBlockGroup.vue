@@ -333,7 +333,7 @@
                 this.ankiShowNotifications = response.data.data.ankiShowNotifications;
             });
 
-            axios.get('/dictionaries/api/is-enabled').then((response) => {
+            axios.get('/api/dictionaries/api/enabled').then((response) => {
                 this.anyApiDictionaryEnabled = response.data.data;
             });
 
@@ -684,7 +684,7 @@
                 // search inflections
                 this.$store.commit('vocabularyBox/setInflections', []);
                 
-                axios.post('/dictionaries/search/inflections', {
+                axios.post('/api/dictionaries/search/inflections', {
                     term: term
                 }).then((response) => {
                     let inflections = [];
@@ -1338,7 +1338,7 @@
 
 
                 // make dictionary search
-                axios.post('/dictionaries/search-for-hover-vocabulary', {
+                axios.post('/api/dictionaries/search/hover', {
                     language: this.$props.language,
                     term: term
                 }).then((response) => {
@@ -1362,7 +1362,7 @@
 
                 // make api search
                 if (this.anyApiDictionaryEnabled) {
-                    axios.post('/dictionaries/api/search', {
+                    axios.post('/api/dictionaries/search/api', {
                         language: this.$props.language,
                         term: term,
                         context: exampleSentenceText,

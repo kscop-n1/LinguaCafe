@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Dictionaries;
+namespace App\Http\Requests\Dictionaries\Search;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchDefinitionsForHoverVocabularyRequest extends FormRequest
+class SearchApiRequest extends FormRequest
 {
     public function authorize()
     {
@@ -20,6 +20,9 @@ class SearchDefinitionsForHoverVocabularyRequest extends FormRequest
             ],
             'term' => [
                 'required',
+                'string',
+            ],
+            'context' => [
                 'string',
             ],
         ];

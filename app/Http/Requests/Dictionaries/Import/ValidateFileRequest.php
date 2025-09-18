@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Dictionaries;
+namespace App\Http\Requests\Dictionaries\Import;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetDictionaryFileInformationRequest extends FormRequest
+class ValidateFileRequest extends FormRequest
 {
     public function authorize()
     {

@@ -211,7 +211,7 @@ export default {
             this.dictionarySearchLoading = true
             this.dictionarySearchResultsFound = false
             axios
-                .post('/dictionaries/search', {
+                .post('/api/dictionaries/search', {
                     language: this.$props.language,
                     term: this.$props.searchTerm,
                 })
@@ -225,7 +225,7 @@ export default {
                 this.dictionaryApiSearchLoading = true
 
                 axios
-                    .post('/dictionaries/api/search', {
+                    .post('/api/dictionaries/search/api', {
                         language: this.$props.language,
                         term: this.$props.searchTerm,
                         context: this.$props.exampleSentenceText,

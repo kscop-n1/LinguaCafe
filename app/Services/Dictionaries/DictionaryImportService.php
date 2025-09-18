@@ -1004,6 +1004,7 @@ class DictionaryImportService
 
     /*
         Converts jmdict to text. It is used to create the file that can be imported into linguacafe, it should be moved to python.
+        Not used since 0.1 release, left it here if needed in future.
     */
     public function jmdictXmlToText()
     {

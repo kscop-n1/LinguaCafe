@@ -362,7 +362,7 @@ export default {
     methods: {
         loadDeeplCharacterLimits() {
             axios
-                .get('/dictionaries/deepl/get-usage')
+                .get('/api/admin/dictionaries/deepl/usage')
                 .then(response => {
                     this.characterLimitLoading = false
                     this.characterUsed = null

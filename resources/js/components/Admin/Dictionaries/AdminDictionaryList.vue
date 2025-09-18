@@ -208,7 +208,7 @@ export default {
         },
         saveDictionary(dictionaryIndex) {
             axios
-                .post(`/dictionaries/update/${this.dictionaries[dictionaryIndex].id}`, {
+                .post(`/api/admin/dictionaries/${this.dictionaries[dictionaryIndex].id}`, {
                     enabled: this.dictionaries[dictionaryIndex].enabled,
                 })
                 .then(response => {
@@ -230,7 +230,7 @@ export default {
         },
         deleteDictionaryConfirm() {
             axios
-                .delete('/dictionaries/delete/' + this.deleteDialog.id)
+                .delete('/api/admin/dictionaries/' + this.deleteDialog.id)
                 .then(response => {
                     this.deleteDialog.active = false
                     this.loadDictionaries()
@@ -243,7 +243,7 @@ export default {
         },
         loadDictionaries() {
             this.loading = true
-            axios.get('/dictionaries/get').then(response => {
+            axios.get('/api/admin/dictionaries').then(response => {
                 this.loading = false
                 let data = response.data.data
 

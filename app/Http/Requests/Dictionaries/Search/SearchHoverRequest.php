@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Dictionaries;
+namespace App\Http\Requests\Dictionaries\Search;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TestDictionaryCsvFileRequest extends FormRequest
+class SearchHoverRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,19 +14,13 @@ class TestDictionaryCsvFileRequest extends FormRequest
     public function rules()
     {
         return [
-            'dictionary' => [
-                'required',
-                'file',
-            ],
-            'delimiter' => [
+            'language' => [
                 'required',
                 'string',
-                'max:1',
             ],
-            'skipHeader' => [
+            'term' => [
                 'required',
                 'string',
-                'in:true,false',
             ],
         ];
     }
