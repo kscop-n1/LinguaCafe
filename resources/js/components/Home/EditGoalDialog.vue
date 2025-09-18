@@ -75,7 +75,7 @@ export default {
             this.saving = true
 
             axios
-                .post(`/goal/update/${this.$props._id}`, {
+                .post(`/api/goals/${this.$props._id}`, {
                     newGoalQuantity: this.goalQuantity,
                 })
                 .then(() => {

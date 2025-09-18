@@ -301,7 +301,7 @@ export default {
 
             this.popupMenu.saving = true
 
-            let url = '/goals/achievement/update'
+            let url = '/api/goals/achievements'
             if (achievementGoalId) {
                 url += '/' + achievementGoalId
             }
@@ -403,7 +403,7 @@ export default {
             this.updateCalendar()
         },
         loadCalendarData() {
-            axios.post('/goals/get-calendar-data').then(response => {
+            axios.get('/api/goals/calendar').then(response => {
                 this.calendarData = response.data.data
                 this.updateCalendar()
             })

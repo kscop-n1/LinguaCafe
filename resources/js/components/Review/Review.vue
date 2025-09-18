@@ -883,7 +883,7 @@ export default {
 
             if (!this.practiceMode) {
                 if (increaseReviewAchievement) {
-                    axios.post('/goals/achievement/review/update')
+                    axios.post('/api/goals/achievements/reviews/increment')
                 }
 
                 axios.post(url, saveData).then(() => {

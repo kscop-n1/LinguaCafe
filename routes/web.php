@@ -86,13 +86,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/statistics/get', [App\Http\Controllers\HomeController::class, 'getStatistics']);
     Route::get('/config/languages', [App\Http\Controllers\HomeController::class, 'getLanguageConfig']);
 
-    // goals
-    Route::post('/goals/get', [App\Http\Controllers\GoalController::class, 'getGoals']);
-    Route::post('/goal/update/{goal}', [App\Http\Controllers\GoalController::class, 'updateGoal']);
-    Route::post('/goals/get-calendar-data', [App\Http\Controllers\GoalController::class, 'getCalendarData']);
-    Route::post('/goals/achievement/update/{goalAchievement?}', [App\Http\Controllers\GoalController::class, 'updateOrCreateGoalAchievement']);
-    Route::post('/goals/achievement/review/update', [App\Http\Controllers\GoalController::class, 'updateReviewGoalAchievement']);
-
     // settings
     Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);
     Route::post('/settings/user/update', [App\Http\Controllers\SettingsController::class, 'updateOrCreateUserSettings']);

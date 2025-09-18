@@ -18,6 +18,10 @@ Route::prefix('/fonts')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/fonts.php'));
 
+Route::prefix('/goals')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/goals.php'));
+
 Route::prefix('/images')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/images.php'));

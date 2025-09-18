@@ -48,7 +48,7 @@ export default {
     },
     methods: {
         loadGoals() {
-            axios.post('/goals/get').then(response => {
+            axios.get('/api/goals').then(response => {
                 this.goals = response.data.data
                 this.$emit('goal-quantity-change')
             })
