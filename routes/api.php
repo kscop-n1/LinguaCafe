@@ -33,3 +33,7 @@ Route::prefix('/library')
 Route::prefix('/manual')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/manual.php'));
+
+Route::prefix('/statistics')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/statistics.php'));

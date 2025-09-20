@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::get('/kanji/{character}', [App\Http\Controllers\HomeController::class, 'index']);
 
     // home
-    Route::post('/statistics/get', [App\Http\Controllers\HomeController::class, 'getStatistics']);
+    
     Route::get('/config/languages', [App\Http\Controllers\HomeController::class, 'getLanguageConfig']);
 
     // settings

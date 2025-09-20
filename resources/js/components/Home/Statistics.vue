@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         loadStatistics() {
-            axios.post('/statistics/get').then(response => {
+            axios.get('/api/statistics').then(response => {
                 this.statistics = response.data
             })
         },
