@@ -2,21 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
-
 require __DIR__ . '/auth.php';
 
 /*
@@ -33,8 +18,6 @@ Route::get('/user/data', [App\Http\Controllers\UserController::class, 'getInitUs
 Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     Route::group(['middleware' => 'admin'], function () {
-        Route::get('/dev', [App\Http\Controllers\HomeController::class, 'index']);
-
         // users
         Route::get('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
         Route::post('/users/update/{user}', [App\Http\Controllers\UserController::class, 'updateUser']);
@@ -43,9 +26,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         Route::post('/languages/install', [App\Http\Controllers\LanguageController::class, 'installLanguage']);
         Route::delete('/languages/installed/delete', [App\Http\Controllers\LanguageController::class, 'deleteInstalledLanguages']);
         Route::get('/languages/get-admin-language-settings-data', [App\Http\Controllers\LanguageController::class, 'getAdminLanguageSettingsData']);
-
-        // vue routes
-        Route::get('/admin/{page?}', [App\Http\Controllers\HomeController::class, 'index']);
 
         // settings
         Route::post('/settings/global/update', [App\Http\Controllers\SettingsController::class, 'updateGlobalSettings']);
@@ -63,24 +43,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // jellyfin
     Route::get('/jellyfin/subtitles', [App\Http\Controllers\JellyfinController::class, 'getJellyfinCurrentlyPlayedSubtitles']);
-
-    // vue routes
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/user-settings', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/user-manual/{currentPage?}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/attributions', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/patch-notes', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/books/{bookId?}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/book/create', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/chapters/{id}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/chapters/read/{id}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/chapters/create/{bookId}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/chapters/edit/{bookId}/{chapterId}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/review/{practiceMode?}/{bookId?}/{chapterId?}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/vocabulary/search', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/vocabulary/search/{text}/{stage}/{book}/{chapter}/{translation}/{phrases}/{orderBy}/{page}', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/kanji/search', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/kanji/{character}', [App\Http\Controllers\HomeController::class, 'index']);
 
     // settings
     Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);
@@ -111,4 +73,8 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     // review
     Route::post('/reviews/update', [App\Http\Controllers\ReviewController::class, 'updateReadWordsGoal']);
     Route::post('/reviews/{book?}/{chapter?}', [App\Http\Controllers\ReviewController::class, 'getReviewItems']);
+
+    // vue routes
+    Route::view('/{any?}', 'home')->where('any', '.*');
+
 });
