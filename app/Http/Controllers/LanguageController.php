@@ -18,6 +18,13 @@ class LanguageController extends Controller
         //
     }
 
+    public function index()
+    {
+        $config = LanguageConfig::all();
+
+        return response()->json($config);
+    }
+
     public function selectLanguage($language, ChangeLanguageRequest $request)
     {
         $user = Auth::user();

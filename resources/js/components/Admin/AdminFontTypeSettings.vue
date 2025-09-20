@@ -136,7 +136,7 @@ export default {
                 this.loading = false
             })
 
-            axios.get('/config/languages').then(response => {
+            axios.get('/api/languages').then(response => {
                 this.supportedlanguages = response.data
                     .filter(language => {
                         return language.linguacafeSupport

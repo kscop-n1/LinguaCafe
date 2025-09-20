@@ -82,10 +82,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::get('/kanji/search', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/kanji/{character}', [App\Http\Controllers\HomeController::class, 'index']);
 
-    // home
-    
-    Route::get('/config/languages', [App\Http\Controllers\HomeController::class, 'getLanguageConfig']);
-
     // settings
     Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);
     Route::post('/settings/user/update', [App\Http\Controllers\SettingsController::class, 'updateOrCreateUserSettings']);

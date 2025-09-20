@@ -499,7 +499,7 @@ export default {
         }
     },
     mounted: function () {
-        axios.get('/config/languages').then(response => {
+        axios.get('/api/languages').then(response => {
             this.configFileLoading = false
 
             response.data.forEach(language => {

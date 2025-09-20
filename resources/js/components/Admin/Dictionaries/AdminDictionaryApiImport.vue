@@ -274,7 +274,7 @@ export default {
         }
     },
     mounted: function () {
-        axios.get('/config/languages').then(response => {
+        axios.get('/api/languages').then(response => {
             this.loading = false
 
             this.setSourceLanguages(response.data)

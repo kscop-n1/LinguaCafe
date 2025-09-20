@@ -130,17 +130,15 @@ export default {
         language: String,
     },
     mounted() {
-        axios
-            .all([axios.get('/config/languages'), axios.get('/settings/is-jellyfin-enabled')])
-            .then(
-                axios.spread((response1, response2) => {
-                    this.websiteImportSupported = response1.data.find(language => {
-                        return language.name === this.$props.language
-                    }).websiteImportSupport
-                    this.jellyfinEnabled = response2.data.data
-                    this.loading = false
-                })
-            )
+        axios.all([axios.get('/api/languages'), axios.get('/settings/is-jellyfin-enabled')]).then(
+            axios.spread((response1, response2) => {
+                this.websiteImportSupported = response1.data.find(language => {
+                    return language.name === this.$props.language
+                }).websiteImportSupport
+                this.jellyfinEnabled = response2.data.data
+                this.loading = false
+            })
+        )
     },
     methods: {
         selectImportType(type) {

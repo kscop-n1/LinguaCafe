@@ -225,7 +225,7 @@ export default {
         axios
             .all([
                 axios.get('/api/admin/dictionaries/' + this.$props.dictionaryId),
-                axios.get('/config/languages'),
+                axios.get('/api/languages'),
             ])
             .then(
                 axios.spread((response1, response2) => {
