@@ -3,7 +3,7 @@
 use App\Http\Controllers\Dictionaries\DictionaryController;
 use App\Http\Controllers\Dictionaries\DictionaryImportController;
 use App\Http\Controllers\Fonts\FontTypeController;
-use App\Http\Controllers\System\BackupController;
+use App\Http\Controllers\Languages\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/dictionaries')->group(function () {
@@ -33,4 +33,8 @@ Route::prefix('/fonts')->group(function () {
     Route::delete('/{fontType}', [FontTypeController::class, 'destroy']);
 });
 
-Route::post('/backups', [BackupController::class, 'store']);
+Route::prefix('/languages')->group(function () {
+    Route::get('/', [LanguageController::class, 'indexForAdmin']);
+    Route::post('/install', [LanguageController::class, 'install']);
+    Route::delete('/', [LanguageController::class, 'destroy']);
+});

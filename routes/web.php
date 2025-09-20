@@ -22,19 +22,10 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         Route::get('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
         Route::post('/users/update/{user}', [App\Http\Controllers\UserController::class, 'updateUser']);
 
-        // languages
-        Route::post('/languages/install', [App\Http\Controllers\LanguageController::class, 'installLanguage']);
-        Route::delete('/languages/installed/delete', [App\Http\Controllers\LanguageController::class, 'deleteInstalledLanguages']);
-        Route::get('/languages/get-admin-language-settings-data', [App\Http\Controllers\LanguageController::class, 'getAdminLanguageSettingsData']);
-
         // settings
         Route::post('/settings/global/update', [App\Http\Controllers\SettingsController::class, 'updateGlobalSettings']);
         Route::post('/settings/global/get', [App\Http\Controllers\SettingsController::class, 'getGlobalSettingsByName']);
     });
-
-    // languages
-    Route::get('/languages/get-language-selection-dialog-data', [App\Http\Controllers\LanguageController::class, 'getLanguageSelectionDialogData']);
-    Route::get('/languages/select/{language}', [App\Http\Controllers\LanguageController::class, 'selectLanguage']);
 
     // users
     Route::post('/users/update-password', [App\Http\Controllers\UserController::class, 'updatePassword']);

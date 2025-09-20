@@ -113,7 +113,7 @@ export default {
         uninstall() {
             this.uninstalling = true
             axios
-                .delete('/languages/installed/delete')
+                .delete('/api/admin/languages')
                 .then(response => {
                     this.uninstalling = false
                     if (response.status === 204) {

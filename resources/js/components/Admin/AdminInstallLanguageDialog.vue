@@ -120,7 +120,7 @@ export default {
         install() {
             this.installing = true
             axios
-                .post('/languages/install', {
+                .post('/api/admin/languages/install', {
                     language: this.$props.language,
                 })
                 .then(response => {
@@ -141,12 +141,10 @@ export default {
             var language = this.$props.language
 
             axios
-                .get('/languages/select/' + language)
-                .then(
-                    function (response) {
-                        document.location.href = '/admin/languages'
-                    }.bind(this)
-                )
+                .get('/api/languages/select/' + language)
+                .then(response => {
+                    document.location.href = '/admin/languages'
+                })
                 .catch(function (error) {})
                 .then(() => {})
         },

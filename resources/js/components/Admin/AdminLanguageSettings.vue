@@ -125,7 +125,7 @@ export default {
         },
         loadLanguages() {
             this.languages = []
-            axios.get('/languages/get-admin-language-settings-data').then(response => {
+            axios.get('/api/admin/languages').then(response => {
                 const responseData = response.data.data
                 for (let i = 0; i < responseData.languages.length; i++) {
                     this.languages.push({

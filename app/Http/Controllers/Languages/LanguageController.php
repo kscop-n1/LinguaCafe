@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Languages;
 
 use App\Helpers\Language\LanguageConfig;
 use App\Http\Requests\Languages\ChangeLanguageRequest;
@@ -8,6 +8,7 @@ use App\Http\Requests\Languages\InstallLanguageRequest;
 use App\Services\GoalService;
 use App\Services\LanguageService;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Horizon\Http\Controllers\Controller;
 
 class LanguageController extends Controller
 {
@@ -25,18 +26,7 @@ class LanguageController extends Controller
         return response()->json($config);
     }
 
-    public function selectLanguage($language, ChangeLanguageRequest $request)
-    {
-        $user = Auth::user();
-        $language = LanguageConfig::load($language);
-
-        $this->languageService->selectLanguage($user, $language);
-        $this->goalService->createGoalsForLanguage($user, $language);
-
-        return response()->noContent();
-    }
-
-    public function getLanguageSelectionDialogData()
+    public function indexForDialog()
     {
         $supportedSourceLanguages = LanguageConfig::all()->where('linguacafeSupport', '=', true)->pluck('name');
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name');
@@ -48,7 +38,7 @@ class LanguageController extends Controller
         ]);
     }
 
-    public function getAdminLanguageSettingsData()
+    public function indexForAdmin()
     {
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name')->toArray();
         $installedLanguages = $this->languageService->getInstalledLanguages();
@@ -61,16 +51,27 @@ class LanguageController extends Controller
         ]);
     }
 
-    public function installLanguage(InstallLanguageRequest $request)
+    public function select($language, ChangeLanguageRequest $request)
     {
-        $language = LanguageConfig::load($request->validated('language'));
+        $user = Auth::user();
+        $language = LanguageConfig::load($language);
 
-        $installResult = $this->languageService->installLanguage($language);
+        $this->languageService->selectLanguage($user, $language);
+        $this->goalService->createGoalsForLanguage($user, $language);
 
         return response()->noContent();
     }
 
-    public function deleteInstalledLanguages()
+    public function install(InstallLanguageRequest $request)
+    {
+        $language = LanguageConfig::load($request->validated('language'));
+
+        $this->languageService->installLanguage($language);
+
+        return response()->noContent();
+    }
+
+    public function destroy()
     {
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name');
         $user = Auth::user();

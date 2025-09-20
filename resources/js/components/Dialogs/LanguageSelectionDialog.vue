@@ -110,7 +110,7 @@ export default {
             this.notInstalledLanguages = 0
 
             // get selected and supported languages
-            axios.get('/languages/get-language-selection-dialog-data').then(response => {
+            axios.get('/api/languages/dialog').then(response => {
                 this.supportedLanguages = response.data.data.languages
                 this.notInstalledLanguages = response.data.data.notInstalledLanguages
                 this.loading = false
@@ -119,12 +119,10 @@ export default {
         selectLanguage(newLanguage) {
             var language = newLanguage.toLowerCase()
             axios
-                .get('/languages/select/' + language)
-                .then(
-                    function (response) {
-                        document.location.href = '/'
-                    }.bind(this)
-                )
+                .get('/api/languages/select/' + language)
+                .then(response => {
+                    document.location.href = '/'
+                })
                 .catch(function (error) {})
                 .then(() => {})
         },
