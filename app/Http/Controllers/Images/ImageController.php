@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Images;
 
+use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class ImageController extends Controller
         //
     }
 
-    public function getBookImage(Book $book)
+    public function showBook(Book $book)
     {
         $user = Auth::user();
 
@@ -24,7 +25,7 @@ class ImageController extends Controller
         return response()->file($imagePath);
     }
 
-    public function getKanjiImage(string $fileName)
+    public function showKanji(string $fileName)
     {
         $imagePath = Storage::path('/images/kanjivg/' . $fileName);
 

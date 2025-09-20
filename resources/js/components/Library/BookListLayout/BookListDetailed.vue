@@ -14,7 +14,7 @@
                     <img
                         v-if="book.cover_image"
                         class="cover-image rounded-lg"
-                        :src="'/images/book-images/' + book.id"
+                        :src="'/api/images/books/' + book.id"
                     />
                     <NoBookCoverIcon v-else />
                 </div>

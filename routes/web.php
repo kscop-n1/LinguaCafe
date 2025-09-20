@@ -50,10 +50,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::get('/settings/is-jellyfin-enabled', [App\Http\Controllers\SettingsController::class, 'isJellyfinEnabled']);
     Route::get('/settings/get-anki-settings', [App\Http\Controllers\SettingsController::class, 'getAnkiSettings']);
 
-    // images
-    Route::get('/images/book-images/{book}', [App\Http\Controllers\ImageController::class, 'getBookImage']);
-    Route::get('/images/kanji/{fileName}', [App\Http\Controllers\ImageController::class, 'getKanjiImage']);
-
     // vocabulary
     Route::get('/vocabulary/words/get/{word}', [App\Http\Controllers\VocabularyController::class, 'getUniqueWord']);
     Route::post('/vocabulary/word/update/{word}', [App\Http\Controllers\VocabularyController::class, 'updateWord']);

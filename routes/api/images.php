@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Images\ImageController;
 use App\Http\Controllers\Images\ImageSearchController;
 use App\Http\Controllers\Images\PhraseImageController;
 use App\Http\Controllers\Images\WordImageController;
@@ -20,3 +21,6 @@ Route::prefix('/word')->group(function () {
     Route::get('/{word}', [WordImageController::class, 'show']);
     Route::delete('/{word}', [WordImageController::class, 'destroy']);
 });
+
+Route::get('/books/{book}', [ImageController::class, 'showBook']);
+Route::get('/kanji/{fileName}', [ImageController::class, 'showKanji']);
