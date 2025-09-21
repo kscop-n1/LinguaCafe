@@ -3,12 +3,10 @@
 use App\Http\Controllers\Users\AuthController;
 use Illuminate\Support\Facades\Route;
 
+// should be in auth.php routes
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 
 Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
-    // jellyfin
-    Route::get('/jellyfin/subtitles', [App\Http\Controllers\JellyfinController::class, 'getJellyfinCurrentlyPlayedSubtitles']);
-
     // vocabulary
     Route::get('/vocabulary/words/get/{word}', [App\Http\Controllers\VocabularyController::class, 'getUniqueWord']);
     Route::post('/vocabulary/word/update/{word}', [App\Http\Controllers\VocabularyController::class, 'updateWord']);
@@ -25,7 +23,5 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/kanji/search', [App\Http\Controllers\VocabularyController::class, 'searchKanji']);
     Route::post('/kanji/details', [App\Http\Controllers\VocabularyController::class, 'getKanjiDetails']);
 
-    // vue routes
     Route::view('/{any?}', 'home')->where('any', '.*');
-
 });

@@ -157,7 +157,7 @@ export default {
             this.subtitleListError = false
             this.sessions = []
             axios
-                .get('/jellyfin/subtitles')
+                .get('/api/jellyfin/subtitles')
                 .then(response => {
                     var sessions = response.data.data
 

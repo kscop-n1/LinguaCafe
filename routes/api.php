@@ -29,6 +29,10 @@ Route::prefix('/images')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/images.php'));
 
+Route::prefix('/jellyfin')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/jellyfin.php'));
+
 Route::prefix('/languages')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/languages.php'));

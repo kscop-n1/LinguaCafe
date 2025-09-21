@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Jellyfin;
 
+use App\Http\Controllers\Controller;
 use App\Services\JellyfinService;
 
 class JellyfinController extends Controller
@@ -12,7 +13,7 @@ class JellyfinController extends Controller
         //
     }
 
-    public function getJellyfinCurrentlyPlayedSubtitles()
+    public function index()
     {
         $subtitles = $this->jellyfinService->getJellyfinCurrentlyPlayedSubtitles();
 
