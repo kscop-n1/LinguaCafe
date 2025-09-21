@@ -3,16 +3,8 @@
 namespace App\Services;
 
 use App\Helpers\Language\LanguageConfig;
-use App\Models\Book;
-use App\Models\Bookmark;
-use App\Models\Chapter;
-use App\Models\EncounteredWord;
-use App\Models\ExampleSentence;
-use App\Models\GoalAchievement;
-use App\Models\Phrase;
 use App\Models\User;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -61,7 +53,7 @@ class UserService
             throw new \Exception('An other user already exists with this email address.');
         }
 
-        $user = new User;
+        $user = new User();
         $user->name = $name;
         $user->email = $email;
         $user->is_admin = $isAdmin;
@@ -70,7 +62,7 @@ class UserService
         $user->password = Hash::make($password);
         $user->save();
 
-        (new GoalService)->createGoalsForLanguage($user, LanguageConfig::load('spanish'));
+        (new GoalService())->createGoalsForLanguage($user, LanguageConfig::load('spanish'));
     }
 
     public function updateUser(User $user, string $name, string $email, bool $isAdmin): void
@@ -87,45 +79,5 @@ class UserService
         $user->email = $email;
         $user->is_admin = $isAdmin;
         $user->save();
-    }
-
-    public function deleteUserLanguageData(User $user, LanguageConfig $language): void
-    {
-        DB::transaction(function () use ($user, $language) {
-            Phrase::query()
-                ->where('user_id', $user->id)
-                ->where('language', $language->name)
-                ->delete();
-
-            EncounteredWord::query()
-                ->where('user_id', $user->id)
-                ->where('language', $language->name)
-                ->delete();
-
-            ExampleSentence::query()
-                ->where('user_id', $user->id)
-                ->where('language', $language->name)
-                ->delete();
-
-            Bookmark::query()
-                ->where('user_id', '=', $user->id)
-                ->where('language', '=', $language->name)
-                ->delete();
-
-            Chapter::query()
-                ->where('user_id', $user->id)
-                ->where('language', $language->name)
-                ->delete();
-
-            Book::query()
-                ->where('user_id', $user->id)
-                ->where('language', $language->name)
-                ->delete();
-
-            GoalAchievement::query()
-                ->where('user_id', $user->id)
-                ->where('language', $language->name)
-                ->delete();
-        });
     }
 }

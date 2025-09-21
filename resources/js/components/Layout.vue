@@ -259,7 +259,7 @@ export default {
         this.initializeThemes()
     },
     mounted() {
-        axios.get('/user/data').then(response => {
+        axios.get('/api/users/data').then(response => {
             console.log('user data loaded', response.data)
             if (response.data.userUuid === undefined) {
                 this.userCount = response.data.userCount

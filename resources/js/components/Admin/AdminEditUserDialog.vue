@@ -228,11 +228,11 @@ export default {
                 isAdmin: this.isAdmin,
             }
 
-            var url = `/users/update/${this.userId}`
+            var url = `/api/admin/users/${this.userId}`
             if (this.userId === -1) {
                 data.password = this.password
                 data.password_confirmation = this.passwordConfirmation
-                url = '/users/create'
+                url = '/api/users/store'
             }
 
             axios

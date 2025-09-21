@@ -129,7 +129,7 @@ export default {
 
             this.saving = true
             axios
-                .post('/users/update-password', {
+                .post('/api/users/update/password', {
                     password: this.password,
                     password_confirmation: this.passwordConfirmation,
                 })

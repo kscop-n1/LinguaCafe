@@ -5,6 +5,7 @@ use App\Http\Controllers\Dictionaries\DictionaryImportController;
 use App\Http\Controllers\Fonts\FontTypeController;
 use App\Http\Controllers\Languages\LanguageController;
 use App\Http\Controllers\Settings\GlobalSettingsController;
+use App\Http\Controllers\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/dictionaries')->group(function () {
@@ -37,10 +38,15 @@ Route::prefix('/fonts')->group(function () {
 Route::prefix('/languages')->group(function () {
     Route::get('/', [LanguageController::class, 'indexForAdmin']);
     Route::post('/install', [LanguageController::class, 'install']);
-    Route::delete('/', [LanguageController::class, 'destroy']);
+    Route::delete('/', [LanguageController::class, 'uninstall']);
 });
 
 Route::prefix('/settings')->group(function () {
     Route::post('/', [GlobalSettingsController::class, 'show']);
     Route::post('/update', [GlobalSettingsController::class, 'update']);
+});
+
+Route::prefix('/users')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::post('/{user}', [UserController::class, 'update']);
 });

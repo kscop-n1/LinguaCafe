@@ -110,7 +110,7 @@ export default {
     },
     props: {},
     mounted() {
-        axios.get('/users/is-password-changed').then(response => {
+        axios.get('/api/users/password/changed').then(response => {
             this.passwordChanged = Boolean(response.data.data)
         })
     },

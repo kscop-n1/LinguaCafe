@@ -1,33 +1,11 @@
 <?php
 
+use App\Http\Controllers\Users\AuthController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/auth.php';
-
-/*
-    This function's authentication is inside the controller, because
-    the first user can be created without being logged in.
-*/
-Route::group(['middleware' => 'web'], function () {
-    Route::post('/users/create', [App\Http\Controllers\UserController::class, 'createUser']);
-});
-
-// basic user data for the app
-Route::get('/user/data', [App\Http\Controllers\UserController::class, 'getInitUserData']);
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 
 Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
-
-    Route::group(['middleware' => 'admin'], function () {
-        // users
-        Route::get('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
-        Route::post('/users/update/{user}', [App\Http\Controllers\UserController::class, 'updateUser']);
-    });
-
-    // users
-    Route::post('/users/update-password', [App\Http\Controllers\UserController::class, 'updatePassword']);
-    Route::get('/users/is-password-changed', [App\Http\Controllers\UserController::class, 'isUserPasswordChanged']);
-    Route::delete('/users/delete-language-data/{language}', [App\Http\Controllers\UserController::class, 'deleteUserLanguageData']);
-
     // jellyfin
     Route::get('/jellyfin/subtitles', [App\Http\Controllers\JellyfinController::class, 'getJellyfinCurrentlyPlayedSubtitles']);
 

@@ -159,7 +159,7 @@ export default {
             this.deletionError = false
 
             axios
-                .delete(`/users/delete-language-data/${this.$props.language}`)
+                .delete(`/api/languages/${this.$props.language}`)
                 .then(response => {
                     this.deletionSuccess = true
                     this.deleting = false

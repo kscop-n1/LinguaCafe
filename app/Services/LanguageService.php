@@ -3,9 +3,17 @@
 namespace App\Services;
 
 use App\Helpers\Language\LanguageConfig;
+use App\Models\Book;
+use App\Models\Bookmark;
+use App\Models\Chapter;
+use App\Models\EncounteredWord;
+use App\Models\ExampleSentence;
+use App\Models\GoalAchievement;
+use App\Models\Phrase;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -98,7 +106,7 @@ class LanguageService
             $file = file_get_contents('https://github.com/KanjiVG/kanjivg/archive/master.zip');
             file_put_contents($filePath, $file);
 
-            $zip = new \ZipArchive;
+            $zip = new \ZipArchive();
             $zipFile = $zip->open($filePath);
             if ($zipFile === true) {
                 $zip->extractTo($extractPath);
@@ -140,5 +148,45 @@ class LanguageService
         Log::info('Installed python packages has been re-cached.', [
             'installed_packages' => $installedPackages,
         ]);
+    }
+
+    public function deleteUserLanguageData(User $user, LanguageConfig $language): void
+    {
+        DB::transaction(function () use ($user, $language) {
+            Phrase::query()
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
+                ->delete();
+
+            EncounteredWord::query()
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
+                ->delete();
+
+            ExampleSentence::query()
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
+                ->delete();
+
+            Bookmark::query()
+                ->where('user_id', '=', $user->id)
+                ->where('language', '=', $language->name)
+                ->delete();
+
+            Chapter::query()
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
+                ->delete();
+
+            Book::query()
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
+                ->delete();
+
+            GoalAchievement::query()
+                ->where('user_id', $user->id)
+                ->where('language', $language->name)
+                ->delete();
+        });
     }
 }

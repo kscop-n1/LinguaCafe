@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('/auth')
+    ->group(base_path('routes/api/auth.php'));
+
 Route::prefix('/admin')
     ->middleware(['auth', 'auth.session', 'web', 'admin'])
     ->group(base_path('routes/api/admin.php'));
@@ -49,3 +52,6 @@ Route::prefix('/settings')
 Route::prefix('/statistics')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/statistics.php'));
+
+Route::prefix('/users')
+    ->group(base_path('routes/api/users.php'));

@@ -112,7 +112,7 @@ export default {
         loadUsers() {
             this.users = []
             this.loading = true
-            axios.get('/users/get').then(response => {
+            axios.get('/api/admin/users').then(response => {
                 this.loading = false
                 this.users = response.data.data.map(user => {
                     user.created_at = moment.utc(user.created_at).format('YYYY-MM-DD')

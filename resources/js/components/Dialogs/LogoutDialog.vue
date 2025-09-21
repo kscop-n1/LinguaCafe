@@ -36,7 +36,7 @@ export default {
     methods: {
         logout() {
             this.loading = true
-            axios.post('/logout').then(response => {
+            axios.post('/api/auth/logout').then(response => {
                 window.location.href = '/'
             })
         },

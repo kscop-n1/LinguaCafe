@@ -71,12 +71,22 @@ class LanguageController extends Controller
         return response()->noContent();
     }
 
-    public function destroy()
+    public function uninstall()
     {
         $installableLanguages = LanguageConfig::all()->where('installRequired', '=', true)->pluck('name');
         $user = Auth::user();
 
         $this->languageService->deleteInstalledLanguages($user, $installableLanguages);
+
+        return response()->noContent();
+    }
+
+    public function destroyData($language)
+    {
+        $user = Auth::user();
+        $language = LanguageConfig::load($language);
+
+        $this->languageService->deleteUserLanguageData($user, $language);
 
         return response()->noContent();
     }

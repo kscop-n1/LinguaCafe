@@ -171,7 +171,7 @@ export default {
 
             this.loading = true
             axios
-                .post('/login', {
+                .post('/api/auth/login', {
                     email: this.email,
                     password: this.password,
                     remember: true,
