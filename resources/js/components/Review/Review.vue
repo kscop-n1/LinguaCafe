@@ -626,16 +626,11 @@ export default {
     },
     props: {},
     mounted: function () {
-        var data = {
-            practiceMode: this.practiceMode,
-        }
-
         if (this.$route.params.practiceMode !== undefined) {
-            data.practiceMode = this.$route.params.practiceMode === 'true'
             this.practiceMode = this.$route.params.practiceMode === 'true'
         }
 
-        let url = '/reviews'
+        let url = `/api/reviews/${this.practiceMode ? 1 : 0}`
         if (this.$route.params.bookId !== undefined && this.$route.params.bookId !== '-1') {
             url += '/' + this.$route.params.bookId
         }
@@ -644,7 +639,7 @@ export default {
             url += '/' + this.$route.params.chapterId
         }
 
-        axios.post(url, data).then(response => {
+        axios.get(url).then(response => {
             var data = response.data
             this.reviews = data.reviews
             this.totalReviews = data.reviews.length
@@ -985,7 +980,7 @@ export default {
 
             // update reviewed and read words data
             axios
-                .post('/reviews/update', {
+                .post('/api/reviews/update', {
                     readWords: this.readWords,
                 })
                 .then(() => {

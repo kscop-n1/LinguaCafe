@@ -57,10 +57,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
     Route::post('/kanji/search', [App\Http\Controllers\VocabularyController::class, 'searchKanji']);
     Route::post('/kanji/details', [App\Http\Controllers\VocabularyController::class, 'getKanjiDetails']);
 
-    // review
-    Route::post('/reviews/update', [App\Http\Controllers\ReviewController::class, 'updateReadWordsGoal']);
-    Route::post('/reviews/{book?}/{chapter?}', [App\Http\Controllers\ReviewController::class, 'getReviewItems']);
-
     // vue routes
     Route::view('/{any?}', 'home')->where('any', '.*');
 

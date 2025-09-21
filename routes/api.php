@@ -38,6 +38,10 @@ Route::prefix('/manual')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/manual.php'));
 
+Route::prefix('/reviews')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/reviews.php'));
+
 Route::prefix('/statistics')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/statistics.php'));

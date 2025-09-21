@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Reviews;
 
 use App\Enums\GoalTypeEnum;
 use App\Helpers\Language\LanguageConfig;
-use App\Http\Requests\Review\GetReviewItemsRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Review\UpdateReviewGoalRequest;
 use App\Models\Book;
 use App\Models\Chapter;
@@ -21,23 +21,21 @@ class ReviewController extends Controller
         //
     }
 
-    public function getReviewItems(GetReviewItemsRequest $request, ?Book $book = null, ?Chapter $chapter = null)
+    public function show(bool $practiceMode, ?Book $book = null, ?Chapter $chapter = null)
     {
         $user = Auth::user();
         $language = LanguageConfig::load(Auth::user()->selected_language);
-        $practiceMode = $request->validated('practiceMode');
 
         $reviews = $this->reviewService->getReviewItems($user, $language, $book, $chapter, $practiceMode);
 
-        $reviewData = new \stdClass;
-        $reviewData->reviews = $reviews;
-        $reviewData->language = $language->name;
-        $reviewData->languageSpaces = $language->hasSpaces();
-
-        return response()->json($reviewData, 200);
+        return response()->json([
+            'reviews' => $reviews,
+            'language' => $language->name,
+            'languageSpaces' => $language->hasSpaces(),
+        ]);
     }
 
-    public function updateReadWordsGoal(UpdateReviewGoalRequest $request)
+    public function updateGoal(UpdateReviewGoalRequest $request)
     {
         $user = Auth::user();
         $language = LanguageConfig::load(Auth::user()->selected_language);
