@@ -270,7 +270,7 @@ export default {
     methods: {
         loadSettings() {
             axios
-                .post('/settings/global/get', {
+                .post('/api/admin/settings', {
                     settingNames: [
                         'backupCompression',
                         'backupRetainDaily',
@@ -288,7 +288,7 @@ export default {
             this.saving = true
 
             axios
-                .post('/settings/global/update', {
+                .post('/api/admin/settings/update', {
                     settings: {
                         backupCompression: this.settings.backupCompression,
                         backupRetainDaily: parseInt(this.settings.backupRetainDaily),

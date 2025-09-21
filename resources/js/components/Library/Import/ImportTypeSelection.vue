@@ -130,7 +130,7 @@ export default {
         language: String,
     },
     mounted() {
-        axios.all([axios.get('/api/languages'), axios.get('/settings/is-jellyfin-enabled')]).then(
+        axios.all([axios.get('/api/languages'), axios.get('/api/settings/jellyfin')]).then(
             axios.spread((response1, response2) => {
                 this.websiteImportSupported = response1.data.find(language => {
                     return language.name === this.$props.language

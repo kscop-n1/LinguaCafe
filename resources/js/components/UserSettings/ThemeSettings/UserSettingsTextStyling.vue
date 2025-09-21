@@ -934,7 +934,7 @@ export default {
             this.textStyling = JSON.parse(JSON.stringify(defaultTextThemes))
             this.loading = true
 
-            axios.post('/settings/user/get', { settingNames: ['textStyling'] }).then(response => {
+            axios.post('/api/settings', { settingNames: ['textStyling'] }).then(response => {
                 if (response.data.textStyling) {
                     this.textStyling = response.data.textStyling
                 }

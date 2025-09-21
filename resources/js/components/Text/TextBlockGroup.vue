@@ -328,7 +328,7 @@
             window.addEventListener('keydown', this.hotkeyHandle);
             window.addEventListener('mousemove', this.closeHoverBox);
 
-            axios.get('/settings/get-anki-settings').then((response) => {
+            axios.get('/api/settings/anki').then((response) => {
                 this.ankiAutoAddCards = response.data.data.ankiAutoAddCards;
                 this.ankiShowNotifications = response.data.data.ankiShowNotifications;
             });

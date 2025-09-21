@@ -245,7 +245,7 @@ export default {
         language: String,
     },
     mounted() {
-        axios.post('/settings/user/get', { settingNames: ['vuetifyThemes'] }).then(response => {
+        axios.post('/api/settings', { settingNames: ['vuetifyThemes'] }).then(response => {
             let savedColors = response.data.vuetifyThemes
             let themeSettingNames = Object.keys(defaultThemes.light)
 
@@ -334,7 +334,7 @@ export default {
             })
 
             axios
-                .post('/settings/user/update', { settings: colorSettings })
+                .post('/api/settings/update', { settings: colorSettings })
                 .then(response => {
                     this.saveResult = ''
                     this.saving = false

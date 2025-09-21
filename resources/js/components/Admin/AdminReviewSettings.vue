@@ -112,7 +112,7 @@ export default {
             }
 
             axios
-                .post('/settings/global/update', {
+                .post('/api/admin/settings/update', {
                     settings: {
                         reviewIntervals: reviewIntervalsArray,
                     },
@@ -124,7 +124,7 @@ export default {
         },
         loadSettings() {
             axios
-                .post('/settings/global/get', {
+                .post('/api/admin/settings', {
                     settingNames: ['reviewIntervals'],
                 })
                 .then(response => {

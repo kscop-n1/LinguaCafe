@@ -42,6 +42,10 @@ Route::prefix('/reviews')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/reviews.php'));
 
+Route::prefix('/settings')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/settings.php'));
+
 Route::prefix('/statistics')
     ->middleware(['auth', 'auth.session', 'web'])
     ->group(base_path('routes/api/statistics.php'));

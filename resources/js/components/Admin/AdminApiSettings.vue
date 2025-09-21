@@ -399,7 +399,7 @@ export default {
         },
         loadSettings() {
             axios
-                .post('/settings/global/get', {
+                .post('/api/admin/settings', {
                     settingNames: [
                         'deeplApiKey',
                         'deeplHost',
@@ -427,7 +427,7 @@ export default {
             this.characterLimitStatus = ''
 
             axios
-                .post('/settings/global/update', {
+                .post('/api/admin/settings/update', {
                     settings: {
                         deeplApiKey: this.settings.deeplApiKey,
                         deeplHost: this.settings.deeplHost,

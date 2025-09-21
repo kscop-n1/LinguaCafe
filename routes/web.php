@@ -21,10 +21,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
         // users
         Route::get('/users/get', [App\Http\Controllers\UserController::class, 'getUsers']);
         Route::post('/users/update/{user}', [App\Http\Controllers\UserController::class, 'updateUser']);
-
-        // settings
-        Route::post('/settings/global/update', [App\Http\Controllers\SettingsController::class, 'updateGlobalSettings']);
-        Route::post('/settings/global/get', [App\Http\Controllers\SettingsController::class, 'getGlobalSettingsByName']);
     });
 
     // users
@@ -34,12 +30,6 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // jellyfin
     Route::get('/jellyfin/subtitles', [App\Http\Controllers\JellyfinController::class, 'getJellyfinCurrentlyPlayedSubtitles']);
-
-    // settings
-    Route::post('/settings/user/get', [App\Http\Controllers\SettingsController::class, 'getUserSettingsByName']);
-    Route::post('/settings/user/update', [App\Http\Controllers\SettingsController::class, 'updateOrCreateUserSettings']);
-    Route::get('/settings/is-jellyfin-enabled', [App\Http\Controllers\SettingsController::class, 'isJellyfinEnabled']);
-    Route::get('/settings/get-anki-settings', [App\Http\Controllers\SettingsController::class, 'getAnkiSettings']);
 
     // vocabulary
     Route::get('/vocabulary/words/get/{word}', [App\Http\Controllers\VocabularyController::class, 'getUniqueWord']);
