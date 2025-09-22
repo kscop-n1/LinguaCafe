@@ -5,7 +5,7 @@ namespace App\Http\Requests\Vocabulary;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateOrUpdateExampleSentenceRequest extends FormRequest
+class StoreOrUpdateExampleSentenceRequest extends FormRequest
 {
     public function authorize()
     {

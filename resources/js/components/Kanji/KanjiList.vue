@@ -161,7 +161,7 @@ export default {
         updateKanjiList: function () {
             this.loading = true
             axios
-                .post('/kanji/search', {
+                .post('/api/vocabulary/kanji/search', {
                     kanjiGroupBy: this.groupBy == 0 ? 'grade' : 'jlpt',
                     showUnknown: this.showUnknown,
                 })

@@ -149,7 +149,7 @@ export default {
         })
 
         axios
-            .post('/kanji/details', {
+            .post('/api/vocabulary/kanji/details', {
                 kanji: this.kanji,
             })
             .then(response => {

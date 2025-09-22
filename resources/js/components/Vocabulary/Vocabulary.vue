@@ -580,7 +580,7 @@ export default {
     methods: {
         loadVocabularySearchPage() {
             axios
-                .post('/vocabulary/search', {
+                .post('/api/vocabulary/search', {
                     text: this.filters.text == '' ? 'anytext' : this.filters.text,
                     book: parseInt(this.filters.book),
                     chapter: parseInt(this.filters.chapter),
@@ -629,7 +629,7 @@ export default {
             }
 
             axios
-                .post('/vocabulary/export-to-csv', {
+                .post('/api/vocabulary/export', {
                     fields: fields,
                     text: text,
                     stage: parseInt(this.filters.stage),

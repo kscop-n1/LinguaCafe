@@ -4,7 +4,7 @@ namespace App\Http\Requests\Vocabulary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ExportToCsvRequest extends FormRequest
+class ExportVocabularyRequest extends FormRequest
 {
     public function authorize()
     {

@@ -1626,7 +1626,7 @@
                 // delete phrase
                 this.phrases.splice(deletedPhraseIndex, 1);
 
-                axios.post(`/vocabulary/phrases/delete/${deletedPhraseId}`).then(function (response) {
+                axios.delete(`/api/vocabulary/phrases/${deletedPhraseId}`).then(function (response) {
                     //
                 });
 
@@ -1651,7 +1651,7 @@
                     }
                 }
 
-                var url = `/vocabulary/phrases/update/${this.phrases[this.selectedPhrase].id}`;
+                var url = `/api/vocabulary/phrases/${this.phrases[this.selectedPhrase].id}`;
                 var saveData = {
                     reading: this.phrases[this.selectedPhrase].reading,
                     translation: this.phrases[this.selectedPhrase].translation,
@@ -1661,7 +1661,7 @@
                 if (this.phrases[this.selectedPhrase].id === -1) {
                     saveData.words = JSON.stringify(this.phrases[this.selectedPhrase].words);
                     saveData.stage = this.phrases[this.selectedPhrase].stage;
-                    url = '/vocabulary/phrases/create';
+                    url = '/api/vocabulary/phrases/store';
                 }
 
                 if (withStage) {
@@ -1752,7 +1752,7 @@
                     saveData.stage = selectedWord.stage;
                 }
 
-                axios.post(`/vocabulary/word/update/${selectedWord.id}`, saveData).catch(function (error) {
+                axios.post(`/api/vocabulary/words/${selectedWord.id}`, saveData).catch(function (error) {
                 });
 
                 if (exampleSentenceChanged) {
@@ -1908,7 +1908,7 @@
                     targetId = this.phrases[this.selectedPhrase].id;
                 }
 
-                axios.post('/vocabulary/example-sentence/create-or-update', {
+                axios.post('/api/vocabulary/example-sentences', {
                     targetType: targetType,
                     targetId: targetId,
                     exampleSentenceWords: JSON.stringify(exampleSentence),

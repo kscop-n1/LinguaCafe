@@ -14,14 +14,41 @@ class UpdateWordRequest extends FormRequest
     public function rules()
     {
         return [
-            'stage' => 'integer|gte:-7|lte:2',
-            'translation' => 'nullable|string',
-            'reading' => 'nullable|string',
-            'lemma' => 'nullable|string',
-            'lemma_reading' => 'nullable|string',
-            'lookup_count' => 'nullable|integer|gte:0',
-            'read_count' => 'nullable|integer|gte:0',
-            'relearning' => 'nullable|boolean',
+            'stage' => [
+                'integer',
+                'gte:-7',
+                'lte:2',
+            ],
+            'translation' => [
+                'nullable',
+                'string',
+            ],
+            'reading' => [
+                'nullable',
+                'string',
+            ],
+            'lemma' => [
+                'nullable',
+                'string',
+            ],
+            'lemma_reading' => [
+                'nullable',
+                'string',
+            ],
+            'lookup_count' => [
+                'nullable',
+                'integer',
+                'gte:0',
+            ],
+            'read_count' => [
+                'nullable',
+                'integer',
+                'gte:0',
+            ],
+            'relearning' => [
+                'nullable',
+                'boolean',
+            ],
         ];
     }
 }

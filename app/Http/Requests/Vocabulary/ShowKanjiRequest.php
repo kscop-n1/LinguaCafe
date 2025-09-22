@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Vocabulary;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class SearchKanjiRequest extends FormRequest
+class ShowKanjiRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,14 +14,9 @@ class SearchKanjiRequest extends FormRequest
     public function rules()
     {
         return [
-            'kanjiGroupBy' => [
+            'kanji' => [
                 'required',
                 'string',
-                Rule::in(['grade', 'jlpt']),
-            ],
-            'showUnknown' => [
-                'required',
-                'boolean',
             ],
         ];
     }

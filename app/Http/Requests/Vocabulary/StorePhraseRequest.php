@@ -4,7 +4,7 @@ namespace App\Http\Requests\Vocabulary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePhraseRequest extends FormRequest
+class StorePhraseRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,27 +14,23 @@ class UpdatePhraseRequest extends FormRequest
     public function rules()
     {
         return [
+            'words' => [
+                'required',
+                'json',
+            ],
             'stage' => [
+                'required',
                 'integer',
                 'gte:-7',
-                'lte:0',
-            ],
-            'translation' => [
-                'nullable',
-                'string',
+                'lte:2',
             ],
             'reading' => [
                 'nullable',
                 'string',
             ],
-            'lookup_count' => [
+            'translation' => [
                 'nullable',
-                'integer',
-                'gte:0',
-            ],
-            'relearning' => [
-                'nullable',
-                'boolean',
+                'string',
             ],
         ];
     }

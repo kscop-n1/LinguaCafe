@@ -198,7 +198,7 @@ export default {
             this.loading = true
             this.importResult = null
             axios
-                .post('/vocabulary/import-from-csv', formData, {
+                .post('/api/vocabulary/import', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },

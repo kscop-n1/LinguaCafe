@@ -59,3 +59,7 @@ Route::prefix('/statistics')
 
 Route::prefix('/users')
     ->group(base_path('routes/api/users.php'));
+
+Route::prefix('/vocabulary')
+    ->middleware(['auth', 'auth.session', 'web'])
+    ->group(base_path('routes/api/vocabulary.php'));

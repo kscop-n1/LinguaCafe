@@ -275,7 +275,7 @@ export default {
     mounted: function () {
         axios
             .get(
-                '/vocabulary/' + this.$props.itemType.toLowerCase() + 's/get/' + this.$props.itemId
+                '/api/vocabulary/' + this.$props.itemType.toLowerCase() + 's/' + this.$props.itemId
             )
             .then(response => {
                 this.loading = false
@@ -316,7 +316,7 @@ export default {
                 stage: this.item.stage,
             }
 
-            axios.post(`/vocabulary/word/update/${this.item.id}`, saveData).then(() => {
+            axios.post(`/api/vocabulary/words/${this.item.id}`, saveData).then(() => {
                 this.saved = true
                 this.saving = false
                 this.updateVocabularySearch()
@@ -329,7 +329,7 @@ export default {
                 stage: this.item.stage,
             }
 
-            axios.post(`/vocabulary/phrases/update/${this.item.id}`, saveData).then(() => {
+            axios.post(`/api/vocabulary/phrases/${this.item.id}`, saveData).then(() => {
                 this.saved = true
                 this.saving = false
                 this.updateVocabularySearch()

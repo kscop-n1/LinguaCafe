@@ -854,9 +854,9 @@ export default {
             this.countReadWords()
 
             // update word or phrase in database
-            var url = `/vocabulary/word/update/${this.reviews[this.currentReviewIndex].id}`
+            var url = `/api/vocabulary/words/${this.reviews[this.currentReviewIndex].id}`
             if (this.reviews[this.currentReviewIndex].type == 'phrase') {
-                url = `/vocabulary/phrases/update/${this.reviews[this.currentReviewIndex].id}`
+                url = `/api/vocabulary/phrases/${this.reviews[this.currentReviewIndex].id}`
             }
 
             var saveData = {}
@@ -907,9 +907,9 @@ export default {
             this.countReadWords()
 
             // update word or phrase in database
-            var url = `/vocabulary/word/update/${this.reviews[this.currentReviewIndex].id}`
+            var url = `/api/vocabulary/words/${this.reviews[this.currentReviewIndex].id}`
             if (this.reviews[this.currentReviewIndex].type == 'phrase') {
-                url = `/vocabulary/phrases/update/${this.reviews[this.currentReviewIndex].id}`
+                url = `/api/vocabulary/phrases/${this.reviews[this.currentReviewIndex].id}`
             }
 
             var saveData = {
@@ -960,7 +960,7 @@ export default {
             this.exampleSentence = null
             axios
                 .get(
-                    '/vocabulary/example-sentence/' +
+                    '/api/vocabulary/example-sentences/' +
                         this.reviews[this.currentReviewIndex].type +
                         '/' +
                         this.reviews[this.currentReviewIndex].id

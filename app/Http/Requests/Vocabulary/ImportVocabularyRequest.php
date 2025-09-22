@@ -4,7 +4,7 @@ namespace App\Http\Requests\Vocabulary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ImportFromCsvRequest extends FormRequest
+class ImportVocabularyRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,10 +14,24 @@ class ImportFromCsvRequest extends FormRequest
     public function rules()
     {
         return [
-            'importFile' => 'required|file',
-            'onlyUpdate' => 'required|boolean',
-            'skipHeader' => 'required|boolean',
-            'delimiter' => 'required|string|min:1|max:1',
+            'importFile' => [
+                'required',
+                'file',
+            ],
+            'onlyUpdate' => [
+                'required',
+                'boolean',
+            ],
+            'skipHeader' => [
+                'required',
+                'boolean',
+            ],
+            'delimiter' => [
+                'required',
+                'string',
+                'min:1',
+                'max:1',
+            ],
         ];
     }
 
