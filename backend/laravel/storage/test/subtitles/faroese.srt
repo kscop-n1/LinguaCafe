@@ -1,0 +1,127 @@
+1
+00:00:00,000 --> 00:00:04,000
+Jens: Hey, hvussu gongur við tær í dag?
+
+2
+00:00:04,500 --> 00:00:08,000
+Anna: Góðan dag! Tað gongur væl, takk. Hvat við tær?
+
+3
+00:00:08,500 --> 00:00:12,000
+Jens: Eg havi verið úti at ganga við hundinum. Veðrið var fantastiskt.
+
+4
+00:00:12,500 --> 00:00:16,000
+Anna: Tað hoyrist gott út. Tað er ein góð tíð at vera úti nú.
+
+5
+00:00:16,500 --> 00:00:20,000
+Jens: Jú, og náttúran er so vakur í summarið. Tú mátt koma við næstu ferð.
+
+6
+00:00:20,500 --> 00:00:24,000
+Anna: Tað vil eg fegin. Hvussu liggur tað fyri við arbeiðinum hjá tær?
+
+7
+00:00:24,500 --> 00:00:28,000
+Jens: Tað gongur ordiliga væl. Eg eri í gongd við eina nýggja verkætlan.
+
+8
+00:00:28,500 --> 00:00:32,000
+Anna: Spennandi! Hvat snýr hon seg um?
+
+9
+00:00:32,500 --> 00:00:36,000
+Jens: Vit arbeiða við at menna nýggjar burðardyggar loysnir til fiskivinnuna.
+
+10
+00:00:36,500 --> 00:00:40,000
+Anna: Tað ljóðar sum ein týdningarmikil uppgáva.
+
+11
+00:00:40,500 --> 00:00:44,000
+Jens: Ja, tað er avgjørt tað. Tað krevur nógv arbeiði og samstarv.
+
+12
+00:00:44,500 --> 00:00:48,000
+Anna: Hvussu taka fólk í vinnuni ímóti hesum nýskapandi hugskotum?
+
+13
+00:00:48,500 --> 00:00:52,000
+Jens: Tað er blandað. Summi eru ógvuliga opin, meðan onnur eru meira varin.
+
+14
+00:00:52,500 --> 00:00:56,000
+Anna: Tað kann eg skilja. Broytingar eru altíð torførar at fremja.
+
+15
+00:00:56,500 --> 00:01:00,000
+Jens: Ja, men vit mugu halda fram. Um ikki nú, tá alt annað broytist.
+
+16
+00:01:00,500 --> 00:01:04,000
+Anna: Hvat gert tú annars fyri at slappa av eftir arbeiðið?
+
+17
+00:01:04,500 --> 00:01:08,000
+Jens: Eg lesi nógv og geri nógv útivist. Tú kennur meg.
+
+18
+00:01:08,500 --> 00:01:12,000
+Anna: Jú, tú hevur altíð verið ein náttúruvinur.
+
+19
+00:01:12,500 --> 00:01:16,000
+Jens: Hvat við tær? Hvat hevur tú gjørt seinastu dagarnar?
+
+20
+00:01:16,500 --> 00:01:20,000
+Anna: Eg havi verið nógv saman við familjuni og hjálpt til í garðinum.
+
+21
+00:01:20,500 --> 00:01:24,000
+Jens: Tað er eisini gott at fáa tíð til tað.
+
+22
+00:01:24,500 --> 00:01:28,000
+Anna: Jú, og tað gevur ein góðan kenslu av friði.
+
+23
+00:01:28,500 --> 00:01:32,000
+Jens: Hvussu sær tú framtíðina fyri okkum her í Føroyum?
+
+24
+00:01:32,500 --> 00:01:36,000
+Anna: Eg eri vónrík. Eg haldi, at vit kunnu halda fast við okkara mentan og samstundis mennast.
+
+25
+00:01:36,500 --> 00:01:40,000
+Jens: Ja, tað er týdningarmikið at finna javnvág millum gamalt og nýtt.
+
+26
+00:01:40,500 --> 00:01:44,000
+Anna: Eg gleði meg at síggja, hvussu ungt fólkið tekur hetta á seg.
+
+27
+00:01:44,500 --> 00:01:48,000
+Jens: Tað ger meg eisini stoltan. Vit eru væl fyri her.
+
+28
+00:01:48,500 --> 00:01:52,000
+Anna: Takk fyri samtaluna, Jens. Tað var stuttligt at práta.
+
+29
+00:01:52,500 --> 00:01:56,000
+Jens: Takk sjálv, Anna. Vit mugu gera tað aftur skjótari.
+
+30
+00:01:56,500 --> 00:02:00,000
+Anna: Tað skal verða. Góða eydnu við verkætlanini!
+
+31
+00:02:00,500 --> 00:02:04,000
+Jens: Takk, og góða eydnu við øllum tínum. Síggjast!
+
+32
+00:02:04,500 --> 00:02:08,000
+Anna: Síggjast!

@@ -1,0 +1,99 @@
+1
+00:00:00,000 --> 00:00:04,000
+María: Hola, Juan. ¿Cómo has estado últimamente?
+
+2
+00:00:04,100 --> 00:00:08,000
+Juan: Hola, María. Bastante bien, gracias. He estado muy ocupado con el trabajo.
+
+3
+00:00:08,100 --> 00:00:12,000
+María: Me imagino. ¿Y cómo va ese proyecto que mencionaste la última vez?
+
+4
+00:00:12,100 --> 00:00:16,000
+Juan: Va bien, aunque tiene algunos retos. Estamos tratando de cumplir con los plazos, pero es complicado.
+
+5
+00:00:16,100 --> 00:00:20,000
+María: Entiendo. A veces el trabajo puede ser agotador. ¿Has tenido tiempo para descansar?
+
+6
+00:00:20,100 --> 00:00:23,500
+Juan: Poco, la verdad. Entre reuniones y entregas, apenas tengo un rato libre.
+
+7
+00:00:23,600 --> 00:00:27,000
+María: Eso no es bueno. Es importante desconectarse de vez en cuando.
+
+8
+00:00:27,100 --> 00:00:31,000
+Juan: Tienes razón. El fin de semana pasado intenté salir a caminar por el parque, me ayudó mucho.
+
+9
+00:00:31,100 --> 00:00:34,500
+María: ¡Qué bien! Salir al aire libre siempre es revitalizante.
+
+10
+00:00:34,600 --> 00:00:38,000
+Juan: Sí, y también aproveché para leer un libro que tenía pendiente.
+
+11
+00:00:38,100 --> 00:00:41,000
+María: ¿Cuál libro?
+
+12
+00:00:41,100 --> 00:00:44,500
+Juan: "El poder del ahora" de Eckhart Tolle. Me está ayudando a manejar mejor el estrés.
+
+13
+00:00:44,600 --> 00:00:48,000
+María: Lo he escuchado nombrar varias veces, dicen que es muy bueno para la meditación y la atención plena.
+
+14
+00:00:48,100 --> 00:00:51,000
+Juan: Sí, exactamente. Me ha enseñado a enfocarme en el presente y no preocuparme tanto por el futuro.
+
+15
+00:00:51,100 --> 00:00:54,000
+María: Eso suena muy útil. Yo también debería probarlo.
+
+16
+00:00:54,100 --> 00:00:58,000
+Juan: Te lo recomiendo. ¿Y tú, qué has hecho últimamente para relajarte?
+
+17
+00:00:58,100 --> 00:01:01,000
+María: He empezado a tomar clases de yoga. Me gusta porque combina ejercicio y meditación.
+
+18
+00:01:01,100 --> 00:01:04,000
+Juan: ¡Qué bien! Siempre quise intentarlo, pero nunca me animé.
+
+19
+00:01:04,100 --> 00:01:07,000
+María: Nunca es tarde para empezar. Podríamos ir juntos alguna vez.
+
+20
+00:01:07,100 --> 00:01:10,000
+Juan: Me parece una gran idea. Gracias por la invitación.
+
+21
+00:01:10,100 --> 00:01:13,000
+María: De nada. A veces necesitamos un poco de apoyo para cambiar hábitos.
+
+22
+00:01:13,100 --> 00:01:16,000
+Juan: Exactamente. Bueno, María, fue un gusto hablar contigo.
+
+23
+00:01:16,100 --> 00:01:19,000
+María: Igualmente, Juan. Cuídate mucho y hablamos pronto.
+
+24
+00:01:19,100 --> 00:01:22,000
+Juan: Claro, hasta luego.
+
+25
+00:01:22,100 --> 00:01:25,000
+María: ¡Adiós!

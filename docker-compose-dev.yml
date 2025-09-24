@@ -23,38 +23,48 @@ services:
             - ./docker/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
         environment:
             PYTHON_CONTAINER_NAME: linguacafe-python-service-dev
-            PHP_IDE_CONFIG: "serverName=localhost"
+            PHP_IDE_CONFIG: 'serverName=localhost'
             DB_DATABASE: linguacafe-dev
             DB_USERNAME: linguacafe-dev
             DB_PASSWORD: linguacafe-dev
             DB_HOST: linguacafe-database-dev
             DB_PORT: 3306
             REDIS_HOST: linguacafe-redis-dev
-            BACKUP_INTERVAL: "0,15,30,45 * * * *"
+            BACKUP_INTERVAL: '0,15,30,45 * * * *'
             MAX_SAVED_BACKUPS: 8
         ports:
-            - "6001:6001"
-            - "3000:3000"
-            - "9003:9003"
-            - "81:80"
+            - '6001:6001'
+            - '3000:3000'
+            - '9003:9003'
+            - '81:80'
         networks:
             - linguacafedev
         extra_hosts:
-            - "host.docker.internal:host-gateway"
+            - 'host.docker.internal:host-gateway'
     mysql:
         image: mysql:8.0
         container_name: linguacafe-database-dev
         restart: unless-stopped
         tty: true
         healthcheck:
-            test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$MYSQL_ROOT_PASSWORD']
+            test:
+                [
+                    'CMD',
+                    'mysqladmin',
+                    'ping',
+                    '-h',
+                    'localhost',
+                    '-u',
+                    'root',
+                    '-p$MYSQL_ROOT_PASSWORD',
+                ]
             interval: 5s
             timeout: 5s
             retries: 10
         ports:
-          - "3308:3306"
+            - '3308:3306'
         volumes:
-          - ./docker/mysql:/var/lib/mysql
+            - ./docker/mysql:/var/lib/mysql
         environment:
             MYSQL_DATABASE: linguacafe-dev
             MYSQL_USER: linguacafe-dev
@@ -70,7 +80,7 @@ services:
         volumes:
             - ./cache:/data
         ports:
-            - "6379:6379"
+            - '6379:6379'
         environment:
             REDIS_PASSWORD: linguacafe-dev
             REDIS_PORT: 6379
@@ -79,11 +89,11 @@ services:
             - linguacafedev
     python:
         container_name: linguacafe-python-service-dev
-        command: "python3 -m debugpy --listen 5678 /app/server.py"
+        command: 'python3 -m debugpy --listen 5678 /app/server.py'
         restart: unless-stopped
         tty: true
         ports:
-            - "8678:8678"
+            - '8678:8678'
         build:
             dockerfile: ./docker/PythonDockerfileDev
         volumes:
@@ -92,5 +102,5 @@ services:
         networks:
             - linguacafedev
         environment:
-            PYTHONPATH: "/var/www/html/storage/app/packages/stanza:/var/www/html/storage/app/packages/language_models/stanza:/var/www/html/storage/app/packages/language_models/spacy"
-            APP_ENV: "local"
+            PYTHONPATH: '/var/www/html/storage/app/packages/stanza:/var/www/html/storage/app/packages/language_models/stanza:/var/www/html/storage/app/packages/language_models/spacy'
+            APP_ENV: 'local'

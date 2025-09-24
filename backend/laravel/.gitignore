@@ -1,0 +1,13 @@
+/cache
+/vendor
+/node_modules
+/frontend
+/public/css/*.css
+/public/fonts/vendor/@mdi/*
+/public/hot
+/public/js/*.js
+/public/js/dmak/kanji/*.svg
+/public/mix-manifest.json
+/public/storage
+/storage/*.key
+/storage/backup

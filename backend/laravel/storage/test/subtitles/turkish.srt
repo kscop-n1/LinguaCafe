@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:04,000
+– Merhaba Ayşe, nasılsın? Bugün seni biraz yorgun gördüm.
+
+2
+00:00:04,100 --> 00:00:08,000
+– Merhaba Ali, evet biraz yorgunum. Dün gece geç saate kadar çalıştım.
+
+3
+00:00:08,100 --> 00:00:12,000
+– Ne üzerine çalışıyordun bu kadar?
+
+4
+00:00:12,100 --> 00:00:16,000
+– Yeni bir proje üzerinde. Yapay zekâ temelli bir uygulama geliştiriyoruz.
+
+5
+00:00:16,100 --> 00:00:20,000
+– Vay canına! Bu gerçekten heyecan verici bir şey olmalı.
+
+6
+00:00:20,100 --> 00:00:24,000
+– Evet ama aynı zamanda oldukça zorlayıcı. Her şey planlandığı gibi gitmiyor.
+
+7
+00:00:24,100 --> 00:00:28,000
+– Eminim üstesinden geleceksin. Yardım edebileceğim bir şey var mı?
+
+8
+00:00:28,100 --> 00:00:32,000
+– Şimdilik yok ama teklifin için teşekkür ederim. Gerçekten naziksin.
+
+9
+00:00:32,100 --> 00:00:36,000
+– Rica ederim. Bu arada hafta sonu bir etkinlik var, gelir misin?
+
+10
+00:00:36,100 --> 00:00:40,000
+– Ne etkinliği? Biraz dinlenmeye ihtiyacım vardı aslında.
+
+11
+00:00:40,100 --> 00:00:44,000
+– Teknoloji ve inovasyonla ilgili bir seminer. Hem ilginç hem de keyifli olur.
+
+12
+00:00:44,100 --> 00:00:48,000
+– Aslında kulağa güzel geliyor. Belki de biraz ilham alırım.
+
+13
+00:00:48,100 --> 00:00:52,000
+– Harika! O zaman sana detayları iletirim. Yer ayırtmam lazım.
+
+14
+00:00:52,100 --> 00:00:56,000
+– Tamam, haberleşiriz. Bu arada kahve içmeye ne dersin?
+
+15
+00:00:56,100 --> 00:01:00,000
+– Süper fikir! Bir kahve iyi gelir. Hadi gidelim.

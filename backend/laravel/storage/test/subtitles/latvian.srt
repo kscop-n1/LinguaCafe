@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:05,000
+Sveiks! Kā tev šodien klājas?
+
+2
+00:00:05,100 --> 00:00:10,000
+Sveiki! Man viss labi, paldies. Kā pašam?
+
+3
+00:00:10,100 --> 00:00:15,000
+Arī labi. Es domāju par to, kā pavadīt nedēļas nogali.
+
+4
+00:00:15,100 --> 00:00:20,000
+Vai tev ir kādi ieteikumi? Varbūt doties uz kādu interesantu vietu?
+
+5
+00:00:20,100 --> 00:00:25,000
+Jā, varbūt varam aizbraukt uz jūru vai apmeklēt kādu muzeju Rīgā.
+
+6
+00:00:25,100 --> 00:00:30,000
+Jūra skan lieliski, bet muzejs būtu arī interesanti. Kāds muzejs tev patīk?
+
+7
+00:00:30,100 --> 00:00:35,000
+Man ļoti patīk Latvijas Nacionālais mākslas muzejs. Tur ir daudz skaistu darbu.
+
+8
+00:00:35,100 --> 00:00:40,000
+Tas izklausās lieliski. Pēc tam varam iet pastaigāties pa Vecrīgu.
+
+9
+00:00:40,100 --> 00:00:45,000
+Jā, Vecrīga ir ļoti skaista ar tās vecajām ieliņām un arhitektūru.
+
+10
+00:00:45,100 --> 00:00:50,000
+Vai tu zini kādu labu vietu, kur ieturēt pusdienas?
+
+11
+00:00:50,100 --> 00:00:55,000
+Jā, ir viens restorāns ar latviešu virtuvi, kurā gatavo ļoti garšīgu skābēto kāpostu zupu.
+
+12
+00:00:55,100 --> 00:01:00,000
+Tas izklausās lieliski! Es vēlētos pamēģināt tradicionālos ēdienus.
+
+13
+00:01:00,100 --> 00:01:05,000
+Pēc pusdienām varam doties uz parku un pasēdēt pie Daugavas.
+
+14
+00:01:05,100 --> 00:01:10,000
+Jā, Daugava ir tik skaista, īpaši saulrietā.
+
+15
+00:01:10,100 --> 00:01:15,000
+Vienošanās! Tad tiksimies rīt plkst. 10 no rīta?
+
+16
+00:01:15,100 --> 00:01:20,000
+Jā, derēs. Es jau gaidu šo dienu!
+
+17
+00:01:20,100 --> 00:01:25,000
+Lieliski! Līdz rītam!
+
+18
+00:01:25,100 --> 00:01:30,000
+Līdz rītam! Lai tev jauka diena!

@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:04,000
+Dafydd: Bore da, Elin. Sut wyt ti heddiw?
+
+2
+00:00:04,100 --> 00:00:07,500
+Elin: Bore da, Dafydd. Rwy’n dda iawn, diolch. A ti?
+
+3
+00:00:07,600 --> 00:00:10,900
+Dafydd: Rwy’n teimlo’n wych! Mae’r haul yn disgleirio heddiw.
+
+4
+00:00:11,000 --> 00:00:14,500
+Elin: Oes, mae’n ddiwrnod braf. Ti'n gwneud unrhyw beth cyffrous?
+
+5
+00:00:14,600 --> 00:00:18,000
+Dafydd: Rwy’n mynd am dro i’r mynyddoedd gyda fy nheulu.
+
+6
+00:00:18,100 --> 00:00:21,200
+Elin: Hyfryd! Pa fynyddoedd?
+
+7
+00:00:21,300 --> 00:00:25,000
+Dafydd: Yr Wyddfa. Rydym yn gobeithio cyrraedd y copa erbyn canol dydd.
+
+8
+00:00:25,100 --> 00:00:29,000
+Elin: Bydd hynny’n antur! Paid ag anghofio dŵr a snaciau.
+
+9
+00:00:29,100 --> 00:00:33,000
+Dafydd: Wrth gwrs. A ti? Beth wyt ti’n ei wneud heddiw?
+
+10
+00:00:33,100 --> 00:00:36,000
+Elin: Rwy’n mynd i’r llyfrgell i baratoi ar gyfer fy arholiad.
+
+11
+00:00:36,100 --> 00:00:39,500
+Dafydd: Pob lwc! Beth yw’r pwnc?
+
+12
+00:00:39,600 --> 00:00:43,000
+Elin: Hanes Cymru. Rwy’n trio cofio dyddiadau pwysig.
+
+13
+00:00:43,100 --> 00:00:46,500
+Dafydd: Mae’n bwnc diddorol iawn. Anghofia ddim am frwydr 1282!
+
+14
+00:00:46,600 --> 00:00:50,000
+Elin: Na, dwi wedi gwneud nodyn am hynny! Diolch am y cof.
+
+15
+00:00:50,100 --> 00:00:54,000
+Dafydd: Wel, gobeithio y cewch di ddiwrnod llwyddiannus.
+
+16
+00:00:54,100 --> 00:00:56,500
+Elin: A ti hefyd, mwynha’r mynyddoedd!
+
+17
+00:00:56,600 --> 00:01:00,000
+Dafydd: Wna i! Wela i di’n hwyrach, Elin!
+
+18
+00:01:00,100 --> 00:01:03,000
+Elin: Hwyl am y tro, Dafydd!

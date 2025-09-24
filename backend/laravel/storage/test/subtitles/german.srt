@@ -1,0 +1,131 @@
+1
+00:00:00,000 --> 00:00:05,000
+Anna: Hallo Ben, wie war dein Wochenende?
+
+2
+00:00:05,100 --> 00:00:10,000
+Ben: Hi Anna! Ganz gut, danke. Ich war wandern im Schwarzwald. Und du?
+
+3
+00:00:10,100 --> 00:00:15,000
+Anna: Oh, das klingt toll! Ich habe mich eher entspannt und ein Buch gelesen.
+
+4
+00:00:15,100 --> 00:00:20,000
+Ben: Was hast du denn gelesen?
+
+5
+00:00:20,100 --> 00:00:25,000
+Anna: Einen Krimi von einem deutschen Autor. Sehr spannend und ein bisschen gruselig.
+
+6
+00:00:25,100 --> 00:00:30,000
+Ben: Klingt super. Ich liebe Krimis. Vielleicht kannst du mir das Buch mal empfehlen?
+
+7
+00:00:30,100 --> 00:00:35,000
+Anna: Klar, gerne! Und wie war die Wanderung?
+
+8
+00:00:35,100 --> 00:00:40,000
+Ben: Sehr schön. Das Wetter war perfekt, sonnig aber nicht zu heiß.
+
+9
+00:00:40,100 --> 00:00:45,000
+Anna: Hast du viele Fotos gemacht?
+
+10
+00:00:45,100 --> 00:00:50,000
+Ben: Ja, vor allem von der Natur. Die Landschaft dort ist wirklich beeindruckend.
+
+11
+00:00:50,100 --> 00:00:55,000
+Anna: Ich wollte auch mal wieder raus in die Natur. Vielleicht können wir ja zusammen wandern gehen.
+
+12
+00:00:55,100 --> 00:01:00,000
+Ben: Gute Idee! Ich kenne ein paar schöne Strecken. Wir sollten das planen.
+
+13
+00:01:00,100 --> 00:01:05,000
+Anna: Super! Was hast du sonst noch so gemacht?
+
+14
+00:01:05,100 --> 00:01:10,000
+Ben: Am Sonntag war ich bei meiner Familie. Wir haben zusammen gekocht.
+
+15
+00:01:10,100 --> 00:01:15,000
+Anna: Was gab es denn Leckeres?
+
+16
+00:01:15,100 --> 00:01:20,000
+Ben: Selbstgemachte Spätzle mit Pilzsoße. War richtig gut.
+
+17
+00:01:20,100 --> 00:01:25,000
+Anna: Mmmh, das liebe ich auch! Da bekomme ich gleich Hunger.
+
+18
+00:01:25,100 --> 00:01:30,000
+Ben: Wenn du möchtest, kannst du ja das nächste Mal mitkochen.
+
+19
+00:01:30,100 --> 00:01:35,000
+Anna: Das wäre klasse! Kochen macht immer mehr Spaß, wenn man es zusammen macht.
+
+20
+00:01:35,100 --> 00:01:40,000
+Ben: Absolut. Was steht bei dir diese Woche so an?
+
+21
+00:01:40,100 --> 00:01:45,000
+Anna: Ich habe einige Meetings und ein großes Projekt, das bald fertig werden muss.
+
+22
+00:01:45,100 --> 00:01:50,000
+Ben: Viel Erfolg dabei! Wenn du Hilfe brauchst, sag Bescheid.
+
+23
+00:01:50,100 --> 00:01:55,000
+Anna: Danke, das ist nett von dir. Und bei dir?
+
+24
+00:01:55,100 --> 00:02:00,000
+Ben: Ich arbeite an einer Präsentation für nächste Woche.
+
+25
+00:02:00,100 --> 00:02:05,000
+Anna: Oh, ich kenne das. Das kann stressig sein.
+
+26
+00:02:05,100 --> 00:02:10,000
+Ben: Ja, aber ich freue mich auch darauf. Es ist immer eine gute Gelegenheit, neue Ideen zu präsentieren.
+
+27
+00:02:10,100 --> 00:02:15,000
+Anna: Auf jeden Fall. Wenn du möchtest, kann ich mal drüberschauen.
+
+28
+00:02:15,100 --> 00:02:20,000
+Ben: Danke, das nehme ich gerne an!
+
+29
+00:02:20,100 --> 00:02:25,000
+Anna: Dann wünsche ich dir viel Erfolg damit.
+
+30
+00:02:25,100 --> 00:02:30,000
+Ben: Danke, Anna! Wir sehen uns dann.
+
+31
+00:02:30,100 --> 00:02:35,000
+Anna: Ja, bis bald, Ben. Hab eine gute Woche!
+
+32
+00:02:35,100 --> 00:02:40,000
+Ben: Du auch! Tschüss!
+
+33
+00:02:40,100 --> 00:02:45,000
+Anna: Tschüss!
