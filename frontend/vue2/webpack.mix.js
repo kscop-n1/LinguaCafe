@@ -11,9 +11,11 @@ const mix = require('laravel-mix')
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.setPublicPath('../../public')
+
+mix.js('./js/app.js', 'js')
     .vue()
-    .sass('resources/sass/app.scss', 'public/css')
+    .sass('./sass/app.scss', 'css')
     .browserSync({
         proxy: 'localhost',
         host: 'localhost',

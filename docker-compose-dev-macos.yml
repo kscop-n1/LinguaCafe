@@ -15,6 +15,8 @@ services:
             mysql:
                 condition: service_healthy
         volumes:
+            - ./backend/laravel/:/var/www/html
+            - ./frontend/:/var/www/html/frontend
             - ./:/var/www/html
             - ./docker/vhost.conf:/etc/apache2/sites-available/000-default.conf
             - ./docker/supervisor-horizon.conf:/etc/supervisor/conf.d/horizon.conf
@@ -27,30 +29,40 @@ services:
             DB_HOST: linguacafe-database-dev
             DB_PORT: 3306
             REDIS_HOST: linguacafe-redis-dev
-            BACKUP_INTERVAL: "0,15,30,45 * * * *"
+            BACKUP_INTERVAL: '0,15,30,45 * * * *'
             MAX_SAVED_BACKUPS: 8
         ports:
-            - "6001:6001"
-            - "3000:3000"
-            - "81:80"
+            - '6001:6001'
+            - '3000:3000'
+            - '81:80'
         networks:
             - linguacafedev
         extra_hosts:
-            - "host.docker.internal:host-gateway"
+            - 'host.docker.internal:host-gateway'
     mysql:
         image: mysql:8.0
         container_name: linguacafe-database-dev
         restart: unless-stopped
         tty: true
         healthcheck:
-            test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$MYSQL_ROOT_PASSWORD']
+            test:
+                [
+                    'CMD',
+                    'mysqladmin',
+                    'ping',
+                    '-h',
+                    'localhost',
+                    '-u',
+                    'root',
+                    '-p$MYSQL_ROOT_PASSWORD',
+                ]
             interval: 5s
             timeout: 5s
             retries: 10
         ports:
-          - "3308:3306"
+            - '3308:3306'
         volumes:
-          - ./docker/mysql:/var/lib/mysql
+            - ./docker/mysql:/var/lib/mysql
         environment:
             MYSQL_DATABASE: linguacafe-dev
             MYSQL_USER: linguacafe-dev
@@ -63,10 +75,10 @@ services:
         image: redis:7.2-alpine
         container_name: linguacafe-redis-dev
         restart: unless-stopped
-        volumes: 
+        volumes:
             - ./cache:/data
         ports:
-            - "6379:6379"
+            - '6379:6379'
         environment:
             REDIS_PASSWORD: linguacafe-dev
             REDIS_PORT: 6379
@@ -75,19 +87,19 @@ services:
             - linguacafedev
     python:
         container_name: linguacafe-python-service-dev
-        command: "python3 /app/server.py"
+        command: 'python3 /app/server.py'
         restart: unless-stopped
         tty: true
         ports:
-            - "8678:8678"
+            - '8678:8678'
         build:
             dockerfile: ./docker/PythonDockerfileDev
         volumes:
-            - ./python_microservice:/app
-            - ./storage/app:/var/www/html/storage/app
+            - ./backend/python:/app
+            - ./backend/laravel/storage/app:/var/www/html/storage/app
         networks:
             - linguacafedev
         environment:
-            PYTHONPATH: "/var/www/html/storage/app/model"
-            APP_ENV: "local"
+            PYTHONPATH: '/var/www/html/storage/app/model'
+            APP_ENV: 'local'
         platform: linux/amd64

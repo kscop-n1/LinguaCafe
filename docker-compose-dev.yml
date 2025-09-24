@@ -15,7 +15,8 @@ services:
             mysql:
                 condition: service_healthy
         volumes:
-            - ./:/var/www/html
+            - ./backend/laravel/:/var/www/html
+            - ./frontend/:/var/www/html/frontend
             - ./docker/vhost.conf:/etc/apache2/sites-available/000-default.conf
             - ./docker/supervisor-horizon.conf:/etc/supervisor/conf.d/horizon.conf
             - ./docker/supervisor-websockets.conf:/etc/supervisor/conf.d/websockets.conf
@@ -97,8 +98,8 @@ services:
         build:
             dockerfile: ./docker/PythonDockerfileDev
         volumes:
-            - ./python_microservice:/app
-            - ./storage/app:/var/www/html/storage/app
+            - ./backend/python:/app
+            - ./backend/laravel/storage/app:/var/www/html/storage/app
         networks:
             - linguacafedev
         environment:
