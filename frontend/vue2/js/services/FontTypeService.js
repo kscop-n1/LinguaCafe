@@ -45,7 +45,7 @@ class FontTypeService {
     }
 
     loadSelectedFontTypeIntoDom() {
-        const fontType = this.this.getSelectedFontTypeId()
+        const fontType = this.getSelectedFontTypeId()
         if (!fontType) return
 
         let fontStyleText = `@font-face { font-family: selectedFont; src: url('/api/fonts/${fontType}'); } .selected-font { font-family: selectedFont !important; }`
