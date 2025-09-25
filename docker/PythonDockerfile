@@ -58,6 +58,6 @@ RUN python3 -m spacy download de_core_news_sm \
     && python3 -m spacy download sl_core_news_sm \
     && python3 -m spacy download xx_ent_wiki_sm
 
-COPY ./python_microservice /app
+COPY ./backend/python /app
 
 CMD [ "export PYTHONPATH=\"${HOME}/.local/bin:${PYTHONPATH}\"" ]

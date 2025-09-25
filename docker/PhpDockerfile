@@ -52,7 +52,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # despite being in the composer.json
 # RUN composer require guzzlehttp/guzzle
 
-COPY ./ /var/www/html
+COPY ./backend/python /var/www/html
 COPY --from=node_build /build/public /var/www/html/public
 
 RUN rm /var/www/html/.env
