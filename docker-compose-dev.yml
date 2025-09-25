@@ -79,7 +79,7 @@ services:
         container_name: linguacafe-redis-dev
         restart: unless-stopped
         volumes:
-            - ./cache:/data
+            - ./docker/cache:/data
         ports:
             - '6379:6379'
         environment:

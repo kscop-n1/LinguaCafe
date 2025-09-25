@@ -20,5 +20,6 @@ mix.js('./js/app.js', 'js')
         proxy: 'localhost',
         host: 'localhost',
         open: 'external',
+        files: ['js/**/*.vue', 'js/**/*.js', 'sass/**/*.scss'],
     })
     .version()

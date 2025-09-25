@@ -9,13 +9,13 @@ You can read about all the features of LinguaCafe on the [overview](https://simj
 &nbsp;
 &nbsp;
 
-![Library](/GithubImages/LibraryCover.jpg)
+![Library](/images/LibraryCover.jpg)
 
-![Reader](/GithubImages/TextReader.jpg)
+![Reader](/images/TextReader.jpg)
 
-![Review](/GithubImages/ReviewBackCard.jpg)
+![Review](/images/ReviewBackCard.jpg)
 
-![Vocabulary](/GithubImages/VocabularySearch.jpg)
+![Vocabulary](/images/VocabularySearch.jpg)
 
 ## Language support
 

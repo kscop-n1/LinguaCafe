@@ -7,10 +7,8 @@ use App\Models\Chapter;
 use App\Models\EncounteredWord;
 use App\Models\Phrase;
 use App\Services\ChapterService;
-// services
 use App\Services\QueueStatsService;
-use App\Services\VocabularyService;
-// models
+use App\Services\Vocabulary\VocabularyPhraseService;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +20,7 @@ class ProcessChapter implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private VocabularyService $vocabularyService;
+    private VocabularyPhraseService $vocabularyPhraseService;
 
     private ChapterService $chapterService;
 
@@ -46,9 +44,9 @@ class ProcessChapter implements ShouldQueue
         $chapterId,
         $language
     ) {
-        $this->vocabularyService = new VocabularyService;
-        $this->chapterService = new ChapterService;
-        $this->queueStatsService = new QueueStatsService;
+        $this->vocabularyPhraseService = new VocabularyPhraseService();
+        $this->chapterService = new ChapterService();
+        $this->queueStatsService = new QueueStatsService();
 
         $this->userId = $userId;
         $this->userUuid = $userUuid;
