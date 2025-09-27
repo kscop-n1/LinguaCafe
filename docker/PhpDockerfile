@@ -1,8 +1,12 @@
 FROM node:20-alpine as node_build
 
 WORKDIR /build
-COPY ./ /build
+COPY ./backend/laravel /build
+COPY ./frontend/vue2 /build/frontend
+
+WORKDIR /build/frontend/vue2
 RUN npm install && npm run prod
+WORKDIR /build
 
 FROM php:8.4-apache
 
@@ -52,7 +56,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # despite being in the composer.json
 # RUN composer require guzzlehttp/guzzle
 
-COPY ./backend/python /var/www/html
+COPY ./backend/laravel /var/www/html
 COPY --from=node_build /build/public /var/www/html/public
 
 RUN rm /var/www/html/.env

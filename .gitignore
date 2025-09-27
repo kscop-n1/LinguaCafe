@@ -17,7 +17,14 @@ devcontainer.json
 /public/storage
 /storage/*.key
 /storage/backup
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+/storage/logs/*.log
+/cache
 /vendor
+/database
 Homestead.json
 Homestead.yaml
 __pycache__
