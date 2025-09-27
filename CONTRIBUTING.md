@@ -10,7 +10,6 @@ I appreciate any bug report, it is important to identify problems with LinguaCaf
 
 In general I'm happy to add most feature requests to the list, but I would also like to keep the scope of LinguaCafe similar to when it's started. Currently I would like to avoid adding a few things:
 
--   Most large AI tools.
 -   Any built-in video features.
 -   Niche features that only a small percent of the users would use and difficult to maintain.
 
@@ -159,14 +158,14 @@ docker compose -f ./docker-compose-dev.yml up -d --force-recreate
 **Step 3:** Run this command to start the localhost server:
 
 ```
-docker exec -ti linguacafe-webserver-dev npm run watch-poll
+docker exec -ti -w /var/www/html/frontend/vue2 linguacafe-webserver-dev npm run watch-poll
 ```
 
 You must not use the same folder for both the production and development versions of linguacafe.
 
 You can now reach your dev server on localhost:3000, it will auto reload when you save a .vue or .php file.
 
-The developer environment does not copy the contents of the linguacafe folder into the docker image, instead it mounts the whole folder, so it is accessible for both the docker container and the developer.
+The developer environment doesn't copy the contents of the linguacafe folder into the docker image, instead it mounts the whole folder, so it is accessible for both the docker container and the developer.
 
 #### Laravel Horizon
 
@@ -191,10 +190,6 @@ MacOs with Apple silicon processors
 ```
 docker compose -f ./docker-compose-dev-macos.yml build --no-cache
 ```
-
-#### Testing http requests
-
-I've made a simple tool to test http requests from the context of the logged in user. You can reach it at the `/dev` url.
 
 #### Thank you!
 
