@@ -3,6 +3,7 @@
 /node_modules
 /frontend
 /public/css/*.css
+!/public/css/vuetify.min.css
 /public/fonts/vendor/@mdi/*
 /public/hot
 /public/js/*.js

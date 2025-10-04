@@ -22,22 +22,32 @@ services:
             DB_PASSWORD: ${DB_PASSWORD:-linguacafe}
             DB_HOST: ${DB_HOST:-linguacafe-database}
             DB_PORT: ${DB_PORT:-3306}
-            BACKUP_INTERVAL: "59 23 * * *"
+            BACKUP_INTERVAL: '59 23 * * *'
             MAX_SAVED_BACKUPS: 14
         ports:
-            - "6001:6001"
-            - "${PORT:-9191}:80"
+            - '6001:6001'
+            - '${PORT:-9191}:80'
         networks:
             - linguacafe
         extra_hosts:
-            - "host.docker.internal:host-gateway"
+            - 'host.docker.internal:host-gateway'
     mysql:
         image: mysql:8.0
         container_name: linguacafe-database
         restart: unless-stopped
         tty: true
         healthcheck:
-            test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$MYSQL_ROOT_PASSWORD']
+            test:
+                [
+                    'CMD',
+                    'mysqladmin',
+                    'ping',
+                    '-h',
+                    'localhost',
+                    '-u',
+                    'root',
+                    '-p$MYSQL_ROOT_PASSWORD',
+                ]
             interval: 10s
             timeout: 5s
             retries: 10
@@ -56,10 +66,10 @@ services:
         image: redis:7.2-alpine
         container_name: linguacafe-redis
         restart: unless-stopped
-        volumes: 
+        volumes:
             - ./cache:/data
         ports:
-            - "6379:6379"
+            - '6379:6379'
         environment:
             REDIS_PASSWORD: linguacafe
             REDIS_PORT: 6379
@@ -68,13 +78,13 @@ services:
             - linguacafe
     python:
         container_name: linguacafe-python-service
-        command: "python3 /app/server.py"
+        command: 'python3 /app/server.py'
         restart: unless-stopped
         tty: true
         image: ghcr.io/simjanos-dev/linguacafe-python-service:${VERSION:-latest}
         environment:
-            PYTHONPATH: "/var/www/html/storage/app/model"
-            APP_ENV: "production"
+            PYTHONPATH: '/var/www/html/storage/app/model'
+            APP_ENV: 'production'
         volumes:
             - ./storage:/var/www/html/storage
         networks:
