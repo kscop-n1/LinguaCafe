@@ -32,3 +32,4 @@ docker-compose.override.yml
 npm-debug.log
 supervisord.pid
 yarn-error.log
+.env
