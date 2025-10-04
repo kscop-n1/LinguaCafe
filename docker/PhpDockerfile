@@ -2,7 +2,7 @@ FROM node:20-alpine as node_build
 
 WORKDIR /build
 COPY ./backend/laravel /build
-COPY ./frontend/vue2 /build/frontend
+COPY ./frontend /build/frontend
 
 WORKDIR /build/frontend/vue2
 RUN npm install && npm run prod
