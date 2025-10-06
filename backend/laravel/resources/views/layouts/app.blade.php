@@ -11,10 +11,13 @@
 
     <title>LinguaCafe</title>
 
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    @if (env('FRONTEND_BUILD') === 'vue3')
+        @vite(['src/app.ts'])
+    @else
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        <script src="{{ mix('js/app.js') }}" defer></script>
+    @endif
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     <!-- These are dynamically set with javascript -->
     <style id="dynamic-default-font"></style>
