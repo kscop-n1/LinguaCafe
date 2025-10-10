@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
+import Sidebar from './components/Sidebar.vue'
 
 onMounted(() => {
     // temp code for setting the theme
@@ -26,5 +27,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <UApp> </UApp>
+    <UApp>
+        <UPage>
+            <template #left>
+                <UPageAside>
+                    <Sidebar />
+                </UPageAside>
+            </template>
+
+            <UPageBody><RouterView /></UPageBody>
+        </UPage>
+    </UApp>
 </template>

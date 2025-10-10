@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify-json/lucide": "^1.2.69",
     "@nuxt/ui": "^4.0.1",
     "vue": "^3.5.22",
     "vue-router": "^4.5.1"
