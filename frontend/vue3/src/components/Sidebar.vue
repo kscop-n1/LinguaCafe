@@ -67,14 +67,7 @@ defineShortcuts({
                 <div class="w-full text-center">LinguaCafe</div>
             </template>
 
-            <UNavigationMenu
-                orientation="vertical"
-                :items="NavigationMenuItems"
-                class="w-60"
-                :ui="{
-                    link: 'before:rounded-full py-2',
-                }"
-            />
+            <UNavigationMenu orientation="vertical" :items="NavigationMenuItems" class="w-60" />
 
             <template #footer>
                 <UColorModeSelect

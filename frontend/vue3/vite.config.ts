@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import laravel from 'laravel-vite-plugin'
 import ui from '@nuxt/ui/vite'
+import NuxtUiTheme from './src/theme/NuxtUiTheme'
 
 export default defineConfig({
     plugins: [
@@ -11,7 +12,9 @@ export default defineConfig({
             refresh: true,
         }),
         vue(),
-        ui(),
+        ui({
+            ui: NuxtUiTheme,
+        }),
     ],
     server: {
         host: true,
