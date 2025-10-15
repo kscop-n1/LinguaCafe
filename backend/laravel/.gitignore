@@ -12,3 +12,4 @@
 /public/storage
 /storage/*.key
 /storage/backup
+/public/build
