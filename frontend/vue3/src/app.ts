@@ -2,8 +2,8 @@ import App from './App.vue'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import ui from '@nuxt/ui/vue-plugin'
-import './assets/main.css'
-import { routes } from './routes'
+import { routes } from '@src/routes.ts'
+import '@assets/main.css'
 
 const router = createRouter({
     history: createWebHistory(),

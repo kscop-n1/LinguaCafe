@@ -4,6 +4,7 @@ import laravel from 'laravel-vite-plugin'
 import ui from '@nuxt/ui/vite'
 import NuxtUiTheme from './src/theme/NuxtUiTheme'
 import checker from 'vite-plugin-checker';
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
     plugins: [
@@ -15,6 +16,10 @@ export default defineConfig({
         vue(),
         ui({
             ui: NuxtUiTheme,
+        }),
+        tsconfigPaths({
+            projects: ['./tsconfig.app.json'],
+
         }),
         checker({
             vueTsc: {
@@ -39,4 +44,5 @@ export default defineConfig({
             origin: 'http://localhost:81',
         },
     },
+      
 })

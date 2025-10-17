@@ -1,11 +1,7 @@
 <script setup lang="ts">
-// Imports
-import { onMounted, ref } from 'vue'
-
-// Type imports
+import { ref } from 'vue'
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-// Variables
 const collapsed = ref(false)
 const NavigationMenuItems = ref<NavigationMenuItem[][]>([
     [
@@ -48,10 +44,6 @@ const NavigationMenuItems = ref<NavigationMenuItem[][]>([
     ],
 ])
 
-// Lifecycle hooks
-onMounted(() => {})
-
-// Methods
 defineShortcuts({
     's-c': () => {
         collapsed.value = !collapsed.value

@@ -1,8 +1,8 @@
-interface User {
+type User = {
     name: string
     admin: boolean
 }
 
-export interface Store {
+export type Store = {
     user: null | User
 }

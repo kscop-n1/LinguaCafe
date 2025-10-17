@@ -33,6 +33,7 @@ services:
             REDIS_HOST: linguacafe-redis-dev
             BACKUP_INTERVAL: '0,15,30,45 * * * *'
             MAX_SAVED_BACKUPS: 8
+            FRONTEND_BUILD: ${FRONTEND_BUILD:-vue2}
         ports:
             - '6001:6001'
             - '3000:3000'

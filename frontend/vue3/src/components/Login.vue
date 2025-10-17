@@ -1,8 +1,4 @@
-<script setup lang="ts">
-import { onMounted } from 'vue'
-
-onMounted(() => {})
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <div>Login</div>

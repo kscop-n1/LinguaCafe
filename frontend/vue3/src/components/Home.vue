@@ -1,8 +1,4 @@
-<script setup lang="ts">
-import { onMounted } from 'vue'
-
-onMounted(() => {})
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <div class="w-full rounded-full bg-primary text-inverted px-4 py-2">
