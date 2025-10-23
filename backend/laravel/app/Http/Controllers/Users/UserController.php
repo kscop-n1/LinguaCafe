@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserResourceCollection;
 use App\Models\User;
 use App\Services\LanguageService;
@@ -86,6 +87,16 @@ class UserController extends Controller
         $userEmail = Auth::user()->email;
         $isAdmin = Auth::user()->is_admin === 1;
         $theme = $_COOKIE['theme'] ?? 'dark';
+        $user = User::query()
+            ->select([
+                'id',
+                'is_admin',
+                'name',
+                'email',
+                'password_changed',
+            ])
+            ->where('id', '=', Auth::user()->id)
+            ->first();
 
         $themeSettingNames = collect(['textStyling', 'vuetifyThemes']);
 
@@ -103,6 +114,7 @@ class UserController extends Controller
             'theme' => $theme,
             'themeSettings' => $themeSettings,
             'userUuid' => Auth::user()->uuid,
+            'user' => new UserResource($user),
         ]);
     }
 

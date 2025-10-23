@@ -177,12 +177,7 @@ export default {
                     remember: true,
                 })
                 .then(response => {
-                    if (response.status === 204) {
-                        window.location.href = '/'
-                    } else {
-                        this.error = 'Invalid email or password'
-                        this.loading = false
-                    }
+                    window.location.href = '/'
                 })
                 .catch(error => {
                     this.error = 'Invalid email or password'

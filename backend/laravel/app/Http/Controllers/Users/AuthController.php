@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\AuthenticateUserRequest;
+use App\Http\Resources\User\UserResource;
 use App\Services\LanguageService;
 use App\Services\SettingsService;
 use App\Services\UserService;
@@ -45,7 +46,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
         Auth::logoutOtherDevices($password);
 
-        return response()->noContent();
+        return new UserResource(auth()->user());
     }
 
     public function logout(Request $request): Response
