@@ -1,16 +1,35 @@
 <script setup lang="ts">
-import Sidebar from '@src/components/Sidebar.vue'
-import Store from '@src/store/Store'
+import Sidebar from '@components/Sidebar.vue'
+import Store from '@store/Store'
+import { onMounted } from 'vue'
+import axios from 'axios'
+
+onMounted(() => {
+    axios({
+        method: 'GET',
+        url: '/api/users/data',
+    })
+        .then(response => {
+            Store.user = response.data.user ?? null
+            Store.hasUser = response.data.userCount > 1
+        })
+        .catch(() => {
+            //
+        })
+})
 </script>
 
 <template>
-    <UPage>
+    <UPage v-if="Store.user">
         <template #left>
-            <UPageAside v-if="Store.user">
+            <UPageAside>
                 <Sidebar />
             </UPageAside>
         </template>
 
+        <UPageBody><RouterView /></UPageBody>
+    </UPage>
+    <UPage v-else>
         <UPageBody><RouterView /></UPageBody>
     </UPage>
 </template>

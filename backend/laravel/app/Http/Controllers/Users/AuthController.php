@@ -40,7 +40,7 @@ class AuthController extends Controller
             'email' => $email,
             'password' => $password,
         ])) {
-            throw new \Exception('Login error.');
+            throw new \Exception('Incorrect e-mail or password.');
         }
 
         $request->session()->regenerate();

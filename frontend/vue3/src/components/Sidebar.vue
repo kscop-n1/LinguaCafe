@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { NavigationMenuItem } from '@nuxt/ui'
+import axios from 'axios'
+const logout = function () {
+    axios({
+        method: 'POST',
+        url: '/api/auth/logout',
+    }).then(() => {
+        window.location.href = '/'
+    })
+}
 
 const collapsed = ref(false)
 const NavigationMenuItems = ref<NavigationMenuItem[][]>([
@@ -38,8 +47,8 @@ const NavigationMenuItems = ref<NavigationMenuItem[][]>([
         {
             label: 'Logout',
             type: 'link',
-            href: '/logout',
             icon: 'i-lucide-log-out',
+            onSelect: logout,
         },
     ],
 ])

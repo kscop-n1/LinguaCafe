@@ -3,21 +3,20 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
     // temp code for setting the theme
-    const newColors = {
-        50: '#f7f7f8',
-        100: '#eeedf1',
-        200: '#d9d8df',
-        300: '#b7b6c3',
-        400: '#908ea2',
-        500: '#727087',
-        600: '#5d5a6f',
-        700: '#4d4a5a',
-        800: '#413f4d',
-        900: '#3a3842',
-        950: '#1c1b20',
+    const neutralColors = {
+        50: '#dadadd',
+        100: '#cfced3',
+        200: '#bbbbc1',
+        300: '#a8a8b0',
+        400: '#96959f',
+        500: '#84828e',
+        600: '#72717e',
+        700: '#615f6d',
+        800: '#504f5c',
+        900: '#403f4a',
+        950: '#393842',
     }
-
-    for (const [key, value] of Object.entries(newColors)) {
+    for (const [key, value] of Object.entries(neutralColors)) {
         document.documentElement.style.setProperty(`--ui-color-neutral-${key}`, value)
     }
 
