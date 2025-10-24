@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import * as zod from 'zod'
-import UserService from '@services/users/UserService'
+import UserService from '@src/services/users/AuthService'
 import FormResponseErrorAlert from '@src/components/custom/FormResponseErrorAlert.vue'
 import CreateFirstUserBox from '@components/auth/CreateFirstUserBox.vue'
 

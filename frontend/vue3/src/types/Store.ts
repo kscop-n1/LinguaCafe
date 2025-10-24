@@ -3,6 +3,7 @@ export type User = {
     email: string
     is_admin: boolean
     password_changed: boolean
+    selected_language: string
 }
 
 export type Store = {

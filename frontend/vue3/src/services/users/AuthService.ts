@@ -7,7 +7,7 @@ import type { User } from '@lctypes/Store.ts'
 import type { ApiCallResult } from '@lctypes/ApiCallResult'
 import type { Router } from 'vue-router'
 
-export default class UserService {
+export default class AuthService {
     apiCallService: ApiCallService
     router: Router
 
@@ -54,6 +54,28 @@ export default class UserService {
                 ok: false,
                 error: null,
                 validationErrors: this.apiCallService.getValidationErrors(error),
+                status: error?.response?.status ?? null,
+            }
+        }
+    }
+
+    async logout(): Promise<ApiCallResult<User>> {
+        try {
+            const response = await axios<User>({
+                method: 'POST',
+                url: '/api/auth/logout',
+            })
+
+            Store.user = null
+            this.router.push('/login')
+
+            return {
+                ok: true,
+                status: response.status,
+            }
+        } catch (error: any) {
+            return {
+                ok: false,
                 status: error?.response?.status ?? null,
             }
         }

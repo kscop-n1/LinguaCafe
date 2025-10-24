@@ -93,6 +93,7 @@ class UserController extends Controller
                 'is_admin',
                 'name',
                 'email',
+                'selected_language',
                 'password_changed',
             ])
             ->where('id', '=', Auth::user()->id)
