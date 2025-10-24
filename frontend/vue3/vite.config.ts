@@ -41,12 +41,13 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '@src': path.resolve(__dirname, 'src'),
-            '@lctypes': path.resolve(__dirname, 'src/types'),
-            '@components': path.resolve(__dirname, 'src/components'),
-            '@services': path.resolve(__dirname, 'src/services'),
-            '@store': path.resolve(__dirname, 'src/store'),
             '@assets': path.resolve(__dirname, 'src/assets'),
+            '@config': path.resolve(__dirname, 'src/config'),
+            '@components': path.resolve(__dirname, 'src/components'),
+            '@lctypes': path.resolve(__dirname, 'src/types'),
+            '@services': path.resolve(__dirname, 'src/services'),
+            '@src': path.resolve(__dirname, 'src'),
+            '@store': path.resolve(__dirname, 'src/store'),
         },
     },
 })

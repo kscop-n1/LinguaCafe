@@ -3,12 +3,13 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "@src/*": ["src/*"],
-            "@lctypes/*": ["src/types/*"],
+            "@assets/*": ["src/assets/*"],
+            "@config/*": ["src/config/*"],
             "@components/*": ["src/components/*"],
+            "@lctypes/*": ["src/types/*"],
             "@services/*": ["src/services/*"],
-            "@store/*": ["src/store/*"],
-            "@assets/*": ["src/assets/*"]
+            "@src/*": ["src/*"],
+            "@store/*": ["src/store/*"]
         },
 
         "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
