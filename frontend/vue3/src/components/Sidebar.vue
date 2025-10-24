@@ -115,7 +115,7 @@ const NavigationMenuItems = ref<NavigationMenuItem[][]>([
             >
             </UNavigationMenu>
 
-            <div class="item-end mt-auto mb-2" :class="collapsed ? 'px-1' : 'px-3'">
+            <div class="item-end mt-auto mb-4" :class="collapsed ? 'px-1' : 'px-3'">
                 <div class="relative w-full flex justify-between items-center">
                     <UDropdownMenu
                         v-if="!collapsed"
@@ -144,9 +144,9 @@ const NavigationMenuItems = ref<NavigationMenuItem[][]>([
                         >
                             <UUser
                                 :name="store.user?.name"
-                                :description="store.user?.selected_language"
+                                :description="store.user?.selected_language.name"
                                 :avatar="{
-                                    src: `/images/flags/${store.user?.selected_language}.png`,
+                                    src: `/images/flags/${store.user?.selected_language.name}.png`,
                                 }"
                             />
 

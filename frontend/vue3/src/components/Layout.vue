@@ -12,6 +12,7 @@ onMounted(() => {
         .then(response => {
             Store.user = response.data.user ?? null
             Store.hasUser = response.data.userCount > 1
+            Store.language = response.data.user.selected_language ?? null
         })
         .catch(() => {
             //

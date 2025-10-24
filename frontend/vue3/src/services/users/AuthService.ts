@@ -3,8 +3,8 @@ import Store from '@store/Store'
 import ApiCallService from '@services/ApiCallService'
 import { useRouter } from 'vue-router'
 
-import type { User } from '@lctypes/Store.ts'
-import type { ApiCallResult } from '@lctypes/ApiCallResult'
+import type { User } from '@lctypes/User.ts'
+import type { ApiCallResult } from '@lctypes/ApiCall/ApiCallResult'
 import type { Router } from 'vue-router'
 
 export default class AuthService {
@@ -67,6 +67,9 @@ export default class AuthService {
             })
 
             Store.user = null
+            Store.hasUser = true
+            Store.language = null
+
             this.router.push('/login')
 
             return {

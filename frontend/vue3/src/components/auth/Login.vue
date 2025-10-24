@@ -5,8 +5,8 @@ import UserService from '@src/services/users/AuthService'
 import FormResponseErrorAlert from '@src/components/custom/FormResponseErrorAlert.vue'
 import CreateFirstUserBox from '@components/auth/CreateFirstUserBox.vue'
 
-import type { ApiCallResult } from '@lctypes/ApiCallResult'
-import type { User } from '@lctypes/Store'
+import type { ApiCallResult } from '@lctypes/ApiCall/ApiCallResult'
+import type { User } from '@lctypes/User'
 import type { FormError } from '@nuxt/ui'
 
 const userService = new UserService()
