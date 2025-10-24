@@ -39,7 +39,7 @@ const emit = defineEmits(['toggle-sidebar-collapse', 'logout'])
                 ]"
             >
                 <div
-                    class="flex justify-between items-center select-none cursor-pointer hover:bg-elevated rounded-lg"
+                    class="flex justify-between items-center select-none cursor-pointer hover:bg-muted rounded-lg"
                     :class="[collapsed ? 'p-3 mx-auto' : 'p-2 flex-grow']"
                 >
                     <UUser
@@ -62,7 +62,7 @@ const emit = defineEmits(['toggle-sidebar-collapse', 'logout'])
             </UDropdownMenu>
 
             <div
-                class="select-none cursor-pointer hover:bg-elevated rounded-lg p-3"
+                class="select-none cursor-pointer hover:bg-muted rounded-lg p-3"
                 :class="collapsed ? 'mx-auto' : ''"
                 @click="emit('toggle-sidebar-collapse')"
             >
