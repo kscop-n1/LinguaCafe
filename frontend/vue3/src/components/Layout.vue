@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Sidebar from '@components/Sidebar.vue'
+import Sidebar from '@src/components/sidebar/Sidebar.vue'
 import Store from '@store/Store'
 import { onMounted } from 'vue'
 import axios from 'axios'

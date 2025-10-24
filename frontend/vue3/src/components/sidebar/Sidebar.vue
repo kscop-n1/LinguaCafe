@@ -115,56 +115,11 @@ const NavigationMenuItems = ref<NavigationMenuItem[][]>([
             >
             </UNavigationMenu>
 
-            <div class="item-end mt-auto mb-4" :class="collapsed ? 'px-1' : 'px-3'">
-                <div class="relative w-full flex justify-between items-center">
-                    <UDropdownMenu
-                        v-if="!collapsed"
-                        size="lg"
-                        color="neutral"
-                        :ui="{
-                            content: 'w-64',
-                        }"
-                        :items="[
-                            {
-                                label: 'Select language',
-                                icon: 'i-lucide-languages',
-                            },
-                            {
-                                label: 'Select theme',
-                                icon: 'i-lucide-palette',
-                            },
-                            {
-                                label: 'Logout',
-                                icon: 'i-lucide-log-out',
-                            },
-                        ]"
-                    >
-                        <div
-                            class="flex justify-between items-center flex-grow select-none cursor-pointer hover:bg-elevated p-2 rounded-lg"
-                        >
-                            <UUser
-                                :name="store.user?.name"
-                                :description="store.user?.selected_language.name"
-                                :avatar="{
-                                    src: `/images/flags/${store.user?.selected_language.name}.png`,
-                                }"
-                            />
-
-                            <UIcon name="i-lucide-ellipsis-vertical" class="size-5" />
-                        </div>
-                    </UDropdownMenu>
-
-                    <div
-                        class="select-none cursor-pointer hover:bg-elevated rounded-lg p-3"
-                        :class="collapsed ? 'mx-auto' : ''"
-                        @click="collapsed = !collapsed"
-                    >
-                        <UIcon v-if="!collapsed" name="i-lucide-square-arrow-left" class="size-6" />
-
-                        <UIcon v-if="collapsed" name="i-lucide-square-arrow-right" class="size-6" />
-                    </div>
-                </div>
-            </div>
+            <SidebarFooter
+                :collapsed="collapsed"
+                @toggle-sidebar-collapse="collapsed = !collapsed"
+                @logout="showLogoutPopup = true"
+            />
         </UDashboardSidebar>
     </UDashboardGroup>
 </template>
