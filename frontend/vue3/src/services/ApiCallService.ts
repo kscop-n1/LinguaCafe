@@ -1,5 +1,5 @@
 import type { FormError } from '@nuxt/ui'
-import type { LaravelValidationErrors } from '@lctypes/ApiCall/LaravelValidationErrors'
+import type { LaravelValidationErrors } from '@src/types/apicall/LaravelValidationErrors'
 
 export default class ApiCallService {
     getValidationErrors(axiosError: any): FormError[] {

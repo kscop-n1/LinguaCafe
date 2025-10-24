@@ -4,7 +4,7 @@ import ApiCallService from '@services/ApiCallService'
 import { useRouter } from 'vue-router'
 
 import type { User } from '@lctypes/User.ts'
-import type { ApiCallResult } from '@lctypes/ApiCall/ApiCallResult'
+import type { ApiCallResult } from '@src/types/apicall/ApiCallResult'
 import type { Router } from 'vue-router'
 
 export default class AuthService {

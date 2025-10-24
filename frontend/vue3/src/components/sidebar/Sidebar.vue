@@ -6,16 +6,8 @@ import store from '@store/Store'
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 defineShortcuts({
-    's-c': () => {
+    [store.settings.shortcuts.sidebar.toggleCollapse]: () => {
         collapsed.value = !collapsed.value
-    },
-
-    's-l': () => {
-        showLogoutPopup.value = true
-    },
-
-    l: () => {
-        console.log('selectedNavigationMenuItem', selectedNavigationMenuItem.value)
     },
 })
 

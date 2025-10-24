@@ -1,6 +1,6 @@
 export default {
     slots: {
-        link: 'before:rounded-r-full rounded-r-full select-none cursor-pointer',
+        link: 'before:rounded-r-full rounded-r-full select-none cursor-pointer before:duration-[0ms]',
         linkLabel: 'select-none py-1',
         linkTrailingBadge:
             'bg-primary text-inverted group-data-[active]:bg-default group-data-[active]:text-default ring-0 rounded-full',
