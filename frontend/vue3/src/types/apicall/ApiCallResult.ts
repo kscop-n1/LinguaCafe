@@ -5,5 +5,5 @@ export type ApiCallResult<T> = {
     status: null | number
     data?: T
     error?: any
-    validationErrors?: null | FormError[]
+    errorMessages?: null | FormError[]
 }

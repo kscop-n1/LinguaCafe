@@ -1,10 +1,11 @@
 import axios from 'axios'
-import Store from '@store/Store'
+import store from '@store/Store'
 import ApiCallService from '@services/ApiCallService'
 import { useRouter } from 'vue-router'
 
 import type { User } from '@lctypes/User.ts'
 import type { ApiCallResult } from '@src/types/apicall/ApiCallResult'
+import type { LaravelResource } from '@lctypes/apicall/LaravelResource'
 import type { Router } from 'vue-router'
 
 export default class AuthService {
@@ -22,7 +23,7 @@ export default class AuthService {
         remember: undefined | boolean
     ): Promise<ApiCallResult<User>> {
         try {
-            const response = await axios<User>({
+            const response = await axios<LaravelResource<User>>({
                 method: 'POST',
                 url: '/api/auth/login',
                 data: {
@@ -32,28 +33,19 @@ export default class AuthService {
                 },
             })
 
-            Store.user = response.data
+            store.user = response.data.data
             this.router.push('/')
 
             return {
                 ok: true,
-                data: Store.user,
+                data: store.user,
                 status: response.status,
             }
         } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    ok: false,
-                    error: error,
-                    validationErrors: this.apiCallService.getValidationErrors(error),
-                    status: error.response?.status ?? null,
-                }
-            }
-
             return {
                 ok: false,
-                error: null,
-                validationErrors: this.apiCallService.getValidationErrors(error),
+                error: error ?? null,
+                errorMessages: this.apiCallService.getErrorMessages(error),
                 status: error?.response?.status ?? null,
             }
         }
@@ -66,9 +58,9 @@ export default class AuthService {
                 url: '/api/auth/logout',
             })
 
-            Store.user = null
-            Store.hasUser = true
-            Store.language = null
+            store.user = null
+            store.hasUser = true
+            store.language = null
 
             this.router.push('/login')
 

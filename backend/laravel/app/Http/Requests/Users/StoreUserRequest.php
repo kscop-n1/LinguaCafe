@@ -17,6 +17,7 @@ class StoreUserRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
+                'min:4',
                 'max:255',
             ],
             'email' => [
@@ -34,6 +35,7 @@ class StoreUserRequest extends FormRequest
                 'min:8',
                 'max:32',
             ],
+            // TODO: password_confirmation -> passwordConfirmation
             'password_confirmation' => [
                 'required',
                 'string',

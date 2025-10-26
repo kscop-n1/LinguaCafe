@@ -108,6 +108,7 @@ const NavigationMenuItems = ref<NavigationMenuItem[][]>([
             </UNavigationMenu>
 
             <SidebarFooter
+                v-if="store.user"
                 :collapsed="collapsed"
                 @toggle-sidebar-collapse="collapsed = !collapsed"
                 @logout="showLogoutPopup = true"

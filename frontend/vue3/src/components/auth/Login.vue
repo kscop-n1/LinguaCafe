@@ -31,22 +31,14 @@ const loginFormState = reactive<Partial<Schema>>({
 const login = async function () {
     loginErrors.value = []
 
-    const loginResult: ApiCallResult<User> = await userService.login(
+    const loginResponse: ApiCallResult<User> = await userService.login(
         loginFormState.email,
         loginFormState.password,
         loginFormState.remember
     )
 
-    if (!loginResult.ok && loginResult.validationErrors) {
-        loginErrors.value = loginResult.validationErrors
-    }
-
-    if (!loginResult.ok && loginResult.error) {
-        loginErrors.value = [
-            {
-                message: loginResult.error.response.data.message,
-            },
-        ]
+    if (!loginResponse.ok && loginResponse.errorMessages) {
+        loginErrors.value = loginResponse.errorMessages
     }
 }
 

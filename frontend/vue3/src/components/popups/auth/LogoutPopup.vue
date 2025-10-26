@@ -2,13 +2,14 @@
 import AuthService from '@src/services/users/AuthService'
 import { computed } from 'vue'
 
+const authService = new AuthService()
+
 type Props = {
     modelValue: boolean
 }
 
 const { modelValue } = defineProps<Props>()
 const emit = defineEmits(['update:modelValue'])
-const authService = new AuthService()
 const modalOpened = computed({
     get: () => modelValue,
     set: value => emit('update:modelValue', value),
