@@ -20,10 +20,16 @@ onMounted(() => {
                 </UPageAside>
             </template>
 
-            <UPageBody><RouterView /></UPageBody>
+            <UPageBody
+                ><UContainer><RouterView /></UContainer
+            ></UPageBody>
         </UPage>
         <UPage v-else>
-            <UPageBody><RouterView /></UPageBody>
+            <UContainer>
+                <UPageBody
+                    ><UContainer><RouterView /></UContainer
+                ></UPageBody>
+            </UContainer>
         </UPage>
     </template>
 </template>
