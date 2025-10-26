@@ -19,7 +19,7 @@ onMounted(() => {
                 :class="[
                     store.sidebarCollapsed
                         ? 'box-border lg:max-w-[calc(100%-105px)]'
-                        : 'box-border lg:max-w-[calc(100%-300px)]',
+                        : 'box-border lg:max-w-[calc(100%-320px)]',
                 ]"
                 ><RouterView
             /></UContainer>
