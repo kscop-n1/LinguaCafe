@@ -10,7 +10,7 @@ const linguaCafeLinks = ref([
     {
         label: 'Overview',
         icon: 'i-lucide-layout-template',
-        to: 'https://https://simjanos-dev.github.io/LinguaCafeHome/',
+        to: 'https://simjanos-dev.github.io/LinguaCafeHome/',
     },
 ])
 </script>
