@@ -8,7 +8,7 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 
 defineShortcuts({
     [store.settings.shortcuts.sidebar.toggleCollapse]: () => {
-        store.sidebarCollapsed
+        store.sidebarCollapsed = !store.sidebarCollapsed
     },
 })
 
