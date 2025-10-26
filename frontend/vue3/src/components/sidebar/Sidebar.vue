@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import LogoutPopup from '@components/popups/auth/LogoutPopup.vue'
 import store from '@store/Store'
 
@@ -11,68 +12,86 @@ defineShortcuts({
     },
 })
 
+const route = useRoute()
+
+const homeHighlighted = computed(() => {
+    return route.path === '/' || route.path === '/home' || route.path.startsWith('/home/')
+})
+
 const selectedNavigationMenuItem = ref()
 const showLogoutPopup = ref<boolean>(false)
 const collapsed = ref<boolean>(false)
-const NavigationMenuItems = ref<NavigationMenuItem[][]>([
-    [
-        {
-            label: 'Home',
-            type: 'link',
-            href: '/',
-            icon: 'i-lucide-house',
-        },
-        {
-            label: 'Library',
-            type: 'link',
-            href: '/library',
-            icon: 'i-lucide-library-square',
-            tooltip: {
-                text: 'Library',
+const NavigationMenuItems = computed<NavigationMenuItem[][]>(() => {
+    return [
+        [
+            {
+                label: 'Home',
+                type: 'link',
+                href: '/',
+                icon: 'i-lucide-house',
+                active: homeHighlighted.value,
             },
-        },
-        {
-            label: 'Vocabulary',
-            type: 'link',
-            href: '/vocabulary',
-            icon: 'i-lucide-notebook',
-            badge: '1,234',
-            tooltip: {
-                text: 'Vocabulary',
+            {
+                label: 'Library',
+                type: 'link',
+                href: '/library',
+                icon: 'i-lucide-library-square',
+                tooltip: {
+                    text: 'Library',
+                },
             },
-        },
-        {
-            label: 'Admin',
-            type: 'link',
-            href: '/admin',
-            icon: 'i-lucide-shield',
-            tooltip: {
-                text: 'Admin',
+            {
+                label: 'Vocabulary',
+                type: 'link',
+                href: '/vocabulary',
+                icon: 'i-lucide-notebook',
+                tooltip: {
+                    text: 'Vocabulary',
+                },
             },
-        },
-        {
-            label: 'Settings',
-            type: 'link',
-            href: '/settings',
-            icon: 'i-lucide-settings',
-            tooltip: {
-                text: 'Settings',
+            {
+                label: 'Review',
+                type: 'link',
+                href: '/review',
+                icon: 'i-lucide-book-check',
+                badge: '1,234',
+                tooltip: {
+                    text: 'Review',
+                },
             },
-        },
-        {
-            label: 'Logout',
-            type: 'link',
-            icon: 'i-lucide-log-out',
-            tooltip: {
-                text: 'Logout',
-                kbds: ['s-l'],
+            {
+                label: 'Admin',
+                type: 'link',
+                href: '/admin',
+                icon: 'i-lucide-shield',
+                tooltip: {
+                    text: 'Admin',
+                },
             },
-            onSelect: () => {
-                showLogoutPopup.value = true
+            {
+                label: 'Settings',
+                type: 'link',
+                href: '/settings',
+                icon: 'i-lucide-settings',
+                tooltip: {
+                    text: 'Settings',
+                },
             },
-        },
-    ],
-])
+            {
+                label: 'Logout',
+                type: 'link',
+                icon: 'i-lucide-log-out',
+                tooltip: {
+                    text: 'Logout',
+                    kbds: ['s-l'],
+                },
+                onSelect: () => {
+                    showLogoutPopup.value = true
+                },
+            },
+        ],
+    ]
+})
 </script>
 
 <template>
