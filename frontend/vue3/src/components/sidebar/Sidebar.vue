@@ -8,19 +8,18 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 
 defineShortcuts({
     [store.settings.shortcuts.sidebar.toggleCollapse]: () => {
-        collapsed.value = !collapsed.value
+        store.sidebarCollapsed
     },
 })
 
 const route = useRoute()
 
 const homeHighlighted = computed(() => {
-    return route.path === '/' || route.path === '/home' || route.path.startsWith('/home/')
+    return route.path === '/' || route.path === '/attributions'
 })
 
 const selectedNavigationMenuItem = ref()
 const showLogoutPopup = ref<boolean>(false)
-const collapsed = ref<boolean>(false)
 const NavigationMenuItems = computed<NavigationMenuItem[][]>(() => {
     return [
         [
@@ -98,8 +97,12 @@ const NavigationMenuItems = computed<NavigationMenuItem[][]>(() => {
     <UDashboardGroup>
         <LogoutPopup v-model="showLogoutPopup" />
 
-        <UDashboardSidebar class="max-w-[300px]" :collapsible="true" :collapsed="collapsed">
-            <div class="w-full mt-12 mb-4" v-if="!collapsed">
+        <UDashboardSidebar
+            :class="[store.sidebarCollapsed ? 'w-[65px]' : 'w-[300px]']"
+            :collapsible="true"
+            :collapsed="store.sidebarCollapsed"
+        >
+            <div class="w-full mt-12 mb-4" v-if="!store.sidebarCollapsed">
                 <div class="w-full flex justify-center items-center">
                     <UAvatar src="/icon512rounded.png" class="mr-2 rounded-lg" size="md" />
                     <span>LinguaCafe</span>
@@ -114,13 +117,15 @@ const NavigationMenuItems = computed<NavigationMenuItem[][]>(() => {
 
             <UNavigationMenu
                 v-model="selectedNavigationMenuItem"
-                :class="[collapsed ? 'w-12 ml-2 rounded-xl' : 'pr-4']"
+                :class="[store.sidebarCollapsed ? 'w-12 ml-2 rounded-xl' : 'pr-4 w-full']"
                 orientation="vertical"
                 :items="NavigationMenuItems"
-                :collapsed="collapsed"
+                :collapsed="store.sidebarCollapsed"
                 :ui="{
-                    link: collapsed ? 'justify-center before:rounded-xl rounded-xl py-3' : '',
-                    linkLeadingIcon: collapsed ? 'size-5' : '',
+                    link: store.sidebarCollapsed
+                        ? 'justify-center before:rounded-xl rounded-xl py-3'
+                        : '',
+                    linkLeadingIcon: store.sidebarCollapsed ? 'size-5' : '',
                 }"
                 tooltip
             >
@@ -128,8 +133,8 @@ const NavigationMenuItems = computed<NavigationMenuItem[][]>(() => {
 
             <SidebarFooter
                 v-if="store.user"
-                :collapsed="collapsed"
-                @toggle-sidebar-collapse="collapsed = !collapsed"
+                :collapsed="store.sidebarCollapsed"
+                @toggle-sidebar-collapse="store.sidebarCollapsed = !store.sidebarCollapsed"
                 @logout="showLogoutPopup = true"
             />
         </UDashboardSidebar>

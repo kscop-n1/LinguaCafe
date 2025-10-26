@@ -1,5 +1,5 @@
 export default {
     slots: {
-        body: 'p-0',
+        body: 'relative p-0',
     },
 }

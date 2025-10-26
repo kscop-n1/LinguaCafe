@@ -6,6 +6,7 @@ export type Store = {
     appDataInitialized: boolean
     hasUser: boolean
     language: null | Language
+    sidebarCollapsed: boolean,
     settings: Settings
     user: null | User
 }

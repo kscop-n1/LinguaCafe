@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Sidebar from '@components/sidebar/Sidebar.vue'
-import Store from '@store/Store'
+import Sidebar from '@src/components/sidebar/Sidebar.vue'
+import store from '@store/Store'
 import { onMounted } from 'vue'
 import AppService from '@services/users/AppService'
 
@@ -12,24 +12,20 @@ onMounted(() => {
 </script>
 
 <template>
-    <template v-if="Store.appDataInitialized">
-        <UPage v-if="Store.user">
-            <template #left>
-                <UPageAside>
-                    <Sidebar />
-                </UPageAside>
-            </template>
-
-            <UPageBody
-                ><UContainer><RouterView /></UContainer
-            ></UPageBody>
-        </UPage>
+    <template v-if="store.appDataInitialized">
+        <div v-if="store.user" class="w-full flex flex-wrap">
+            <Sidebar />
+            <UContainer
+                :class="[
+                    store.sidebarCollapsed
+                        ? 'box-border lg:max-w-[calc(100%-105px)]'
+                        : 'box-border lg:max-w-[calc(100%-300px)]',
+                ]"
+                ><RouterView
+            /></UContainer>
+        </div>
         <UPage v-else>
-            <UContainer>
-                <UPageBody
-                    ><UContainer><RouterView /></UContainer
-                ></UPageBody>
-            </UContainer>
+            <RouterView />
         </UPage>
     </template>
 </template>
