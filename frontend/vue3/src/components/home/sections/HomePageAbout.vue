@@ -10,7 +10,28 @@ const linguaCafeLinks = ref([
     {
         label: 'Overview',
         icon: 'i-lucide-layout-template',
-        to: 'https://simjanos-dev.github.io/LinguaCafeHome/',
+        to: 'https://simjanos-dev.github.io/LinguaCafeHome',
+    },
+])
+
+const contactLinks = ref([
+    {
+        label: 'Discord chat',
+        icon: 'i-lucide-message-circle',
+        to: 'https://discord.gg/wZYZYrdaeP',
+    },
+    {
+        label: 'Github',
+        icon: 'i-lucide-github',
+        to: 'https://github.com/simjanos-dev/LinguaCafe',
+    },
+])
+
+const updateNoteLinks = ref([
+    {
+        label: 'Update notes',
+        icon: 'i-lucide-history',
+        to: '/update-notes',
     },
 ])
 </script>
@@ -28,6 +49,7 @@ const linguaCafeLinks = ref([
                     </div></template
                 >
                 <template #description>
+                    You can find more information about LinguaCafe on these links.
                     <UPageLinks class="mt-4" :links="linguaCafeLinks" />
                 </template>
             </UPageCard>
@@ -38,7 +60,8 @@ const linguaCafeLinks = ref([
                     </div></template
                 >
                 <template #description>
-                    <UPageLinks class="mt-4" :links="[]" />
+                    You can contact the developer of LinguaCafe on these platforms.
+                    <UPageLinks class="mt-4" :links="contactLinks" />
                 </template>
             </UPageCard>
             <UPageCard>
@@ -48,7 +71,8 @@ const linguaCafeLinks = ref([
                     </div></template
                 >
                 <template #description>
-                    <UPageLinks class="mt-4" :links="[]" />
+                    The current LinguaCafe version is v0.15-beta.
+                    <UPageLinks class="mt-4" :links="updateNoteLinks" />
                 </template>
             </UPageCard>
         </UPageGrid>

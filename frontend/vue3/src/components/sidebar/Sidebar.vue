@@ -15,7 +15,19 @@ defineShortcuts({
 const route = useRoute()
 
 const homeHighlighted = computed(() => {
-    return route.path === '/' || route.path === '/attributions'
+    if (route.path == '/') {
+        return true
+    }
+
+    if (route.path == '/attributions') {
+        return true
+    }
+
+    if (route.path.startsWith('/update-notes')) {
+        return true
+    }
+
+    return false
 })
 
 const selectedNavigationMenuItem = ref()
