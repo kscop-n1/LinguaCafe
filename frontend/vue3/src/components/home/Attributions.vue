@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import attributions from '@config/Attributions'
+import ContentSpacer from '@components/custom/ContentSpacer.vue'
 </script>
 
 <template>
-    <div class="w-full">
+    <ContentSpacer class="w-full">
         <PageSectionTitle title="Attributions" />
         LinguaCafe uses many public resources. I am very thankful for these projects and for all the
         people who were working on them. They helped me greatly to create LinguaCafe.
@@ -38,5 +39,5 @@ import attributions from '@config/Attributions'
                 </div>
             </template>
         </UCard>
-    </div>
+    </ContentSpacer>
 </template>

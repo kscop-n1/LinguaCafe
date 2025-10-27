@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import HomePageAbout from '@components/home/sections/HomePageAbout.vue'
 import PageSectionTitle from '@components/custom/PageSectionTitle.vue'
+import ContentSpacer from '@components/custom/ContentSpacer.vue'
 
 const homePageSections = ref([
     {
@@ -12,10 +13,10 @@ const homePageSections = ref([
 </script>
 
 <template>
-    <div class="user-select">
+    <ContentSpacer class="user-select">
         <template v-for="(homePageSection, index) in homePageSections" :key="index">
             <PageSectionTitle :title="homePageSection.title" />
             <HomePageAbout v-if="homePageSection.component === 'HomePageAbout'" />
         </template>
-    </div>
+    </ContentSpacer>
 </template>
