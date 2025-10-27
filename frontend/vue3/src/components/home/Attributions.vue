@@ -15,6 +15,9 @@ import attributions from '@config/Attributions'
             <template #header>
                 <div class="text-xl">{{ attribution.name }}</div>
                 <div class="text-sm">License: {{ attribution.license }}</div>
+                <div class="text-sm mt-2" v-if="attribution.description">
+                    {{ attribution.description }}
+                </div>
 
                 <div class="w-full flex flex-wrap mt-4">
                     <div

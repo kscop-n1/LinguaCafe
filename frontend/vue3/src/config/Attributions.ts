@@ -210,26 +210,55 @@ const attributions: Attribution[] = [
                 url: 'https://en.wiktionary.org/wiki/Wiktionary:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License',
             },
             {
-                text: 'Specific files',
+                text: 'Specific files used by LinguaCafe',
                 url: 'https://github.com/Vuizur/Wiktionary-Dictionaries',
             },
         ]
     },
     {
-        name: '',
-        license: '',
+        name: 'Dict.cc',
+        description: 'LinguaCafe has no dict.cc dictionaries packaged witch the software, it only provides a link to the dict.cc website.',
+        license: 'Dict.cc',
         links: [
             {
-                text: '',
-                url: '',
+                text: 'Website',
+                url: 'https://www.dict.cc',
             },
             {
-                text: '',
-                url: '',
+                text: 'License',
+                url: 'https://www1.dict.cc/translation_file_request.php?l=e',
+            },
+        ]
+    },
+    {
+        name: 'DMAK kanji drawing library',
+        license: 'MIT license',
+        links: [
+            {
+                text: 'DMAK github project',
+                url: 'https://github.com/mbilbille/dmak',
             },
             {
-                text: '',
-                url: '',
+                text: 'DMAK license',
+                url: 'https://github.com/mbilbille/dmak/blob/master/LICENSE',
+            }
+        ]
+    },
+    {
+        name: 'KanjiVG',
+        license: 'Creative Commons Attribution-ShareAlike 3.0 Unported',
+        links: [
+            {
+                text: 'KanjiVG website',
+                url: 'https://kanjivg.tagaini.net/',
+            },
+            {
+                text: 'KanjiVG github',
+                url: 'https://github.com/KanjiVG/kanjivg',
+            },
+            {
+                text: 'KanjiVG license',
+                url: 'https://creativecommons.org/licenses/by-sa/3.0/',
             },
         ]
     },
