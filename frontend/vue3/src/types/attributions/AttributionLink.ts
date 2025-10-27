@@ -1,4 +1,4 @@
 export type AttributionLink = {
-    link: string,
+    url: string,
     text: string,
 }
