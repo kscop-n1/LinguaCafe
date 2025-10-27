@@ -13,14 +13,13 @@ onMounted(() => {
 
 <template>
     <template v-if="store.appDataInitialized">
-        <div v-if="store.user" class="w-full flex flex-wrap">
+        <div
+            v-if="store.user"
+            class="w-full flex flex-wrap"
+            :class="[store.sidebarCollapsed ? 'lg:pl-[65px]' : 'lg:pl-[300px]']"
+        >
             <Sidebar />
-            <UContainer
-                :class="[
-                    store.sidebarCollapsed
-                        ? 'box-border lg:max-w-[calc(100%-105px)]'
-                        : 'box-border lg:max-w-[calc(100%-320px)]',
-                ]"
+            <UContainer :class="[store.sidebarCollapsed ? 'box-border' : 'box-border']"
                 ><RouterView
             /></UContainer>
         </div>

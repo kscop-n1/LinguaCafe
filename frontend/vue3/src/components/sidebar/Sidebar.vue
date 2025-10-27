@@ -98,6 +98,7 @@ const NavigationMenuItems = computed<NavigationMenuItem[][]>(() => {
         <LogoutPopup v-model="showLogoutPopup" />
 
         <UDashboardSidebar
+            class="fixed left-0 top-0"
             :class="[store.sidebarCollapsed ? 'w-[65px]' : 'w-[300px]']"
             :collapsible="true"
             :collapsed="store.sidebarCollapsed"
