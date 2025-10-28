@@ -11,7 +11,7 @@ import updateNotes from '@config/UpdateNotes'
                 v-for="(updateNote, updateNoteIndex) in updateNotes"
                 :key="updateNoteIndex"
                 :title="updateNote.title"
-                :description="updateNote.description"
+                :description="updateNote.summary"
                 :date="updateNote.date"
                 :to="`/updates/${updateNote.title}`"
             />

@@ -16,7 +16,7 @@ const updateNote = ref(
     <ContentSpacer class="w-full">
         <PageSectionTitle :title="`Update notes - ${updateNote?.title} - ${updateNote?.date}`" />
 
-        <div class="my-4 text-muted" v-html="updateNote?.text" />
+        <div class="my-4 text-muted" v-html="updateNote?.description" />
 
         <div class="my-4 text-muted" v-if="updateNote?.newFeatures?.length">
             <span class="text-muted font-bold">New features:</span>
