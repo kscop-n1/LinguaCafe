@@ -23,7 +23,7 @@ const homeHighlighted = computed(() => {
         return true
     }
 
-    if (route.path.startsWith('/update-notes')) {
+    if (route.path.startsWith('/updates')) {
         return true
     }
 

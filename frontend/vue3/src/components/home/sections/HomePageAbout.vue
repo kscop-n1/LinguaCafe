@@ -27,11 +27,11 @@ const contactLinks = ref([
     },
 ])
 
-const updateNoteLinks = ref([
+const updateHistoryLinks = ref([
     {
-        label: 'Update notes',
+        label: 'Update history',
         icon: 'i-lucide-history',
-        to: '/update-notes',
+        to: '/updates/history',
     },
 ])
 </script>
@@ -72,7 +72,7 @@ const updateNoteLinks = ref([
                 >
                 <template #description>
                     The current LinguaCafe version is v0.15-beta.
-                    <UPageLinks class="mt-4" :links="updateNoteLinks" />
+                    <UPageLinks class="mt-4" :links="updateHistoryLinks" />
                 </template>
             </UPageCard>
         </UPageGrid>

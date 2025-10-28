@@ -2,8 +2,9 @@ import type { RouteRecordRaw } from 'vue-router'
 
 import Home from '@components/home/HomePage.vue'
 import Attributions from '@components/home/Attributions.vue'
-import UpdateNotes from '@components/home/UpdateNotes.vue'
 import Login from '@components/auth/Login.vue'
+import UpdateHistory from '@components/home/updates/UpdateHistory.vue'
+import UpdateNote from '@components/home/updates/UpdateNote.vue'
 
 export const routes: RouteRecordRaw[] = [
     {
@@ -17,9 +18,14 @@ export const routes: RouteRecordRaw[] = [
         component: Attributions,
     },
     {
-        path: '/update-notes',
-        name: 'Update notes',
-        component: UpdateNotes,
+        path: '/updates/history',
+        name: 'Update history',
+        component: UpdateHistory,
+    },
+    {
+        path: '/updates/:version',
+        name: 'Update note',
+        component: UpdateNote,
     },
     {
         path: '/login',
