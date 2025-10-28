@@ -18,8 +18,8 @@
                 :id="goal.id"
                 :name="goal.name"
                 :goal-quantity="goal.quantity"
-                :todays-achieved-quantity="goal.todaysQuantity"
-                :percentage="Math.round((goal.todaysQuantity / goal.quantity) * 100)"
+                :todays-achieved-quantity="goal.todays_quantity"
+                :percentage="Math.round((goal.todays_quantity / goal.quantity) * 100)"
                 color="primary"
                 @edit="editGoal"
             >

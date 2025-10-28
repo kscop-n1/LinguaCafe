@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import HomePageAbout from '@components/home/sections/HomePageAbout.vue'
 import PageSectionTitle from '@components/custom/PageSectionTitle.vue'
 import ContentSpacer from '@components/custom/ContentSpacer.vue'
 
+import HomePageAbout from '@components/home/sections/about/HomePageAbout.vue'
+import HomePageDailyGoals from '@components/home/sections/goals/HomePageDailyGoals.vue'
+
 const homePageSections = ref([
+    {
+        title: 'Daily goals',
+        component: 'HomePageDailyGoals',
+    },
     {
         title: 'About',
         component: 'HomePageAbout',
@@ -16,7 +22,9 @@ const homePageSections = ref([
     <ContentSpacer class="user-select">
         <template v-for="(homePageSection, index) in homePageSections" :key="index">
             <PageSectionTitle :title="homePageSection.title" />
+
             <HomePageAbout v-if="homePageSection.component === 'HomePageAbout'" />
+            <HomePageDailyGoals v-if="homePageSection.component === 'HomePageDailyGoals'" />
         </template>
     </ContentSpacer>
 </template>

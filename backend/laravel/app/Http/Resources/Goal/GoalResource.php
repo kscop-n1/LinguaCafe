@@ -21,10 +21,9 @@ class GoalResource extends JsonResource
             'language' => $this->language,
             'type' => $this->type,
             'target_id' => $this->target_id,
-            // TODO: probably can be removed
             'current_chapter' => $this->current_chapter,
             'quantity' => $this->quantity,
-            'todaysQuantity' => $this->when(isset($this->todaysQuantity), $this->todaysQuantity),
+            'todays_quantity' => $this->when(isset($this->todays_quantity), $this->todays_quantity),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

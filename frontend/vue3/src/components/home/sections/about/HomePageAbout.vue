@@ -37,7 +37,7 @@ const updateHistoryLinks = ref([
 </script>
 
 <template>
-    <div class="user-select">
+    <div>
         <UPageGrid>
             <UPageCard>
                 <template #title

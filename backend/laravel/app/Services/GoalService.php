@@ -24,7 +24,7 @@ class GoalService
             ->first();
 
         if (!$goal) {
-            $goal = new Goal;
+            $goal = new Goal();
             $goal->user_id = $user->id;
             $goal->language = $language->name;
             $goal->name = 'Reviews';
@@ -32,7 +32,7 @@ class GoalService
             $goal->quantity = 0;
             $goal->save();
 
-            $goal = new Goal;
+            $goal = new Goal();
             $goal->user_id = $user->id;
             $goal->language = $language->name;
             $goal->name = 'Reading';
@@ -40,7 +40,7 @@ class GoalService
             $goal->quantity = 1000;
             $goal->save();
 
-            $goal = new Goal;
+            $goal = new Goal();
             $goal->user_id = $user->id;
             $goal->language = $language->name;
             $goal->name = 'New words';
@@ -66,7 +66,7 @@ class GoalService
             ->first();
 
         if (!$achievement) {
-            $achievement = new GoalAchievement;
+            $achievement = new GoalAchievement();
             $achievement->language = $language->name;
             $achievement->user_id = $user->id;
             $achievement->goal_id = $goal->id;
@@ -87,7 +87,7 @@ class GoalService
             ->get();
 
         $goals->transform(function (Goal $goal) {
-            $goal->todaysQuantity = $goal->getTodaysQuantity();
+            $goal->todays_quantity = $goal->getTodaysQuantity();
 
             return $goal;
         });
@@ -142,7 +142,7 @@ class GoalService
             }
 
             // update or append calendar data
-            $achievementData = new \stdClass;
+            $achievementData = new \stdClass();
             $achievementData->id = $achievement->id;
             $achievementData->name = $achievement->name;
             $achievementData->type = $achievement->type;
@@ -153,7 +153,7 @@ class GoalService
             if ($dayIndex !== -1) {
                 array_push($calendarData[$dayIndex]->achievements, $achievementData);
             } else {
-                $dayData = new \stdClass;
+                $dayData = new \stdClass();
                 $dayData->day = $achievement->day;
                 $dayData->achievements = [$achievementData];
                 $dayData->reviewsDue = 0;
@@ -183,7 +183,7 @@ class GoalService
             if ($dayIndex !== -1) {
                 $calendarData[$dayIndex]->reviewsDue = $review->quantity;
             } else {
-                $dayData = new \stdClass;
+                $dayData = new \stdClass();
                 $dayData->day = $review->day;
                 $dayData->achievements = [];
                 $dayData->reviewsDue = $review->quantity;
@@ -212,7 +212,7 @@ class GoalService
                 ->where('type', $goalType->value)
                 ->firstOrFail();
 
-            $achievement = new GoalAchievement;
+            $achievement = new GoalAchievement();
             $achievement->user_id = $user->id;
             $achievement->language = $language->name;
             $achievement->goal_id = $goal->id;
