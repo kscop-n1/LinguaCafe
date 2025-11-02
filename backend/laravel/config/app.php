@@ -2,6 +2,8 @@
 
 return [
 
+    'frontend_build' => env('FRONTEND_BUILD', 'vue2'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

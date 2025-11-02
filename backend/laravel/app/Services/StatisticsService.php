@@ -15,7 +15,7 @@ class StatisticsService
     // TODO: should be refactored to return a DTO
     public function getStatistics(User $user, LanguageConfig $language): \stdClass
     {
-        $languageStatistics = new \stdClass;
+        $languageStatistics = new \stdClass();
 
         $readingGoal = Goal::query()
             ->where('user_id', $user->id)
@@ -23,9 +23,9 @@ class StatisticsService
             ->where('type', 'read_words')
             ->first();
 
-        $languageStatistics->days = new \stdClass;
+        $languageStatistics->days = new \stdClass();
         $languageStatistics->days->name = 'Days of activity';
-        $languageStatistics->days->icon = 'mdi-calendar-check';
+        $languageStatistics->days->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-calendar' : 'mdi-calendar-check';
         $languageStatistics->days->value = GoalAchievement::query()
             ->where('user_id', $user->id)
             ->where('language', $language->name)
@@ -33,9 +33,9 @@ class StatisticsService
             ->distinct('day')
             ->count('day');
 
-        $languageStatistics->readWordCount = new \stdClass;
+        $languageStatistics->readWordCount = new \stdClass();
         $languageStatistics->readWordCount->name = 'Read words';
-        $languageStatistics->readWordCount->icon = 'mdi-book-open-variant';
+        $languageStatistics->readWordCount->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-book-open-text' : 'mdi-book-open-variant';
         $languageStatistics->readWordCount->value = GoalAchievement::query()
             ->where('user_id', $user->id)
             ->where('language', $language->name)
@@ -60,32 +60,32 @@ class StatisticsService
                 }
             }
 
-            $languageStatistics->kanji = new \stdClass;
+            $languageStatistics->kanji = new \stdClass();
             $languageStatistics->kanji->name = 'Kanji';
             $languageStatistics->kanji->value = count($uniqueKanji);
             $languageStatistics->kanji->icon = 'mdi-ideogram-cjk';
         }
 
-        $languageStatistics->known = new \stdClass;
+        $languageStatistics->known = new \stdClass();
         $languageStatistics->known->name = 'Known words';
-        $languageStatistics->known->icon = 'mdi-credit-card-check';
+        $languageStatistics->known->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-book-a' : 'mdi-credit-card-check';
         $languageStatistics->known->value = EncounteredWord::select('id')->where('stage', 0)
             ->where('user_id', $user->id)
             ->where('language', $language->name)
             ->count('id');
 
-        $languageStatistics->learning = new \stdClass;
+        $languageStatistics->learning = new \stdClass();
         $languageStatistics->learning->name = 'Words currently studied';
-        $languageStatistics->learning->icon = 'mdi-school';
+        $languageStatistics->learning->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-graduation-cap' : 'mdi-school';
         $languageStatistics->learning->value = EncounteredWord::select('id')
             ->where('stage', '<', 0)
             ->where('user_id', $user->id)
             ->where('language', $language->name)
             ->count('id');
 
-        $languageStatistics->knownLemmas = new \stdClass;
+        $languageStatistics->knownLemmas = new \stdClass();
         $languageStatistics->knownLemmas->name = 'Known lemmas';
-        $languageStatistics->knownLemmas->icon = 'mdi-alpha-l-box';
+        $languageStatistics->knownLemmas->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-square-split-horizontal' : 'mdi-alpha-l-box';
         $languageStatistics->knownLemmas->value = EncounteredWord::select('lemma')
             ->where('stage', 0)
             ->where('user_id', $user->id)

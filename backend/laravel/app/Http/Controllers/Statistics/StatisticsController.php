@@ -22,6 +22,8 @@ class StatisticsController extends Controller
 
         $statistics = $this->statisticsService->getStatistics($user, $language);
 
-        return response()->json($statistics);
+        return response()->json([
+            'data' => $statistics,
+        ]);
     }
 }

@@ -43,7 +43,7 @@ export default {
     methods: {
         loadStatistics() {
             axios.get('/api/statistics').then(response => {
-                this.statistics = response.data
+                this.statistics = response.data.data
             })
         },
         formatNumber: formatNumber,
