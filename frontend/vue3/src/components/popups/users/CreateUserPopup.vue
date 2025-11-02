@@ -195,7 +195,6 @@ const createUser = async function () {
                     variant="link"
                     color="neutral"
                     type="button"
-                    loading-auto
                     @click="modalOpened = false"
                 />
 
@@ -204,6 +203,7 @@ const createUser = async function () {
                     label="Create user"
                     type="submit"
                     form="create-user-form"
+                    loading-icon="i-lucide-loader-circle"
                     loading-auto
                 />
             </div>

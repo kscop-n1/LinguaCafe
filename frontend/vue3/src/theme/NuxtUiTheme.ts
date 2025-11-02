@@ -5,6 +5,7 @@ import DashboardGroup from './components/DashboardGroup.ts'
 import DashboardSideBar from './components/DashboardSideBar.ts'
 import DropdownMenu from './components/DropdownMenu.ts'
 import Input from './components/Input.ts'
+import InputNumber from './components/InputNumber.ts'
 import NavigationMenu from './components/NavigationMenu.ts'
 
 export default {
@@ -14,5 +15,6 @@ export default {
     dashboardSidebar: DashboardSideBar,
     dropdownMenu: DropdownMenu,
     input: Input,
+    inputNumber: InputNumber,
     navigationMenu: NavigationMenu,
 }
