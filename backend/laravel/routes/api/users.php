@@ -13,5 +13,6 @@ Route::middleware(['web'])->group(function () {
 
 Route::middleware(['auth', 'auth.session', 'web'])->group(function () {
     Route::get('/password/changed', [UserController::class, 'passwordChanged']);
+    // TODO: /update/password -> /password/update
     Route::post('/update/password', [UserController::class, 'updatePassword']);
 });

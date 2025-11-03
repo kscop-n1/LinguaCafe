@@ -33,7 +33,7 @@ onBeforeMount(async function () {
 </script>
 
 <template>
-    <div class="mb-8">
+    <div>
         <EditGoalPopup
             v-if="showEditGoalPopup && editedGoal"
             v-model="showEditGoalPopup"

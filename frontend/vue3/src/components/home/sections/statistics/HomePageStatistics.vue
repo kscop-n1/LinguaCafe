@@ -28,7 +28,7 @@ onBeforeMount(() => {
         <div
             v-for="(statistic, statisticIndex) in statistics"
             :key="statisticIndex"
-            class="flex items-center mr-3 mb-3 px-4 h-24 p-0 rounded-lg border border-muted"
+            class="flex items-center mr-3 mb-3 px-6 h-24 p-0 rounded-lg border border-muted"
         >
             <UIcon class="size-8 text-primary" :name="statistic.icon" />
             <div class="flex flex-wrap w-48">
