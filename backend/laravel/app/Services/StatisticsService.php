@@ -25,7 +25,7 @@ class StatisticsService
 
         $languageStatistics->days = new \stdClass();
         $languageStatistics->days->name = 'Days of activity';
-        $languageStatistics->days->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-calendar' : 'mdi-calendar-check';
+        $languageStatistics->days->icon = 'i-lucide-calendar';
         $languageStatistics->days->value = GoalAchievement::query()
             ->where('user_id', $user->id)
             ->where('language', $language->name)
@@ -35,7 +35,7 @@ class StatisticsService
 
         $languageStatistics->readWordCount = new \stdClass();
         $languageStatistics->readWordCount->name = 'Read words';
-        $languageStatistics->readWordCount->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-book-open-text' : 'mdi-book-open-variant';
+        $languageStatistics->readWordCount->icon = 'i-lucide-book-open-text';
         $languageStatistics->readWordCount->value = GoalAchievement::query()
             ->where('user_id', $user->id)
             ->where('language', $language->name)
@@ -68,7 +68,7 @@ class StatisticsService
 
         $languageStatistics->known = new \stdClass();
         $languageStatistics->known->name = 'Known words';
-        $languageStatistics->known->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-book-a' : 'mdi-credit-card-check';
+        $languageStatistics->known->icon = 'i-lucide-book-a';
         $languageStatistics->known->value = EncounteredWord::select('id')->where('stage', 0)
             ->where('user_id', $user->id)
             ->where('language', $language->name)
@@ -76,7 +76,7 @@ class StatisticsService
 
         $languageStatistics->learning = new \stdClass();
         $languageStatistics->learning->name = 'Words currently studied';
-        $languageStatistics->learning->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-graduation-cap' : 'mdi-school';
+        $languageStatistics->learning->icon = 'i-lucide-graduation-cap';
         $languageStatistics->learning->value = EncounteredWord::select('id')
             ->where('stage', '<', 0)
             ->where('user_id', $user->id)
@@ -85,7 +85,7 @@ class StatisticsService
 
         $languageStatistics->knownLemmas = new \stdClass();
         $languageStatistics->knownLemmas->name = 'Known lemmas';
-        $languageStatistics->knownLemmas->icon = config('app.frontend_build') === 'vue3' ? 'i-lucide-square-split-horizontal' : 'mdi-alpha-l-box';
+        $languageStatistics->knownLemmas->icon = 'i-lucide-square-split-horizontal';
         $languageStatistics->knownLemmas->value = EncounteredWord::select('lemma')
             ->where('stage', 0)
             ->where('user_id', $user->id)
