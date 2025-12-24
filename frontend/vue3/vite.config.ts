@@ -44,6 +44,7 @@ export default defineConfig({
             '@assets': path.resolve(__dirname, 'src/assets'),
             '@config': path.resolve(__dirname, 'src/config'),
             '@components': path.resolve(__dirname, 'src/components'),
+            '@composables': path.resolve(__dirname, 'src/composables'),
             '@lctypes': path.resolve(__dirname, 'src/types'),
             '@services': path.resolve(__dirname, 'src/services'),
             '@src': path.resolve(__dirname, 'src'),

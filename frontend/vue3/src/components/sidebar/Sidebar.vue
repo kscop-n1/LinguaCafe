@@ -6,14 +6,15 @@ import store from '@store/Store'
 
 import type { NavigationMenuItem } from '@nuxt/ui'
 
+const toggleSidebarCollapse = () => {
+    store.sidebarCollapsed = !store.sidebarCollapsed
+}
+
 defineShortcuts({
-    [store.settings.shortcuts.sidebar.toggleCollapse]: () => {
-        store.sidebarCollapsed = !store.sidebarCollapsed
-    },
+    [store.settings.shortcuts.sidebar.toggleCollapse]: toggleSidebarCollapse,
 })
 
 const route = useRoute()
-
 const homeHighlighted = computed(() => {
     if (route.path == '/') {
         return true

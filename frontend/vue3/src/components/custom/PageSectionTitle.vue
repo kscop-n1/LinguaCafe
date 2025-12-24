@@ -7,11 +7,8 @@ const { title } = defineProps<Props>()
 </script>
 
 <template>
-    <UPageHeader
-        :title="title"
-        :ui="{
-            root: 'py-2 border-0',
-            title: 'text-xl sm:text-xl',
-        }"
-    />
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-2">
+        <h1 class="text-pretty font-bold text-highlighted text-xl sm:text-xl">{{ title }}</h1>
+        <slot name="right"></slot>
+    </div>
 </template>

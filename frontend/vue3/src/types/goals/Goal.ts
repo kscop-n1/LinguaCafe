@@ -1,15 +1,28 @@
+import type { Language } from '@lctypes/Language'
+import type { GoalAchievement } from './GoalAchievement'
+
+export enum GoalType {
+    Review = 'review',
+    ReadWords = 'read_words',
+    LearnWords = 'learn_words',
+}
+
 export type Goal = {
     id: number
     name?: string
     user_id?: number
-    // todo: refactor to Language type, backend change needed
-    language?: string
-    type?: string
-    // todo: check if these will still be needed, probably should be replaced with polymorphic relationship
+    language?: Language
+    type?: GoalType
     target_id?: null | number
+    // TODO: check if current_chapter is still needed, probably deletable
     current_chapter?: null | number
     quantity?: number
+    goalAchievements: Record<string, GoalAchievement>
     updated_at?: string
     created_at?: string
     todays_quantity?: number
+}
+
+export function isGoalType(key: string): key is GoalType {
+    return Object.values(GoalType).includes(key as GoalType)
 }

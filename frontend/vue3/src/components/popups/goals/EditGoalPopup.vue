@@ -74,7 +74,7 @@ const updateGoalQuantity = async function () {
                         class="mb-4"
                         color="primary"
                         icon="i-lucide-circle-alert"
-                        description="This setting will only affect today's and upcoming days' goal. Past days' goals will not be affected."
+                        description="This setting will only affect today's and upcoming days' goal. Past days' goals can be modified by clicking on the calendar day."
                     >
                     </UAlert>
 

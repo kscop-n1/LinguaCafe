@@ -5,11 +5,17 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 class Goal extends Model
 {
     use HasFactory;
+
+    public function goalAchievements(): HasMany
+    {
+        return $this->hasMany(GoalAchievement::class);
+    }
 
     // TODO: move to service
     public function getTodaysQuantity()
@@ -30,7 +36,7 @@ class Goal extends Model
             if ($this->type == 'review') {
                 $this->quantity = $this->getTodaysReviewGoalQuantity();
 
-                $achievement = new GoalAchievement;
+                $achievement = new GoalAchievement();
                 $achievement->language = $selectedLanguage;
                 $achievement->user_id = Auth::user()->id;
                 $achievement->goal_id = $this->id;

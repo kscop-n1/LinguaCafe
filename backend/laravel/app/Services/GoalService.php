@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DataTransferObjects\Calendar\CalendarData;
 use App\Enums\GoalTypeEnum;
 use App\Helpers\Language\LanguageConfig;
 use App\Models\EncounteredWord;
@@ -117,81 +118,43 @@ class GoalService
         }
     }
 
-    // TODO: very old code, this method should be rewritten with relationships, probably for v1.0
-    public function getCalendarData(User $user, LanguageConfig $language): array
+    public function getCalendarData(User $user, LanguageConfig $language): CalendarData
     {
-        $calendarData = [];
+        $goals = Goal::query()
+            ->select([
+                'id',
+                'name',
+                'type',
+            ])
+            ->where('user_id', '=', $user->id)
+            ->where('language', '=', $language->name)
+            ->with('goalAchievements', function ($query) {
+                $query->select([
+                    'achieved_quantity',
+                    'goal_quantity',
+                    'day',
+                    'goal_id',
+                ]);
+            })
+            ->get()
+            ->each(function ($goal) {
+                $goal->setRelation('goalAchievements', $goal->goalAchievements->keyBy('day'));
+            })
+            ->keyBy('type');
 
-        // query goal achievements
-        $goalAchievements = GoalAchievement::where('user_id', $user->id)->where('language', $language->name)->get();
-        $goalAchievements = DB::table('goal_achievements')
-            ->leftJoin('goals', 'goal_achievements.goal_id', '=', 'goals.id')
-            ->select('goals.name', 'goals.type', 'goal_achievements.id', 'goal_achievements.day', 'goal_achievements.achieved_quantity', 'goal_achievements.goal_quantity')
-            ->where('goals.user_id', $user->id)
-            ->where('goals.language', $language->name)->get();
-
-        // add goal achievements to calendar data
-        foreach ($goalAchievements as $achievement) {
-            // look for achievement date in calendar data
-            $dayIndex = -1;
-            foreach ($calendarData as $index => $day) {
-                if ($day->day == $achievement->day) {
-                    $dayIndex = $index;
-                    break;
-                }
-            }
-
-            // update or append calendar data
-            $achievementData = new \stdClass();
-            $achievementData->id = $achievement->id;
-            $achievementData->name = $achievement->name;
-            $achievementData->type = $achievement->type;
-            $achievementData->day = $achievement->day;
-            $achievementData->achievedQuantity = $achievement->achieved_quantity;
-            $achievementData->goalQuantity = $achievement->goal_quantity;
-
-            if ($dayIndex !== -1) {
-                array_push($calendarData[$dayIndex]->achievements, $achievementData);
-            } else {
-                $dayData = new \stdClass();
-                $dayData->day = $achievement->day;
-                $dayData->achievements = [$achievementData];
-                $dayData->reviewsDue = 0;
-                array_push($calendarData, $dayData);
-            }
-        }
-
-        // query the count of reviews for each day
-        $reviewsDue = EncounteredWord::where('user_id', $user->id)
-            ->where('language', $language->name)
+        $reviews = EncounteredWord::query()
+            ->where('user_id', '=', $user->id)
+            ->where('language', '=', $language->name)
             ->whereNotNull('next_review')
             ->selectRaw(DB::raw('next_review as day, count(id) as quantity'))
-            ->groupBy('next_review')->get();
+            ->groupBy('next_review')
+            ->get()
+            ->keyBy('day');
 
-        // add reviews due to calendar data
-        foreach ($reviewsDue as $review) {
-            // look for review date in calendar data
-            $dayIndex = -1;
-            foreach ($calendarData as $index => $day) {
-                if ($day->day == $review->day) {
-                    $dayIndex = $index;
-                    break;
-                }
-            }
-
-            // update or append calendar data
-            if ($dayIndex !== -1) {
-                $calendarData[$dayIndex]->reviewsDue = $review->quantity;
-            } else {
-                $dayData = new \stdClass();
-                $dayData->day = $review->day;
-                $dayData->achievements = [];
-                $dayData->reviewsDue = $review->quantity;
-                array_push($calendarData, $dayData);
-            }
-        }
-
-        return $calendarData;
+        return new CalendarData(
+            goals: $goals,
+            reviews: $reviews,
+        );
     }
 
     public function updateOrCreateGoalAchievement(

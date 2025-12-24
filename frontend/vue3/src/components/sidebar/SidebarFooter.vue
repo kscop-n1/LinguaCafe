@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
+// todo: refactore import store -> import Store
 import store from '@store/Store'
 
 type Props = {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Goals;
 use App\Helpers\Language\LanguageConfig;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Goals\UpdateGoalRequest;
+use App\Http\Resources\Calendar\CalendarReviewDataResourceCollection;
 use App\Http\Resources\Goal\GoalResourceCollection;
 use App\Models\Goal;
 use App\Services\GoalService;
@@ -46,7 +47,10 @@ class GoalController extends Controller
         $calendarData = $this->goalService->getCalendarData($user, $language);
 
         return response()->json([
-            'data' => $calendarData,
+            'data' => [
+                'goals' => new GoalResourceCollection($calendarData->goals),
+                'reviews' => new CalendarReviewDataResourceCollection($calendarData->reviews),
+            ],
         ]);
     }
 }

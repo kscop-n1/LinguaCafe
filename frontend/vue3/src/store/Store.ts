@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import shortcutSettings from '@config/Shortcuts'
 
-import type { Store } from '@lctypes/Store.ts'
+import type { Store } from '@lctypes/store/Store.ts'
 
 export default reactive<Store>({
     appDataInitialized: false,
@@ -12,4 +12,9 @@ export default reactive<Store>({
         shortcuts: shortcutSettings,
     },
     user: null,
+    window: {
+        width: 0,
+        widthWithoutSidebar: 0,
+        height: 0,
+    },
 })
