@@ -3,45 +3,24 @@ import { ref, onMounted, watch } from 'vue'
 import { useMoment } from '@composables/useMoment'
 
 import type { Moment } from 'moment'
-import type { Calendar } from '@lctypes/calendar/Calendar'
+import type { Calendar, CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import type { CalendarWeek } from '@lctypes/calendar/CalendarWeek'
-import type { CalendarDay } from '@lctypes/calendar/CalendarDay'
-import { isGoalType } from '@lctypes/goals/Goal'
 
 type Props = {
-    calendar: Calendar
+    calendarData: Calendar
     month: Moment
-    selectedGoal: string
+    selectedGoal: CalendarSelectableStatEnum
+    mostDueReviews: number
 }
 
-const { calendar, month, selectedGoal } = defineProps<Props>()
+const { calendarData, month, selectedGoal } = defineProps<Props>()
 const weeksOfMonth = ref<CalendarWeek[]>([])
 const moment = useMoment()
-
-const getDayColorClasses = (day: CalendarDay): string => {
-    let achievedQuantity =
-        calendar.goals['read_words']?.goalAchievements[day.date]?.achieved_quantity ?? null
-    let goalQuantity =
-        calendar.goals['read_words']?.goalAchievements[day.date]?.goal_quantity ?? null
-
-    if (achievedQuantity === null || goalQuantity === null) {
-        return 'bg-neutral-900 bg-opacity-80'
-    }
-
-    if (achievedQuantity >= goalQuantity) {
-        return 'bg-primary bg-opacity-80 text-inverted'
-    }
-
-    if (achievedQuantity > 0) {
-        return 'bg-neutral-900 bg-opacity-80 border-2 border-primary shadow-primary shadow-[inset_0_0_5px]'
-    }
-
-    return 'bg-neutral-900 bg-opacity-80'
-}
 
 const setMonthDays = () => {
     weeksOfMonth.value = []
 
+    const yearStart = month.clone().startOf('month')
     const calendarStart = month.clone().startOf('month').startOf('week')
     const calendarEnd = month.clone().endOf('month').endOf('week')
 
@@ -59,7 +38,9 @@ const setMonthDays = () => {
         weeksOfMonth.value[weekIndex]?.days.push({
             day: currentDate.format('D'),
             date: currentDate.format('YYYY-MM-DD'),
-            outsideMonth: currentDate.month() !== month.month(),
+            outsideYear: currentDate.year() !== yearStart.year(),
+            outsideMonth:
+                currentDate.year() !== yearStart.year() || currentDate.month() !== month.month(),
         })
 
         currentDate.add(1, 'days')
@@ -79,58 +60,39 @@ onMounted(() => {
 </script>
 
 <template>
-    <UCard class="w-full max-w-[700px]">
-        <template #default>
-            <div class="w-full flex flex-wrap">
-                <div class="w-full font-bold text-xl">
-                    {{ month.format('Y MMMM') }}
-                </div>
+    <div class="w-full max-w-[400px] border border-default rounded-lg p-4">
+        <div class="w-full flex flex-wrap">
+            <div class="w-full font-bold text-xl">
+                {{ month.format('Y MMMM') }}
+            </div>
 
-                <div class="w-full flex flex-wrap justify-evenly">
-                    <div
-                        class="m-0.5 my-0.5 md:m-1 md:my-2 w-8 h-8 md:w-12 md:h-12 text-sm md:text-sm flex justify-center items-center rounded-full"
-                        v-for="day in 7"
-                    >
-                        {{
-                            moment()
-                                .startOf('week')
-                                .add(day - 1, 'days')
-                                .format('ddd')
-                        }}
-                    </div>
-                </div>
+            <div class="w-full flex flex-wrap justify-evenly">
                 <div
-                    class="w-full flex flex-wrap justify-evenly"
-                    v-for="(week, weekIndex) in weeksOfMonth"
-                    :key="weekIndex"
+                    class="m-0.5 my-0.5 md:m-1 w-8 h-8 md:w-9 md:h-9 text-sm md:text-sm flex justify-center items-center rounded-full"
+                    v-for="day in 7"
                 >
-                    <div
-                        v-for="(day, dayIndex) in week.days"
-                        :key="dayIndex"
-                        class="m-0.5 my-0.5 md:m-1 md:my-2 w-8 h-8 md:w-12 md:h-12 text-sm md:text-sm flex justify-center items-center select-none rounded-full"
-                        :class="[day.outsideMonth ? '' : getDayColorClasses(day)]"
-                    >
-                        <!-- Achieved quantity text -->
-                        <span
-                            v-if="!day.outsideMonth && isGoalType(selectedGoal)"
-                            class="hidden md:block"
-                        >
-                            {{
-                                calendar.goals[selectedGoal]?.goalAchievements[day.date]
-                                    ?.achieved_quantity ?? '-'
-                            }}
-                        </span>
-
-                        <!-- Reviews due text -->
-                        <span
-                            v-if="!day.outsideMonth && !isGoalType(selectedGoal)"
-                            class="hidden md:block"
-                        >
-                            {{ calendar.reviews[day.date]?.quantity ?? '-' }}
-                        </span>
-                    </div>
+                    {{
+                        moment()
+                            .startOf('week')
+                            .add(day - 1, 'days')
+                            .format('dd')
+                    }}
                 </div>
             </div>
-        </template>
-    </UCard>
+            <div
+                class="w-full flex flex-wrap justify-evenly"
+                v-for="(week, weekIndex) in weeksOfMonth"
+                :key="weekIndex"
+            >
+                <HomePageCalendarDay
+                    v-for="(day, dayIndex) in week.days"
+                    :key="dayIndex"
+                    :day="day"
+                    :calendar-data="calendarData"
+                    :selected-goal="selectedGoal"
+                    :most-due-reviews="mostDueReviews"
+                />
+            </div>
+        </div>
+    </div>
 </template>

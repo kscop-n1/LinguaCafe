@@ -1,47 +1,53 @@
 <script setup lang="ts">
 import { ref, computed, shallowRef, onMounted } from 'vue'
-import HomePageCalendarMonth from '@components/home/sections/calendar/HomePageCalendarMonth.vue'
 import CalendarService from '@services/calendar/CalendarService'
 import { useMoment } from '@composables/useMoment'
 import { CalendarDate } from '@internationalized/date'
 import Store from '@src/store/Store'
 
+import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import type { Calendar } from '@lctypes/calendar/Calendar'
 import type { Moment } from 'moment'
-import { GoalType } from '@lctypes/goals/Goal'
 
-const selectedCalendarGoalType = ref(GoalType.ReadWords)
+type Props = {
+    isHeatmap: boolean
+}
+
+const { isHeatmap } = defineProps<Props>()
+
+const selectedCalendarGoalType = ref(CalendarSelectableStatEnum.ReadWords)
 
 const calendarGoalTypes = ref([
     {
         label: 'Reading',
-        value: GoalType.ReadWords,
+        value: CalendarSelectableStatEnum.ReadWords,
     },
     {
         label: 'Reviews',
-        value: GoalType.Review,
+        value: CalendarSelectableStatEnum.Review,
     },
     {
         label: 'New words',
-        value: GoalType.LearnWords,
+        value: CalendarSelectableStatEnum.LearnWords,
     },
     {
         label: 'Reviews due',
-        value: 'reviews_due',
+        value: CalendarSelectableStatEnum.ReviewsDue,
     },
 ])
 
 const calendarService = new CalendarService()
 const moment = useMoment()
-const calendar = ref<Calendar | null>(null)
+const calendarData = ref<Calendar | null>(null)
 const loading = ref<boolean>(false)
 const selectedDate = shallowRef(
     new CalendarDate(moment().year(), moment().month() + 1, moment().day())
 )
 
 const visibleMonthsCount = computed<number>(() => {
-    if (Store.window.widthWithoutSidebar < 1100) return 1
-    return 2
+    if (Store.window.widthWithoutSidebar < 900) return 1
+    if (Store.window.widthWithoutSidebar < 1450) return 2
+    return 3
 })
 
 const datePickerOpened = ref<boolean>(false)
@@ -62,13 +68,29 @@ const selectedMonths = computed<Moment[]>(() => {
     return months.reverse()
 })
 
+const mostDueReviews = computed(() => {
+    let mostDueReviews = 0
+
+    if (!calendarData.value) {
+        return mostDueReviews
+    }
+
+    Object.values(calendarData.value.reviews).forEach(review => {
+        if (review.quantity > mostDueReviews) {
+            mostDueReviews = review.quantity
+        }
+    })
+
+    return mostDueReviews
+})
+
 const loadGoals = async function () {
     loading.value = true
     const response = await calendarService.getCalendarData()
     loading.value = false
 
     if (response.ok && response.data) {
-        calendar.value = response.data ?? null
+        calendarData.value = response.data ?? null
     }
 }
 
@@ -83,7 +105,10 @@ onMounted(() => {
 
 <template>
     <div>
-        <PageSectionTitle title="Calendar" class="mt-8 leading-12">
+        <PageSectionTitle
+            :title="isHeatmap ? 'Heatmap calendar' : 'Calendar'"
+            class="mt-8 leading-12"
+        >
             <template #right>
                 <div class="flex items-center">
                     <USelect
@@ -121,15 +146,29 @@ onMounted(() => {
             </template>
         </PageSectionTitle>
 
-        <div class="flex w-full justify-between gap-4 mt-2">
-            <HomePageCalendarMonth
-                v-for="(selectedMonth, index) in selectedMonths"
-                v-if="calendar"
-                :key="index"
-                :month="selectedMonth"
-                :calendar="calendar"
-                :selected-goal="selectedCalendarGoalType"
-            />
+        <div class="flex flex-wrap w-full justify-start gap-x-2 mt-2">
+            <template v-if="isHeatmap">
+                <HomePageCalendarYearHeatmap
+                    v-if="calendarData && selectedMonths[0] !== undefined"
+                    :calendar-data="calendarData"
+                    :month="selectedMonths[0]"
+                    :selected-goal="selectedCalendarGoalType"
+                    :most-due-reviews="mostDueReviews"
+                />
+            </template>
+
+            <template v-if="!isHeatmap">
+                <template v-if="calendarData">
+                    <HomePageCalendarMonth
+                        v-for="(month, monthIndex) in selectedMonths"
+                        :key="monthIndex"
+                        :calendar-data="calendarData"
+                        :month="month"
+                        :selected-goal="selectedCalendarGoalType"
+                        :most-due-reviews="mostDueReviews"
+                    />
+                </template>
+            </template>
         </div>
     </div>
 </template>

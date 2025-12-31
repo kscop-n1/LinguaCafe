@@ -23,6 +23,6 @@ export type Goal = {
     todays_quantity?: number
 }
 
-export function isGoalType(key: string): key is GoalType {
-    return Object.values(GoalType).includes(key as GoalType)
+export function isGoalType(value: string): value is GoalType {
+    return Object.values(GoalType).includes(value as GoalType)
 }

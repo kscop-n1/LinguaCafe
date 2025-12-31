@@ -14,6 +14,7 @@ type HomePageSection = {
     title?: string
     component: string
     visible: boolean
+    params?: Record<string, any>
 }
 
 const homePageSections = computed<HomePageSection[]>(() => [
@@ -25,6 +26,16 @@ const homePageSections = computed<HomePageSection[]>(() => [
     {
         component: 'HomePageCalendar',
         visible: true,
+        params: {
+            isHeatmap: false,
+        },
+    },
+    {
+        component: 'HomePageCalendar',
+        visible: true,
+        params: {
+            isHeatmap: true,
+        },
     },
     {
         title: 'Daily goals',
@@ -55,7 +66,21 @@ const homePageSections = computed<HomePageSection[]>(() => [
                 />
 
                 <HomePageAbout v-if="homePageSection.component === 'HomePageAbout'" />
-                <HomePageCalendar v-if="homePageSection.component === 'HomePageCalendar'" />
+                <HomePageCalendar
+                    v-if="
+                        homePageSection.component === 'HomePageCalendar' &&
+                        homePageSection.params?.isHeatmap &&
+                        Store.window.widthWithoutSidebar >= 1200
+                    "
+                    :is-heatmap="true"
+                />
+                <HomePageCalendar
+                    v-if="
+                        homePageSection.component === 'HomePageCalendar' &&
+                        !homePageSection.params?.isHeatmap
+                    "
+                    :is-heatmap="false"
+                />
                 <HomePageDailyGoals v-if="homePageSection.component === 'HomePageDailyGoals'" />
                 <HomePageStatistics v-if="homePageSection.component === 'HomePageStatistics'" />
                 <HomePagePasswordChange
