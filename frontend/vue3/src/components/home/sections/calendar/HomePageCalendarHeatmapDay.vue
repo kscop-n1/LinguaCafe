@@ -98,25 +98,30 @@ const getDayTooltip = (day: CalendarDay): string => {
 </script>
 
 <template>
-    <UTooltip
-        arrow
-        :content="{ side: 'top', sideOffset: 4 }"
-        :disabled="day.outsideYear"
-        :delay-duration="0"
-        :ui="{
-            content: 'h-full',
-        }"
-    >
+    <UPopover arrow>
         <template #content>
-            <div class="" v-html="getDayTooltip(day)"></div>
+            <HomePageCalendarEditPopover :calendar-data="calendarData" :day="day" />
         </template>
+        <UTooltip
+            arrow
+            :content="{ side: 'top', sideOffset: 4 }"
+            :disabled="day.outsideYear"
+            :delay-duration="0"
+            :ui="{
+                content: 'h-full',
+            }"
+        >
+            <template #content>
+                <div class="" v-html="getDayTooltip(day)"></div>
+            </template>
 
-        <div
-            :class="[
-                'm-[1px] w-[17px] h-[17px] text-xs md:text-sm flex justify-center items-center select-none rounded-xs hover:bg-success',
-                getBgColor(day),
-            ]"
-            :style="getOpacityStyle(day)"
-        ></div>
-    </UTooltip>
+            <div
+                :class="[
+                    'm-[1px] w-[17px] h-[17px] text-xs md:text-sm flex justify-center items-center select-none rounded-xs hover:bg-success',
+                    getBgColor(day),
+                ]"
+                :style="getOpacityStyle(day)"
+            ></div>
+        </UTooltip>
+    </UPopover>
 </template>

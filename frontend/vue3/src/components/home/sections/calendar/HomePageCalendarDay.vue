@@ -4,6 +4,7 @@ import { isGoalType } from '@lctypes/goals/Goal'
 import type { CalendarDay } from '@lctypes/calendar/CalendarDay'
 import type { Calendar } from '@lctypes/calendar/Calendar'
 import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
+import calendar from 'node_modules/@nuxt/ui/.nuxt/ui/calendar'
 
 type Props = {
     calendarData: Calendar
@@ -85,23 +86,30 @@ const getStyleClasses = (day: CalendarDay): string[] => {
 </script>
 
 <template>
-    <div :class="getStyleClasses(day)" :style="getOpacityStyle(day)">
-        <!-- Achieved quantity text -->
-        <span v-if="!day.outsideMonth && isGoalType(selectedGoal)">
-            <!-- {{
-                calendarData.goals[selectedGoal as GoalType]?.goalAchievements[day.date]
+    <UPopover>
+        <template #content>
+            <HomePageCalendarEditPopover :calendar-data="calendarData" :day="day" />
+        </template>
+        <div :class="getStyleClasses(day)" :style="getOpacityStyle(day)">
+            <!-- Achieved quantity text -->
+            <span v-if="!day.outsideMonth && isGoalType(selectedGoal)">
+                <!-- {{
+                    calendarData.goals[selectedGoal as GoalType]?.goalAchievements[day.date]
                     ?.achieved_quantity ?? '-'
-            }} -->
-            <span class="text-xs">{{ day.day }}</span>
-        </span>
+                    }} -->
+                <span class="text-xs">{{ day.day }}</span>
+            </span>
 
-        <!-- Reviews due text -->
-        <span v-if="!day.outsideMonth && selectedGoal === CalendarSelectableStatEnum.ReviewsDue">
-            {{ calendarData.reviews[day.date]?.quantity ?? '-' }}
-        </span>
+            <!-- Reviews due text -->
+            <span
+                v-if="!day.outsideMonth && selectedGoal === CalendarSelectableStatEnum.ReviewsDue"
+            >
+                {{ calendarData.reviews[day.date]?.quantity ?? '-' }}
+            </span>
 
-        <!-- <span v-if="day.outsideMonth && !isGoalType(selectedGoal)" class="hidden md:block">
-            {{ calendarData.reviews[day.date]?.quantity ?? '-' }}
-        </span> -->
-    </div>
+            <!-- <span v-if="day.outsideMonth && !isGoalType(selectedGoal)" class="hidden md:block">
+                    {{ calendarData.reviews[day.date]?.quantity ?? '-' }}
+                </span> -->
+        </div>
+    </UPopover>
 </template>
