@@ -4,7 +4,6 @@ import { isGoalType } from '@lctypes/goals/Goal'
 import type { CalendarDay } from '@lctypes/calendar/CalendarDay'
 import type { Calendar } from '@lctypes/calendar/Calendar'
 import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
-import calendar from 'node_modules/@nuxt/ui/.nuxt/ui/calendar'
 
 type Props = {
     calendarData: Calendar

@@ -17,7 +17,7 @@ day
 
 <template>
     <div class="p-4">
-        <div v-for="(goal, goalIndex) in Object.values(CalendarSelectableStatEnum)">
+        <div v-for="(goal, goalIndex) in Object.values(CalendarSelectableStatEnum)" :key="goalIndex">
             {{ formatGoalType(goal) }}
         </div>
     </div>
