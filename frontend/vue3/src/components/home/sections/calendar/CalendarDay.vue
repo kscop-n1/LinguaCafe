@@ -87,7 +87,7 @@ const getStyleClasses = (day: CalendarDay): string[] => {
 <template>
     <UPopover>
         <template #content>
-            <HomePageCalendarEditPopover :calendar-data="calendarData" :day="day" />
+            <CalendarEditPopover :calendar-data="calendarData" :day="day" />
         </template>
         <div :class="getStyleClasses(day)" :style="getOpacityStyle(day)">
             <!-- Achieved quantity text -->

@@ -84,7 +84,7 @@ onMounted(() => {
                 v-for="(week, weekIndex) in weeksOfMonth"
                 :key="weekIndex"
             >
-                <HomePageCalendarDay
+                <CalendarDay
                     v-for="(day, dayIndex) in week.days"
                     :key="dayIndex"
                     :day="day"

@@ -135,7 +135,7 @@ onMounted(() => {
 
         <div class="flex flex-wrap w-full justify-start gap-x-2 mt-2">
             <template v-if="isHeatmap">
-                <HomePageCalendarYearHeatmap
+                <CalendarYearHeatmap
                     v-if="calendarData && selectedMonth !== undefined"
                     :calendar-data="calendarData"
                     :month="selectedMonth"
@@ -145,7 +145,7 @@ onMounted(() => {
             </template>
 
             <template v-if="!isHeatmap && calendarData">
-                <HomePageCalendarMonth
+                <CalendarMonth
                     :calendar-data="calendarData"
                     :month="selectedMonth"
                     :selected-goal="selectedCalendarGoalType"

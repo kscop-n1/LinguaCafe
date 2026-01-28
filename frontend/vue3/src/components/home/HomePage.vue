@@ -4,11 +4,11 @@ import PageSectionTitle from '@components/custom/PageSectionTitle.vue'
 import ContentSpacer from '@components/custom/ContentSpacer.vue'
 import Store from '@src/store/Store'
 
-import HomePageAbout from '@components/home/sections/about/HomePageAbout.vue'
-import HomePageCalendar from '@components/home/sections/calendar/HomePageCalendar.vue'
-import HomePageDailyGoals from '@components/home/sections/goals/HomePageDailyGoals.vue'
-import HomePagePasswordChange from '@components/home/sections/password/HomePagePasswordChange.vue'
-import HomePageStatistics from '@components/home/sections/statistics/HomePageStatistics.vue'
+import About from '@components/home/sections/about/About.vue'
+import Calendar from '@components/home/sections/calendar/Calendar.vue'
+import DailyGoals from '@components/home/sections/goals/DailyGoals.vue'
+import PasswordChange from '@components/home/sections/password/PasswordChange.vue'
+import Statistics from '@components/home/sections/statistics/Statistics.vue'
 
 type HomePageSection = {
     title?: string
@@ -65,8 +65,8 @@ const homePageSections = computed<HomePageSection[]>(() => [
                     :class="[index > 0 ? 'mt-8' : '']"
                 />
 
-                <HomePageAbout v-if="homePageSection.component === 'HomePageAbout'" />
-                <HomePageCalendar
+                <About v-if="homePageSection.component === 'HomePageAbout'" />
+                <Calendar
                     v-if="
                         homePageSection.component === 'HomePageCalendar' &&
                         homePageSection.params?.isHeatmap &&
@@ -74,16 +74,16 @@ const homePageSections = computed<HomePageSection[]>(() => [
                     "
                     :is-heatmap="true"
                 />
-                <HomePageCalendar
+                <Calendar
                     v-if="
                         homePageSection.component === 'HomePageCalendar' &&
                         !homePageSection.params?.isHeatmap
                     "
                     :is-heatmap="false"
                 />
-                <HomePageDailyGoals v-if="homePageSection.component === 'HomePageDailyGoals'" />
-                <HomePageStatistics v-if="homePageSection.component === 'HomePageStatistics'" />
-                <HomePagePasswordChange
+                <DailyGoals v-if="homePageSection.component === 'HomePageDailyGoals'" />
+                <Statistics v-if="homePageSection.component === 'HomePageStatistics'" />
+                <PasswordChange
                     v-if="homePageSection.component === 'HomePagePasswordChange'"
                 />
             </template>

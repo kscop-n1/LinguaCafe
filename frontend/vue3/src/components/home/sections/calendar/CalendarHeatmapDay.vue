@@ -100,7 +100,7 @@ const getDayTooltip = (day: CalendarDay): string => {
 <template>
     <UPopover arrow>
         <template #content>
-            <HomePageCalendarEditPopover :calendar-data="calendarData" :day="day" />
+            <CalendarEditPopover :calendar-data="calendarData" :day="day" />
         </template>
         <UTooltip
             arrow

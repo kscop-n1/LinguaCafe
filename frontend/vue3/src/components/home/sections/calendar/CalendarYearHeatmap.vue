@@ -119,7 +119,7 @@ onMounted(() => {
                                 v-for="(week, weekIndex) in month.weeks"
                                 :key="weekIndex"
                             >
-                                <HomePageCalendarHeatmapDay
+                                <CalendarHeatmapDay
                                     v-for="(day, dayIndex) in week.days"
                                     :key="dayIndex"
                                     :day="day"
