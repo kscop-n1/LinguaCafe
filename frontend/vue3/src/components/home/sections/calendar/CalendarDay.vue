@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { isGoalType } from '@lctypes/goals/Goal'
+import { computed } from 'vue'
+import Store from '@src/store/Store'
 
+import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import type { CalendarDay } from '@lctypes/calendar/CalendarDay'
 import type { Calendar } from '@lctypes/calendar/Calendar'
-import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
+import { formatGoalType } from '@src/helpers/GoalHelper'
 
 type Props = {
     calendarData: Calendar
@@ -12,75 +15,57 @@ type Props = {
     mostDueReviews: number
 }
 
-const { calendarData, selectedGoal, day, mostDueReviews } = defineProps<Props>()
+const { calendarData, selectedGoal, day } = defineProps<Props>()
 
-const getAchievedQuantity = (day: CalendarDay): number | null => {
-    if (isGoalType(selectedGoal)) {
-        return (
-            calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.achieved_quantity ?? null
-        )
+const isGoalAchieved = computed<boolean>(() => {
+    if (!isGoalType(selectedGoal)) {
+        return false
     }
 
-    if (selectedGoal == CalendarSelectableStatEnum.ReviewsDue) {
-        return calendarData.reviews[day.date]?.quantity ?? null
+    let achievedQuantity = calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.achieved_quantity ?? 0
+    let goalQuantity = calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.goal_quantity ?? 0
+
+    return achievedQuantity >= goalQuantity
+})
+
+const goalQuantity = computed<number>(() => {
+    if (!isGoalType(selectedGoal)) {
+        return 0
     }
 
-    return null
-}
+    let goalQuantity = calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.goal_quantity ?? 0
 
-const getGoalQuantity = (day: CalendarDay): number | null => {
-    if (isGoalType(selectedGoal)) {
-        return calendarData.goals['read_words']?.goalAchievements[day.date]?.goal_quantity ?? null
+    return goalQuantity
+})
+
+const achievedGoalQuantity = computed<number>(() => {
+    if (!isGoalType(selectedGoal)) {
+        return 0
     }
 
-    if (selectedGoal === CalendarSelectableStatEnum.ReviewsDue) {
-        return mostDueReviews
+    let achievedQuantity = calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.achieved_quantity ?? 0
+
+    return achievedQuantity
+})
+
+const achievedGoalAdjustedToMax = computed<number>(() => {
+    if (!isGoalType(selectedGoal)) {
+        return 0
     }
 
-    return null
-}
+    let achievedQuantity = calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.achieved_quantity ?? 0
+    let goalQuantity = calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.goal_quantity ?? 0
 
-const getDayColorClasses = (day: CalendarDay): string => {
-    let achievedQuantity = getAchievedQuantity(day)
-    let goalQuantity = getGoalQuantity(day)
+    return achievedQuantity >= goalQuantity ? goalQuantity : achievedQuantity
+})
 
-    if (achievedQuantity === null || goalQuantity === null) {
-        return 'bg-neutral-900'
+const getDayTooltip = () => {
+    if (!calendarData) {
+        return ''
     }
 
-    if (achievedQuantity >= goalQuantity) {
-        return 'bg-primary text-inverted'
-    }
 
-    if (achievedQuantity > 0) {
-        return 'bg-neutral-900 bg-gradient-to-tr from-primary-300 from-0% via-primary-400 via-25% to-transparent to-25%'
-    }
-
-    return 'bg-neutral-900'
-}
-
-const getOpacityStyle = (day: CalendarDay): string => {
-    let achievedQuantity = getAchievedQuantity(day)
-    let goalQuantity = getGoalQuantity(day)
-
-    if (achievedQuantity === null || goalQuantity === null) {
-        return 'opacity: 100%'
-    }
-    if (achievedQuantity >= goalQuantity) {
-        return 'opacity: 100%'
-    }
-    if (achievedQuantity > 0) {
-        return 'opacity: 100%'
-    }
-
-    return 'opacity: 100%'
-}
-
-const getStyleClasses = (day: CalendarDay): string[] => {
-    return [
-        day.outsideMonth ? '' : getDayColorClasses(day),
-        'm-0.5 my-0.5 md:m-1 w-8 h-8 md:w-9 md:h-9 text-sm flex justify-center items-center select-none rounded-sm md:rounded-md',
-    ]
+    return achievedGoalQuantity.value + ' / ' + goalQuantity.value + ' ' + formatGoalType(selectedGoal)
 }
 </script>
 
@@ -89,15 +74,38 @@ const getStyleClasses = (day: CalendarDay): string[] => {
         <template #content>
             <CalendarEditPopover :calendar-data="calendarData" :day="day" />
         </template>
-        <div :class="getStyleClasses(day)" :style="getOpacityStyle(day)">
+        <div :class="[
+            day.outsideMonth ? '' : 'bg-elevated',
+            isGoalAchieved && !day.outsideMonth ? 'border-1 border-success/0' : 'border-1 border-transparent',
+            'flex justify-center items-center mx-0.5 md:mx-1 flex-1 md:h-20 select-none rounded-sm',
+        ]">
             <!-- Achieved quantity text -->
-            <span v-if="!day.outsideMonth && isGoalType(selectedGoal)">
-                <!-- {{
-                    calendarData.goals[selectedGoal as GoalType]?.goalAchievements[day.date]
-                    ?.achieved_quantity ?? '-'
-                    }} -->
-                <span class="text-xs">{{ day.day }}</span>
-            </span>
+            <div class="w-full h-full p-1 sm:p-2 flex flex-col justify-between" v-if="!day.outsideMonth && isGoalType(selectedGoal)">
+                <div class="w-full font-bold text-xs sm:text-base mb-1">{{ day.day }}</div>
+                <template v-if="calendarData.goals[selectedGoal]?.goalAchievements[day.date]">
+                    <!-- {{ calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.achieved_quantity }}
+                    {{ calendarData.goals[selectedGoal]?.goalAchievements[day.date]?.goal_quantity }} -->
+                     <UTooltip
+                        arrow
+                        :content="{ side: 'top', sideOffset: 4 }"
+                        :disabled="day.outsideYear"
+                        :delay-duration="0"
+                        :ui="{
+                            content: 'h-full',
+                        }"
+                    >
+                        <template #content>
+                            <div class="" v-html="getDayTooltip()"></div>
+                        </template>
+                        <UProgress 
+                            :model-value="achievedGoalAdjustedToMax"
+                            :max="goalQuantity"
+                            :color="isGoalAchieved ? 'success' : 'primary'"
+                            :size="Store.window.width < 460 ? 'sm' : 'md'"
+                        />
+                     </UTooltip>
+                </template>
+            </div>
 
             <!-- Reviews due text -->
             <span

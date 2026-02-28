@@ -60,7 +60,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="w-full max-w-[400px] border border-default rounded-lg p-4">
+    <div class="w-full bg-elevated/50 rounded-lg p-4">
         <div class="w-full flex flex-wrap">
             <div class="w-full font-bold text-xl">
                 {{ month.format('Y MMMM') }}
@@ -68,7 +68,7 @@ onMounted(() => {
 
             <div class="w-full flex flex-wrap justify-evenly">
                 <div
-                    class="m-0.5 my-0.5 md:m-1 w-8 h-8 md:w-9 md:h-9 text-sm md:text-sm flex justify-center items-center rounded-full"
+                    class="flex justify-center items-center mx-1 flex-1 md:h-20 select-none rounded-sm"
                     v-for="day in 7"
                 >
                     {{
@@ -80,7 +80,7 @@ onMounted(() => {
                 </div>
             </div>
             <div
-                class="w-full flex flex-wrap justify-evenly"
+                class="w-full flex flex-wrap justify-evenly my-1"
                 v-for="(week, weekIndex) in weeksOfMonth"
                 :key="weekIndex"
             >

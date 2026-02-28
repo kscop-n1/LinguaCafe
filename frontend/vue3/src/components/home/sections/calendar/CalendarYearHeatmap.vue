@@ -85,7 +85,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <UCard class="w-full h-[220px]">
+    <UCard variant="soft" class="w-full h-[220px]">
         <template #default>
             <div class="w-full flex flex-wrap justify-center">
                 <div class="flex flex-col flex-wrap">

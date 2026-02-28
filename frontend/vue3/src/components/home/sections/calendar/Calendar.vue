@@ -45,15 +45,35 @@ const selectedDate = shallowRef(
 
 const datePickerOpened = ref<boolean>(false)
 
-const selectedMonth = computed<Moment>(() => {
+const visibleMonthsCount = computed<number>(() => {
+    return 1
+    // if (Store.window.widthWithoutSidebar < 900) return 1
+    // if (Store.window.widthWithoutSidebar < 1450) return 2
+
+    return 1
+})
+
+const visibleMonths = computed<Moment[]>(() => {
+    let months: Moment[] = []
     const selectedDateString = `${selectedDate.value.year}-${selectedDate.value.month}-${
         selectedDate.value.day < 10 ? '0' + selectedDate.value.day : selectedDate.value.day
     }`
     
     let currentDate = moment(selectedDateString)
 
-    return currentDate
+    do {
+        months.push(currentDate.clone())
+        currentDate.subtract(1, 'month')
+
+    } while(months.length < visibleMonthsCount.value)
+    
+    
+    return months.reverse()
 })
+
+const lastVisibleMonth = computed<Moment | null>(() =>
+  visibleMonths.value[visibleMonths.value.length - 1] ?? null
+)
 
 const mostDueReviews = computed(() => {
     let mostDueReviews = 0
@@ -133,12 +153,12 @@ onMounted(() => {
             </template>
         </PageSectionTitle>
 
-        <div class="flex flex-wrap w-full justify-start gap-x-2 mt-2">
-            <template v-if="isHeatmap">
+        <div class="flex flex-wrap w-full justify-between gap-x-2 mt-2">
+            <template v-if="isHeatmap && lastVisibleMonth">
                 <CalendarYearHeatmap
-                    v-if="calendarData && selectedMonth !== undefined"
+                    v-if="calendarData"
                     :calendar-data="calendarData"
-                    :month="selectedMonth"
+                    :month="lastVisibleMonth"
                     :selected-goal="selectedCalendarGoalType"
                     :most-due-reviews="mostDueReviews"
                 />
@@ -146,8 +166,10 @@ onMounted(() => {
 
             <template v-if="!isHeatmap && calendarData">
                 <CalendarMonth
+                    v-for="(month, monthIndex) in visibleMonths"
+                    :key="monthIndex"
                     :calendar-data="calendarData"
-                    :month="selectedMonth"
+                    :month="month"
                     :selected-goal="selectedCalendarGoalType"
                     :most-due-reviews="mostDueReviews"
                 />
