@@ -43,7 +43,7 @@ onBeforeMount(async function () {
         />
 
         <div v-for="(goal, goalIndex) in goals" :key="goalIndex">
-            <div class="flex items-center">
+            <div class="flex items-center bg-elevated/50 rounded-lg p-4 my-4">
                 <div class="w-full shrink">
                     <div class="flex justify-between text-sm text-tuned mb-0.5">
                         <template v-if="loading">

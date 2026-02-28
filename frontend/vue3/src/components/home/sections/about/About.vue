@@ -39,7 +39,7 @@ const updateHistoryLinks = ref([
 <template>
     <div>
         <UPageGrid>
-            <UPageCard>
+            <UPageCard variant="soft">
                 <template #title
                     ><div class="flex items-center">
                         <UIcon
@@ -53,7 +53,7 @@ const updateHistoryLinks = ref([
                     <UPageLinks class="mt-4" :links="linguaCafeLinks" />
                 </template>
             </UPageCard>
-            <UPageCard>
+            <UPageCard variant="soft">
                 <template #title
                     ><div class="flex items-center">
                         <UIcon class="text-primary mr-2 size-5" name="i-lucide-contact" />Contact
@@ -64,7 +64,7 @@ const updateHistoryLinks = ref([
                     <UPageLinks class="mt-4" :links="contactLinks" />
                 </template>
             </UPageCard>
-            <UPageCard>
+            <UPageCard variant="soft">
                 <template #title
                     ><div class="flex items-center">
                         <UIcon class="text-primary mr-2 size-5" name="i-lucide-history" />Version
