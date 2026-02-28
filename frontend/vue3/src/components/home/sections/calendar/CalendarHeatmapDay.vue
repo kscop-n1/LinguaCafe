@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { GoalType, isGoalType } from '@lctypes/goals/Goal'
+import { isGoalType } from '@lctypes/goals/Goal'
 
 import type { CalendarDay } from '@lctypes/calendar/CalendarDay'
 import type { Calendar } from '@lctypes/calendar/Calendar'
 import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
+import { formatGoalType } from '@src/helpers/GoalHelper'
 
 type Props = {
     calendarData: Calendar
@@ -44,7 +45,7 @@ const getBgColor = (day: CalendarDay): string => {
     let achievedQuantity = getAchievedQuantity(day)
 
     if (!achievedQuantity) {
-        return `bg-neutral-900`
+        return `bg-elevated`
     }
 
     return 'bg-primary'
@@ -77,21 +78,7 @@ const getDayTooltip = (day: CalendarDay): string => {
     tooltipText += '<br>'
     tooltipText += achievedQuantity ? String(achievedQuantity) : 'no'
 
-    switch (selectedGoal) {
-        case GoalType.LearnWords:
-            tooltipText += ' learned words'
-            break
-        case GoalType.ReadWords:
-            tooltipText += ' read words'
-            break
-        case GoalType.Review:
-            tooltipText += ' reviews'
-            break
-
-        case CalendarSelectableStatEnum.ReviewsDue:
-            tooltipText += ' reviews due'
-            break
-    }
+    tooltipText += ' ' + formatGoalType(selectedGoal)
 
     return tooltipText
 }
