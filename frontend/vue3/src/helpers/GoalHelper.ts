@@ -1,7 +1,7 @@
 import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import { GoalType } from '@lctypes/goals/Goal'
 
-export function formatGoalType(value: GoalType | CalendarSelectableStatEnum): string | null {
+export function formatGoalType(value: string | GoalType | CalendarSelectableStatEnum): string | null {
     switch (value) {
         case GoalType.LearnWords:
             return 'learned words'
