@@ -2,7 +2,7 @@ import axios from 'axios'
 import ApiCallService from '@services/ApiCallService'
 
 import type { ApiCallResult } from '@src/types/apicall/ApiCallResult'
-import type { Goal } from '@lctypes/goals/Goal'
+import type { Goal, GoalType } from '@lctypes/goals/Goal'
 import type { LaravelResource } from '@lctypes/apicall/LaravelResource'
 
 export default class GoalService {
@@ -52,6 +52,37 @@ export default class GoalService {
                 icon: 'i-lucide-triangle-alert',
                 color: 'success',
                 duration: 10000,
+            })
+
+            return {
+                ok: true,
+                status: response.status,
+            }
+        } catch (error: any) {
+            return {
+                ok: false,
+                error: error ?? null,
+                errorMessages: this.apiCallService.getErrorMessages(error),
+                status: error?.response?.status ?? null,
+            }
+        }
+    }
+
+    async updateGoalAchievement(
+        goalAchievementId: number,
+        goalType: GoalType,
+        day: string,
+        quantity: number
+    ): Promise<ApiCallResult<null>> {
+        try {
+            const response = await axios({
+                method: 'POST',
+                url: `/api/goals/achievements/${goalAchievementId}`,
+                data: {
+                    goalType: goalType,
+                    day: day,
+                    quantity: quantity,
+                },
             })
 
             return {

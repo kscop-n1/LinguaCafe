@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { ref, computed, shallowRef, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import CalendarService from '@services/calendar/CalendarService'
 import { useMoment } from '@composables/useMoment'
-import { CalendarDate } from '@internationalized/date'
+import MonthPicker from '@components/custom/MonthPicker.vue'
+import { formatGoalType } from '@src/helpers/GoalHelper'
+import { toUpperCase } from '@src/helpers/StringHelper'
 
 import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import type { Calendar } from '@lctypes/calendar/Calendar'
 import type { Moment } from 'moment'
+
+const emit = defineEmits(['goalsUpdated'])
 
 type Props = {
     isHeatmap: boolean
@@ -18,19 +22,19 @@ const selectedCalendarGoalType = ref(CalendarSelectableStatEnum.ReadWords)
 
 const calendarGoalTypes = ref([
     {
-        label: 'Reading',
+        label: toUpperCase(formatGoalType(CalendarSelectableStatEnum.ReadWords) ?? '', true),
         value: CalendarSelectableStatEnum.ReadWords,
     },
     {
-        label: 'Reviews',
+        label: toUpperCase(formatGoalType(CalendarSelectableStatEnum.Review) ?? '', true),
         value: CalendarSelectableStatEnum.Review,
     },
     {
-        label: 'New words',
+        label: toUpperCase(formatGoalType(CalendarSelectableStatEnum.LearnWords) ?? '', true),
         value: CalendarSelectableStatEnum.LearnWords,
     },
     {
-        label: 'Reviews due',
+        label: toUpperCase(formatGoalType(CalendarSelectableStatEnum.ReviewsDue) ?? '', true),
         value: CalendarSelectableStatEnum.ReviewsDue,
     },
 ])
@@ -39,41 +43,7 @@ const calendarService = new CalendarService()
 const moment = useMoment()
 const calendarData = ref<Calendar | null>(null)
 const loading = ref<boolean>(false)
-const selectedDate = shallowRef(
-    new CalendarDate(moment().year(), moment().month() + 1, moment().day())
-)
-
-const datePickerOpened = ref<boolean>(false)
-
-const visibleMonthsCount = computed<number>(() => {
-    return 1
-    // if (Store.window.widthWithoutSidebar < 900) return 1
-    // if (Store.window.widthWithoutSidebar < 1450) return 2
-
-    return 1
-})
-
-const visibleMonths = computed<Moment[]>(() => {
-    let months: Moment[] = []
-    const selectedDateString = `${selectedDate.value.year}-${selectedDate.value.month}-${
-        selectedDate.value.day < 10 ? '0' + selectedDate.value.day : selectedDate.value.day
-    }`
-    
-    let currentDate = moment(selectedDateString)
-
-    do {
-        months.push(currentDate.clone())
-        currentDate.subtract(1, 'month')
-
-    } while(months.length < visibleMonthsCount.value)
-    
-    
-    return months.reverse()
-})
-
-const lastVisibleMonth = computed<Moment | null>(() =>
-  visibleMonths.value[visibleMonths.value.length - 1] ?? null
-)
+const selectedDate = ref<Moment>(moment())
 
 const mostDueReviews = computed(() => {
     let mostDueReviews = 0
@@ -101,10 +71,6 @@ const loadGoals = async function () {
     }
 }
 
-const closeDatePicker = function () {
-    datePickerOpened.value = false
-}
-
 onMounted(() => {
     loadGoals()
 })
@@ -125,55 +91,28 @@ onMounted(() => {
                         :items="calendarGoalTypes"
                     />
 
-                    <UPopover v-model:open="datePickerOpened">
-                        <UButton
-                            class="w-36 d-flex justify-center"
-                            color="neutral"
-                            variant="subtle"
-                            icon="i-lucide-calendar"
-                        >
-                            {{
-                                selectedDate
-                                    ? selectedDate.year +
-                                      '-' +
-                                      String(selectedDate.month).padStart(2, '0')
-                                    : 'Select a date'
-                            }}
-                        </UButton>
-
-                        <template #content>
-                            <UCalendar
-                                v-model="selectedDate"
-                                class="p-2"
-                                @update:modelValue="closeDatePicker"
-                            />
-                        </template>
-                    </UPopover>
+                    <MonthPicker v-model:value="selectedDate" />
                 </div>
             </template>
         </PageSectionTitle>
 
         <div class="flex flex-wrap w-full justify-between gap-x-2 mt-2">
-            <template v-if="isHeatmap && lastVisibleMonth">
-                <CalendarYearHeatmap
-                    v-if="calendarData"
-                    :calendar-data="calendarData"
-                    :month="lastVisibleMonth"
-                    :selected-goal="selectedCalendarGoalType"
-                    :most-due-reviews="mostDueReviews"
-                />
-            </template>
+            <CalendarYearHeatmap
+                v-if="isHeatmap && calendarData"
+                :calendar-data="calendarData"
+                :month="selectedDate"
+                :selected-goal="selectedCalendarGoalType"
+                :most-due-reviews="mostDueReviews"
+            />
 
-            <template v-if="!isHeatmap && calendarData">
-                <CalendarMonth
-                    v-for="(month, monthIndex) in visibleMonths"
-                    :key="monthIndex"
-                    :calendar-data="calendarData"
-                    :month="month"
-                    :selected-goal="selectedCalendarGoalType"
-                    :most-due-reviews="mostDueReviews"
-                />
-            </template>
+            <CalendarMonth
+                v-if="!isHeatmap && calendarData"
+                :calendar-data="calendarData"
+                :month="selectedDate"
+                :selected-goal="selectedCalendarGoalType"
+                :most-due-reviews="mostDueReviews"
+                @goals-updated="loadGoals"
+            />
         </div>
     </div>
 </template>

@@ -6,6 +6,8 @@ import type { Moment } from 'moment'
 import type { Calendar, CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import type { CalendarWeek } from '@lctypes/calendar/CalendarWeek'
 
+const emit = defineEmits(['goalsUpdated'])
+
 type Props = {
     calendarData: Calendar
     month: Moment
@@ -91,6 +93,7 @@ onMounted(() => {
                     :calendar-data="calendarData"
                     :selected-goal="selectedGoal"
                     :most-due-reviews="mostDueReviews"
+                    @goals-updated="emit('goalsUpdated')"
                 />
             </div>
         </div>

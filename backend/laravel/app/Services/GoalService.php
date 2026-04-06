@@ -130,6 +130,7 @@ class GoalService
             ->where('language', '=', $language->name)
             ->with('goalAchievements', function ($query) {
                 $query->select([
+                    'id',
                     'achieved_quantity',
                     'goal_quantity',
                     'day',
