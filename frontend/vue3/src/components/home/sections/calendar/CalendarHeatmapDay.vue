@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { isGoalType } from '@lctypes/goals/Goal'
 
 import type { CalendarDay } from '@lctypes/calendar/CalendarDay'
 import type { Calendar } from '@lctypes/calendar/Calendar'
 import { CalendarSelectableStatEnum } from '@lctypes/calendar/Calendar'
 import { formatGoalType } from '@src/helpers/GoalHelper'
+
+const emit = defineEmits(['goalsUpdated'])
 
 type Props = {
     calendarData: Calendar
@@ -14,6 +17,15 @@ type Props = {
 }
 
 const { calendarData, selectedGoal, day, mostDueReviews } = defineProps<Props>()
+
+const modalOpened = ref<boolean>(false)
+const openModal = () => {
+    if (day.outsideYear) {
+        return
+    }
+
+    modalOpened.value = true
+}
 
 const getAchievedQuantity = (day: CalendarDay): number | null => {
     if (isGoalType(selectedGoal)) {
@@ -85,30 +97,38 @@ const getDayTooltip = (day: CalendarDay): string => {
 </script>
 
 <template>
-    <UPopover arrow>
-        <template #content>
-            <!-- <CalendarEditPopover :calendar-data="calendarData" :day="day" /> -->
-        </template>
-        <UTooltip
-            arrow
-            :content="{ side: 'top', sideOffset: 4 }"
-            :disabled="day.outsideYear"
-            :delay-duration="0"
-            :ui="{
-                content: 'h-full',
-            }"
-        >
-            <template #content>
-                <div class="" v-html="getDayTooltip(day)"></div>
-            </template>
+    <UTooltip
+        arrow
+        :content="{ side: 'top', sideOffset: 4 }"
+        :disabled="day.outsideYear"
+        :delay-duration="0"
+        :ui="{
+            content: 'h-full',
+        }"
+    >
+        <template #content><div v-html="getDayTooltip(day)"></div> </template>
 
+        <CalendarEditPopover
+            v-model="modalOpened"
+            :calendar-data="calendarData"
+            :day="day"
+            @goals-updated="emit('goalsUpdated')"
+        />
+
+        <div
+            :class="[
+                'm-[1px] w-[17px] h-[17px]  overflow-hidden rounded-[3px] select-none',
+                day.outsideYear ? '' : 'bg-elevated hover:bg-success',
+            ]"
+            @click="openModal"
+        >
             <div
-                :class="[
-                    'm-[1px] w-[17px] h-[17px] text-xs md:text-sm flex justify-center items-center select-none rounded-xs hover:bg-success',
-                    getBgColor(day),
-                ]"
+                :class="['m-0 p-0 w-[17px] h-[17px]', getBgColor(day)]"
                 :style="getOpacityStyle(day)"
-            ></div>
-        </UTooltip>
-    </UPopover>
+                @click="openModal"
+            >
+                &nbsp;
+            </div>
+        </div>
+    </UTooltip>
 </template>
