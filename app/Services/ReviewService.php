@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Chapter;
 use App\Models\EncounteredWord;
 use App\Models\Phrase;
+use App\Enums\ChapterProcessingStatusEnum;
 
 class ReviewService {
     
@@ -69,43 +70,32 @@ class ReviewService {
         $uniqueWords = [];
         $uniquePhraseIds = [];
         if ($chapterId !== -1 || $bookId !== -1) {
+            $chapters = Chapter
+                ::select(['id', 'unique_words', 'unique_phrase_ids'])
+                ->where('user_id', $userId)
+                ->where('language', $language)
+                ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value);
+
             if ($chapterId !== -1) {
-                $chapterIds = Chapter
-                    ::where('id', $chapterId)
-                    ->where('user_id', $userId)
-                    ->pluck('id')
-                    ->toArray();
+                $chapters = $chapters->where('id', $chapterId);
             } else {
-                $chapterIds = Chapter
-                    ::where('book_id', $bookId)
-                    ->where('user_id', $userId)
-                    ->pluck('id')
-                    ->toArray();
+                $chapters = $chapters->where('book_id', $bookId);
             }
 
-            foreach ($chapterIds as $chapterId) {
-                $chapter = Chapter
-                    ::where('user_id', $userId)
-                    ->where('id', $chapterId)
-                    ->first();
+            $chapters = $chapters->get();
 
-                $words = $chapter->getProcessedText();
-                
-                foreach ($words as $word) {
-                    if (!in_array(mb_strtolower($word->word), $uniqueWords, true)) {
-                        array_push($uniqueWords, mb_strtolower($word->word, 'UTF-8'));
-                    }
+            foreach ($chapters as $chapter) {
+                foreach (json_decode($chapter->unique_words) ?: [] as $word) {
+                    $uniqueWords[mb_strtolower($word, 'UTF-8')] = true;
+                }
 
-                    foreach ($word->phrase_ids as $phraseId) {
-                        if (!in_array($phraseId, $uniquePhraseIds, true)) {
-                            array_push($uniquePhraseIds, $phraseId);
-                        }
-                    }
+                foreach ($chapter->getUniquePhraseIds() as $phraseId) {
+                    $uniquePhraseIds[intval($phraseId)] = true;
                 }
             }
 
-            $reviewWords = $reviewWords->whereIn('word', $uniqueWords);
-            $reviewPhrases = $reviewPhrases->whereIn('id', $uniquePhraseIds);
+            $reviewWords = $reviewWords->whereIn('word', array_keys($uniqueWords));
+            $reviewPhrases = $reviewPhrases->whereIn('id', array_keys($uniquePhraseIds));
         }
 
         $reviewWords = $reviewWords->inRandomOrder()->get();

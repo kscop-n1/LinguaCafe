@@ -23,11 +23,36 @@ class Chapter extends Model
     ];
 
     function getProcessedText() {
-        return json_decode(gzuncompress($this->processed_text));
+        if (empty($this->processed_text)) {
+            return [];
+        }
+
+        $decompressedText = gzuncompress($this->processed_text);
+        if ($decompressedText === false) {
+            return [];
+        }
+
+        return json_decode($decompressedText) ?: [];
     }
 
     function setProcessedText($processedText) {
         $this->processed_text = gzcompress(json_encode($processedText), 1);
+    }
+
+    function getUniquePhraseIds() {
+        return json_decode($this->unique_phrase_ids) ?: [];
+    }
+
+    function refreshUniquePhraseIds() {
+        $phraseIds = [];
+
+        foreach ($this->getProcessedText() ?: [] as $word) {
+            foreach (($word->phrase_ids ?? []) as $phraseId) {
+                $phraseIds[intval($phraseId)] = true;
+            }
+        }
+
+        $this->unique_phrase_ids = json_encode(array_keys($phraseIds));
     }
 
     function getWordCounts($words) {

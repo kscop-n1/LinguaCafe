@@ -61,7 +61,7 @@
             @touchend="finishSelection"
             >
 
-            <template v-for="(word, wordIndex) in words"><!--
+            <template v-for="word in visibleWords"><!--
                 --><div
                         v-if="word.subtitleIndex !== -1"
                         :class="['subtitle-timestamp', $props.showSubtitleTimestamps ? '' : 'hidden', 'rounded-pill', 'py-1']"
@@ -72,7 +72,7 @@
                 --><br v-if="word.word === 'NEWLINE'" /><!--
                 --><span
                     v-else
-                    :wordindex="wordIndex"
+                    :wordindex="word.renderIndex"
                     :stage="word.stage"
                     :phrasestage="word.phraseStage"
                     :class="{
@@ -89,10 +89,10 @@
                         'margin-bottom': (lineSpacing * 4) + 'px'
                     }"
 
-                    :key="wordIndex"
+                    :key="word.renderIndex"
                 ><!--
                     --><template v-if="$props.language == 'japanese'"><!--
-                        --><ruby class="rubyword selected-font" :wordindex="wordIndex"><!--
+                        --><ruby class="rubyword selected-font" :wordindex="word.renderIndex"><!--
                             -->{{ word.word }}<!--
                             --><rt v-if="word.stage == 2 && furiganaOnNewWords && word.furigana.length && word.word !== word.furigana && !plainTextMode" :style="{'font-size': (fontSize - 4) + 'px'}"><!--
                                 -->{{ word.furigana }}<!--
@@ -203,6 +203,9 @@
                 ankiAutoAddCards: false,
                 ankiShowNotifications: false,
                 anyApiDictionaryEnabled: false,
+                renderedWordCount: 1500,
+                renderBatchSize: 2000,
+                renderFrameId: null,
 
                 // hover vocabulary box
                 hoverVocabularyDelayTimeout: null,
@@ -219,6 +222,8 @@
                 ongoingSelection: [],
                 selectedPhrase: -1,
                 ongoingSelectionStartingWordIndex: -1,
+                selectedWordIndexes: [],
+                hoveredWordIndexes: [],
             }
         },
         props: {
@@ -314,10 +319,15 @@
                 default: 20
             }
         },
-        computed: mapState({
-            vocabularyBoxActive: state => state.vocabularyBox.active,
-            vocabularyBottomSheetVisible: state => state.vocabularyBox.vocabularyBottomSheetVisible,
-        }),
+        computed: {
+            ...mapState({
+                vocabularyBoxActive: state => state.vocabularyBox.active,
+                vocabularyBottomSheetVisible: state => state.vocabularyBox.vocabularyBottomSheetVisible,
+            }),
+            visibleWords() {
+                return this.words.slice(0, this.renderedWordCount);
+            }
+        },
         mounted() {
             this.preProcessWords();
             window.addEventListener('resize', this.resizeHandle);
@@ -337,14 +347,58 @@
             this.resizeHandle();
             this.updatePhraseBorders();
             this.updateTextToSpeechState();
+            this.renderRemainingWords();
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.resizeHandle);
             window.removeEventListener('mouseup', this.unselectAllWordsOnEmptyClick);
             window.removeEventListener('keydown', this.hotkeyHandle);
             window.removeEventListener('mousemove', this.closeHoverBox);
+
+            if (this.renderFrameId !== null) {
+                cancelAnimationFrame(this.renderFrameId);
+            }
         },
         methods: {
+            renderRemainingWords() {
+                if (this.renderedWordCount >= this.words.length) {
+                    this.renderFrameId = null;
+                    return;
+                }
+
+                this.renderFrameId = requestAnimationFrame(() => {
+                    this.renderedWordCount = Math.min(this.renderedWordCount + this.renderBatchSize, this.words.length);
+                    this.renderRemainingWords();
+                });
+            },
+            setWordSelected(wordIndex, selected) {
+                this.words[wordIndex].selected = selected;
+
+                if (selected && !this.selectedWordIndexes.includes(wordIndex)) {
+                    this.selectedWordIndexes.push(wordIndex);
+                }
+            },
+            clearSelectedWords() {
+                for (let i = 0; i < this.selectedWordIndexes.length; i++) {
+                    this.words[this.selectedWordIndexes[i]].selected = false;
+                }
+
+                this.selectedWordIndexes = [];
+            },
+            setWordHover(wordIndex, hover) {
+                this.words[wordIndex].hover = hover;
+
+                if (hover && !this.hoveredWordIndexes.includes(wordIndex)) {
+                    this.hoveredWordIndexes.push(wordIndex);
+                }
+            },
+            clearHoveredWords() {
+                for (let i = 0; i < this.hoveredWordIndexes.length; i++) {
+                    this.words[this.hoveredWordIndexes[i]].hover = false;
+                }
+
+                this.hoveredWordIndexes = [];
+            },
             textToSpeech() {
                 if (!this.selection.length) {
                     return;
@@ -526,9 +580,7 @@
                     return;
                 }
 
-                for (let i  = 0; i < this.words.length; i++) {
-                    this.words[i].selected = false;
-                }
+                this.clearSelectedWords();
 
                 // set selected word
                 var selectedWord = {
@@ -540,7 +592,7 @@
 
 
                 this.ongoingSelection = [selectedWord];
-                this.words[wordIndex].selected = true;
+                this.setWordSelected(wordIndex, true);
 
                 this.ongoingSelectionStartingWordIndex = wordIndex;
 
@@ -575,14 +627,13 @@
                 }
 
                 this.ongoingSelection = [];
-                for (let i  = 0; i < this.words.length; i++) {
-                    this.words[i].selected = false;
-
-                    if (i < firstWordIndex || i > lastWordIndex || this.words[i].word === 'NEWLINE') {
+                this.clearSelectedWords();
+                for (let i  = firstWordIndex; i <= lastWordIndex; i++) {
+                    if (this.words[i].word === 'NEWLINE') {
                         continue;
                     }
 
-                    this.words[i].selected = true;
+                    this.setWordSelected(i, true);
                     var selectedWord = {
                         word: this.words[i].word,
                         wordIndex: i,
@@ -625,13 +676,11 @@
                 }
 
                 // update selected word classes after automatic phrase selection
-                for (let i  = 0; i < this.words.length; i++) {
-                    this.words[i].selected = false;
-                }
+                this.clearSelectedWords();
 
                 // set words to selected, and collect their information
                 for (let i = 0; i < this.ongoingSelection.length; i++) {
-                    this.words[this.ongoingSelection[i].wordIndex].selected = true;
+                    this.setWordSelected(this.ongoingSelection[i].wordIndex, true);
                     var uniqueWordIndex = this.uniqueWordMap.get(this.ongoingSelection[i].word.toLowerCase());
                     this.ongoingSelection[i].uniqueWordIndex = uniqueWordIndex;
                     this.ongoingSelection[i].reading = this.uniqueWords[uniqueWordIndex].reading;
@@ -766,7 +815,7 @@
 
                 // highlight the phrase
                 do {
-                    this.words[currentWordIndex].hover = true;
+                    this.setWordHover(currentWordIndex, true);
 
                     // add words for hover vocabulary box
                     if (this.words[currentWordIndex].phraseIndexes.includes(hoveredPhraseIndex) && this.words[currentWordIndex].word !== 'NEWLINE') {
@@ -944,9 +993,7 @@
                 }
             },
             removePhraseHover: function() {
-                for (let i  = 0; i < this.words.length; i++) {
-                    this.words[i].hover = false;
-                }
+                this.clearHoveredWords();
             },
             closeHoverBox() {
                 this.clearHoverVocabularyBoxTimeout();
@@ -975,6 +1022,7 @@
                         continue;
                     }
 
+                    this.$props._text.words[i].renderIndex = this.words.length;
                     this.words.push(this.$props._text.words[i]);
                 }
             },
@@ -1375,9 +1423,7 @@
                 this.selection = [];
                 this.$store.commit('vocabularyBox/reset');
 
-                for(let i = 0; i < this.words.length; i++) {
-                    this.words[i].selected = false;
-                }
+                this.clearSelectedWords();
             },
             updateWordLookupCount(word) {
                 let uniqueWordIndex = this.uniqueWordMap.get(word.toLowerCase());

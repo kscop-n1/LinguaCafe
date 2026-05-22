@@ -41,17 +41,59 @@ class BookService {
             throw new \Exception('Book does not exist, or it belongs to a different user.');
         }
         
-        // get words for calculating word counts
+        $chapters = Chapter
+            ::select(['unique_word_ids'])
+            ->where('user_id', $userId)
+            ->where('book_id', $bookId)
+            ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
+            ->get();
+
+        $bookUniqueWordIds = [];
+        foreach ($chapters as $chapter) {
+            $uniqueWordIds = json_decode($chapter->unique_word_ids) ?: [];
+
+            foreach ($uniqueWordIds as $wordId) {
+                $bookUniqueWordIds[intval($wordId)] = true;
+            }
+        }
+
+        $bookUniqueWordIds = array_keys($bookUniqueWordIds);
+
         $words = EncounteredWord
-            ::select(['id', 'word', 'stage'])
+            ::select(['id', 'stage'])
             ->where('user_id', $userId)
             ->where('language', $book->language)
+            ->whereIn('id', $bookUniqueWordIds)
             ->get()
             ->keyBy('id')
             ->toArray();
 
-        // calculate word counts
-        return $book->getWordCounts($userId, $words);
+        $wordCounts = new \stdClass();
+        $wordCounts->total = $book->word_count;
+        $wordCounts->unique = count($bookUniqueWordIds);
+        $wordCounts->known = 0;
+        $wordCounts->highlighted = 0;
+        $wordCounts->new = 0;
+
+        foreach ($bookUniqueWordIds as $wordId) {
+            if (!isset($words[$wordId])) {
+                continue;
+            }
+
+            if ($words[$wordId]['stage'] < 0) {
+                $wordCounts->highlighted ++;
+            }
+
+            if ($words[$wordId]['stage'] == 0) {
+                $wordCounts->known ++;
+            }
+
+            if ($words[$wordId]['stage'] == 2) {
+                $wordCounts->new ++;
+            }
+        }
+
+        return $wordCounts;
     }
 
     /*

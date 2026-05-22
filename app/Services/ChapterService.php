@@ -387,6 +387,7 @@ class ChapterService {
             $chapter->unique_words = json_encode($textBlock->uniqueWords);
             $chapter->unique_word_ids = json_encode($uniqueWordIds);
             $chapter->setProcessedText($textBlock->processedWords);
+            $chapter->refreshUniquePhraseIds();
             $chapter->subtitle_timestamps = json_encode($timeStamps);
             $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
             $chapter->save();
