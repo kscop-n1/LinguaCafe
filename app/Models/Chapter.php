@@ -31,7 +31,7 @@ class Chapter extends Model
     }
 
     function getWordCounts($words) {
-        $uniqueWordIds = json_decode($this->unique_word_ids);
+        $uniqueWordIds = json_decode($this->unique_word_ids) ?: [];
         $wordCounts = new \stdClass();
         $wordCounts->total = $this->word_count;
         $wordCounts->unique = count($uniqueWordIds);
@@ -40,6 +40,10 @@ class Chapter extends Model
         $wordCounts->new = 0;
         
         foreach($uniqueWordIds as $wordId) {
+            if (!isset($words[$wordId])) {
+                continue;
+            }
+
             if ($words[$wordId]['stage'] < 0) {
                 $wordCounts->highlighted ++;
             }

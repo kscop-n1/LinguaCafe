@@ -33,7 +33,7 @@
 
             <!-- Chapters -->
             <text-reader-chapter-list
-                :chapters="chapters"
+                :book-id="bookId"
                 :current-chapter-id="chapterId"
                 v-model="dialogs.chapters"
             ></text-reader-chapter-list>
@@ -280,7 +280,6 @@
                 bookId: null,
                 language: null,
                 languageSpaces: null,
-                chapters: [],
 
                 // finish
                 finished: false,
@@ -335,20 +334,13 @@
                 this.bookId = data.bookId;
                 this.language = data.language;
                 this.languageSpaces = data.languageSpaces;
-                this.chapters = data.chapters;
+                this.nextChapter = data.nextChapter;
 
                 document.getElementById('app').addEventListener('mouseup', this.finishSelection);
                 window.addEventListener('resize', this.updateToolbarPosition);
                 window.addEventListener('resize', this.vocabularySidebarTest);
                 window.addEventListener('scroll', this.updateToolbarPosition);
                 document.getElementById('fullscreen-box').addEventListener('fullscreenchange', this.updateFullscreen);
-                for (let i = 0; i < this.chapters.length; i++) {
-                    if (this.chapters[i].id == this.chapterId && i < this.chapters.length - 1) {
-                        this.nextChapter = this.chapters[i + 1].id;
-                        break;
-                    }
-                }
-
                 this.$forceUpdate();
                 this.$nextTick(() => {
                     this.updateGlossary();

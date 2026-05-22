@@ -25,6 +25,8 @@ class GetChaptersForBookRequest extends FormRequest
     {
         return [
             'bookId' => 'required|numeric|gte:0',
+            'page' => 'nullable|numeric|gte:1',
+            'perPage' => 'nullable|numeric|gte:1|lte:100',
         ];
     }
 }

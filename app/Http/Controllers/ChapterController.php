@@ -27,9 +27,11 @@ class ChapterController extends Controller {
     public function getChaptersForBook(GetChaptersForBookRequest $request) {
         $userId = Auth::user()->id;
         $bookId = intval($request->bookId);
+        $page = intval($request->post('page', 1));
+        $perPage = intval($request->post('perPage', 50));
         
         try {
-            $chapters = $this->chapterService->getChaptersForBook($userId, $bookId);
+            $chapters = $this->chapterService->getChaptersForBook($userId, $bookId, $page, $perPage);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
@@ -41,14 +43,15 @@ class ChapterController extends Controller {
         $userId = Auth::user()->id;
         $userUuid = Auth::user()->uuid;
         $bookId = intval($request->bookId);
+        $chapterIds = $request->query('chapterIds', []);
         
         try {
-            $this->chapterService->getChaptersBookCount($userId, $userUuid, $bookId);
+            $wordCounts = $this->chapterService->getChaptersBookCount($userId, $userUuid, $bookId, $chapterIds);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
 
-        return response()->json('Chapters have been successfully requested.', 200);
+        return response()->json($wordCounts, 200);
     }
 
     public function getChapterForEditor(GetChapterForEditorRequest $request) {

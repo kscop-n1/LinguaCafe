@@ -25,6 +25,8 @@ class GetChaptersWordCountRequest extends FormRequest
     {
         return [
             'bookId' => 'required|numeric|gte:0',
+            'chapterIds' => 'nullable|array',
+            'chapterIds.*' => 'numeric|gte:0',
         ];
     }
 

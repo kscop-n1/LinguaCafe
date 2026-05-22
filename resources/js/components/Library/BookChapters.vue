@@ -51,8 +51,11 @@
             ]"
             :items="chapters"
             :loading="chaptersLoading"
-            :items-per-page="-1"
-            hide-default-footer
+            :options.sync="tableOptions"
+            :server-items-length="totalChapters"
+            :footer-props="{
+                'items-per-page-options': [25, 50, 100],
+            }"
         >
 
             <!-- Total words -->
@@ -223,7 +226,13 @@
                 bookWordCount: null,
                 chapters: [],
                 chaptersLoading: false,
-                randomChapter: 0,
+                tableOptions: {
+                    page: 1,
+                    itemsPerPage: 50,
+                    sortBy: [],
+                    sortDesc: [],
+                },
+                totalChapters: 0,
                 errorDialog: {
                     active: false,
                 },
@@ -248,9 +257,16 @@
             bookId: Number,
             wordCountDisplayType: Number,
         },
+        watch: {
+            tableOptions: {
+                handler() {
+                    this.loadChapters();
+                },
+                deep: true,
+                immediate: true,
+            },
+        },
         mounted() {
-            this.loadChapters();
-
             // retrieve word counts
             this.$store.getters['shared/echo'].private('chapter-status-update.' + this.$store.getters['shared/userUuid']).listen('ChapterStateUpdatedEvent', (message) => {
                 this.chapterStatusUpdate(JSON.parse(message.chapters));
@@ -302,11 +318,20 @@
                 });
             },
             loadChapters() {
+                if (!this.$props.bookId) {
+                    return;
+                }
+
+                const page = this.tableOptions.page || 1;
+                const perPage = this.tableOptions.itemsPerPage || 50;
+
                 this.chaptersLoading = true;
                 this.chapters = [];
 
                 axios.post('/chapters', {
                     'bookId': this.$props.bookId,
+                    'page': page,
+                    'perPage': perPage,
                 }).then((response) => {
                     for (let chapterIndex = 0; chapterIndex < response.data.chapters.length; chapterIndex++) {
                         response.data.chapters[chapterIndex].wordCountsLoaded = false;
@@ -314,17 +339,28 @@
                     
                     this.book = response.data.book;
                     this.chapters = response.data.chapters;
-
-                    if (this.chapters.length) {
-                        this.randomChapter = this.chapters[Math.floor(Math.random() * this.chapters.length)].id;
-                    } else {
-                        this.randomChapter = 0;
-                    }
-
+                    this.totalChapters = response.data.total;
+                    this.loadVisibleWordCounts();
+                }).catch(() => {
                     this.chaptersLoading = false;
-                    this.$nextTick(() => {
-                        axios.get('/chapters/word-counts/' + this.$props.bookId);
-                    }) 
+                });
+            },
+            loadVisibleWordCounts() {
+                const chapterIds = this.chapters.map((chapter) => chapter.id);
+
+                if (!chapterIds.length) {
+                    this.chaptersLoading = false;
+                    return;
+                }
+
+                axios.get('/chapters/word-counts/' + this.$props.bookId, {
+                    params: {
+                        chapterIds: chapterIds,
+                    }
+                }).then((response) => {
+                    this.chapterStatusUpdate(response.data);
+                }).finally(() => {
+                    this.chaptersLoading = false;
                 });
             },
             showStartReviewDialog(bookId, bookName, chapterId, chapterName) {
