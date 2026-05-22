@@ -118,7 +118,6 @@
                         filled
                         dense
                         rounded
-                        disabled
                         label="Word"
                         @keyup="changed"
                     ></v-text-field>
@@ -259,6 +258,7 @@
             saveWord: function() {
                 var saveData = {
                     id: this.item.id,
+                    word: this.item.word,
                     translation: this.item.translation,
                     reading: this.item.reading,
                     base_word: this.item.base_word,

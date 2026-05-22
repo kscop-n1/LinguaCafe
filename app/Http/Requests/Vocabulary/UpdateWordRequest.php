@@ -26,6 +26,7 @@ class UpdateWordRequest extends FormRequest
         return [
             'id' => 'required|numeric|gte:0',
             'stage' => 'numeric|gte:-7|lte:2',
+            'word' => 'nullable|string',
             'translation' => 'nullable|string',
             'reading' => 'nullable|string',
             'base_word' => 'nullable|string',

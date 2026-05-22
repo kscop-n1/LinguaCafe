@@ -48,6 +48,23 @@ class VocabularyService {
         if (!$word) {
             throw new \Exception('Word does not exist, or it belongs to a different user.');
         }
+
+        if (isset($wordData['word']) && $wordData['word'] === '') {
+            throw new \Exception('Word must not be empty.');
+        }
+
+        if (isset($wordData['word']) && $wordData['word'] !== $word->word) {
+            $duplicateWord = EncounteredWord
+                ::where('user_id', $userId)
+                ->where('language', $word->language)
+                ->where('word', $wordData['word'])
+                ->where('id', '!=', $wordId)
+                ->exists();
+
+            if ($duplicateWord) {
+                throw new \Exception('Word already exists in your vocabulary.');
+            }
+        }
         
         if ($wordStage !== null) {
             $word->setStage($wordStage);

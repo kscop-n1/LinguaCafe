@@ -42,6 +42,7 @@
             class="my-4 mb-0 no-hover"
             :headers="[
                 { text: 'Chapter', value: 'name'},
+                { text: 'Read', value: 'read_count', align: 'center' },
                 { text: 'Total', value: 'wordCount.total', align: 'center' },
                 { text: 'Unique', value: 'wordCount.unique', align: 'center' },
                 { text: 'Known', value: 'wordCount.known', align: 'center' },
@@ -57,6 +58,30 @@
                 'items-per-page-options': [25, 50, 100],
             }"
         >
+
+            <!-- Read status -->
+            <template v-slot:item.read_count="{ item }">
+                <v-chip
+                    v-if="item.read_count > 0"
+                    small
+                    color="success"
+                    text-color="white"
+                    title="Chapter has been finished at least once."
+                >
+                    <v-icon small left>mdi-check</v-icon>
+                    {{ item.read_count }}
+                </v-chip>
+                <v-chip
+                    v-else
+                    small
+                    outlined
+                    color="grey"
+                    title="Chapter has not been finished yet."
+                >
+                    <v-icon small left>mdi-book-open-page-variant</v-icon>
+                    No
+                </v-chip>
+            </template>
 
             <!-- Total words -->
             <template v-slot:item.wordCount.total="{ item }">

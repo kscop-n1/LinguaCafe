@@ -55,6 +55,10 @@ class VocabularyController extends Controller {
             $wordData['translation'] = $request->translation === NULL ? '' : $request->translation;
         }
 
+        if ($request->has('word')) {
+            $wordData['word'] = $request->word === NULL ? '' : trim($request->word);
+        }
+
         if ($request->has('reading')) {
             $wordData['reading'] = $request->reading === NULL ? '' : $request->reading;
         }
