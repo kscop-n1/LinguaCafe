@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent width="1000px" @keydown.enter.prevent="enterPressed">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" scrollable persistent width="1000px" @keydown.enter.prevent="enterPressed">
         <v-card id="import-dialog" class="rounded-lg" :loading="importLoading">
             <!-- Card title -->
             <v-card-title>
@@ -366,7 +366,7 @@
                 });
             },
             close() {
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

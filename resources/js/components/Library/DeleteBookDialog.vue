@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="500px" height="300px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="500px" height="300px">
         <v-card id="delete-book-dialog" class="rounded-lg">
             <v-progress-linear
                 class="delete-dialog-delay"
@@ -56,10 +56,10 @@
             },
             confirm() {
                 this.$emit('confirm', this.$props.bookId);
-                this.$emit('input', false);
+                this.updateValue(false);
             },
             close() {
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

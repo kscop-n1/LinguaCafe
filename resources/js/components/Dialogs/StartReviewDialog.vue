@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="500px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="500px">
         <v-card class="rounded-lg">
             <v-card-title>
                 <span class="text-h5">Review</span>
@@ -95,10 +95,10 @@
         methods: {
             startReview() {
                 window.location.href = '/review/' + this.practiceMode + '/' + this.$props.bookId + '/' + this.$props.chapterId;
-                this.$emit('input', false);
+                this.updateValue(false);
             },
             close() {
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

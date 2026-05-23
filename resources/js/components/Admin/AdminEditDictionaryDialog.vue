@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="700px" height="400px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="700px" height="400px">
         <v-card class="rounded-lg" :loading="loading || saveResult === 'saving'">
             <!-- Title -->
             <v-card-title>
@@ -355,7 +355,7 @@
                 });
             },
             close() {
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

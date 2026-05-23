@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent width="700px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent width="700px">
         <v-card 
             id="vocabulary-edit-dialog" 
             :class="{
@@ -290,11 +290,11 @@
                 this.saved = false;
             },
             close: function() {
-                this.$emit('input', false);
+                this.updateValue(false);
             },
             updateVocabularySearch: function() {
                 this.$emit('saved');
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

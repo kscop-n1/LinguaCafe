@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent width="1000px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" scrollable persistent width="1000px">
         <!-- External dictionary import -->
         <admin-external-dictionary-import 
             v-if="selectedDictionaryType === 'custom'"
@@ -140,7 +140,7 @@ export default {
             this.selectedDictionaryType = null;
         },
         close() {
-            this.$emit('input', false);
+            this.updateValue(false);
         },
         importFinished() {
             this.$emit('import-finished');

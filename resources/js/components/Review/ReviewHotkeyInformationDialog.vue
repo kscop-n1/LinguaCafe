@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent width="400px" height="500px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent width="400px" height="500px">
         <v-card class="rounded-lg">
             <!-- Title -->
             <v-card-title>
@@ -49,7 +49,7 @@
         },
         methods: {
             close() {
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

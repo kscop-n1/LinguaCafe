@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent scrollable max-width="1000">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent scrollable max-width="1000">
         <v-card
             id="text-reader-settings"
             outlined
@@ -582,7 +582,7 @@
                 }
             },
             close(){
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="500px" height="300px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="500px" height="300px">
         <v-card id="delete-dictionary-dialog" class="rounded-lg">
             <v-progress-linear
                 class="delete-dialog-delay"
@@ -58,7 +58,7 @@
                 this.$emit('confirm', this.$props.databaseTableName);
             },
             close() {
-                this.$emit('input', false);
+                this.updateValue(false);
             }
         }
     }

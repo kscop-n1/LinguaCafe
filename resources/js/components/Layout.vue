@@ -13,9 +13,9 @@
                 app
                 dense
                 :class="{'eink': theme == 'eink'}"
-                :mini-variant="display.md || navbarCollapsed"
+                :rail="display.md || navbarCollapsed"
                 :permanent="display.mdAndUp"
-                v-model="drawer"
+                :model-value="isDrawerOpen"
                 color="foreground"
             >
                 <!-- Logo -->
@@ -117,7 +117,7 @@
                 themeSelectionDialog: false,
                 languageSelectionDialog: false,
                 startReviewDialog: false,
-                drawer: false,
+                drawer: window.innerWidth >= 960,
                 navbarVisible: true,
                 navbarCollapsed: false,
                 windowWidth: window.innerWidth,
@@ -182,6 +182,9 @@
                 }
 
                 return themes?.light?.background || '#F2F3F5';
+            },
+            isDrawerOpen() {
+                return this.display.mdAndUp || this.drawer;
             },
             textStyling: function() {
                 let settingsObject = this.$store.state.shared.textStylingSettings
@@ -265,6 +268,10 @@
         methods: {
             updateWindowWidth() {
                 this.windowWidth = window.innerWidth;
+                this.updateDrawerForViewport();
+            },
+            updateDrawerForViewport() {
+                this.drawer = this.windowWidth >= 960;
             },
             initializeThemes() {
                 this.loadSelectedTheme();
