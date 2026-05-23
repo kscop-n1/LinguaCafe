@@ -23,5 +23,7 @@ yarn-error.log
 /tools/django_server/tokenizer/__pycache__
 /package-lock.json
 /public/mix-manifest.json
+/public/build
+/upgrade-audit-output
 /public/fonts/vendor/@mdi/*
 /cache/*

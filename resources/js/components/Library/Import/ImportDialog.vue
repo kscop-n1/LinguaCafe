@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" scrollable persistent width="1000px" @keydown.enter.prevent="enterPressed">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent width="1000px" @keydown.enter.prevent="enterPressed">
         <v-card id="import-dialog" class="rounded-lg" :loading="importLoading">
             <!-- Card title -->
             <v-card-title>

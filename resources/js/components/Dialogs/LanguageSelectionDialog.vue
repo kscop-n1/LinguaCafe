@@ -1,5 +1,5 @@
 <template>
-    <v-dialog content-class="language-selection-dialog" v-model="value" scrollable persistent>
+    <v-dialog content-class="language-selection-dialog" :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent>
         <v-card class="rounded-lg" :loading="loading">
             <v-card-title>
                 <span class="text-h5">Language</span>

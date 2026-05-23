@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent max-width="500px">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="500px">
         <v-card class="rounded-lg">
             <v-card-title>
                 <span class="text-h5">Reset text styling</span>

@@ -13,6 +13,10 @@ class ModifyEncounteredWordsTable extends Migration
      */
     public function up()
     {
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         Schema::table('encountered_words', function (Blueprint $table) {
             $table->string('word')->collation('utf8mb4_bin')->change();
         });

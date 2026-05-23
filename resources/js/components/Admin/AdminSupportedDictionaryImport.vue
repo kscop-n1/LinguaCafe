@@ -213,7 +213,7 @@
                 importingProgressPercentage: 0,
             };
         },
-        beforeDestroy() {
+        beforeUnmount() {
             this.$store.getters['shared/echo'].private('dictionary-import-progress' + this.$store.getters['shared/userUuid']).stopListening('DictionaryImportProgressedEvent');
         },
         methods: {

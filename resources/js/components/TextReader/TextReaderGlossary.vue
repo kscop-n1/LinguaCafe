@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" scrollable persistent max-width="1000" attach=".v-main">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent max-width="1000" attach=".v-main">
         <v-card 
             id="text-reader-glossary"
             outlined
@@ -13,8 +13,8 @@
                 </v-btn>
             </v-card-title>
             <v-card-text class="pt-6 px-0">
-                <template v-for="(word, index) in glossary">
-                    <div class="glossary-entry pa-4" :key="index">
+                <template v-for="(word, index) in glossary" :key="index">
+                    <div class="glossary-entry pa-4">
                         <div class="glossary-title">
                             <!-- Glossary entry stage -->
                             <div class="stage" :stage="word.stage">

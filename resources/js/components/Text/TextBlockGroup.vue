@@ -27,7 +27,7 @@
             height="108"
             :style="{'margin-top': ((snackBarIndex) * 124 + 16) + 'px'}"
             :timeout="-1"
-            @mouseup.native.stop=";"
+            @mouseup.stop=";"
         >
             <div class="pl-3 pr-2 pt-1 d-flex font-weight-bold snackbar-title">
                 <v-icon v-if="snackBar.type !== 'success' && snackBar.type !== 'update success'" color="error" class="mr-2">mdi-alert</v-icon>
@@ -349,7 +349,7 @@
             this.updateTextToSpeechState();
             this.renderRemainingWords();
         },
-        beforeDestroy() {
+        beforeUnmount() {
             window.removeEventListener('resize', this.resizeHandle);
             window.removeEventListener('mouseup', this.unselectAllWordsOnEmptyClick);
             window.removeEventListener('keydown', this.hotkeyHandle);

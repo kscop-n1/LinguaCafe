@@ -52,7 +52,7 @@
             ]"
             :items="chapters"
             :loading="chaptersLoading"
-            :options.sync="tableOptions"
+            v-model:options="tableOptions"
             :server-items-length="totalChapters"
             :footer-props="{
                 'items-per-page-options': [25, 50, 100],
@@ -297,7 +297,7 @@
                 this.chapterStatusUpdate(JSON.parse(message.chapters));
             });
         },
-        beforeDestroy() {
+        beforeUnmount() {
             this.$store.getters['shared/echo'].private('chapter-status-update.' + this.$store.getters['shared/userUuid']).stopListening('ChapterStateUpdatedEvent');
         },
         methods: {

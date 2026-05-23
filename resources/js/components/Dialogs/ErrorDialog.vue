@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent max-width="500px" height="300px">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="500px" height="300px">
         <v-card class="rounded-lg">
             <v-card-title>
                 <v-icon large class="mr-2" color="error">mdi-alert-circle</v-icon>

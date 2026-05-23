@@ -350,7 +350,7 @@
                 this.$forceUpdate();
             });
         },
-        beforeDestroy() {
+        beforeUnmount() {
             window.removeEventListener('resize', this.updateToolbarPosition);
             window.removeEventListener('resize', this.vocabularySidebarTest);
             window.removeEventListener('scroll', this.updateToolbarPosition);

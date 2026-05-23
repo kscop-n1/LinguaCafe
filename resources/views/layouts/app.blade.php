@@ -11,10 +11,8 @@
 
     <title>LinguaCafe</title>
 
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    @vite(['resources/js/app.js'])
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     <!-- These are dynamically set with javascript -->
     <style id="dynamic-default-font"></style>

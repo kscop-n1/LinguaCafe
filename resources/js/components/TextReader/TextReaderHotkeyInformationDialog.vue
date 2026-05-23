@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent scrollable width="460px" >
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent scrollable width="460px" >
         <v-card id="text-reader-hotkeys" class="rounded-lg" height="500px">
             <!-- Title -->
             <v-card-title>

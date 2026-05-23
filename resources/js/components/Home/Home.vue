@@ -97,7 +97,7 @@
 
 <script>
     import {formatNumber} from './../../helper.js';
-    const moment = require('moment');
+    import moment from 'moment';
     import { DefaultLocalStorageManager } from './../../services/LocalStorageManagerService';
     export default {
         data: function() {

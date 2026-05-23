@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent scrollable width="900px">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent scrollable width="900px">
         <v-card
             id="vocabulary-export-dialog"
             class="rounded-lg"

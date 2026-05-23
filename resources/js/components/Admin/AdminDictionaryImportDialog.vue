@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" scrollable persistent width="1000px">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent width="1000px">
         <!-- External dictionary import -->
         <admin-external-dictionary-import 
             v-if="selectedDictionaryType === 'custom'"

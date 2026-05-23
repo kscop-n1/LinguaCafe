@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent max-width="500px" height="300px" :loading="loading">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="500px" height="300px" :loading="loading">
         <v-card class="rounded-lg">
             <v-card-title>
                 <v-icon class="mr-2">mdi-logout</v-icon>

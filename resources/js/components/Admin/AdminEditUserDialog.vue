@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent max-width="600px" height="300px">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="600px" height="300px">
         <v-card class="rounded-lg">
             <v-card-title>
                 <!-- Add user title-->

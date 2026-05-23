@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" scrollable persistent max-width="1000" attach=".v-main">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent max-width="1000" attach=".v-main">
         <v-card 
             id="text-reader-chapter-list"
             outlined
@@ -18,7 +18,7 @@
                         :headers="headers"
                         :items="localChapters"
                         :loading="loading"
-                        :options.sync="tableOptions"
+                        v-model:options="tableOptions"
                         :server-items-length="totalChapters"
                         :footer-props="{
                             'items-per-page-options': [25, 50, 100],

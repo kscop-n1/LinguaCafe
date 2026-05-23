@@ -9,18 +9,44 @@ class ThemeService {
     }
 
     setDefaultVuetifyTheme(vuetifyHandler) {
-        // set vuetify theme
-        var themeName = localStorageManager.loadSetting('theme') || 'light';
-        vuetifyHandler.theme.dark = (themeName == 'dark');
+        const themeName = localStorageManager.loadSetting('theme') || 'light';
+        const lightTheme = themeName === 'eink' ? defaultThemes.eink : defaultThemes.light;
 
-        // set default theme
-        if (localStorageManager.loadSetting('theme') === 'eink') {
-            vuetifyHandler.theme.themes['light'] = JSON.parse(JSON.stringify(defaultThemes.eink));
-        } else {
-            vuetifyHandler.theme.themes['light'] = JSON.parse(JSON.stringify(defaultThemes.light));
+        this.setThemeColors(vuetifyHandler, 'light', lightTheme);
+        this.setThemeColors(vuetifyHandler, 'dark', defaultThemes.dark);
+        this.setActiveTheme(vuetifyHandler, themeName === 'dark' ? 'dark' : 'light');
+    }
+
+    setThemeColors(vuetifyHandler, themeName, colors) {
+        if (vuetifyHandler?.theme?.themes?.value) {
+            vuetifyHandler.theme.themes.value[themeName] = {
+                ...(vuetifyHandler.theme.themes.value[themeName] || {}),
+                dark: themeName === 'dark',
+                colors: JSON.parse(JSON.stringify(colors)),
+                variables: {},
+            };
+            return;
         }
-        
-        vuetifyHandler.theme.themes['dark'] = JSON.parse(JSON.stringify(defaultThemes.dark));
+
+        if (vuetifyHandler?.theme?.themes) {
+            vuetifyHandler.theme.themes[themeName] = {
+                ...(vuetifyHandler.theme.themes[themeName] || {}),
+                dark: themeName === 'dark',
+                colors: JSON.parse(JSON.stringify(colors)),
+                variables: {},
+            };
+        }
+    }
+
+    setActiveTheme(vuetifyHandler, themeName) {
+        if (vuetifyHandler?.theme?.global?.name?.value !== undefined) {
+            vuetifyHandler.theme.global.name.value = themeName;
+            return;
+        }
+
+        if (vuetifyHandler?.theme) {
+            vuetifyHandler.theme.dark = themeName === 'dark';
+        }
     }
 
 
@@ -31,17 +57,22 @@ class ThemeService {
         if (vuetifyThemeSettings === null) {
             return
         }
-        
+
+        let lightTheme = {}
+        let darkTheme = {}
         let themeSettingNames = Object.keys(defaultThemes.light)
         themeSettingNames.forEach((name) => {
             if (localStorageManager.loadSetting('theme') === 'eink') {
-                vuetifyHandler.theme.themes['light'][name] = JSON.parse(JSON.stringify(defaultThemes['eink'][name]));
+                lightTheme[name] = JSON.parse(JSON.stringify(defaultThemes['eink'][name]));
             } else {
-                vuetifyHandler.theme.themes['light'][name] = vuetifyThemeSettings['light'][name] ?? JSON.parse(JSON.stringify(defaultThemes['light'][name]));
+                lightTheme[name] = vuetifyThemeSettings['light'][name] ?? JSON.parse(JSON.stringify(defaultThemes['light'][name]));
             }
 
-            vuetifyHandler.theme.themes['dark'][name] = vuetifyThemeSettings['dark'][name] ?? JSON.parse(JSON.stringify(defaultThemes['dark'][name]));
+            darkTheme[name] = vuetifyThemeSettings['dark'][name] ?? JSON.parse(JSON.stringify(defaultThemes['dark'][name]));
         });
+
+        this.setThemeColors(vuetifyHandler, 'light', lightTheme);
+        this.setThemeColors(vuetifyHandler, 'dark', darkTheme);
     }
 
     getCurrentTheme() {

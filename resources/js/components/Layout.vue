@@ -5,7 +5,7 @@
         <start-review-dialog v-model="startReviewDialog" />
         <logout-dialog v-model="logoutDialog"/>
 
-        <template v-if="$router.currentRoute.path !== '/login'">
+        <template v-if="$route.path !== '/login'">
             <theme-selection-dialog v-model="themeSelectionDialog" @input="updateTheme"></theme-selection-dialog>
             <language-selection-dialog v-model="languageSelectionDialog"></language-selection-dialog>
             <v-navigation-drawer
@@ -13,13 +13,13 @@
                 app
                 dense
                 :class="{'eink': theme == 'eink'}"
-                :mini-variant="$vuetify.breakpoint.md || navbarCollapsed"
-                :permanent="$vuetify.breakpoint.mdAndUp"
+                :mini-variant="display.md || navbarCollapsed"
+                :permanent="display.mdAndUp"
                 v-model="drawer"
                 color="foreground"
             >
                 <!-- Logo -->
-                <div id="logo" class="d-flex justify-center my-5" v-if="$vuetify.breakpoint.lgAndUp && !navbarCollapsed">
+                <div id="logo" class="d-flex justify-center my-5" v-if="display.lgAndUp && !navbarCollapsed">
                     <img src="/icon512rounded.png" class="mr-2" width="32px" height="32px"/>
                     <span class="text--text">Lingua Cafe</span>
                 </div>
@@ -44,7 +44,7 @@
 
                 <template v-slot:append>
                     <!-- Large navigation drawer -->
-                    <template v-if="!$vuetify.breakpoint.md && !navbarCollapsed">
+                    <template v-if="!display.md && !navbarCollapsed">
                         <v-list nav shaped dense class="pl-0">
                             <!-- Navigation buttons -->
                             <v-list-item class="navigation-button" @click="collapseNavbar">
@@ -64,7 +64,7 @@
 
                     <!-- Mini navigation drawer -->
                     <template v-else>
-                        <v-btn v-if="$vuetify.breakpoint.lgAndUp" id="collapse" rounded text class="mini-drawer-button" @click="expandNavbar" title="Expand sidebar">
+                        <v-btn v-if="display.lgAndUp" id="collapse" rounded text class="mini-drawer-button" @click="expandNavbar" title="Expand sidebar">
                             <v-icon>mdi-arrow-collapse-right</v-icon>
                         </v-btn>
                         <v-btn id="theme" rounded text class="mini-drawer-button" @click="themeSelectionDialog = true" title="Theme">
@@ -83,20 +83,20 @@
                     <span>More</span>
                     <v-icon>mdi-menu</v-icon>
                 </v-btn><v-spacer></v-spacer>
-                <v-btn
-                    class="text-decoration-none"
-                    grow
-                    v-for="(item, index) in navigation"
-                    :key="index"
-                    :to="item.url"
-                    v-if="item.bottomNav"
-                >
-                    <span>{{ item.name }}</span>
-                    <v-icon>{{ item.icon }}</v-icon>
-                </v-btn>
+                <template v-for="(item, index) in navigation" :key="index">
+                    <v-btn
+                        v-if="item.bottomNav"
+                        class="text-decoration-none"
+                        grow
+                        :to="item.url"
+                    >
+                        <span>{{ item.name }}</span>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-btn>
+                </template>
             </v-bottom-navigation>
         </template>
-        <v-main :style="{background: $vuetify.theme.currentTheme.background, ...textStyling}" :class="{ eink: theme == 'eink'}">
+        <v-main :style="{background: currentThemeBackground, ...textStyling}" :class="{ eink: theme == 'eink'}">
             <router-view :user-count="$props._userCount" :language="selectedLanguage" :key="$route.fullPath"></router-view>
         </v-main>
     </v-app>
@@ -120,6 +120,7 @@
                 drawer: false,
                 navbarVisible: true,
                 navbarCollapsed: false,
+                windowWidth: window.innerWidth,
                 navigation: [
                     {
                         name: 'Home',
@@ -162,6 +163,26 @@
             }
         },
         computed: {
+            display() {
+                return {
+                    md: this.windowWidth >= 960 && this.windowWidth < 1280,
+                    mdAndUp: this.windowWidth >= 960,
+                    lgAndUp: this.windowWidth >= 1280,
+                };
+            },
+            currentThemeBackground() {
+                const themes = this.$store.state.shared.vuetifyThemeSettings || this.$props.themeSettings?.vuetifyThemes;
+
+                if (this.theme === 'dark') {
+                    return themes?.dark?.background || '#28272C';
+                }
+
+                if (this.theme === 'eink') {
+                    return themes?.eink?.background || '#F2F3F5';
+                }
+
+                return themes?.light?.background || '#F2F3F5';
+            },
             textStyling: function() {
                 let settingsObject = this.$store.state.shared.textStylingSettings
 
@@ -230,13 +251,21 @@
             this.navbarCollapsed = savedNavbarCollapsed ? savedNavbarCollapsed === 'true' : false;
         },
         mounted() {
+            window.addEventListener('resize', this.updateWindowWidth);
+
             // load default and selected font types into the dom
             var fontTypeService = new FontTypeService(this.selectedLanguage, () => {
                 fontTypeService.loadSelectedFontTypeIntoDom();
                 fontTypeService.loadDefaultFontTypeIntoDom();
             });
         },
+        beforeUnmount() {
+            window.removeEventListener('resize', this.updateWindowWidth);
+        },
         methods: {
+            updateWindowWidth() {
+                this.windowWidth = window.innerWidth;
+            },
             initializeThemes() {
                 this.loadSelectedTheme();
                 ThemeService.setDefaultVuetifyTheme(this.$vuetify);
@@ -284,7 +313,7 @@
                 }
 
                 // clicked on user manual
-                if (itemName === 'User manual' && this.$router.currentRoute.path !== '/user-manual') {
+                if (itemName === 'User manual' && this.$route.path !== '/user-manual') {
                     this.$router.push({ path: '/user-manual', replace: true });
                 }
 

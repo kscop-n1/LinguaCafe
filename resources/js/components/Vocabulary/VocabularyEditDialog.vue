@@ -1,5 +1,5 @@
 <template>
-    <v-dialog  v-model="value" persistent width="700px">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent width="700px">
         <v-card 
             id="vocabulary-edit-dialog" 
             :class="{

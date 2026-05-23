@@ -86,7 +86,6 @@
                                     v-for="(book, index) in books" :key="index"
                                     :class="{'default-font': true, 'v-list-item--active': filters.book == book.id}"
                                     @click="applyFilter('book', book.id, index)">{{ book.name }}</v-list-item>
-                                </v-list-item>
                             </v-list-item-group>
                         </v-list>
                     </v-menu>
@@ -107,7 +106,6 @@
                                     v-for="(chapter, index) in books[filters.bookIndex].chapters" :key="index"
                                     :class="{'default-font': true, 'v-list-item--active': filters.chapter == chapter.id}"
                                     @click="applyFilter('chapter', chapter.id, index)">{{ chapter.name }}</v-list-item>
-                                </v-list-item>
                             </v-list-item-group>
                         </v-list>
                     </v-menu>

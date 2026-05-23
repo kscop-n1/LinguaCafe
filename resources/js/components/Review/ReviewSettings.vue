@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" scrollable persistent max-width="1000">
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" scrollable persistent max-width="1000">
         <v-card
             id="review-settings"
             outlined

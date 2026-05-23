@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent max-width="800px" height="300px" scrollable>
+    <v-dialog :model-value="value" @update:model-value="$emit('input', $event)" persistent max-width="800px" height="300px" scrollable>
         <v-card class="rounded-lg" :loading="saving">
             <!-- Card title -->
             <v-card-title>

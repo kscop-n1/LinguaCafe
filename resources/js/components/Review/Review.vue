@@ -353,7 +353,7 @@
 </template>
 
 <script>
-    const moment = require('moment');
+    import moment from 'moment';
     import TextToSpeechService from './../../services/TextToSpeechService';
     import {formatNumber} from './../../helper.js';
     import { DefaultLocalStorageManager } from './../../services/LocalStorageManagerService';
@@ -449,7 +449,7 @@
                 window.addEventListener('keyup', this.hotkey);
             });
         },
-        beforeDestroy: function () {
+        beforeUnmount: function () {
             window.removeEventListener('keyup', this.hotkey);
         },
         methods: {
