@@ -10,14 +10,22 @@
             </v-card-title>
             <v-card-text>
                 <v-list nav rounded>
-                    <v-list-item-group color="primary" v-model="selectedTheme">
-                        <v-list-item class="my-1" v-for="(theme, themeName) in displayNames" :key="themeName" :value="themeName" @click="selectTheme(themeName)">
-                            <v-list-item-avatar tile min-width="60">
+                    <v-list-item
+                        v-for="(theme, themeName) in displayNames"
+                        :key="themeName"
+                        class="my-1"
+                        :active="selectedTheme === themeName"
+                        active-color="primary"
+                        rounded
+                        @click="selectTheme(themeName)"
+                    >
+                        <template #prepend>
+                            <v-avatar rounded="0" size="60" class="theme-selection-dialog__icon">
                                 <v-icon>{{ theme.icon }}</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>{{ theme.name }}</v-list-item-content>
-                        </v-list-item>
-                    </v-list-item-group>
+                            </v-avatar>
+                        </template>
+                        <v-list-item-title>{{ theme.name }}</v-list-item-title>
+                    </v-list-item>
                 </v-list>
             </v-card-text>
             <v-card-actions>
@@ -29,7 +37,6 @@
 </template>
 
 <script>
-    import themes from './../../themes';
     import ThemeService from './../../services/ThemeService';
     import { DefaultLocalStorageManager } from './../../services/LocalStorageManagerService'
     export default {

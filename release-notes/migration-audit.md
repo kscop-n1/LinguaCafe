@@ -4,7 +4,19 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
+## Resolved in releases 0.5.6-0.5.8
+
+The following live regressions were fixed and browser-verified after the initial audit was written:
+- Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
+- The webserver entrypoint now waits for the database socket before running migrations and seeding, which removes the startup connection-refused noise.
+- Existing migrated users were backfilled out of the unintended password-change gate, while new admin-created users still keep the intended flow.
+- The theme selection dialog now uses native Vuetify 3 list items instead of the legacy list-group shim, while keeping auto/light/dark/eink selection behavior intact.
+
+The verified issues below remain the active open audit surface.
+
 ## Verified issues
+
+Some entries below have since been fixed in releases 0.5.6-0.5.8 and are kept here for audit provenance. The unresolved active surface is the remaining set after the resolved section above.
 
 ### 1. Theme source of truth is split between cookie and localStorage
 
