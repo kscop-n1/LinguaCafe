@@ -15,9 +15,9 @@
     >   
         <!-- Vocab box content -->
         <div class="vocab-box-content pa-4 pb-1">
-            <v-tabs-items v-model="tab">
+            <v-window v-model="tab">
                 <!-- Word info page -->
-                <v-tab-item :value="0">
+                <v-window-item :value="0">
                     <v-card-text class="pa-0">
                         <!-- Single word -->
                         <template v-if="type === 'word'">
@@ -175,10 +175,10 @@
                             v-if="type == 'phrase'"
                         >Delete phrase</v-btn>
                     </v-card-actions>
-                </v-tab-item>
+                </v-window-item>
 
                 <!-- Editing page -->
-                <v-tab-item :value="1">
+                <v-window-item :value="1">
                     <v-card-text id="vocab-box-edit-page" class="pa-0">
                         <!-- Word text fields -->
                         <div class="d-flex" v-if="type == 'word'">
@@ -249,10 +249,10 @@
                             @keydown.stop=";"
                         ></v-textarea>
                     </v-card-text>
-                </v-tab-item>
+                </v-window-item>
 
                 <!-- Inflections tab -->
-                <v-tab-item :value="2">
+                <v-window-item :value="2">
                     <v-simple-table
                         v-if="inflections.length"
                         class="border rounded-lg no-hover mx-auto default-font" 
@@ -272,8 +272,8 @@
                             </tr>
                         </tbody>
                     </v-simple-table>
-                </v-tab-item>
-            </v-tabs-items>
+                </v-window-item>
+            </v-window>
         </div>
 
         <!-- Vocab box toolbar -->

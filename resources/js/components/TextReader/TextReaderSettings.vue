@@ -18,9 +18,9 @@
                     <v-tab>Vocabulary box</v-tab>
                     <v-tab>Vocabulary hover box</v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="tab" elevation="0" class="rounded-lg mt-4 pa-6">
+                <v-window v-model="tab" elevation="0" class="rounded-lg mt-4 pa-6">
                     <!-- Text section -->
-                    <v-tab-item :value="0">
+                    <v-window-item :value="0">
                         <!-- Font type -->
                         <v-row v-if="fontTypes.length">
                             <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Font type:</v-col>
@@ -294,10 +294,10 @@
                                 />
                             </v-col>
                         </v-row>
-                    </v-tab-item>
+                    </v-window-item>
 
                     <!-- Vocabulary box section-->
-                    <v-tab-item :value="1">
+                    <v-window-item :value="1">
                         <!-- Vocab box scroll into view -->
                         <v-row>
                             <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Scroll to vocabulary method:</v-col>
@@ -365,10 +365,10 @@
                                 ></v-switch>
                             </v-col>
                         </v-row>
-                    </v-tab-item>
+                    </v-window-item>
 
                     <!-- Vocabulary hover box section-->
-                    <v-tab-item :value="2">
+                    <v-window-item :value="2">
                         <!-- Vocabulary hover box -->
                         <v-row>
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary box:</v-col>
@@ -439,8 +439,8 @@
                                 ></v-select>
                             </v-col>
                         </v-row>
-                    </v-tab-item>
-                </v-tabs-items>
+                    </v-window-item>
+                </v-window>
 
             </v-card-text>
 

@@ -2,9 +2,9 @@
     <v-card id="vocab-bottom-sheet" color="foreground" @mouseup.stop=";">
         <!-- Content -->
         <div class="px-3">
-            <v-tabs-items v-model="tab">
+            <v-window v-model="tab">
                 <!-- Word info page -->
-                <v-tab-item :value="0">
+                <v-window-item :value="0">
                     <!-- Word text fields -->
                     <div class="d-flex" v-if="type == 'word'">
                         <v-text-field 
@@ -121,16 +121,16 @@
                         @change="searchFieldChanged"
                         @keydown.stop=";"
                     ></v-text-field>
-                </v-tab-item>
+                </v-window-item>
 
-                <v-tab-item :value="1"></v-tab-item>
-            </v-tabs-items>
+                <v-window-item :value="1"></v-window-item>
+            </v-window>
         </div>
 
         <v-card-text class="searchBoxBorder mx-auto pa-3 rounded-lg border">
-            <v-tabs-items v-model="tab">
+            <v-window v-model="tab">
                 <!-- Main tab -->
-                <v-tab-item :value="0">
+                <v-window-item :value="0">
                     <!-- Edit fields -->
                     <v-card-text id="vocab-box-edit-page" class="pa-0">
                         <!-- Search box -->
@@ -142,10 +142,10 @@
                             @addDefinitionToInput="addDefinitionToInput"
                         ></vocabulary-search-box>
                     </v-card-text>
-                </v-tab-item>
+                </v-window-item>
 
                 <!-- Inflections tab -->
-                <v-tab-item :value="1">
+                <v-window-item :value="1">
                     <v-simple-table
                         v-if="inflections.length"
                         class="border rounded-lg no-hover mx-auto default-font" 
@@ -165,9 +165,9 @@
                             </tr>
                         </tbody>
                     </v-simple-table>
-                </v-tab-item>
+                </v-window-item>
 
-            </v-tabs-items>
+            </v-window>
         </v-card-text>
         
         <!-- Action buttons -->

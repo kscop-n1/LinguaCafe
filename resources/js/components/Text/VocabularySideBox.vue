@@ -79,9 +79,9 @@
             </div>
         </div> 
 
-        <v-tabs-items v-model="tab" v-if="type !== 'empty'">
+        <v-window v-model="tab" v-if="type !== 'empty'">
             <!-- Word/phrase tab -->
-            <v-tab-item :value="0" class="sidebar-tab">
+            <v-window-item :value="0" class="sidebar-tab">
                 <!-- Word text fields -->
                 <div class="d-flex" v-if="type == 'word'">
                     <v-text-field 
@@ -259,10 +259,10 @@
                         v-if="type == 'phrase'"
                     >Delete phrase</v-btn>
                 </div>
-            </v-tab-item>
+            </v-window-item>
             
             <!-- Inflections tab -->
-            <v-tab-item :value="1">
+            <v-window-item :value="1">
                 <v-simple-table
                     v-if="inflections.length"
                     class="border rounded-lg no-hover mx-auto default-font" 
@@ -282,8 +282,8 @@
                         </tr>
                     </tbody>
                 </v-simple-table>
-            </v-tab-item>
-        </v-tabs-items>
+            </v-window-item>
+        </v-window>
     </v-card>
 </template>
 
