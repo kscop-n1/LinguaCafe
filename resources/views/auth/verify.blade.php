@@ -14,12 +14,19 @@
                         </div>
                     @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
+                    @if (Route::has('verification.resend'))
+                        {{ __('Before proceeding, please check your email for a verification link.') }}
+                        {{ __('If you did not receive the email') }},
+                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        </form>
+                    @else
+                        <div class="alert alert-info" role="alert">
+                            {{ __('Email verification is not enabled in this build.') }}
+                        </div>
+                        <a class="btn btn-primary" href="/login">{{ __('Back to Login') }}</a>
+                    @endif
                 </div>
             </div>
         </div>

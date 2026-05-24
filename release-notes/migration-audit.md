@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.26
+## Resolved in releases 0.5.6-0.5.27
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -27,6 +27,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The theme bootstrap now uses cookie-first resolution for both server and client paths, login and home default to light consistently, and auto mode resolves the system theme in the shell and theme service.
 - The theme selection dialog now reloads the page after a theme change, so the authenticated shell and the screens that cache theme state reinitialize on switch.
 - The websocket app key is now exported from the server-rendered layouts instead of being hardcoded in the frontend bundle.
+- The legacy auth views now share the same cookie-based theme-color shell and render safely even though their old route names are not active in this build.
 - The root frontend now has a tracked `package-lock.json`, so the shipped dependency graph is reproducible instead of floating without a lockfile.
 - The remaining Vuetify 2 table/tab shims (`v-tabs-items`, `v-tab-item`, `v-simple-table`) were removed from the app bootstrap, and no current source still references them.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
@@ -69,22 +70,6 @@ Impact:
 
 
 
-### 15. Several auth screens still use the old Bootstrap layout instead of the migrated Vue shell
-
-Evidence:
-- `resources/views/auth/register.blade.php:1` extends `layouts.app`.
-- `resources/views/auth/passwords/reset.blade.php:1` extends `layouts.app`.
-- `resources/views/auth/passwords/email.blade.php:1` extends `layouts.app`.
-- `resources/views/auth/passwords/confirm.blade.php:1` extends `layouts.app`.
-- `resources/views/auth/verify.blade.php:1` extends `layouts.app`.
-- `resources/views/layouts/app.blade.php:1-21` is a plain Bootstrap-oriented shell without the `theme-color` handling used by `layouts.user.blade.php`.
-
-Impact:
-- Login/home use the new Vue shell, but other auth flows still render through an older Bootstrap layout, so the app presents multiple UI generations side by side.
-- These screens bypass the same theming and component migration path, which makes the overall auth experience inconsistent.
-- The mixed layout strategy increases maintenance burden and makes it harder to reason about where theme and component bugs originate.
-
-
 ## Actionable clusters
 
 1. Theme bootstrap and theme chooser
@@ -104,7 +89,6 @@ Impact:
 
 4. Auth and user-state regressions
 - Resolve the password flag behavior so existing users are not forced into an unintended password-change state.
-- Make auth screens consistent with the migrated shell or explicitly isolate them if they must stay legacy.
 - Verify the live DB state against expected migrated-user semantics.
 
 5. Deployment/runtime hygiene
