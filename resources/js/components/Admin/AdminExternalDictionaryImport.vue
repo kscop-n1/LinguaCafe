@@ -220,7 +220,7 @@
                     <!-- Step 3: overview -->
                     <v-stepper-content step="3">
                         <label class="font-weight-bold">Overview</label>
-                        <v-simple-table class="border no-hover rounded-lg" v-if="dictionary.file">
+                        <v-table class="border no-hover rounded-lg" v-if="dictionary.file">
                             <tbody>
                                 <tr>
                                     <td class="font-weight-bold">Source language:</td>
@@ -275,10 +275,10 @@
                                     <td>{{ dictionary.csvDelimiter }}</td>
                                 </tr>
                             </tbody>
-                        </v-simple-table>
+                        </v-table>
 
                         <label class="font-weight-bold mt-4">Sample</label>
-                        <v-simple-table dense class="no-hover border rounded-lg">
+                        <v-table dense class="no-hover border rounded-lg">
                             <thead>
                                 <tr>
                                     <th class="text-center">Word</th>
@@ -291,7 +291,7 @@
                                     <td class="text-center">{{ sample.translation }}</td>
                                 </tr>
                             </tbody>
-                        </v-simple-table>
+                        </v-table>
                     </v-stepper-content>
 
                     <!-- Step 4: finish -->

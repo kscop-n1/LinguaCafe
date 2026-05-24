@@ -253,7 +253,7 @@
 
                 <!-- Inflections tab -->
                 <v-window-item :value="2">
-                    <v-simple-table
+                    <v-table
                         v-if="inflections.length"
                         class="border rounded-lg no-hover mx-auto default-font" 
                     >
@@ -271,7 +271,7 @@
                                 <td class="px-1 text-center">{{ inflection.negPlain }}</td>
                             </tr>
                         </tbody>
-                    </v-simple-table>
+                    </v-table>
                 </v-window-item>
             </v-window>
         </div>

@@ -90,7 +90,7 @@
                     <v-window v-model="popupMenu.tab">
                         <!-- Popup menu info -->
                         <v-window-item :value="0">
-                            <v-simple-table dense class="no-row-border no-hover">
+                            <v-table dense class="no-row-border no-hover">
                                 <tbody>
                                     <tr>
                                         <td>Reviews due:</td>
@@ -102,12 +102,12 @@
                                         <td v-if="!achievement.goalQuantity"> none </td>
                                     </tr>
                                 </tbody>
-                            </v-simple-table>
+                            </v-table>
                         </v-window-item>
 
                         <!-- Popup menu editing -->
                         <v-window-item :value="1">
-                            <v-simple-table dense class="no-row-border no-hover">
+                            <v-table dense class="no-row-border no-hover">
                                 <tbody>
                                     <tr v-for="(achievement, index) in popupMenu.achievements" :key="index">
                                         <td>{{ goalTexts[achievement.type] }}:</td>
@@ -127,7 +127,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </v-simple-table>
+                            </v-table>
                         </v-window-item>
                     </v-window>
                 </div>

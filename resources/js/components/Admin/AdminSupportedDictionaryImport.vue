@@ -63,7 +63,7 @@
                     <!-- Import overview information -->
                     <v-stepper-content step="2">
                         Importing a large dictionary can take several minutes. 
-                        <v-simple-table class="border no-hover mx-auto mt-2" v-if="dictionary !== null">
+                        <v-table class="border no-hover mx-auto mt-2" v-if="dictionary !== null">
                             <tbody>
                                 <tr>
                                     <td>Dictionary name:</td>
@@ -118,7 +118,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </v-simple-table>
+                        </v-table>
                     </v-stepper-content>
 
                     <!-- Import step -->

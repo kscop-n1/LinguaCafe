@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.23
+## Resolved in releases 0.5.6-0.5.24
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -28,6 +28,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The theme selection dialog now reloads the page after a theme change, so the authenticated shell and the screens that cache theme state reinitialize on switch.
 - The websocket app key is now exported from the server-rendered layouts instead of being hardcoded in the frontend bundle.
 - The root frontend now has a tracked `package-lock.json`, so the shipped dependency graph is reproducible instead of floating without a lockfile.
+- The remaining Vuetify 2 table/tab shims (`v-tabs-items`, `v-tab-item`, `v-simple-table`) were removed from the app bootstrap, and no current source still references them.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
 
 The verified issues below remain the active open audit surface.
@@ -42,13 +43,12 @@ Some entries below have since been fixed in releases 0.5.6-0.5.8 and are kept he
 
 Evidence:
 - `resources/js/app.js:9-18` defines `currentTheme` and `breakpoint` shims on the Vuetify instance.
-- `resources/js/app.js:69-81` defines replacement components for `v-tabs-items`, `v-tab-item`, and `v-simple-table`.
 - `resources/js/components/Login/LoginForm.vue:18-25` still uses legacy Vuetify props like `outlined`, `rounded`, and `depressed`.
 - `resources/js/components/Home/Home.vue:54-83` and many other components still use `outlined`, `depressed`, `dark`, `filled`, and `dense`.
 
 Impact:
-- The migration is not complete; the app is carrying a compatibility layer instead of a clean Vuetify 3 component model.
-- This is a likely source of warnings and subtle behavior differences when newer components are mixed with older markup patterns.
+- The migration is not complete; the app is still carrying some compatibility behavior instead of a clean Vuetify 3 component model.
+- The remaining legacy props can still cause warnings and subtle behavior differences when newer components are mixed with older markup patterns.
 
 ### 4. Password migration can force existing users into a change-password flow
 

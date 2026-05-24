@@ -19,7 +19,7 @@
 
         <!-- Supported language list -->
         <div class="subheader d-flex mt-4">Supported languages</div>
-        <v-simple-table id="user-manual-language-table" class="rounded-lg border no-hover">
+        <v-table id="user-manual-language-table" class="rounded-lg border no-hover">
             <thead>
                 <tr>
                     <th>Flag</th>
@@ -244,7 +244,7 @@
 
                 
             </tbody>
-        </v-simple-table>
+        </v-table>
     </div>
 </template>
 

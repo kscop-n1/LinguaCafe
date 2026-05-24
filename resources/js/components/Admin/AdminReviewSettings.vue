@@ -17,7 +17,7 @@
             <v-card-text>
                 <label class="font-weight-bold mt-4">SRS settings</label>
 
-                <v-simple-table dense class="no-hover no-lines">
+                <v-table dense class="no-hover no-lines">
                     <tbody>
                         <tr v-for="(interval, index) in reviewIntervals" :key="index">
                             <td class="pt-4">
@@ -36,7 +36,7 @@
                             </td>
                         </tr>
                     </tbody>
-                </v-simple-table>
+                </v-table>
             </v-card-text>
 
             <v-card-actions>

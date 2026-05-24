@@ -199,7 +199,7 @@
         </v-card>
 
         <!-- Vocabulary list -->
-        <v-simple-table id="vocabulary-list" class="py-0 no-hover border rounded-lg" dense>
+        <v-table id="vocabulary-list" class="py-0 no-hover border rounded-lg" dense>
             <thead>
                 <tr>
                     <th class="word">Word</th>
@@ -267,7 +267,7 @@
                     </td>
                 </tr>
             </tbody>
-        </v-simple-table>
+        </v-table>
 
         <div class="px-2">
             <v-pagination

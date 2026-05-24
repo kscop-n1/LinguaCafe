@@ -88,7 +88,7 @@
 
                 <!-- Import success -->
                 <template v-if="importResult !== null && !importResult.error">              
-                    <v-simple-table class="no-hover border rounded-lg mt-4">
+                    <v-table class="no-hover border rounded-lg mt-4">
                         <tbody>
                             <tr v-if="importResult.createdWords">
                                 <th>Created words:</th>
@@ -103,7 +103,7 @@
                                 <th>{{ importResult.rejectedWords }}</th>
                             </tr>
                         </tbody>
-                    </v-simple-table>
+                    </v-table>
                 </template>
             </v-card-text>
 

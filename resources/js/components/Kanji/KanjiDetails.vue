@@ -58,7 +58,7 @@
         <!-- Kanji words -->
         <div class="subheader mt-8">Known words with {{ kanji }}</div>
         <div id="kanji-words" class="h5">
-            <v-simple-table id="kanji-words-table" dense class="mt-3 mb-4 border rounded-lg no-hover">
+            <v-table id="kanji-words-table" dense class="mt-3 mb-4 border rounded-lg no-hover">
                 <thead>
                     <tr>
                         <th>Word</th>
@@ -73,7 +73,7 @@
                         <td>{{ word.translation }}</td>
                     </tr>
                 </tbody>
-            </v-simple-table>
+            </v-table>
         </div>
     </v-container>
 </template>

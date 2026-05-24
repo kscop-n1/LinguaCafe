@@ -110,7 +110,7 @@
 
                 <!-- Sample -->
                 <label class="font-weight-bold mt-6">Sample preview</label>
-                <v-simple-table fixed-header id="vocabulary-export-sample-table" class="border rounded-lg" height="260px">
+                <v-table fixed-header id="vocabulary-export-sample-table" class="border rounded-lg" height="260px">
                     <thead>
                         <tr>
                             <th v-if="fields.lemma">Lemma</th>
@@ -152,7 +152,7 @@
                             <td v-if="fields.lookupCount">{{ sampleWord.lookup_count }}</td>
                         </tr>
                     </tbody>
-                </v-simple-table>
+                </v-table>
 
             </v-card-text>
 

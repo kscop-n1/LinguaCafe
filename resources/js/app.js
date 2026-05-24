@@ -66,19 +66,6 @@ app.mixin({
     },
 });
 
-app.component('v-tabs-items', {
-    props: ['modelValue'],
-    emits: ['update:modelValue'],
-    template: '<v-window :model-value="modelValue" @update:model-value="emitUpdate"><slot /></v-window>',
-    methods: { emitUpdate(value) { this.$emit('update:modelValue', value); } },
-});
-app.component('v-tab-item', {
-    props: ['value'],
-    template: '<v-window-item :value="value"><slot /></v-window-item>',
-});
-app.component('v-simple-table', {
-    template: '<div class="v-table"><div class="v-table__wrapper"><table><slot /></table></div></div>',
-});
 
 app.config.globalProperties.$cookie = {
     get(name) {
