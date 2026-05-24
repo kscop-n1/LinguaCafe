@@ -4,8 +4,8 @@
         <label class="font-weight-bold">Text file</label>
         <v-file-input
             v-model="textFile"
-            filled
-            dense
+            variant="filled"
+            density="compact"
             rounded
             persistent-hint
             hint="Accepted format: .txt"

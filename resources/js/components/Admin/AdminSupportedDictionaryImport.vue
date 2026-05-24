@@ -40,8 +40,8 @@
                     <v-stepper-content step="1">
                         <v-file-input
                             v-model="dictionaryFile"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             clearable
                             placeholder="Dictionary file"
@@ -104,7 +104,7 @@
                                     <td>
                                         <v-card
                                             class="border"
-                                            outlined
+                                            variant="outlined"
                                             :color="dictionary.color"
                                             width="48px"
                                             height="26px"
@@ -145,7 +145,7 @@
                                 color="success"
                                 type="success"
                                 border="left"
-                                dark
+                                theme="dark"
                             >
                                 The import process has finished successfully. {{ dictionary.name }} has been imported.
                             </v-alert>
@@ -157,7 +157,7 @@
                                 color="error"
                                 type="error"
                                 border="left"
-                                dark
+                                theme="dark"
                             >
                                     The import process has failed. Please make sure your dictionary files are the correct ones. If the problem 
                                     still persist, please create a <a href="https://github.com/kscop-n1/LinguaCafe">GitHub</a> Issue.
@@ -180,7 +180,7 @@
                 <v-btn
                     v-if="stepperPage == 2 && importResult === null && dictionaryFile !== null  && dictionaryFile !== undefined"
                     rounded
-                    depressed
+                    variant="flat"
                     color="primary"
                     @click="startImport"
                 >Import</v-btn>

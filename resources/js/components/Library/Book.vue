@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card outlined class="book opened detailed rounded-lg mx-auto my-6">
+        <v-card variant="outlined" class="book opened detailed rounded-lg mx-auto my-6">
             <!-- Edit book chapter dialog for adding new chapter -->
             <edit-book-chapter-dialog
                 v-if="editBookChapterDialog.active"
@@ -118,7 +118,7 @@
         </v-card>
 
         <!-- Chapters -->
-        <v-card outlined class="book opened detailed rounded-lg mx-auto my-6">
+        <v-card variant="outlined" class="book opened detailed rounded-lg mx-auto my-6">
             <v-card-title class="book-title pa-3">
                 Chapters
                 <v-spacer />
@@ -126,7 +126,7 @@
                     v-model="wordCountDisplayType"
                     mandatory
                     rounded
-                    dense
+                    density="compact"
                     @change="saveWordCountDisplayType"
                     title="Word count display type"
                 >

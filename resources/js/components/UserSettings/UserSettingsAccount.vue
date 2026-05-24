@@ -10,7 +10,7 @@
         <div class="subheader mt-4 mb-2 d-flex">
             Account
         </div>
-        <v-card outlined class="rounded-lg pb-0 mb-32">
+        <v-card variant="outlined" class="rounded-lg pb-0 mb-32">
             <v-card-text>
                 <v-row>
                     <v-col>
@@ -29,7 +29,7 @@
                     <v-btn
                         v-if="!passwordChangeSuccess"
                         rounded
-                        depressed
+                        variant="flat"
                         color="primary"
                         @click="passwordChangeDialog = true;"
                     >
@@ -38,7 +38,7 @@
                     </v-btn>
 
                     <!-- Password changed success message -->
-                    <v-alert class="mb-0" border="left" color="success" dense v-else>
+                    <v-alert class="mb-0" border="left" color="success" density="compact" v-else>
                         Your password has been changed successfully.
                     </v-alert>
                 </div>
@@ -61,7 +61,7 @@
                 height="28"
             ></v-img> 
         </div>
-        <v-card outlined class="rounded-lg pb-0 mb-32" :loading="deleting">
+        <v-card variant="outlined" class="rounded-lg pb-0 mb-32" :loading="deleting">
             <v-card-text>
                 This action will delete <b>all</b> your data in {{ formattedLanguageText }}. Your data in other languages will not be affected. 
 
@@ -81,8 +81,8 @@
                     <label class="font-weight-bold">Type "delete all my {{ $props.language }} data"</label>
                     <v-text-field 
                         v-model="confirmText"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         hide-details
                         placeholder="Confirm deletion"
@@ -97,7 +97,7 @@
                     color="error"
                     type="error"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     An error has occurred while deleting your {{ formattedLanguageText }} data.
                 </v-alert>
@@ -109,7 +109,7 @@
                     color="success"
                     type="success"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     Your {{ formattedLanguageText }} data has been deleted successfully. 
                 </v-alert>
@@ -119,7 +119,7 @@
                 <v-spacer />
                 <v-btn 
                     rounded 
-                    depressed 
+                    variant="flat" 
                     color="error" 
                     :disabled="deleting || confirmText !== `delete all my ${$props.language} data`"
                     @click="deleteLanguageData"

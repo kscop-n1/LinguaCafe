@@ -2,7 +2,7 @@
     <div id="user-manual-languages" class="ma-4 mb-16">
         <!-- Language info -->
         <div class="subheader d-flex">Languages</div>
-        <v-card outlined class="rounded-lg pa-4">
+        <v-card variant="outlined" class="rounded-lg pa-4">
             In LinguaCafe all the data are separated by the selected language. This means that any action you take in one language will not affect
             the data in other languages, so the first thing you should do in LinguaCafe is select your target language. You can change your selected
             language by clicking on it in the bottom left corner.

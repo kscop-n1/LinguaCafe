@@ -3,7 +3,7 @@
         <v-form v-model="isFormValid">
             <!-- DeepL settings -->
             <div class="subheader mt-4">DeepL</div>
-            <v-card outlined class="rounded-lg pa-4 pt-0" :loading="characterLimitLoading">
+            <v-card variant="outlined" class="rounded-lg pa-4 pt-0" :loading="characterLimitLoading">
                 <v-card-text id="deepl-card-text">
                     <!-- DeepL cache -->
                     <label class="font-weight-bold"">
@@ -27,8 +27,8 @@
                     <v-text-field 
                         v-model="settings.deeplHost"
                         class="mb-4"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="DeepL host"
                         :disabled="saving || characterLimitLoading"
@@ -40,8 +40,8 @@
                     <v-text-field 
                         v-model="settings.deeplApiKey"
                         class="mb-4"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="DeepL API key"
                         :disabled="saving || characterLimitLoading"
@@ -111,7 +111,7 @@
                         color="error"
                         type="error"
                         border="left"
-                        dark
+                        theme="dark"
                     >
                         DeepL API call failed. Please make sure that your API key is valid and DeepL services are online.
                     </v-alert>
@@ -120,13 +120,13 @@
 
             <!-- LibreTranslate settings -->
             <div class="subheader subheader-margin-top">LibreTranslate</div>
-            <v-card outlined class="rounded-lg pa-4 pt-0">
+            <v-card variant="outlined" class="rounded-lg pa-4 pt-0">
                 <v-card-text id="jellyfin-card-text">
                     <label class="font-weight-bold">LibreTranslate host</label>
                     <v-text-field 
                         v-model="settings.libreTranslateHost"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         hide-details
                         placeholder="LibreTranslate host"
@@ -138,13 +138,13 @@
 
             <!-- Anki connect settings -->
             <div class="subheader subheader-margin-top">Anki</div>
-            <v-card outlined class="rounded-lg pa-4 pt-0">
+            <v-card variant="outlined" class="rounded-lg pa-4 pt-0">
                 <v-card-text id="jellyfin-card-text">
                     <label class="font-weight-bold">Anki-connect host</label>
                     <v-text-field 
                         v-model="settings.ankiConnectHost"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="Anki-connect host"
                         :disabled="saving || characterLimitLoading"
@@ -160,7 +160,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                 Your words and phrases will be sent to Anki automatically when you highlight them (set their level to 1-7).
                             </v-card>
                         </v-menu>
@@ -172,7 +172,7 @@
                         class="mt-0"
                         color="primary"
                         hide-hints
-                        dense
+                        density="compact"
                         label="Auto add cards"
                     ></v-switch>
 
@@ -185,7 +185,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                 If you send a word to Anki, and it already exists, then the translation, reading and example sentence fields will be updated.
                             </v-card>
                         </v-menu>
@@ -197,7 +197,7 @@
                         class="mt-0"
                         color="primary"
                         hide-hints
-                        dense
+                        density="compact"
                         label="Update existing cards"
                     ></v-switch>
                     
@@ -210,7 +210,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                 There will be a notification displayed on the screen when a word or phrase is sent to Anki with a success or error message.
                             </v-card>
                         </v-menu>
@@ -222,7 +222,7 @@
                         class="mt-0"
                         color="primary"
                         hide-hints
-                        dense
+                        density="compact"
                         label="Show notifications"
                     ></v-switch>
                 </v-card-text>
@@ -230,7 +230,7 @@
 
             <!-- Jellyfin settings -->
             <div class="subheader subheader-margin-top">Jellyfin</div>
-            <v-card outlined class="rounded-lg pa-4 pt-0">
+            <v-card variant="outlined" class="rounded-lg pa-4 pt-0">
                 <v-card-text id="jellyfin-card-text">
                     <label class="font-weight-bold mt-4 mb-0">
                         Enable Jellyfin
@@ -239,7 +239,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                             You may want to disable Jellyfin if hosting LinguaCafe for multiple users.
                             </v-card>
                         </v-menu>
@@ -250,7 +250,7 @@
                         class="mt-0"
                         color="primary"
                         hide-hints
-                        dense
+                        density="compact"
                         label="Enable Jellyfin"
                         :disabled="saving || characterLimitLoading"
                     ></v-switch>
@@ -258,8 +258,8 @@
                     <label class="font-weight-bold">Jellyfin host address</label>
                     <v-text-field
                         v-model="settings.jellyfinHost"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="Jellyfin host address"
                         :disabled="saving || characterLimitLoading"
@@ -269,8 +269,8 @@
                     <label class="font-weight-bold mt-4">Jellyfin API key</label>
                     <v-text-field 
                         v-model="settings.jellyfinApiKey"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="Jellyfin API key"
                         :disabled="saving || characterLimitLoading"
@@ -286,7 +286,7 @@
                 color="error"
                 type="error"
                 border="left"
-                dark
+                theme="dark"
             >
                 An error has occurred while saving API settings.
             </v-alert>

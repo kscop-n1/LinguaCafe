@@ -12,11 +12,11 @@
 
                 <v-alert
                     v-if="notInstalledLanguages"
-                    dense
+                    density="compact"
                     class="rounded-lg mt-2"
                     color="primary"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     <v-row align="center">
                         <v-col class="grow">
@@ -33,7 +33,7 @@
                             </template>
                         </v-col>
                         <v-col class="shrink" v-if="$store.getters['shared/userAdmin']">
-                            <v-btn outlined depressed rounded color="foreground" @click="manageLanguages">
+                            <v-btn variant="flat" rounded color="foreground" @click="manageLanguages">
                                 <v-icon class="mr-1">mdi-cog</v-icon>
                                 Manage languages
                             </v-btn>
@@ -46,7 +46,7 @@
                     <v-btn 
                         v-for="(language, index) in supportedLanguages"
                         rounded
-                        depressed
+                        variant="flat"
                         :key="index"
                         class="language-button my-1 mx-1" 
                         @click="selectLanguage(language)" 

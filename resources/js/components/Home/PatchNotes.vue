@@ -4,7 +4,7 @@
             Update notes
         </div>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.14.1<v-spacer /> 2025.03.19.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -14,7 +14,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.14<v-spacer /> 2025.03.18.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -58,7 +58,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.13.3<v-spacer /> 2024.09.02.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -68,7 +68,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.13.2<v-spacer /> 2024.08.30.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -78,7 +78,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.13.1<v-spacer /> 2024.08.29.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -88,7 +88,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.13<v-spacer /> 2024.06.24.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -156,7 +156,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12.6<v-spacer /> 2024.06.05.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -168,7 +168,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12.5<v-spacer /> 2024.06.01.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -180,7 +180,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12.4<v-spacer /> 2024.05.29.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -193,7 +193,7 @@
         </v-card>
 
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12.3<v-spacer /> 2024.05.22.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -205,7 +205,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12.2<v-spacer /> 2024.05.19.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -220,7 +220,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12.1<v-spacer /> 2024.05.17.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -235,7 +235,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.12<v-spacer /> 2024.05.17.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -330,7 +330,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.11.3 <v-spacer /> 2024.05.08.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -342,7 +342,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.11.2 <v-spacer /> 2024.04.27.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -360,7 +360,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.11.1 <v-spacer /> 2024.04.27.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -372,7 +372,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.11 <v-spacer /> 2024.04.25.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -394,7 +394,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.10.1 <v-spacer /> 2024.04.21.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -406,7 +406,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.10 <v-spacer /> 2024.04.19.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -471,7 +471,7 @@
                         Added a warning on how hover vocabulary box works in review settings.
                     </li>
                     <li>
-                        Lightened default dark mode text color to make it more readable.
+                        Lightened default theme="dark" mode text color to make it more readable.
                     </li>
                     <li>
                         Made navigation sidebar more compact.
@@ -480,7 +480,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.9 <v-spacer /> 2024.03.28.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -523,7 +523,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.8 <v-spacer /> 2024.03.21.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -609,7 +609,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.7 <v-spacer /> 2024.02.14.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -691,7 +691,7 @@
                         Furigana now displays the editable reading field. Previously it displayed the reading that was assigned to the exact word in text while importing it.
                     </li>
                     <li>
-                        Fixed a visual issue where the day text was not visible in the calendar while using dark theme.
+                        Fixed a visual issue where the day text was not visible in the calendar while using theme="dark" theme.
                     </li>
                     <li>
                         Added missing lemma to review card when using example sentence mode.
@@ -716,7 +716,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.6 <v-spacer /> 2024.01.29.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -757,7 +757,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.2 <v-spacer /> 2024.01.23.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -769,7 +769,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.1 <v-spacer /> 2024.01.22.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
@@ -781,7 +781,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5 <v-spacer /> 2024.01.21.</v-card-title>
             <v-card-text>
                 The docker installation process has been improved since the last version. Fixed all the known issues with it, and
@@ -851,7 +851,7 @@
                         Fixed an error that broke the Kanji page if you had no known Kanji yet from every category.
                     </li>
                     <li>
-                        Fixed dark theme style on color picker.
+                        Fixed theme="dark" theme style on color picker.
                     </li>
                     <li>
                         Added a missing label to text reader's settings dialog.
@@ -885,7 +885,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.4 <v-spacer /> 2024.01.15.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -929,7 +929,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.3 <v-spacer /> 2024.01.12.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -981,7 +981,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.2 <v-spacer /> 2024.01.09.</v-card-title>
             <v-card-text>
                 <b>New features:</b>
@@ -1007,7 +1007,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-8">
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.1 <v-spacer /> 2024.01.07.</v-card-title>
             <v-card-text>
                 Release.

@@ -28,7 +28,7 @@
                     <template v-slot:activator="{ props }">
                         <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                     </template>
-                    <v-card outlined class="rounded-lg pa-4" width="252px">
+                    <v-card variant="outlined" class="rounded-lg pa-4" width="252px">
                         <span class="mb-1">In practice mode:</span>
                         <ul class="mb-0">
                             <li>

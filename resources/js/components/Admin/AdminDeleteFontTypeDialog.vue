@@ -23,7 +23,7 @@
                     color="error"
                     type="error"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     An error has occured while deleting the font type.
                 </v-alert>
@@ -46,7 +46,7 @@
                 <!-- Delete button -->
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="error"
                     :disabled="deleting"
                     @click="deleteFont" 

@@ -45,7 +45,7 @@
         <div id="toolbar" class="d-flex mx-auto mt-6 mb-2">
               <v-menu offset-y class="rounded-lg">
                     <template v-slot:activator="{ props }">
-                        <v-btn color="foreground" rounded depressed v-bind="props">
+                        <v-btn color="foreground" rounded variant="flat" v-bind="props">
                             Layout
                             <v-icon v-if="props?.['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
                             <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
@@ -83,7 +83,7 @@
                 <v-spacer></v-spacer>
                 <v-menu offset-y class="rounded-lg">
                     <template v-slot:activator="{ props }">
-                        <v-btn class="library-small-screen" rounded depressed v-bind="props">
+                        <v-btn class="library-small-screen" rounded variant="flat" v-bind="props">
                             Library
                             <v-icon v-if="props?.['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
                             <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>

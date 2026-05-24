@@ -179,7 +179,7 @@
                 <v-btn rounded text @click="close">Cancel</v-btn>
                 <v-btn
                     rounded
-                    depressed
+                    variant="flat"
                     color="primary"
                     :disabled="!fields.any"
                     @click="exportToCsv"

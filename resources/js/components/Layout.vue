@@ -11,7 +11,7 @@
             <v-navigation-drawer
                 id="navigation-drawer"
                 app
-                dense
+                density="compact"
                 :class="{'eink': theme == 'eink'}"
                 :rail="display.md || navbarCollapsed"
                 :permanent="display.mdAndUp"
@@ -24,7 +24,7 @@
                     <span class="text--text">Lingua Cafe</span>
                 </div>
 
-                <v-list nav shaped dense class="pl-0">
+                <v-list nav shaped density="compact" class="pl-0">
                     <!-- Navigation buttons -->
                     <v-list-item
                         class="navigation-button"
@@ -45,7 +45,7 @@
                 <template v-slot:append>
                     <!-- Large navigation drawer -->
                     <template v-if="!display.md && !navbarCollapsed">
-                        <v-list nav shaped dense class="pl-0">
+                        <v-list nav shaped density="compact" class="pl-0">
                             <!-- Navigation buttons -->
                             <v-list-item class="navigation-button" @click="collapseNavbar">
                                 <v-icon> mdi-arrow-collapse-left </v-icon>
@@ -78,7 +78,7 @@
             </v-navigation-drawer>
 
             <!-- Bottom navigation -->
-            <v-bottom-navigation dense grow shift class="d-flex d-sm-flex d-md-none" dark background-color="primary">
+            <v-bottom-navigation density="compact" grow shift class="d-flex d-sm-flex d-md-none" theme="dark" background-color="primary">
                 <v-btn class="text-decoration-none" width="60" style="float: left;" @click="drawer = true;">
                     <span>More</span>
                     <v-icon>mdi-menu</v-icon>

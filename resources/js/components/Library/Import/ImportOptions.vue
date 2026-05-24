@@ -8,7 +8,7 @@
                     <template v-slot:activator="{ props }">
                         <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                     </template>
-                    <v-card outlined class="rounded-lg pa-4" width="320px">
+                    <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                         For some rare cases the chapter order can be incorrect after importing an e-book. If it 
                         happened to you, please delete the imported book, and import it again with the Spine option.
                     </v-card>
@@ -42,8 +42,8 @@
             <v-text-field 
                 v-model="maximumCharactersPerChapter"
                 ref="maximumCharactersPerChapterInput"
-                filled
-                dense
+                variant="filled"
+                density="compact"
                 rounded
                 min="200"
                 max="20000"
@@ -53,7 +53,7 @@
                 :rules="[rules.maximumCharactersPerChapter]"
             ></v-text-field>
 
-            <v-alert dark border="left" color="warning" type="error" v-if="maximumCharactersPerChapter > defaultMaximumCharactersPerChapter">
+            <v-alert theme="dark" border="left" color="warning" type="error" v-if="maximumCharactersPerChapter > defaultMaximumCharactersPerChapter">
                 Using larger chapter sizes can lead to performance issues. The default settings are highly recommended!
             </v-alert>
         </v-form>

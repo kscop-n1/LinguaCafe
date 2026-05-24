@@ -20,7 +20,7 @@
                 <!-- Success message -->
                 <v-alert
                     v-if="!uninstalling && uninstallResult === 'success'"
-                    dense
+                    density="compact"
                     class="rounded-lg"
                     color="success"
                     type="success"
@@ -32,7 +32,7 @@
                 <!-- Error message -->
                 <v-alert
                     v-if="!uninstalling && uninstallResult === 'error'"
-                    dense
+                    density="compact"
                     class="rounded-lg mt-4"
                     color="error"
                     type="error"
@@ -61,7 +61,7 @@
                 </v-btn>
                 
                 <!-- Install button -->
-                <v-btn rounded depressed color="error" @click="uninstall" :disabled="uninstalling" v-if="uninstallResult !== 'success'">
+                <v-btn rounded variant="flat" color="error" @click="uninstall" :disabled="uninstalling" v-if="uninstallResult !== 'success'">
                     <v-icon class="mr-1">mdi-delete</v-icon>
                     Uninstall
                 </v-btn>

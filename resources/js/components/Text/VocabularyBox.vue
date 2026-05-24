@@ -83,7 +83,7 @@
                                             <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                         </div>
                                     </template>
-                                    <v-card outlined class="rounded-lg pa-4" width="320px">
+                                    <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         A word's or phrase's level represents how well you know it. 
                                         The closer it is to 0, the closer you are to learn it, and it 
                                         will appear in reviews less frequently.<br><br>
@@ -123,8 +123,8 @@
                         <v-textarea
                             :class="{'mt-2': $props.language !== 'japanese' && $props.language !== 'chinese'}"
                             label="Translation"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             no-resize
                             rounded
                             hide-details
@@ -138,8 +138,8 @@
                         <v-text-field 
                             placeholder="Dictionary search"
                             class="dictionary-search-field mt-2 mb-3 default-font"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             width="100%"
                             hide-details
@@ -186,8 +186,8 @@
                                 :class="{'default-font': true, 'mt-2': true, 'mb-2': ($props.language !== 'japanese' && $props.language !== 'chinese')}"
                                 hide-details
                                 label="Lemma"
-                                filled
-                                dense
+                                variant="filled"
+                                density="compact"
                                 rounded
                                 v-model="baseWord"
                                 @keyup="inputChanged"
@@ -198,8 +198,8 @@
                                 hide-details
                                 label="Word"
                                 disabled
-                                filled
-                                dense
+                                variant="filled"
+                                density="compact"
                                 rounded
                                 :value="word"
                                 @keyup="inputChanged"
@@ -213,8 +213,8 @@
                                 class="my-2 default-font"
                                 hide-details
                                 label="Lemma reading"
-                                filled
-                                dense
+                                variant="filled"
+                                density="compact"
                                 rounded
                                 v-model="baseWordReading"
                                 @keyup="inputChanged"
@@ -224,8 +224,8 @@
                                 class="my-2 default-font"
                                 hide-details
                                 label="Reading"
-                                filled
-                                dense
+                                variant="filled"
+                                density="compact"
                                 rounded
                                 v-model="reading"
                                 @keyup="inputChanged"
@@ -238,8 +238,8 @@
                             v-if="type !== 'word' && ($props.language == 'japanese' || $props.language == 'chinese')"
                             class="my-2 default-font"
                             label="Reading"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             no-resize
                             rounded
                             hide-details

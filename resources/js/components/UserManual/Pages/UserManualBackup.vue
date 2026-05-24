@@ -1,7 +1,7 @@
 <template>
     <div id="user-manual-backup" class="ma-4 mb-16">
         <div class="subheader d-flex">Backup</div>
-        <v-card outlined class="rounded-lg pa-4">
+        <v-card variant="outlined" class="rounded-lg pa-4">
             LinguaCafe stores your data in two directories. The <code>linguacafe/storage</code> directory stores your files, and the <code>linguacafe/database</code> directory 
             stores your database files. Both must be saved to preserve all your LinguaCafe data.
 

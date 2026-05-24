@@ -131,7 +131,7 @@
                         </v-stepper-content>
                         <v-stepper-content step="5">
                             <!-- Importing info -->
-                            <v-alert dark border="left" type="info" color="primary" v-if="importResult === ''">
+                            <v-alert theme="dark" border="left" type="info" color="primary" v-if="importResult === ''">
                                 Importing your selected text. Please be patient, it can take several minutes based on:
                                 <ul>
                                     <li>How long is the text you are importing.</li>
@@ -142,12 +142,12 @@
                             </v-alert>
 
                             <!-- Error message -->
-                            <v-alert dark border="left" type="error" color="error" v-if="importResult === 'error'">
+                            <v-alert theme="dark" border="left" type="error" color="error" v-if="importResult === 'error'">
                                 An error has occurred while importing your text.
                             </v-alert>
 
                             <!-- Success message -->
-                            <v-alert dark border="left" type="success" color="success" v-if="importResult === 'success'">
+                            <v-alert theme="dark" border="left" type="success" color="success" v-if="importResult === 'success'">
                                 Your book and chapters have been created successfully. The chapters will be processed in the background and become available for reading as soon as it's finished.
                             </v-alert>
                         </v-stepper-content>
@@ -187,7 +187,7 @@
                     v-if="stepperPage < 4"
                     ref="continueButton"
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     :disabled="
                         (stepperPage == 1) ||
@@ -208,7 +208,7 @@
                     v-if="stepperPage > 3 && importResult !== 'success'"
                     ref="importButton"
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary"
                     :loading="importLoading"
                     :disabled="stepperPage == 5 && importResult === '' || !isImportOptionsValid"

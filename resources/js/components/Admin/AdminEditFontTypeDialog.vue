@@ -28,8 +28,8 @@
                     <v-file-input
                         v-if="$props.id === -1"
                         v-model="fontFile"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         clearable
                         accept=".otf,.ttf,.woff,.woff2"
@@ -44,8 +44,8 @@
                     <label class="font-weight-bold">Name</label>
                     <v-text-field 
                         v-model="name"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="Font name"
                         :disabled="$props.default || saving"
@@ -62,7 +62,7 @@
                             :key="index"
                             style="width: 50%;"
                             hide-details
-                            dense
+                            density="compact"
                             :label="language.name"
                             :disabled="$props.default || saving"
                         ></v-checkbox>
@@ -76,7 +76,7 @@
                     color="success"
                     type="success"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     Font type has been {{ $props.id === -1 ? 'uploaded' : 'saved'  }} successfully.
                 </v-alert>
@@ -91,7 +91,7 @@
                     color="error"
                     type="error"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     An error has occured while {{ $props.id === -1 ? 'uploading' : 'saving'  }} the font type.
                 </v-alert>
@@ -102,7 +102,7 @@
                     class="font-weight-normal"
                     :label="$vuetify.display.smAndUp ? 'Select all' : 'All'"
                     hide-details
-                    dense
+                    density="compact"
                     @change="selectAllChanged"
                     :disabled="$props.default || saving"
                 ></v-checkbox>
@@ -127,7 +127,7 @@
                 <v-btn 
                     v-if="$props.id === -1 && saveResult !== 'success'"
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     :loading="saving"
                     :disabled="$props.default || !isFormValid || saving"
@@ -141,7 +141,7 @@
                 <v-btn 
                     v-if="$props.id !== -1 && saveResult !== 'success'"
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     :loading="saving"
                     :disabled="$props.default || !isFormValid || saving"

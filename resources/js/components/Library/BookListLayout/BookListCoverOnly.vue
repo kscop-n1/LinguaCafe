@@ -2,7 +2,7 @@
     <!-- Book list detailed -->
     <div id="book-list" class="cover-only d-flex flex-row flex-wrap justify-start">
         <v-card
-            outlined
+            variant="outlined"
             :id="'book-' + book.id"
             class="book cover-only rounded-lg mr-3 mb-3"
             v-for="(book, index) in books"

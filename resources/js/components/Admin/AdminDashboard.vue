@@ -8,7 +8,7 @@
         </div>
 
         <!-- Admin dashboard -->
-        <v-card outlined class="rounded-lg" :loading="backupCreationRequest.loading">
+        <v-card variant="outlined" class="rounded-lg" :loading="backupCreationRequest.loading">
             <v-card-title>
                 Backups
             </v-card-title>
@@ -22,7 +22,7 @@
                     color="success"
                     type="success"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     A backup of your database has been successfully created. Your backup can be found inside the "/storage/backup/{{ backupCreationRequest.fileName }}" directory.
                 </v-alert>
@@ -34,7 +34,7 @@
                     color="error"
                     type="error"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     An error has occurred while exporting your database.
                 </v-alert>
@@ -44,7 +44,7 @@
                 <v-spacer />
                 <v-btn 
                     rounded 
-                    depressed 
+                    variant="flat" 
                     color="primary" 
                     @click="createBackup"
                     :disabled="backupCreationRequest.loading"

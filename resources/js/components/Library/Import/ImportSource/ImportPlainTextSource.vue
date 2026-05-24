@@ -5,8 +5,8 @@
         <v-textarea
             id="plain-text-import-input"
             v-model="text"
-            filled
-            dense
+            variant="filled"
+            density="compact"
             rounded
             persistent-hint
             hint="You can copy or type in any text here"

@@ -6,8 +6,8 @@
             <v-text-field
                 class="website-url-input"
                 v-model="url"
-                filled
-                dense
+                variant="filled"
+                density="compact"
                 rounded
                 placeholder="Website url"
                 prepend-icon="mdi-web"
@@ -17,7 +17,7 @@
             ></v-text-field>
             <v-btn
                 id="retrieve-website-button"
-                depressed
+                variant="flat"
                 rounded
                 color="primary"
                 @click="retrieveWebsiteTExt"
@@ -31,8 +31,8 @@
             v-if="websiteRequestStatus == 'success'"
             id="website-import-input"
             v-model="text"
-            filled
-            dense
+            variant="filled"
+            density="compact"
             rounded
             persistent-hint
             placeholder="Website text"

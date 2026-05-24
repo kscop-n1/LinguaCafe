@@ -16,7 +16,7 @@
         <div class="d-flex subheader mt-4 mb-4 px-2 ">
             Installable languages
             <v-spacer />
-            <v-btn rounded depressed color="error" @click="uninstallLanguages">
+            <v-btn rounded variant="flat" color="error" @click="uninstallLanguages">
                 <v-icon class="mr-1">mdi-delete</v-icon>
                 Uninstall all
             </v-btn>
@@ -59,7 +59,7 @@
                         <v-btn 
                             v-else
                             rounded 
-                            depressed 
+                            variant="flat" 
                             color="primary" 
                             @click="installLanguage(language.name)"
                         >

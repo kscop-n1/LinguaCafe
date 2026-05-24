@@ -7,7 +7,7 @@
             <!-- Displayed goal select -->
             <v-menu offset-y class="rounded-lg">
                 <template v-slot:activator="{ props }">
-                    <v-btn class="calendar-button" color="foreground" rounded depressed v-bind="props">
+                    <v-btn class="calendar-button" color="foreground" rounded variant="flat" v-bind="props">
                         <span id="goal-selection-text-small">Goal</span>
                         <span id="goal-selection-text">Displayed goal</span>
                         <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
@@ -34,7 +34,7 @@
                         class="calendar-button ml-2"
                         color="foreground"
                         rounded
-                        depressed
+                        variant="flat"
                         @click="showDatePicker = true;"
                     >
                         <span id="calendar-date-button-text">{{ pickerDateFormated }}&nbsp;</span><v-icon>mdi-calendar</v-icon>
@@ -56,7 +56,7 @@
         </div>
 
         <!-- calendar -->
-        <v-card outlined id="calendar" class="rounded-lg pa-4 pt-0" :loading="popupMenu.saving">
+        <v-card variant="outlined" id="calendar" class="rounded-lg pa-4 pt-0" :loading="popupMenu.saving">
             <!-- Calendar popup -->
             <v-menu
                 content-class="calendar-popup-menu rounded-lg"
@@ -73,13 +73,13 @@
                     <span id="calendar-popup-date-text">{{ popupMenu.day.fullDate }}</span>
                     <v-spacer></v-spacer>
                     <span id="calendar-popup-reviews-due">
-                        <v-btn icon dark @click.stop="popupMenu.tab = 1;" v-if="popupMenu.tab == 0">
+                        <v-btn icon theme="dark" @click.stop="popupMenu.tab = 1;" v-if="popupMenu.tab == 0">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn icon dark @click.stop="popupMenu.tab = 0;" v-if="popupMenu.tab == 1">
+                        <v-btn icon theme="dark" @click.stop="popupMenu.tab = 0;" v-if="popupMenu.tab == 1">
                             <v-icon>mdi-arrow-left</v-icon>
                         </v-btn>
-                        <v-btn icon dark @click="popupMenu.active = false;">
+                        <v-btn icon theme="dark" @click="popupMenu.active = false;">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </span>
@@ -90,7 +90,7 @@
                     <v-window v-model="popupMenu.tab">
                         <!-- Popup menu info -->
                         <v-window-item :value="0">
-                            <v-table dense class="no-row-border no-hover">
+                            <v-table density="compact" class="no-row-border no-hover">
                                 <tbody>
                                     <tr>
                                         <td>Reviews due:</td>
@@ -107,7 +107,7 @@
 
                         <!-- Popup menu editing -->
                         <v-window-item :value="1">
-                            <v-table dense class="no-row-border no-hover">
+                            <v-table density="compact" class="no-row-border no-hover">
                                 <tbody>
                                     <tr v-for="(achievement, index) in popupMenu.achievements" :key="index">
                                         <td>{{ goalTexts[achievement.type] }}:</td>
@@ -117,8 +117,8 @@
                                                 class="mb-1"
                                                 type="number"
                                                 hide-details
-                                                filled
-                                                dense
+                                                variant="filled"
+                                                density="compact"
                                                 rounded
                                                 :disabled="popupMenu.saving"
                                                 @change="updateAchievement(popupMenu.achievements[index], index, popupMenu.achievements[index].id, popupMenu.achievements[index].achievedQuantity)"

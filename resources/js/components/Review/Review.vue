@@ -24,7 +24,7 @@
         <!-- Review finished box -->
         <v-card
             v-if="finished"
-            outlined
+            variant="outlined"
             id="finish-review-box"
             class="mt-4 mx-auto rounded-lg"
             width="500px"
@@ -59,7 +59,7 @@
             <!-- Card buttons -->
             <v-card-actions>
                 <v-spacer />
-                <v-btn rounded depressed color="primary" to="/">
+                <v-btn rounded variant="flat" color="primary" to="/">
                     <v-icon class="mr-1">mdi-home</v-icon>
                     Home
                 </v-btn>

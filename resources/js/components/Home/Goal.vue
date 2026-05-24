@@ -1,5 +1,5 @@
 <template>
-    <v-card outlined class="goal d-flex flex-column rounded-lg mr-4 mb-4">
+    <v-card variant="outlined" class="goal d-flex flex-column rounded-lg mr-4 mb-4">
         <v-card-title>
             {{ $props.name }}
             <v-spacer></v-spacer>

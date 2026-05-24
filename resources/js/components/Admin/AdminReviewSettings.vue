@@ -3,7 +3,7 @@
         
         <!-- SRS info -->
         <div class="subheader mt-4">Spaced repetition system</div>
-        <v-alert dark border="left" type="info" color="primary" class="mt-2 mb-4">
+        <v-alert theme="dark" border="left" type="info" color="primary" class="mt-2 mb-4">
             Numbers represent how many days later words will be reviewed again 
             after a review or a manual level change.<br><br>
 
@@ -13,11 +13,11 @@
         </v-alert>
 
         <!-- SRS settings -->
-        <v-card outlined class="rounded-lg" :loading="!reviewIntervals.length">
+        <v-card variant="outlined" class="rounded-lg" :loading="!reviewIntervals.length">
             <v-card-text>
                 <label class="font-weight-bold mt-4">SRS settings</label>
 
-                <v-table dense class="no-hover no-lines">
+                <v-table density="compact" class="no-hover no-lines">
                     <tbody>
                         <tr v-for="(interval, index) in reviewIntervals" :key="index">
                             <td class="pt-4">
@@ -26,9 +26,9 @@
                             <td class="pt-4">
                                 <v-text-field 
                                     v-model="interval.values" 
-                                    filled 
+                                    variant="filled" 
                                     rounded 
-                                    dense 
+                                    density="compact" 
                                     hide-details 
                                     :disabled="!index"
                                     @change="reviewIntervalChanged($event, index)" 
@@ -43,7 +43,7 @@
                 <v-spacer />
                 <v-btn 
                     rounded 
-                    depressed 
+                    variant="flat" 
                     color="primary"
                     :disabled="!reviewIntervals.length || saving"
                     :loading="saving"

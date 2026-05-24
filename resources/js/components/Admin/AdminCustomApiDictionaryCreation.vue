@@ -19,8 +19,8 @@
                 <label class="font-weight-bold">API host</label>
                 <v-text-field 
                     v-model="dictionary.api_host"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     placeholder="API host"
                 ></v-text-field>
@@ -30,8 +30,8 @@
                 <label class="font-weight-bold">Dictionary name</label>
                 <v-text-field 
                     v-model="dictionary.name"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     placeholder="Dictionary name"
                     maxlength="16"
@@ -47,7 +47,7 @@
                         <template v-slot:activator="{ props }">
                             <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
-                        <v-card outlined class="rounded-lg pa-4" width="320px">
+                        <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                             The language that you are learning.
                         </v-card>
                     </v-menu>
@@ -59,8 +59,8 @@
                     item-value="name"
                     item-name="name"
                     placeholder="Language"
-                    dense
-                    filled
+                    density="compact"
+                    variant="filled"
                     rounded
                     :error-messages=" dictionary.languagesValid ? [] : ['The source and target language cannot be the same!']"
                     @change="validateForm();"
@@ -84,7 +84,7 @@
                         <template v-slot:activator="{ props }">
                             <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
-                        <v-card outlined class="rounded-lg pa-4" width="320px">
+                        <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                             The language that the custom API translates to.
                         </v-card>
                     </v-menu>
@@ -96,8 +96,8 @@
                     item-value="name"
                     item-name="name"
                     placeholder="Language"
-                    dense
-                    filled
+                    density="compact"
+                    variant="filled"
                     rounded
                     :error-messages=" dictionary.languagesValid ? [] : ['The source and target language cannot be the same!']"
                     @change="validateForm();"
@@ -125,7 +125,7 @@
                     <template v-slot:activator="{ props }">
                         <v-card
                             class="border"
-                            outlined
+                            variant="outlined"
                             :color="dictionary.color"
                             width="64px"
                             height="32px"
@@ -169,7 +169,7 @@
                 <v-btn rounded text @click="close">Cancel</v-btn>
                 <v-btn 
                     rounded
-                    depressed 
+                    variant="flat" 
                     color="primary" 
                     :loading="createResult === 'saving'" 
                     :disabled="createResult === 'saving' || !dictionary.languagesValid || loading"

@@ -1,6 +1,6 @@
 <template>
     <v-card 
-        outlined 
+        variant="outlined" 
         id="vocab-hover-box" 
         :class="{
             'd-flex': true,

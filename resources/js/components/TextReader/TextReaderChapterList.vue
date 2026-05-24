@@ -2,7 +2,7 @@
     <v-dialog :model-value="dialogValue" @update:model-value="updateValue" scrollable persistent max-width="1000" attach=".v-main">
         <v-card 
             id="text-reader-chapter-list"
-            outlined
+            variant="outlined"
             class="rounded-lg"
         >
             <v-card-title>
@@ -39,7 +39,7 @@
                         <template v-slot:item.actions="{ item }">
                             <v-btn
                                 v-if="item.id != currentChapterId && item.processing_status === 'processed'"
-                                depressed
+                                variant="flat"
                                 rounded
                                 small
                                 color="primary"

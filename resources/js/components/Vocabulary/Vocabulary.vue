@@ -28,7 +28,7 @@
         ></vocabulary-import-dialog>
 
         <!-- Search header -->
-        <v-card outlined class="rounded-lg px-4 pb-4 my-4" :loading="loading">
+        <v-card variant="outlined" class="rounded-lg px-4 pb-4 my-4" :loading="loading">
             <div class="subheader my-4 d-flex">
                 Vocabulary
                 <v-spacer></v-spacer>
@@ -37,8 +37,8 @@
 
             <!-- search filter -->
             <div id="vocabulary-search-field" class="mb-6">
-                <v-btn rounded depressed color="primary" @click="applyFilter('text')"><v-icon>mdi-magnify</v-icon> Search</v-btn>
-                <v-text-field class="pt-0" rounded filled dense hide-details placeholder="Search term" v-model="filters.text" @keyup.enter="applyFilter('text')"></v-text-field>
+                <v-btn rounded variant="flat" color="primary" @click="applyFilter('text')"><v-icon>mdi-magnify</v-icon> Search</v-btn>
+                <v-text-field class="pt-0" rounded variant="filled" density="compact" hide-details placeholder="Search term" v-model="filters.text" @keyup.enter="applyFilter('text')"></v-text-field>
             </div>
 
             <!-- filters -->
@@ -47,13 +47,13 @@
                     <!-- Stage filter -->
                     <v-menu offset-y>
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Level
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                                 <v-list-item :class="{'v-list-item--active': filters.stage == -999}" @click="applyFilter('stage', -999)">Any</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.stage == 2}" @click="applyFilter('stage', 2)">New</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.stage == 1}" @click="applyFilter('stage', 1)">Ignored</v-list-item>
@@ -71,13 +71,13 @@
                     <!-- Book filter -->
                     <v-menu right offset-y v-if="books.length">
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Book
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                                 <v-list-item :class="{'v-list-item--active': filters.book == -1}" @click="applyFilter('book', -1, -1)">Any</v-list-item>
                                 <v-list-item 
                                     v-for="(book, index) in books" :key="index"
@@ -89,13 +89,13 @@
                     <!-- Chapter filter -->
                     <v-menu offset-y v-if="selectedBook">
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Chapter
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                                 <v-list-item :class="{'v-list-item--active': filters.chapter == -1}" @click="applyFilter('chapter', -1)">Any</v-list-item>
                                 <v-list-item 
                                     v-for="(chapter, index) in selectedBook.chapters" :key="index"
@@ -107,13 +107,13 @@
                     <!-- Translation filter -->
                     <v-menu offset-y>
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Translation
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                                 <v-list-item 
                                     :class="{'v-list-item--active': filters.translation == 'any'}"
                                     @click="applyFilter('translation', 'any')">Any
@@ -128,13 +128,13 @@
                     <!-- Phrases filter -->
                     <v-menu offset-y>
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Phrases
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                                 <v-list-item 
                                     :class="{'v-list-item--active': filters.phrases == 'both'}"
                                     @click="applyFilter('phrases', 'both')">Both
@@ -153,13 +153,13 @@
                     <!-- Search result order -->
                     <v-menu offset-y>
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Order by
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'words'}" @click="applyFilter('orderBy', 'words')"><v-icon class="mr-1">mdi-sort-alphabetical-ascending</v-icon>Word</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'words desc'}" @click="applyFilter('orderBy', 'words desc')"><v-icon class="mr-1">mdi-sort-alphabetical-descending</v-icon>Word</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'stage'}" @click="applyFilter('orderBy', 'stage')"><v-icon class="mr-1">mdi-sort-numeric-ascending</v-icon>Level</v-list-item>
@@ -168,7 +168,7 @@
                     </v-menu>
 
                     <!-- Show filters -->
-                    <v-btn class="filter-menu show-filters px-3" rounded depressed @click="filtersHidden = !filtersHidden">
+                    <v-btn class="filter-menu show-filters px-3" rounded variant="flat" @click="filtersHidden = !filtersHidden">
                         <template v-if="filtersHidden"><v-icon small class="mr-1">mdi-eye</v-icon>Show filters</template>
                         <template v-else><v-icon small class="mr-1">mdi-eye-off</v-icon>Hide filters</template>
                     </v-btn>
@@ -179,13 +179,13 @@
                     <!-- Export / import -->
                     <v-menu offset-y>
                         <template v-slot:activator="{ props }">
-                            <v-btn class="filter-menu export pl-3 pr-2" color="foreground" rounded depressed v-bind="props">
+                            <v-btn class="filter-menu export pl-3 pr-2" color="foreground" rounded variant="flat" v-bind="props">
                                 <v-icon small class="mr-1">mdi-file-download</v-icon>Data
                                 <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
                                 <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
-                        <v-list class="filter-popup pa-0" dense>
+                        <v-list class="filter-popup pa-0" density="compact">
                             <v-list-item @click="openExportDialog" :disabled="loading">
                                 <v-icon class="mr-1">mdi-file-delimited</v-icon>Export
                             </v-list-item>
@@ -199,7 +199,7 @@
         </v-card>
 
         <!-- Vocabulary list -->
-        <v-table id="vocabulary-list" class="py-0 no-hover border rounded-lg" dense>
+        <v-table id="vocabulary-list" class="py-0 no-hover border rounded-lg" density="compact">
             <thead>
                 <tr>
                     <th class="word">Word</th>

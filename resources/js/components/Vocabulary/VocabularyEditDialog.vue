@@ -24,7 +24,7 @@
                 <div id="vocabulary-edit-chips" class="pb-4">
                     <v-chip 
                         v-if="item.added_to_srs"
-                        dark
+                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-4" 
                         color="primary"
@@ -35,7 +35,7 @@
 
                     <v-chip 
                         v-if="!item.next_review || item.stage >= 0 || !item.added_to_srs"
-                        dark
+                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1" 
                         color="primary" 
@@ -47,7 +47,7 @@
 
                     <v-chip 
                         v-else
-                        dark
+                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-3" 
                         color="primary" 
@@ -57,7 +57,7 @@
                     </v-chip>
                     
                     <v-chip 
-                        dark
+                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-3" 
                         color="primary"
@@ -68,7 +68,7 @@
                     
                     <!-- <v-chip 
                         v-if="$props.itemType == 'Word'"
-                        dark
+                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-4" 
                         color="primary"
@@ -84,8 +84,8 @@
                     <v-text-field 
                         v-model="item.base_word"
                         class="default-font"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         label="Lemma"
                         @keyup="changed"
@@ -95,8 +95,8 @@
                         v-if="['chinese', 'japanese'].includes($props.language)"
                         v-model="item.base_word_reading"
                         class="default-font"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         label="Lemma reading"
                         @keyup="changed"
@@ -115,8 +115,8 @@
                         v-if="$props.itemType == 'Word'"
                         v-model="item.word"
                         class="default-font"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         label="Word"
                         @keyup="changed"
@@ -125,8 +125,8 @@
                         v-else
                         v-model="item.words"
                         class="default-font"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         disabled
                         label="Phrase"
@@ -137,8 +137,8 @@
                     v-if="['chinese', 'japanese'].includes($props.language)"
                         v-model="item.reading"
                         class="default-font"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         label="Reading"
                         @keyup="changed"
@@ -149,8 +149,8 @@
                 <v-textarea
                     v-if="item" 
                     v-model="item.translation"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     no-resize
                     label="Translation"
@@ -190,7 +190,7 @@
                 <v-btn rounded text @click="close">Cancel</v-btn>
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     :disabled="saved || saving" 
                     @click="save"

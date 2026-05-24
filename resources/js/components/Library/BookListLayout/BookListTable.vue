@@ -1,14 +1,14 @@
 <template>
     <div id="book-list" class="table-layout">
         <!-- Book list detailed -->
-        <v-card outlined class="border rounded-lg mt-4">
+        <v-card variant="outlined" class="border rounded-lg mt-4">
             <v-card-title>
                 <v-text-field
                     v-model="booksTextFilter"
                     append-icon="mdi-magnify"
                     label="Search"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     hide-details
                     single-line
                     rounded

@@ -11,8 +11,8 @@
                             :class="{'default-font': true, 'mt-2': true, 'mb-2': ($props.language !== 'japanese' && $props.language !== 'chinese')}"
                             hide-details
                             placeholder="Lemma"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             v-model="baseWord"
                             @keyup="inputChanged"
@@ -24,8 +24,8 @@
                             hide-details
                             placeholder="Word"
                             disabled
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             :value="word"
                             @keyup="inputChanged"
@@ -39,8 +39,8 @@
                             class="my-2 default-font"
                             hide-details
                             placeholder="Lemma reading"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             v-model="baseWordReading"
                             @keyup="inputChanged"
@@ -51,8 +51,8 @@
                             class="my-2 default-font"
                             hide-details
                             placeholder="Reading"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             v-model="reading"
                             @keyup="inputChanged"
@@ -65,8 +65,8 @@
                         v-if="type !== 'word'"
                         class="my-2 default-font"
                         label="Phrase"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         no-resize
                         rounded
                         hide-details
@@ -81,8 +81,8 @@
                         v-if="type !== 'word' && ($props.language == 'japanese' || $props.language == 'chinese')"
                         class="my-2 default-font"
                         label="Reading"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         no-resize
                         rounded
                         hide-details
@@ -96,8 +96,8 @@
                     <v-textarea
                         :class="{'mt-2': $props.language !== 'japanese' && $props.language !== 'chinese'}"
                         placeholder="Translation"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         no-resize
                         rounded
                         hide-details
@@ -113,8 +113,8 @@
                         class="dictionary-search-field mt-2 mb-3 default-font"
                         width="100%"
                         prepend-inner-icon="mdi-magnify"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         hide-details
                         :value="searchField"
@@ -220,7 +220,7 @@
                 height="42px"
                 small
                 rounded
-                depressed
+                variant="flat"
                 color="success"
                 @click="addNewPhrase"
                 v-if="type == 'new-phrase'"
@@ -231,7 +231,7 @@
                 class="w-100 mx-0"
                 height="42px"
                 rounded
-                depressed
+                variant="flat"
                 color="error"
                 @click="deletePhrase"
                 v-if="type == 'phrase'"
@@ -243,7 +243,7 @@
                 height="42px"
                 color="primary" 
                 rounded 
-                depressed 
+                variant="flat" 
                 @click="unselectAllWords()"
             >Close</v-btn>
         </v-card-actions>

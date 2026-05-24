@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card outlined class="mx-auto my-8 pa-6 rounded-xl" width="1500px">
+        <v-card variant="outlined" class="mx-auto my-8 pa-6 rounded-xl" width="1500px">
             <!-- Method -->
             <v-label class="font-text-weight">Methods:</v-label>
             <v-radio-group
@@ -22,9 +22,9 @@
             <v-label class="font-text-weight mt-4">Url:</v-label>
             <v-text-field
                 v-model="url"
-                filled
+                variant="filled"
                 rounded
-                dense
+                density="compact"
                 hide-details
                 @keyup.enter="makeRequest"
                 @keyup="save"
@@ -34,7 +34,7 @@
             <v-label class="font-text-weight mt-4">Post data:</v-label>
             <v-textarea 
                 v-model="postData" 
-                filled 
+                variant="filled" 
                 rounded
                 no-resize
                 @keydown.enter.shift.prevent="makeRequest"
@@ -45,7 +45,7 @@
             <v-card-actions>
                 <v-btn 
                     rounded
-                    depressed
+                    variant="flat"
                     color="primary"
                     @click="makeRequest"
                 >Make request</v-btn>
@@ -54,7 +54,7 @@
 
         <!-- Response -->
         <v-card 
-            outlined 
+            variant="outlined" 
             class="mx-auto mt-8 pa-6 pt-0 rounded-xl" 
             width="1500px"
             min-height="100px"

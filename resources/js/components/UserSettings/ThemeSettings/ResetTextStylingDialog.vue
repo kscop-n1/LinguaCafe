@@ -28,7 +28,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn rounded text @click="close">Cancel</v-btn>
-                <v-btn rounded depressed color="primary" @click="reset">Reset</v-btn>
+                <v-btn rounded variant="flat" color="primary" @click="reset">Reset</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

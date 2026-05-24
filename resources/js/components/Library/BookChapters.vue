@@ -74,7 +74,7 @@
                 <v-chip
                     v-else
                     small
-                    outlined
+                    variant="outlined"
                     color="grey"
                     title="Chapter has not been finished yet."
                 >

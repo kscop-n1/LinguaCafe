@@ -7,7 +7,7 @@
             color="primary"
             type="info"
             border="left"
-            dark
+            theme="dark"
         >
             Choose a subtitle from the media currently being played on your Jellyfin server. 
             You can import them seamlessly into LinguaCafe for later reading.
@@ -15,7 +15,7 @@
 
         <!-- Subtitle list -->
         <v-card 
-            outlined 
+            variant="outlined" 
             id="jellyfin-subtitle-list" 
             class="rounded-lg px-4 pb-4" 
             :loading="subtitleListLoading || $props.subtitleLoading"
@@ -60,7 +60,7 @@
                     color="error"
                     type="error"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     Cannot connect to Jellyfin.
                 </v-alert>
@@ -108,7 +108,7 @@
                     class="media-player-subtitle-info my-6 rounded-lg"
                     color="primary"
                     border="left"
-                    dark
+                    theme="dark"
                     icon="mdi-progress-clock"
                 >
                     Your selected subtitle is being processed. This can take 10 to 30 seconds. 

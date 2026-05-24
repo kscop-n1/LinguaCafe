@@ -26,8 +26,8 @@
                     <v-text-field 
                         ref="chapterName"
                         class="default-font"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         v-model="name"
                         :rules="[rules.chapterName]"
@@ -38,8 +38,8 @@
                     <v-textarea
                         class="default-font"
                         v-model="text"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         no-resize
                         height="300px"
@@ -86,7 +86,7 @@
 
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     @click="save"
                     :disabled="!isFormValid || saving || saveResult == 'success' || type !== 'text'"

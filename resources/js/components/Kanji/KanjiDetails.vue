@@ -1,7 +1,7 @@
 <template>
     <v-container id="kanji">
         <div class="subheader small-margin">Kanji info</div>
-        <v-card outlined id="kanji-info-box" class="rounded-lg">
+        <v-card variant="outlined" id="kanji-info-box" class="rounded-lg">
             <v-card-text class="d-flex flex-wrap justify-center">
                 <div id="characters">
                     <!-- Kanji -->
@@ -14,16 +14,16 @@
                 <!-- Kanji info -->
                 <div id ="kanji-info">
                     <div id="chip-info" class="mb-2">
-                        <v-chip small class="mb-1" dark color="pink" v-if="strokes">
+                        <v-chip small class="mb-1" theme="dark" color="pink" v-if="strokes">
                             {{ strokes }} strokes
                         </v-chip>
-                        <v-chip small class="mb-1" dark color="indigo" v-if="grade">
+                        <v-chip small class="mb-1" theme="dark" color="indigo" v-if="grade">
                             {{ grade }}. grade
                         </v-chip>
-                        <v-chip small class="mb-1" dark color="teal" v-if="jlpt">
+                        <v-chip small class="mb-1" theme="dark" color="teal" v-if="jlpt">
                             JLPT {{ jlptNames[jlpt] }}
                         </v-chip>
-                        <v-chip small class="mb-1" dark color="red" v-if="frequency">
+                        <v-chip small class="mb-1" theme="dark" color="red" v-if="frequency">
                             {{ frequency }}. most common
                         </v-chip>
                     </div>
@@ -58,7 +58,7 @@
         <!-- Kanji words -->
         <div class="subheader mt-8">Known words with {{ kanji }}</div>
         <div id="kanji-words" class="h5">
-            <v-table id="kanji-words-table" dense class="mt-3 mb-4 border rounded-lg no-hover">
+            <v-table id="kanji-words-table" density="compact" class="mt-3 mb-4 border rounded-lg no-hover">
                 <thead>
                     <tr>
                         <th>Word</th>

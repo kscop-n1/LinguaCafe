@@ -6,8 +6,8 @@
             <v-text-field
                 class="youtube-url-input"
                 v-model="url"
-                filled
-                dense
+                variant="filled"
+                density="compact"
                 rounded
                 persistent-hint
                 hint="Example: https://www.youtube.com/watch?v=aaaAaa1_A1A"
@@ -17,7 +17,7 @@
             ></v-text-field>
             <v-btn
                 id="retrieve-youtube-button"
-                depressed
+                variant="flat"
                 rounded
                 color="primary"
                 @click="retrieveSubtitles"
@@ -98,7 +98,7 @@
         <v-btn
             v-if="selectedSubtitle !== -1 && $vuetify.display.xsOnly"
             rounded
-            depressed
+            variant="flat"
             color="primary"
             class="mt-2"
             @click="unselectSubtitle"

@@ -20,7 +20,7 @@
                 <!-- Success message -->
                 <v-alert
                     v-if="!installing && installResult === 'success'"
-                    dense
+                    density="compact"
                     class="rounded-lg"
                     color="success"
                     type="success"
@@ -31,8 +31,7 @@
                         <v-spacer />
                         <v-btn 
                             class="d-block mt-6"
-                            outlined 
-                            depressed 
+                            variant="outlined" 
                             rounded 
                             color="foreground" 
                             @click="selectNewLanguage" 
@@ -45,7 +44,7 @@
                 <!-- Error message -->
                 <v-alert
                     v-if="!installing && installResult === 'error'"
-                    dense
+                    density="compact"
                     class="rounded-lg mt-4"
                     color="error"
                     type="error"

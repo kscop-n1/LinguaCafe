@@ -118,7 +118,7 @@
             <v-card
                 v-if="finished || saving"
                 :loading="saving"
-                outlined
+                variant="outlined"
                 class="finished-box rounded-lg mx-auto"
                 width="800px"
                 background="foreground"
@@ -194,7 +194,7 @@
                     <v-spacer />
                     <v-btn
                         rounded
-                        depressed
+                        variant="flat"
                         :disabled="saving"
                         color="primary"
                         @click="$router.push('/books/' + bookId)"
@@ -205,7 +205,7 @@
                     <v-btn
                         v-if="nextChapter !== -1"
                         rounded
-                        depressed
+                        variant="flat"
                         :disabled="saving"
                         color="primary"
                         :to="'/chapters/read/' + nextChapter"

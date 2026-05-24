@@ -51,8 +51,8 @@
                                 :items="sourceLanguages"
                                 item-value="name"
                                 placeholder="Source language"
-                                dense
-                                filled
+                                density="compact"
+                                variant="filled"
                                 rounded
                                 @change="updateDatabaseName"
                             >
@@ -73,8 +73,8 @@
                                 :items="targetLanguages"
                                 item-value="name"
                                 placeholder="Target language"
-                                dense
-                                filled
+                                density="compact"
+                                variant="filled"
                                 rounded
                                 @change="updateDatabaseName"
                             >
@@ -92,8 +92,8 @@
                             <label class="font-weight-bold">Dictionary name</label>
                             <v-text-field 
                                 v-model="dictionary.name"
-                                filled
-                                dense
+                                variant="filled"
+                                density="compact"
                                 rounded
                                 placeholder="Dictionary name"
                                 :rules="rules.dictionaryName"
@@ -108,8 +108,8 @@
                                 v-model="dictionary.databaseName"
                                 class="mb-3"
                                 color="black"
-                                filled
-                                dense
+                                variant="filled"
+                                density="compact"
                                 rounded
                                 persistent-hint
                                 hint="Can only contain lowercase letters, number and underscore."
@@ -132,7 +132,7 @@
                                 <template v-slot:activator="{ props }">
                                     <v-card
                                         class="border"
-                                        outlined
+                                        variant="outlined"
                                         :color="dictionary.color"
                                         width="64px"
                                         height="32px"
@@ -151,7 +151,7 @@
                             color="primary"
                             type="info"
                             border="left"
-                            dark
+                            theme="dark"
                         >
                             You can import a custom dictionary from a .csv file. It has to have 2 columns, the first containing a word
                             and the second containing the translations. You can provide multiple translations for a single word by 
@@ -175,8 +175,8 @@
                         <label class="font-weight-bold">Delimiter character</label>
                         <v-text-field 
                             v-model="dictionary.csvDelimiter"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="Delimiter character"
                             @change="fileInputChange"
@@ -187,8 +187,8 @@
                         <label class="font-weight-bold">Dictionary file</label>
                         <v-file-input
                             v-model="dictionary.file"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="Select a file"
                             accept=".csv"
@@ -201,7 +201,7 @@
                             color="error"
                             type="error"
                             border="left"
-                            dark
+                            theme="dark"
                         >
                             There has been an error reading the file. Please make sure it follows the correct format and try again.
                         </v-alert>
@@ -211,7 +211,7 @@
                             color="success"
                             type="success"
                             border="left"
-                            dark
+                            theme="dark"
                         >
                             The file has been tested without any errors. It contains {{ fileRecordCount }} records.
                         </v-alert>
@@ -255,7 +255,7 @@
                                     <td>
                                         <v-card
                                             class="border"
-                                            outlined
+                                            variant="outlined"
                                             :color="dictionary.color"
                                             width="48px"
                                             height="26px"
@@ -278,7 +278,7 @@
                         </v-table>
 
                         <label class="font-weight-bold mt-4">Sample</label>
-                        <v-table dense class="no-hover border rounded-lg">
+                        <v-table density="compact" class="no-hover border rounded-lg">
                             <thead>
                                 <tr>
                                     <th class="text-center">Word</th>
@@ -302,7 +302,7 @@
                                 color="success"
                                 type="success"
                                 border="left"
-                                dark
+                                theme="dark"
                             >
                                 Dictionary has been successfully imported.
                             </v-alert>
@@ -314,7 +314,7 @@
                                 color="error"
                                 type="error"
                                 border="left"
-                                dark
+                                theme="dark"
                             >
                                 An error has occurred while importing the dictionary.
                             </v-alert>
@@ -355,7 +355,7 @@
             <v-btn
                 v-if="stepperPage < 3"
                 rounded
-                depressed
+                variant="flat"
                 color="primary"
                 :disabled="(stepperPage == 1 && (!this.dictionary.nameValidated || !this.dictionary.databaseValidated)) ||
                     (stepperPage == 2 && (fileTestLoading || fileTestError || !this.dictionary.file))"
@@ -368,7 +368,7 @@
             <v-btn
                 v-if="stepperPage == 3"
                 rounded
-                depressed
+                variant="flat"
                 color="primary"
                 @click="importDictionary"
                 :loading="importing"

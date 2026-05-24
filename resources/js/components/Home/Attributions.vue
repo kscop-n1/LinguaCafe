@@ -7,7 +7,7 @@
         LinguaCafe uses many public resources. I am very thankful for these projects and for all the people who were working on them. 
         They helped me greatly to create LinguaCafe.<br><br>
         
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Spacy tokenizer</v-card-title>
             <v-card-text>
                 License: MIT license<br><br>
@@ -17,7 +17,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Pykakasi</v-card-title>
             <v-card-text>
                 License: GNU General Public License 3<br><br>
@@ -26,7 +26,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Pinyin</v-card-title>
             <v-card-text>
                 License: MIT license<br><br>
@@ -36,7 +36,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Newspaper3k</v-card-title>
             <v-card-text>
                 License: MIT, Apache-2.0<br><br>
@@ -45,7 +45,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">EbookLib</v-card-title>
             <v-card-text>
                 License: GNU Affero General Public License v3.0<br><br>
@@ -54,7 +54,7 @@
             </v-card-text>
         </v-card>
         
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">JMDict dictionary file</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-ShareAlike 4.0 International<br><br>
@@ -64,7 +64,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">KANJIDIC2 kanji file</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-ShareAlike 4.0 International<br><br>
@@ -74,7 +74,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">RADKFILE/KRADFILE</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-ShareAlike 4.0 International<br><br>
@@ -84,7 +84,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">CC-CEDICT dictionary file</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-Share Alike 3.0 License<br><br>
@@ -93,7 +93,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">HanDeDict</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-ShareAlike 2.0 Germany License<br><br>
@@ -102,7 +102,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Kengdic dictionary file</v-card-title>
             <v-card-text>
                 License: GNU Library General Public License, version 2.0<br><br>
@@ -111,7 +111,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Eurfa dictionary file</v-card-title>
             <v-card-text>
                 License: The GNU General Public License 3<br><br>
@@ -122,7 +122,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Wiktionary</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-ShareAlike 3.0 Unported License<br><br>
@@ -134,7 +134,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">Dict.cc</v-card-title>
             <v-card-text>
                 LinguaCafe has no dict.cc dictionaries packaged in the software. 
@@ -144,7 +144,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">DMAK kanji drawing library</v-card-title>
             <v-card-text>
                 License: MIT license<br><br>
@@ -153,7 +153,7 @@
             </v-card-text>
         </v-card>
 
-        <v-card outlined class="rounded-lg mb-6">
+        <v-card variant="outlined" class="rounded-lg mb-6">
             <v-card-title class="pb-0">KanjiVG</v-card-title>
             <v-card-text>
                 License: Creative Commons Attribution-ShareAlike 3.0 Unported<br><br>

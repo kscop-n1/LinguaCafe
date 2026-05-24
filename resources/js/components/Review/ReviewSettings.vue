@@ -2,7 +2,7 @@
     <v-dialog :model-value="dialogValue" @update:model-value="updateValue" scrollable persistent max-width="1000">
         <v-card
             id="review-settings"
-            outlined
+            variant="outlined"
             class="rounded-lg"
         >
             <v-card-title>
@@ -27,9 +27,9 @@
                             :items="fontTypes"
                             item-text="name"
                             item-value="id"
-                            dense
+                            density="compact"
                             rounded
-                            filled
+                            variant="filled"
                             hide-details
                             @change="saveSettings"
                         ></v-select>
@@ -64,9 +64,9 @@
                             :items="sentenceModes"
                             item-text="name"
                             item-value="value"
-                            dense
+                            density="compact"
                             rounded
-                            filled
+                            variant="filled"
                             hide-details
                             @change="saveSettings"
                         ></v-select>
@@ -89,7 +89,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                 A bottom sheet vocabulary designed for mobile screens, that replaces the popup vocabulary. <br><br>
                                 This option is only available for devices with less than or equal to 768px screen width.
                             </v-card>
@@ -124,7 +124,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                 A minimalistic vocabulary box that appears when you move the mouse over a word or phrase.
                             </v-card>
                         </v-menu>
@@ -178,9 +178,9 @@
                             :items="vocabularyHoverBoxPreferredPositionData"
                             item-text="name"
                             item-value="value"
-                            dense
+                            density="compact"
                             rounded
-                            filled
+                            variant="filled"
                             hide-details
                             @change="saveSettings"
                         ></v-select>
@@ -201,9 +201,9 @@
                             :items="textToSpeechVoices"
                             item-text="name"
                             item-value="name"
-                            dense
+                            density="compact"
                             rounded
-                            filled
+                            variant="filled"
                             hide-details
                             @change="saveSettings"
                         ></v-select>

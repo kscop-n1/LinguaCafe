@@ -33,20 +33,20 @@
         <div class="d-flex subheader mt-4 mb-4 px-2 ">
             Dictionaries
             <v-spacer/>
-            <v-btn rounded dark color="primary" @click="importDialog = true;">
+            <v-btn rounded theme="dark" color="primary" @click="importDialog = true;">
                 <v-icon class="mr-1">mdi-database-plus</v-icon>
                 <span id="import-button-text">Add dictionary</span>
                 <span id="import-button-text-short">Import</span>
             </v-btn>
         </div>
-        <v-card outlined class="rounded-lg pa-2 pb-0 mb-32">
+        <v-card variant="outlined" class="rounded-lg pa-2 pb-0 mb-32">
             <v-card-title>
                 <v-text-field
                     v-model="dictionaryTableFilter"
                     append-icon="mdi-magnify"
                     label="Search"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     hide-details
                     single-line
                     rounded

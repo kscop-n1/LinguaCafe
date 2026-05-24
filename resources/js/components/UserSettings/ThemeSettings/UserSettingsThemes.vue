@@ -10,8 +10,8 @@
                 <v-select
                     v-model="selectedTheme"
                     rounded
-                    dense
-                    filled
+                    density="compact"
+                    variant="filled"
                     hide-details
                     width="140"
                     :items="themes"
@@ -41,7 +41,7 @@
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle</v-icon>
                                 </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                     {{ colorInformations[color.name] }}
                                 </v-card>
                             </v-menu>
@@ -58,7 +58,7 @@
                                 <template v-slot:activator="{ props }">
                                     <v-card
                                         class="border mx-auto"
-                                        outlined
+                                        variant="outlined"
                                         :color="color.value"
                                         width="48px"
                                         height="26px"
@@ -79,9 +79,9 @@
                                 class="my-2"
                                 v-model="color.hex"
                                 ref="colorHex"
-                                filled
+                                variant="filled"
                                 rounded
-                                dense
+                                density="compact"
                                 hide-details
                                 maxlength="7"
                                 :rules="[rules.hex]"
@@ -109,7 +109,7 @@
             color="error"
             type="error"
             border="left"
-            dark
+            theme="dark"
         >
             An error has occurred while saving color theme settings.
         </v-alert>
@@ -118,7 +118,7 @@
         <div class="d-flex w-full mt-4 mb-16">
             <v-spacer />
             <v-btn
-                depressed
+                variant="flat"
                 rounded
                 color="primary"
                 :loading="saving"

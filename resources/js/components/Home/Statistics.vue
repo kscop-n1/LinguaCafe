@@ -5,7 +5,7 @@
         </div>
         <div id="statistics">
             <v-card 
-                outlined 
+                variant="outlined" 
                 class="statistic rounded-lg mr-4 mb-4 pa-4"
                 v-for="(statistic, index) in statistics"
                 :key="index"

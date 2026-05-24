@@ -73,7 +73,7 @@
                 </v-btn>
 
                 <!-- Unselect word button -->
-                <v-btn dark icon title="Unselect word" @click="close">
+                <v-btn theme="dark" icon title="Unselect word" @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </div>
@@ -89,8 +89,8 @@
                         hide-details
                         placeholder="Lemma"
                         title="Lemma"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         v-model="baseWord"
                         @keyup="inputChanged"
@@ -103,8 +103,8 @@
                         placeholder="Word"
                         title="Word"
                         disabled
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         :value="word"
                         @keyup="inputChanged"
@@ -119,8 +119,8 @@
                         hide-details
                         placeholder="Lemma reading"
                         title="Lemma reading"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         v-model="baseWordReading"
                         @keyup="inputChanged"
@@ -132,8 +132,8 @@
                         hide-details
                         placeholder="Reading"
                         title="Reading"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         v-model="reading"
                         @keyup="inputChanged"
@@ -146,8 +146,8 @@
                     v-if="type !== 'word'"
                     class="default-font my-2"
                     label="Phrase"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     no-resize
                     rounded
                     hide-details
@@ -162,8 +162,8 @@
                     v-if="type !== 'word' && ($props.language == 'japanese' || $props.language == 'chinese')"
                     class="default-font my-2"
                     label="Reading"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     no-resize
                     rounded
                     hide-details
@@ -207,8 +207,8 @@
                     class="mb-2 mt-1"
                     placeholder="Translation"
                     title="Translation"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     no-resize
                     rounded
                     hide-details
@@ -224,8 +224,8 @@
                     class="dictionary-search-field default-font mt-2 mb-3"
                     width="100%"
                     prepend-inner-icon="mdi-magnify"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     hide-details
                     :value="searchField"

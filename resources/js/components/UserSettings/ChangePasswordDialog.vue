@@ -18,8 +18,8 @@
                         <v-text-field
                             v-model="password"
                             type="password"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="Password"
                             maxlength="32"
@@ -34,8 +34,8 @@
                         <v-text-field
                             v-model="passwordConfirmation"
                             type="password"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="Confirm password"
                             maxlength="32"
@@ -52,7 +52,7 @@
                     color="error"
                     type="error"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     <div v-html="saveResult"></div>
                 </v-alert>
@@ -63,7 +63,7 @@
                     color="success"
                     type="success"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     Password changed successfully!
                 </v-alert>
@@ -77,7 +77,7 @@
                 <!-- Save button -->
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     @click="save"
                     :disabled="!isFormValid || saving || saveResult == 'success'"

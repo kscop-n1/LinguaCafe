@@ -18,7 +18,7 @@
                     Cancel
                 </v-btn>
 
-                <v-btn rounded depressed color="error" @click="confirm">
+                <v-btn rounded variant="flat" color="error" @click="confirm">
                     <v-icon>mdi-delete</v-icon>
                     Delete
                 </v-btn>

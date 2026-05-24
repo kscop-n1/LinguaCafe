@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-form ref="libraryLocationForm" v-model="isFormValid">
-            <v-alert dark border="left" type="info" color="primary" class="mt-4">
+            <v-alert theme="dark" border="left" type="info" color="primary" class="mt-4">
                 Your selected chapter name will be suffixed with indexes of the imported chapters.
                 For example if you choose the chapter name "Narnia chapter", then your chapter names will be:<br><br>
                 <ul class="mb-0">
@@ -64,8 +64,8 @@
                     :items="books"
                     placeholder="Select a book"
                     item-value="id"
-                    dense
-                    filled
+                    density="compact"
+                    variant="filled"
                     rounded
                     :rules="[rules.bookId]"
                     @change="formChanged"
@@ -84,8 +84,8 @@
                 <label class="font-weight-bold">Book name</label>
                 <v-text-field 
                     v-model="bookName"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     placeholder="Book name"
                     maxlength="128"
@@ -99,8 +99,8 @@
                 <label class="font-weight-bold">Chapter name</label>
                 <v-text-field 
                     v-model="chapterName"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     placeholder="Chapter name"
                     maxlength="120"

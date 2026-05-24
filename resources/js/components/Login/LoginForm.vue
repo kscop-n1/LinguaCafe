@@ -15,12 +15,12 @@
         ></admin-edit-user-dialog>
 
         <!-- Login and create first user form -->
-        <v-card outlined class="rounded-lg mt-16" width="600px">
+        <v-card variant="outlined" class="rounded-lg mt-16" width="600px">
             <!-- Form title -->
             <v-card-title>
                 <v-icon class="mr-2">mdi-account</v-icon>Login
                 <v-spacer />
-                <v-btn rounded depressed @click="themeSelectionDialog = true;">
+                <v-btn rounded variant="flat" @click="themeSelectionDialog = true;">
                     <v-icon class="mr-2">mdi-weather-sunny</v-icon> / <v-icon class="ml-2">mdi-weather-night</v-icon>
                 </v-btn>
             </v-card-title>
@@ -34,7 +34,7 @@
                         color="primary"
                         type="info" 
                         border="left"
-                        dark
+                        theme="dark"
                     >
                         It seems like this is your first time using LinguaCafe after installation. Please create your first user, 
                         it will be automatically set as admin.
@@ -43,7 +43,7 @@
                             <v-spacer />
                             <v-btn 
                                 rounded 
-                                depressed 
+                                variant="flat" 
                                 color="gray"
                                 class="text--text"
                                 @click="addUserDialog = true;"
@@ -60,7 +60,7 @@
                         color="success"
                         type="success"
                         border="left"
-                        dark
+                        theme="dark"
                     >
                         User account created successfully.
                     </v-alert>                
@@ -70,8 +70,8 @@
                     <v-text-field
                         v-model="email"
                         rounded
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         name="linguacafe-email"
                         placeholder="E-mail address"
                         :rules="[rules.email]"
@@ -82,8 +82,8 @@
                     <v-text-field
                         v-model="password"
                         rounded
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         type="password"
                         name="linguacafe-password"
                         placeholder="Password"
@@ -98,7 +98,7 @@
                         color="error"
                         type="error"
                         border="left"
-                        dark
+                        theme="dark"
                     >
                         {{ error }}
                     </v-alert>

@@ -4,8 +4,8 @@
         <label class="font-weight-bold">Subtitle file</label>
         <v-file-input
             v-model="subtitleFile"
-            filled
-            dense
+            variant="filled"
+            density="compact"
             rounded
             persistent-hint
             hint="Accepted formats: .srt .ass"

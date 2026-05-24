@@ -2,7 +2,7 @@
     <!-- Book list detailed -->
     <div id="book-list" class="detailed">
         <v-card
-            outlined
+            variant="outlined"
             :id="'book-' + book.id"
             class="book detailed rounded-lg mx-auto my-6"
             v-for="(book, index) in books"

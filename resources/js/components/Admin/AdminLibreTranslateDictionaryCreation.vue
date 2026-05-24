@@ -19,8 +19,8 @@
                 <label class="font-weight-bold">Dictionary name</label>
                 <v-text-field 
                     v-model="dictionary.name"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     disabled
                     placeholder="Dictionary name"
@@ -36,7 +36,7 @@
                         <template v-slot:activator="{ props }">
                             <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
-                        <v-card outlined class="rounded-lg pa-4" width="320px">
+                        <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                             The language that you are learning.
                         </v-card>
                     </v-menu>
@@ -48,8 +48,8 @@
                     item-value="name"
                     item-name="name"
                     placeholder="Language"
-                    dense
-                    filled
+                    density="compact"
+                    variant="filled"
                     rounded
                     :error-messages=" isFormValid ? [] : ['The source and target language cannot be the same!']"
                     @change="updateDictionaryName(); validateForm();"
@@ -73,7 +73,7 @@
                         <template v-slot:activator="{ props }">
                             <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
-                        <v-card outlined class="rounded-lg pa-4" width="320px">
+                        <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                             The language that LibreTranslate translates to.
                         </v-card>
                     </v-menu>
@@ -85,8 +85,8 @@
                     item-value="name"
                     item-name="name"
                     placeholder="Language"
-                    dense
-                    filled
+                    density="compact"
+                    variant="filled"
                     rounded
                     :error-messages=" isFormValid ? [] : ['The source and target language cannot be the same!']"
                     @change="updateDictionaryName(); validateForm();"
@@ -114,7 +114,7 @@
                     <template v-slot:activator="{ props }">
                         <v-card
                             class="border"
-                            outlined
+                            variant="outlined"
                             :color="dictionary.color"
                             width="64px"
                             height="32px"
@@ -158,7 +158,7 @@
                 <v-btn rounded text @click="close">Cancel</v-btn>
                 <v-btn 
                     rounded
-                    depressed 
+                    variant="flat" 
                     color="primary" 
                     :loading="createResult === 'saving'" 
                     :disabled="createResult === 'saving' || !isFormValid || loading"

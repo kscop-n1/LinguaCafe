@@ -2,7 +2,7 @@
     <div id="user-manual-vocabulary-import" class="ma-4 mb-16">
         <!-- Vocabulary import -->
         <div class="subheader d-flex">Vocabulary import</div>
-        <v-card outlined class="rounded-lg pa-4">
+        <v-card variant="outlined" class="rounded-lg pa-4">
             If you have a list of words that you already know before you started using LinguaCafe, you can import them from a .csv file. 
             
             <div class="mt-5">

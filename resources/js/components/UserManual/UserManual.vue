@@ -2,11 +2,11 @@
     <div id="user-manual">
         <!-- Menu -->
         <div id="user-manual-menu">
-            <v-card outlined class="rounded-lg ma-4 pa-2 pl-0">
+            <v-card variant="outlined" class="rounded-lg ma-4 pa-2 pl-0">
                 <v-treeview
                     v-if="pages"
                     shaped
-                    dense
+                    density="compact"
                     hoverable
                     activatable
                     open-on-click

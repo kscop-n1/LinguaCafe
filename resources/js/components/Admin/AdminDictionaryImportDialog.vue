@@ -107,7 +107,7 @@
                 <v-spacer />
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary"
                     @click="selectDictionary"
                 >Continue</v-btn>

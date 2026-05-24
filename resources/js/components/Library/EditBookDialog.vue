@@ -27,8 +27,8 @@
                         v-model="name"
                         class="default-font"
                         ref="bookName"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="Name"
                         :rules="[rules.name]"
@@ -41,8 +41,8 @@
                     <v-file-input
                         v-show="editImage"
                         v-model="image"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         clearable
                         ref="image"
@@ -101,7 +101,7 @@
 
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     @click="save"
                     :disabled="!isFormValid || saving || saveResult == 'success'"

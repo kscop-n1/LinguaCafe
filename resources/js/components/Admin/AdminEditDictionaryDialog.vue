@@ -21,8 +21,8 @@
                         <label class="font-weight-bold">API host</label>
                         <v-text-field 
                             v-model="dictionary.api_host"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="API host"
                         ></v-text-field>
@@ -32,8 +32,8 @@
                     <label class="font-weight-bold">Dictionary name</label>
                     <v-text-field 
                         v-model="dictionary.name"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         :disabled="(dictionary.type === 'custom_api' && dictionary.database_table_name === 'API') || dictionary.name === 'JMDict'"
                         placeholder="Dictionary name"
@@ -50,7 +50,7 @@
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                                 </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                     The language that you are learning.
                                 </v-card>
                             </v-menu>
@@ -64,8 +64,8 @@
                             item-value="name"
                             item-text="name"
                             placeholder="Language"
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             rounded
                         >
                             <template v-slot:selection="{ item, index }">
@@ -85,8 +85,8 @@
                             :items="supportedSourceLanguages"
                             item-value="name"
                             placeholder="Language"
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             rounded
                             :disabled="dictionary.database_table_name === 'API' || dictionary.name === 'JMDict'"
                         >
@@ -111,7 +111,7 @@
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                                 </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                     The language that the dictionary translates to. For example if it's a German -> English 
                                     dictionary, you should select English as the target language. Target language has no function, 
                                     it's just a visual help to arrange your dictionaries.
@@ -124,8 +124,8 @@
                             :items="supportedDeeplTargetLanguages"
                             item-value="name"
                             placeholder="Language"
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             rounded
                         >
                             <template v-slot:selection="{ item, index }">
@@ -151,8 +151,8 @@
                             item-value="name"
                             item-text="name"
                             placeholder="Language"
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             rounded
                         >
                             <template v-slot:selection="{ item, index }">
@@ -176,7 +176,7 @@
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                                 </template>
-                                <v-card outlined class="rounded-lg pa-4" width="320px">
+                                <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                     The language that the dictionary translates to. For example if it's a German -> English 
                                     dictionary, you should select English as the target language. Target language has no function, 
                                     it's just a visual help to arrange your dictionaries.
@@ -189,8 +189,8 @@
                             :items="supportedTargetLanguages"
                             item-value="name"
                             placeholder="Language"
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             rounded
                         >
                             <template v-slot:selection="{ item, index }">
@@ -217,7 +217,7 @@
                         <template v-slot:activator="{ props }">
                             <v-card
                                 class="border"
-                                outlined
+                                variant="outlined"
                                 :color="dictionary.color"
                                 width="64px"
                                 height="32px"
@@ -243,7 +243,7 @@
                     color="success"
                     type="success"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     Dictionary saved successfully.
                 </v-alert>
@@ -259,7 +259,7 @@
                     <v-btn rounded text @click="close">Cancel</v-btn>
                     <v-btn 
                         rounded
-                        depressed 
+                        variant="flat" 
                         color="primary" 
                         :loading="saveResult === 'saving'" 
                         :disabled="saveResult === 'saving'" 

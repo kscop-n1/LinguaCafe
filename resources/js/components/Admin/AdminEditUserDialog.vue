@@ -28,8 +28,8 @@
                     <label class="font-weight-bold">Name</label>
                     <v-text-field 
                         v-model="name"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="Name"
                         maxlength="64"
@@ -42,8 +42,8 @@
                     <label class="font-weight-bold">E-mail address</label>
                     <v-text-field
                         v-model="email"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         placeholder="E-mail address"
                         maxlength="64"
@@ -58,8 +58,8 @@
                         <v-text-field
                             v-model="password"
                             type="password"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="Password"
                             maxlength="32"
@@ -74,8 +74,8 @@
                         <v-text-field
                             v-model="passwordConfirmation"
                             type="password"
-                            filled
-                            dense
+                            variant="filled"
+                            density="compact"
                             rounded
                             placeholder="Confirm password"
                             maxlength="32"
@@ -102,7 +102,7 @@
                         color="error"
                         type="error"
                         border="left"
-                        dark
+                        theme="dark"
                     >
                         This is your current user, and this action will remove your own admin rights.
                     </v-alert>
@@ -113,7 +113,7 @@
                         color="error"
                         type="error"
                         border="left"
-                        dark
+                        theme="dark"
                     >
                         <div v-html="errorMessage"></div>
                     </v-alert>
@@ -127,7 +127,7 @@
                 <!-- Save button -->
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     @click="save"
                     :disabled="!isFormValid || saving"

@@ -10,7 +10,7 @@
                     <template v-slot:activator="{ props }">
                         <v-icon class="ml-1" v-bind="props">mdi-information</v-icon>
                     </template>
-                    <v-card outlined class="rounded-lg pa-4" width="320px">
+                    <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                         Font size and space between lines can be set in the text reader.
                     </v-card>
                 </v-menu>
@@ -21,7 +21,7 @@
                 v-model="selectedLanguage"
                 mandatory
                 rounded
-                dense
+                density="compact"
                 @change="updateSampleTextLanguage"
             >
                 <v-btn 

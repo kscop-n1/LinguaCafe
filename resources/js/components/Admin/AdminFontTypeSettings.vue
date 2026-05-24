@@ -25,7 +25,7 @@
             Fonts
 
             <v-spacer />
-            <v-btn rounded depressed color="primary" :disabled="!supportedlanguages.length" @click="uploadFont">
+            <v-btn rounded variant="flat" color="primary" :disabled="!supportedlanguages.length" @click="uploadFont">
                 <v-icon class="mr-1">mdi-upload</v-icon>
                 Upload font
             </v-btn>
@@ -56,7 +56,7 @@
                 <!-- Edit button -->
                 <v-btn 
                     rounded 
-                    depressed 
+                    variant="flat" 
                     icon
                     @click="editFont(item.index)"
                 >
@@ -67,7 +67,7 @@
                 <v-btn 
                     v-if="!item.default"
                     rounded 
-                    depressed 
+                    variant="flat" 
                     icon
                     color="error"
                     @click="deleteFont(item.index)"

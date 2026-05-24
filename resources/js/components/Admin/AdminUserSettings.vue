@@ -16,21 +16,21 @@
         <div class="d-flex subheader mt-4 mb-4 px-2 ">
             Users
             <v-spacer />
-            <v-btn rounded dark color="primary" @click="addUser" >
+            <v-btn rounded theme="dark" color="primary" @click="addUser" >
                 <v-icon class="mr-1">mdi-plus</v-icon>
                 Add user
             </v-btn>
         </div>
 
         <!-- User list -->
-        <v-card outlined class="rounded-lg pa-2 pb-0 mb-32">
+        <v-card variant="outlined" class="rounded-lg pa-2 pb-0 mb-32">
             <v-card-title>
                 <v-text-field
                     v-model="usersFilter"
                     append-icon="mdi-magnify"
                     label="Search"
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     hide-details
                     single-line
                     rounded

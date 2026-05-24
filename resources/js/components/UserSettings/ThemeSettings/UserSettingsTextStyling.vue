@@ -9,7 +9,7 @@
         </div>
 
         <!-- Text content -->
-        <v-card outlined class="rounded-lg mt-2" :loading="loading">
+        <v-card variant="outlined" class="rounded-lg mt-2" :loading="loading">
             <v-container class="pa-8" v-if="textStyling">
                 <!-- Switch buttons (small screen) -->
                 <div id="option-select-inputs" class="w-100 d-flex justify-space-between flex-wrap mb-4">
@@ -21,8 +21,8 @@
                             :value="selectedLevel"
                             label="Level"
                             rounded
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             single-line
                             hide-details
                             :items="levels"
@@ -38,8 +38,8 @@
                             label="Theme"
                             :value="selectedTheme"
                             rounded
-                            dense
-                            filled
+                            density="compact"
+                            variant="filled"
                             single-line
                             hide-details
                             :items="themes"
@@ -104,7 +104,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle</v-icon>
                             </template>
-                            <v-card outlined class="rounded-lg pa-4" width="320px">
+                            <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                 Some languages like Chinese, Japanese and Thai do not have spaces between words. This option is for users who prefer having padding 
                                 only for these languages to improve readability, while disabling padding for languages that do have spaces between words to avoid words
                                 slightly moving on the screen when a word's level was changed.
@@ -163,8 +163,8 @@
                         v-model="textStyling[selectedTheme][selectedLevel].borderStyle"
                         label="Border type"
                         rounded
-                        dense
-                        filled
+                        density="compact"
+                        variant="filled"
                         single-line
                         hide-details
                         :items="[
@@ -267,11 +267,10 @@
                                     <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
-                                            outlined
+                                            variant="outlined"
                                             width="48px"
                                             height="26px"
                                             :color="textStyling[selectedTheme][selectedLevel].borderColor"
-                                            depressed
                                             v-bind="props"
                                         >
                                         
@@ -288,9 +287,9 @@
                                     class="my-2"
                                     v-model="textStyling[selectedTheme][selectedLevel].borderColor"
                                     ref="colorHex"
-                                    filled
+                                    variant="filled"
                                     rounded
-                                    dense
+                                    density="compact"
                                     hide-details
                                     maxlength="7"
                                     @input="updateSampleTextStyling"
@@ -313,11 +312,10 @@
                                     <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
-                                            outlined
+                                            variant="outlined"
                                             width="48px"
                                             height="26px"
                                             :color="textStyling[selectedTheme][selectedLevel].textColor"
-                                            depressed
                                             v-bind="props"
                                         >
                                         
@@ -334,9 +332,9 @@
                                     class="my-2"
                                     v-model="textStyling[selectedTheme][selectedLevel].textColor"
                                     ref="colorHex"
-                                    filled
+                                    variant="filled"
                                     rounded
-                                    dense
+                                    density="compact"
                                     hide-details
                                     maxlength="7"
                                     @input="updateSampleTextStyling"
@@ -359,11 +357,10 @@
                                     <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
-                                            outlined
+                                            variant="outlined"
                                             width="48px"
                                             height="26px"
                                             :color="textStyling[selectedTheme][selectedLevel].backgroundColor"
-                                            depressed
                                             v-bind="props"
                                         >
                                         
@@ -380,9 +377,9 @@
                                     class="my-2"
                                     v-model="textStyling[selectedTheme][selectedLevel].backgroundColor"
                                     ref="colorHex"
-                                    filled
+                                    variant="filled"
                                     rounded
-                                    dense
+                                    density="compact"
                                     hide-details
                                     maxlength="7"
                                     @input="updateSampleTextStyling"
@@ -424,8 +421,8 @@
                 </div>
 
                 <div class="d-flex justify-end mt-2">
-                    <v-btn rounded depressed color="primary" @click="showResetTextStylingDialog">Reset</v-btn>
-                    <!-- <v-btn rounded depressed color="primary" @click="logTextStylingSettingsObject">Console log settings</v-btn> -->
+                    <v-btn rounded variant="flat" color="primary" @click="showResetTextStylingDialog">Reset</v-btn>
+                    <!-- <v-btn rounded variant="flat" color="primary" @click="logTextStylingSettingsObject">Console log settings</v-btn> -->
                 </div>
             </v-container>
         </v-card>

@@ -1,7 +1,7 @@
 <template>
     <div id="user-manual-introduction" class="ma-4 mb-16">
         <div class="subheader d-flex">LinguaCafe</div>
-        <v-card outlined class="rounded-lg pa-4">
+        <v-card variant="outlined" class="rounded-lg pa-4">
             LinguaCafe is a free self-hosted software that helps language learners acquire vocabulary by reading. It provides a 
             set of tools to read, look up, and review unknown words as effortlessly as possible.
 

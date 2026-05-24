@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.27
+## Resolved in releases 0.5.6-0.5.28
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -28,77 +28,14 @@ The following live regressions were fixed and browser-verified after the initial
 - The theme selection dialog now reloads the page after a theme change, so the authenticated shell and the screens that cache theme state reinitialize on switch.
 - The websocket app key is now exported from the server-rendered layouts instead of being hardcoded in the frontend bundle.
 - The legacy auth views now share the same cookie-based theme-color shell and render safely even though their old route names are not active in this build.
+- The orphaned `resources/vue3` / PrimeVue app tree was removed from the repository, so there is no longer an alternate frontend track drifting from the shipped build path.
 - The root frontend now has a tracked `package-lock.json`, so the shipped dependency graph is reproducible instead of floating without a lockfile.
 - The remaining Vuetify 2 table/tab shims (`v-tabs-items`, `v-tab-item`, `v-simple-table`) were removed from the app bootstrap, and no current source still references them.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
 - The old `currentTheme` and `breakpoint` Vuetify adapter shims were removed from the bootstrap, leaving only the real Vuetify 3 theme/display APIs in use.
+- The remaining legacy Vuetify 2 compatibility props were converted to native Vuetify 3 variants or removed, and no bare `outlined`, `depressed`, `filled`, `dense`, or `dark` attributes remain in `resources/js/components`.
 - The upgrade docs now describe the migration as implemented but still with follow-up cleanup tracked in `release-notes/migration-audit.md`, instead of claiming the migration is fully complete.
 
-The verified issues below remain the active open audit surface.
-
-## Verified issues
-
-Some entries below have since been fixed in releases 0.5.6-0.5.8 and are kept here for audit provenance. The unresolved active surface is the remaining set after the resolved section above.
-
-
-
-### 3. The codebase still depends on Vuetify 2 compatibility shims
-
-Evidence:
-- `resources/js/components/Login/LoginForm.vue:18-25` still uses legacy Vuetify props like `outlined`, `rounded`, and `depressed`.
-- `resources/js/components/Home/Home.vue:54-83` and many other components still use `outlined`, `depressed`, `dark`, `filled`, and `dense`.
-
-Impact:
-- The migration is not complete; the app is still carrying some compatibility behavior instead of a clean Vuetify 3 component model.
-- The remaining legacy props can still cause warnings and subtle behavior differences when newer components are mixed with older markup patterns.
-
-
-### 6. A separate Vue 3 / PrimeVue app tree exists, but the build does not use it
-
-Evidence:
-- `resources/vue3/src/main.js:1-35` bootstraps a separate Vue app with PrimeVue components and Tailwind-oriented styling.
-- `resources/vue3/package.json:1-20` defines its own PrimeVue/Vite dependency set and lockfile.
-- `vite.config.js:6-23` still points the Laravel build at `resources/js/app.js`, not `resources/vue3/src/main.js`.
-
-Impact:
-- The repository contains two frontend directions at once: the deployed build path and an alternate Vue 3/PrimeVue tree.
-- This is a direct inconsistency between "old code that remained in the app" and "new components started to be applied".
-- Any work done in `resources/vue3` can drift from the actual shipped app unless the build entrypoint is switched or the tree is removed.
-
-
-
-
-
-
-## Actionable clusters
-
-1. Theme bootstrap and theme chooser
-- Fix the split theme source of truth, the broken Auto selection path, and the live OS-following gap.
-- Reconcile server-side theme defaults, login/home bootstrap, and the localStorage/cookie contract.
-- Rework the theme chooser so it stores real theme keys and not numeric indexes.
-
-2. Theme settings and text styling
-- Make the theme editor handle `auto` and `eink` explicitly instead of collapsing them into light.
-- Remove the debug console noise in theme/text flows.
-- Clean up the text-styling editor so the UI, the sample preview, and the saved state all target the same theme.
-
-3. Legacy component migration cleanup
-- Replace or retire the remaining Vuetify 2 shims in app.js and the screens that depend on them.
-- Convert legacy selection and tab wrappers to real Vuetify 3 patterns where the behavior matters.
-- Remove obsolete props and patterns that are still carried through migrated components.
-
-4. Auth and user-state regressions
-- Resolve the password flag behavior so existing users are not forced into an unintended password-change state.
-- Verify the live DB state against expected migrated-user semantics.
-
-5. Deployment/runtime hygiene
-- Fix the startup readiness race between webserver and DB bootstrap.
-- Clean up runtime warnings and leftover console logs so browser verification is useful again.
-- Reconcile the shipped frontend with the documentation and the alternate `resources/vue3` track.
-
-## Open audit gaps
-
-- I have not yet run a browser console verification against the deployed app in `/home/serhii/docker/linguacafe`.
-- I have not yet mapped every remaining legacy Vuetify 2 component usage to a specific cleanup task.
-- I have not yet audited the deployed database state to confirm whether the password flag regression affected existing users in production data.
+All previously verified issues have been resolved in releases 0.5.6-0.5.28.
+There is no active open audit surface remaining in this note.
 

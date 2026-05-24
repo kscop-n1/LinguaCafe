@@ -23,7 +23,7 @@
                         <v-spacer />
                         <v-btn
                             rounded
-                            depressed
+                            variant="flat"
                             color="error"
                             @click="passwordChangeDialog = true;"
                         >
@@ -51,7 +51,7 @@
             </div>
 
             <div id="about" class="d-flex flex-wrap">
-                <v-card outlined class="rounded-lg pt-0 mr-4 mb-4" width="290px">
+                <v-card variant="outlined" class="rounded-lg pt-0 mr-4 mb-4" width="290px">
                     <v-card-title>LinguaCafe</v-card-title>
                     <v-card-text>
                         You can find more information about LinguaCafe on these links.
@@ -64,7 +64,7 @@
                     </v-card-text>
                 </v-card>
 
-                <v-card outlined class="rounded-lg pt-0 mr-4 mb-4" width="290px">
+                <v-card variant="outlined" class="rounded-lg pt-0 mr-4 mb-4" width="290px">
                     <v-card-title>Contact</v-card-title>
                     <v-card-text>
                         You can contact the developer of LinguaCafe on these platforms.
@@ -80,7 +80,7 @@
                     </v-card-text>
                 </v-card>
 
-                <v-card outlined class="rounded-lg pt-0 mr-4 mb-4" width="290px">
+                <v-card variant="outlined" class="rounded-lg pt-0 mr-4 mb-4" width="290px">
                     <v-card-title>Version</v-card-title>
                     <v-card-text>
                         The current LinguaCafe version is v0.14.1.

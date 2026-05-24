@@ -15,7 +15,7 @@
                     color="primary"
                     type="info"
                     border="left"
-                    dark
+                    theme="dark"
                 >
                     This setting will only affect today's and upcoming days' goal. Past days' goals will not be affected.
                 </v-alert>
@@ -26,8 +26,8 @@
                     class="mb-1"
                     type="number"
                     hide-details
-                    filled
-                    dense
+                    variant="filled"
+                    density="compact"
                     rounded
                     placeholder="Goal quantity"
                     @change="quantityChanged"
@@ -40,7 +40,7 @@
                 <v-btn rounded text @click="close">Cancel</v-btn>
                 <v-btn 
                     rounded 
-                    depressed
+                    variant="flat"
                     color="primary" 
                     @click="save"
                     :disabled="saving"

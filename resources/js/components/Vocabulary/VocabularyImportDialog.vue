@@ -22,7 +22,7 @@
             <v-card-text>
                 <template v-if="importResult === null || importResult.error">
                     <!-- Import information -->
-                    <v-alert dark border="left" type="info" color="primary" v-if="!loading">
+                    <v-alert theme="dark" border="left" type="info" color="primary" v-if="!loading">
                         Please read the <a href="/user-manual/vocabulary-import"><v-icon small class="mr-0.5">mdi-file</v-icon>user manual</a> before importing.
                     </v-alert>
 
@@ -30,8 +30,8 @@
                     <label class="font-weight-bold">Subtitle file</label>
                     <v-file-input
                         v-model="importFile"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         persistent-hint
                         hint="Accepted format: .csv"
@@ -48,8 +48,8 @@
                     <label class="font-weight-bold">Delimiter</label>
                     <v-text-field 
                         v-model="delimiter"
-                        filled
-                        dense
+                        variant="filled"
+                        density="compact"
                         rounded
                         hide-details
                         max-length="1"
@@ -76,13 +76,13 @@
                     ></v-switch>
 
                     <!-- Import information -->
-                    <v-alert dark class="mt-4" border="left" type="error" color="error" v-if="!loading && importResult !== null && importResult.error">
+                    <v-alert theme="dark" class="mt-4" border="left" type="error" color="error" v-if="!loading && importResult !== null && importResult.error">
                         An error has occured while importing. Please make sure that your file is in the correct format.
                     </v-alert>
                 </template>
 
                 <!-- Importing message -->
-                <v-alert class="mt-4" dark border="left" type="info" color="primary" v-if="loading">
+                <v-alert class="mt-4" theme="dark" border="left" type="info" color="primary" v-if="loading">
                     Importing your selected file. This might take take a while...
                 </v-alert>
 
@@ -116,7 +116,7 @@
                     <v-btn rounded text :disabled="loading" @click="close">Cancel</v-btn>
                     <v-btn 
                         rounded 
-                        depressed
+                        variant="flat"
                         color="primary"
                         :disabled="!importFileValid || loading"
                         @click="importFromCsv"
