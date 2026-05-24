@@ -2,7 +2,7 @@
 @section('content')
     <layout 
         :_user-count="{{ $userCount }}"
-        :theme-settings="{}"
+        :theme-settings="{{ json_encode($themeSettings) }}"
         _selected-language="spanish"
     ></layout>
 @endsection

@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.20
+## Resolved in releases 0.5.6-0.5.21
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -24,6 +24,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The review screen now preserves saved false values for the hover box, hover-box search, and bottom-sheet vocabulary settings instead of coercing them back to true on load.
 - The live compose file now matches the external MySQL deployment topology and no longer declares the bundled mysql service as the running webserver dependency.
 - The review page now mounts cleanly without the initialization crash that previously read theme colors too early.
+- The theme bootstrap now uses cookie-first resolution for both server and client paths, login and home default to light consistently, and auto mode resolves the system theme in the shell and theme service.
 - The theme selection dialog now reloads the page after a theme change, so the authenticated shell and the screens that cache theme state reinitialize on switch.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
 
@@ -33,29 +34,7 @@ The verified issues below remain the active open audit surface.
 
 Some entries below have since been fixed in releases 0.5.6-0.5.8 and are kept here for audit provenance. The unresolved active surface is the remaining set after the resolved section above.
 
-### 1. Theme source of truth is split between cookie and localStorage
 
-Evidence:
-- `app/Http/Controllers/HomeController.php:24-33` reads `$_COOKIE['theme']` for the home page bootstrap.
-- `app/Http/Controllers/UserController.php:45-58` reads `$_COOKIE['theme']` for the login page bootstrap.
-- `resources/js/components/Dialogs/ThemeSelectionDialog.vue:66-79` writes theme changes to localStorage, not cookie.
-- `resources/js/components/Layout.vue:291-307` and `resources/js/components/Layout.vue:331-332` resolve theme from localStorage and then persist it back to localStorage.
-
-Impact:
-- The server-rendered entry points and the client-rendered shell do not share one canonical theme source.
-- Login and home page theme can drift from the selected theme after a refresh or first render.
-- This is a direct cause of the color/theme inconsistency reported after the migration.
-
-### 2. Auto theme is only partially implemented
-
-Evidence:
-- `resources/js/components/Layout.vue:248-250` has the OS theme watcher commented out.
-- `resources/js/components/Layout.vue:291-307` only applies auto theme during initial selection / load.
-- `resources/js/services/ThemeService.js:78-98` only reads the stored auto flag and current media query state; it does not subscribe to changes.
-
-Impact:
-- The "auto" theme behaves like a one-time selection, not a live OS-following mode.
-- Users can end up with stale colors after system theme changes.
 
 ### 3. The codebase still depends on Vuetify 2 compatibility shims
 
@@ -119,16 +98,6 @@ Impact:
 - It increases the chance that a fresh install or CI run will produce behavior that differs from the deployed stack.
 
 
-### 10. Login and home pages disagree on the default server-side theme
-
-Evidence:
-- app/Http/Controllers/UserController.php:45-58 falls back to theme cookie or light for the login page.
-- app/Http/Controllers/HomeController.php:24-40 falls back to theme cookie or dark for the home page.
-
-Impact:
-- The first rendered view can flip between light and dark depending on whether the user is on /login or an authenticated page.
-- This is a visible migration-era inconsistency even before localStorage/theme JS runs.
-- It increases the chance of a theme flash or wrong initial colors on fresh sessions with no stored theme cookie.
 
 ### 11. Websocket app key is duplicated as a hardcoded frontend constant
 
@@ -141,17 +110,6 @@ Impact:
 - If the deployment key changes, the frontend must be rebuilt to match the backend config.
 - This is another example of old/new infrastructure being mixed rather than centralized cleanly after the migration.
 
-### 13. Login page ignores user-specific theme color settings
-
-Evidence:
-- `app/Http/Controllers/HomeController.php:24-43` passes `themeSettings` from `SettingsService` into the home page view.
-- `app/Http/Controllers/UserController.php:45-58` passes an empty `themeSettings` object into the login page view.
-- `resources/js/components/Layout.vue:278-287` only loads custom theme colors when `this.$props.themeSettings?.vuetifyThemes` exists.
-
-Impact:
-- Custom color settings are applied on the authenticated home shell but not on the login page.
-- A user who customized colors will still see defaults on `/login`, which creates a visible color inconsistency across the same account.
-- This is a direct migration regression in theming behavior, not just a cosmetic difference.
 
 ### 15. Several auth screens still use the old Bootstrap layout instead of the migrated Vue shell
 

@@ -112,7 +112,7 @@
         data: function() {
             return {
                 selectedLanguage: this.$props._selectedLanguage,
-                theme: DefaultLocalStorageManager.loadSetting("theme") || 'light',
+                theme: ThemeService.isAuto() ? ThemeService.getResolvedTheme() : (ThemeService.getStoredTheme() || 'light'),
                 logoutDialog: false,
                 themeSelectionDialog: false,
                 languageSelectionDialog: false,
@@ -298,7 +298,7 @@
                 }
 
                 // otherwise use saved theme
-                const savedTheme = DefaultLocalStorageManager.loadSetting('theme');
+                const savedTheme = ThemeService.isAuto() ? ThemeService.getResolvedTheme() : ThemeService.getStoredTheme();
                 this.theme = savedTheme ? savedTheme : 'light';
             },
             getSystemTheme() {
@@ -339,7 +339,7 @@
 
             },
             updateTheme() {
-                const savedTheme = DefaultLocalStorageManager.loadSetting('theme');
+                const savedTheme = ThemeService.isAuto() ? ThemeService.getResolvedTheme() : ThemeService.getStoredTheme();
                 this.theme = savedTheme ? savedTheme : 'light';
             },
             openLogoutDialog() {

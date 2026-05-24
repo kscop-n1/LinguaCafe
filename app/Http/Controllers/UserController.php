@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\GoalService;
+use App\Services\SettingsService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,9 +18,11 @@ use App\Http\Requests\Users\AuthenticateUserRequest;
 
 class UserController extends Controller {
     private $userService;
+    private $settingsService;
 
-    public function __construct(UserService $userService) {
+    public function __construct(UserService $userService, SettingsService $settingsService) {
         $this->userService = $userService;
+        $this->settingsService = $settingsService;
 
     }
 
@@ -46,6 +49,13 @@ class UserController extends Controller {
     {
         $userCount = User::count();
         $theme = $_COOKIE['theme'] ?? 'light';
+        $themeSettings = null;
+
+        try {
+            $themeSettings = $this->settingsService->getGlobalSettingsByName(['textStyling', 'vuetifyThemes']);
+        } catch (\Exception $e) {
+            $themeSettings = null;
+        }
 
         if (Auth::check()) {
             return redirect()->intended('/');
@@ -55,6 +65,7 @@ class UserController extends Controller {
             'userCount' => $userCount,
             'userUuid' => '',
             'theme' => $theme,
+            'themeSettings' => $themeSettings,
         ]);
     }
     

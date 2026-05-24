@@ -8,8 +8,27 @@ class ThemeService {
         
     }
 
+    getCookie(name) {
+        const prefix = `${name}=`;
+        const cookies = document.cookie ? document.cookie.split('; ') : [];
+        const cookie = cookies.find((entry) => entry.indexOf(prefix) === 0);
+        return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
+    }
+
+    getStoredTheme() {
+        return this.getCookie('theme') || localStorageManager.loadSetting('theme');
+    }
+
+    getResolvedTheme() {
+        if (localStorageManager.loadSetting('theme-auto')) {
+            return this.getAutoTheme();
+        }
+
+        return this.getStoredTheme() || 'light';
+    }
+
     setDefaultVuetifyTheme(vuetifyHandler) {
-        const themeName = localStorageManager.loadSetting('theme') || 'light';
+        const themeName = this.getResolvedTheme();
         const lightTheme = themeName === 'eink' ? defaultThemes.eink : defaultThemes.light;
 
         this.setThemeColors(vuetifyHandler, 'light', lightTheme);
@@ -66,9 +85,10 @@ class ThemeService {
 
         let lightTheme = {}
         let darkTheme = {}
+        const currentTheme = this.getResolvedTheme();
         let themeSettingNames = Object.keys(defaultThemes.light)
         themeSettingNames.forEach((name) => {
-            if (localStorageManager.loadSetting('theme') === 'eink') {
+            if (currentTheme === 'eink') {
                 lightTheme[name] = JSON.parse(JSON.stringify(defaultThemes['eink'][name]));
             } else {
                 lightTheme[name] = vuetifyThemeSettings['light'][name] ?? JSON.parse(JSON.stringify(defaultThemes['light'][name]));
@@ -79,14 +99,14 @@ class ThemeService {
 
         this.setThemeColors(vuetifyHandler, 'light', lightTheme);
         this.setThemeColors(vuetifyHandler, 'dark', darkTheme);
-        this.setThemeColors(vuetifyHandler, 'eink', localStorageManager.loadSetting('theme') === 'eink' ? lightTheme : defaultThemes.eink);
+        this.setThemeColors(vuetifyHandler, 'eink', currentTheme === 'eink' ? lightTheme : defaultThemes.eink);
     }
 
     getCurrentTheme() {
         if (localStorageManager.loadSetting('theme-auto')) {
             return 'auto'
         } else {
-            return localStorageManager.loadSetting('theme') || 'light';
+            return this.getStoredTheme() || 'light';
         };
     }
 
