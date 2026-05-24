@@ -49,7 +49,7 @@
                     </div>
 
                     <!-- Word counts -->
-                    <v-simple-table dense class="book-info-table no-hover pb-4  mx-auto" v-if="book.wordCount !== null">
+                    <v-table density="compact" class="book-info-table no-hover pb-4 mx-auto" v-if="book.wordCount !== null">
                         <tbody>
                             <tr>
                                 <td width="200px">Total words</td>
@@ -108,7 +108,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </v-simple-table>
+                    </v-table>
                     <v-card-actions>
                         <v-spacer />
                         <v-btn rounded class="mx-0" color="primary" @click="addChapter"><v-icon> mdi-plus</v-icon>Add chapter</v-btn>

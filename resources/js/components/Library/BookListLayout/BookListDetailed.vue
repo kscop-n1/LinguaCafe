@@ -43,7 +43,7 @@
                     </div>
 
                     <!-- Word counts -->
-                    <v-simple-table dense class="book-info-table no-hover pb-4  mx-auto" v-if="book.wordCount !== null">
+                    <v-table density="compact" class="book-info-table no-hover pb-4 mx-auto" v-if="book.wordCount !== null">
                         <tbody>
                             <tr>
                                 <td width="200px">Total words</td>
@@ -66,7 +66,7 @@
                                 <td class="text-center"><div class="info-table-value new-words px-2 rounded-xl">{{ formatNumber(book.wordCount.new) }}</div></td>
                             </tr>
                         </tbody>
-                    </v-simple-table>
+                    </v-table>
                 <v-card-actions>
                     <v-spacer />
                     <v-btn rounded class="mx-0" color="primary" @click="openBook(book.id)" v-if="!book.chaptersVisible">Open</v-btn>
