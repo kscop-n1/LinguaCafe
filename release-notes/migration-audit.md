@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.28
+## Resolved in releases 0.5.6-0.5.29
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
