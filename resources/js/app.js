@@ -79,15 +79,6 @@ app.component('v-tab-item', {
 app.component('v-simple-table', {
     template: '<div class="v-table"><div class="v-table__wrapper"><table><slot /></table></div></div>',
 });
-app.component('v-list-item-group', {
-    template: '<v-list><slot /></v-list>',
-});
-app.component('v-list-item-avatar', {
-    template: '<div class="v-list-item__prepend"><slot /></div>',
-});
-app.component('v-list-item-content', {
-    template: '<div class="v-list-item-title"><slot /></div>',
-});
 
 app.config.globalProperties.$cookie = {
     get(name) {

@@ -86,6 +86,7 @@
                 ThemeService.setVuetifyTheme(this.$vuetify, this.$store)
 
                 this.close();
+                window.location.reload();
 
             },
             close: function() {
