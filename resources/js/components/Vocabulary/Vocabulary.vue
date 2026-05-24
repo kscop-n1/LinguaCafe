@@ -46,11 +46,11 @@
                 <v-row id="filters" :class="{'hidden': filtersHidden}">
                     <!-- Stage filter -->
                     <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
                                 Level
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
@@ -72,11 +72,11 @@
 
                     <!-- Book filter -->
                     <v-menu right offset-y v-if="books.length">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
                                 Book
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
@@ -91,19 +91,19 @@
                     </v-menu>
 
                     <!-- Chapter filter -->
-                    <v-menu offset-y v-if="filters.bookIndex !== -1 && books.length">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                    <v-menu offset-y v-if="selectedBook">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
                                 Chapter
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
                             <v-list-item-group color="primary">
                                 <v-list-item :class="{'v-list-item--active': filters.chapter == -1}" @click="applyFilter('chapter', -1)">Any</v-list-item>
                                 <v-list-item 
-                                    v-for="(chapter, index) in books[filters.bookIndex].chapters" :key="index"
+                                    v-for="(chapter, index) in selectedBook.chapters" :key="index"
                                     :class="{'default-font': true, 'v-list-item--active': filters.chapter == chapter.id}"
                                     @click="applyFilter('chapter', chapter.id, index)">{{ chapter.name }}</v-list-item>
                             </v-list-item-group>
@@ -112,11 +112,11 @@
 
                     <!-- Translation filter -->
                     <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
                                 Translation
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
@@ -135,11 +135,11 @@
 
                     <!-- Phrases filter -->
                     <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
                                 Phrases
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
@@ -162,11 +162,11 @@
 
                     <!-- Search result order -->
                     <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded depressed v-bind="props">
                                 Order by
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
@@ -190,11 +190,11 @@
 
                     <!-- Export / import -->
                     <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="filter-menu export pl-3 pr-2" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                            <v-btn class="filter-menu export pl-3 pr-2" color="foreground" rounded depressed v-bind="props">
                                 <v-icon small class="mr-1">mdi-file-download</v-icon>Data
-                                <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                                <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                                <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
@@ -336,10 +336,15 @@
         props: {
             language: String
         },
+        computed: {
+            selectedBook() {
+                return this.books[this.filters.bookIndex] || null;
+            },
+        },
         mounted() {
             this.loading = true;
-            document.getElementById('app').addEventListener('scroll', () => { this.visiblePopup = ''; });
-            document.getElementById('app').addEventListener('click', () => { this.visiblePopup = ''; });
+            document.getElementById('app')?.addEventListener('scroll', () => { this.visiblePopup = ''; });
+            document.getElementById('app')?.addEventListener('click', () => { this.visiblePopup = ''; });
             
             if (this.$route.params.text !== undefined) {
                 this.filters.text = (this.$route.params.text == 'anytext') ? '' : this.$route.params.text;
@@ -459,7 +464,7 @@
                     + '/' + encodeURI(this.filters.orderBy) 
                     + '/1';
 
-                if(this.$router.currentRoute.path !== url) {
+                if (this.$route.path !== url) {
                     this.$router.push(url);
                 }
             },
@@ -483,7 +488,7 @@
                     + '/' + encodeURI(this.filters.orderBy)
                     + '/' + page;
 
-                if(this.$router.currentRoute.path !== url) {
+                if (this.$route.path !== url) {
                     this.$router.push(url);
                 }
             }

@@ -39,7 +39,7 @@
                         <v-icon small>mdi-message-text</v-icon>
                         Discord
                     </a> or 
-                    <a href="https://github.com/simjanos-dev/linguacafe">
+                    <a href="https://github.com/kscop-n1/linguacafe">
                         <v-icon small>mdi-github</v-icon>
                         GitHub
                     </a>.

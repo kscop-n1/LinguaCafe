@@ -1,5 +1,5 @@
 <template>
-    <div id="fullscreen-box" :class="{'fullscreen-mode': fullscreenMode}" :style="{'background-color': $vuetify.theme.currentTheme.background}">
+    <div id="fullscreen-box" :class="{'fullscreen-mode': fullscreenMode}" :style="{'background-color': currentThemeColors.background}">
         <!-- Hotkey information dialog -->
         <text-reader-hotkey-information-dialog
             v-model="hotkeyDialog"
@@ -57,16 +57,16 @@
                     'ml-2': true,
                 }"
                 :style="{
-                    'height': $vuetify.breakpoint.mdAndUp ? 'calc(100% - 24px - 24px)' : 'calc(100% - 24px - 24px - 64px)',
+                    'height': $vuetify.display.mdAndUp ? 'calc(100% - 24px - 24px)' : 'calc(100% - 24px - 24px - 64px)',
                     'padding-right': settings.vocabularySidebar && vocabularySidebarFits ? '400px !important' : '0px'
                 }"
             >
                 <v-card-text id="reader-content" :class="{
                     'vocab-box-area': true,
-                    'px-6': $vuetify.breakpoint.smAndUp,
-                    'px-3': $vuetify.breakpoint.xsOnly,
-                    'pt-4': $vuetify.breakpoint.smAndUp,
-                    'pt-3': $vuetify.breakpoint.xsOnly,
+                    'px-6': $vuetify.display.smAndUp,
+                    'px-3': $vuetify.display.xsOnly,
+                    'pt-4': $vuetify.display.smAndUp,
+                    'pt-3': $vuetify.display.xsOnly,
                 }">
                     <div id="chapter-name" class="mb-4 selected-font" :style="{'font-size': (settings.fontSize + 4) + 'px'}">
                         {{ chapterName }}
@@ -105,8 +105,8 @@
                     ></text-block-group>
                     <div :class="{
                         'd-flex': true,
-                        'mt-16': $vuetify.breakpoint.smAndUp,
-                        'mb-3': $vuetify.breakpoint.xsOnly,
+                        'mt-16': $vuetify.display.smAndUp,
+                        'mb-3': $vuetify.display.xsOnly,
                     }">
                         <v-spacer></v-spacer>
                         <v-btn rounded color="primary" @click="finish()"><v-icon>mdi-text-box-check</v-icon> Finish reading</v-btn>
@@ -336,11 +336,11 @@
                 this.languageSpaces = data.languageSpaces;
                 this.nextChapter = data.nextChapter;
 
-                document.getElementById('app').addEventListener('mouseup', this.finishSelection);
+                document.getElementById('app')?.addEventListener('mouseup', this.finishSelection);
                 window.addEventListener('resize', this.updateToolbarPosition);
                 window.addEventListener('resize', this.vocabularySidebarTest);
                 window.addEventListener('scroll', this.updateToolbarPosition);
-                document.getElementById('fullscreen-box').addEventListener('fullscreenchange', this.updateFullscreen);
+                document.getElementById('fullscreen-box')?.addEventListener('fullscreenchange', this.updateFullscreen);
                 this.$forceUpdate();
                 this.$nextTick(() => {
                     this.updateGlossary();

@@ -245,7 +245,6 @@
                     }
 
                     this.dictionaries = data;
-                    console.log(this.dictionaries);
                 });
             },
             formatNumber: formatNumber

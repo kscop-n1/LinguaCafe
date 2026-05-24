@@ -160,7 +160,7 @@
                                 dark
                             >
                                     The import process has failed. Please make sure your dictionary files are the correct ones. If the problem 
-                                    still persist, please create a <a href="https://github.com/simjanos-dev/LinguaCafe">GitHub</a> Issue.
+                                    still persist, please create a <a href="https://github.com/kscop-n1/LinguaCafe">GitHub</a> Issue.
                             </v-alert>
                         </template>
                     </v-stepper-content>

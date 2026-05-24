@@ -25,56 +25,56 @@
                     <v-chip 
                         v-if="item.added_to_srs"
                         dark
-                        :small="$vuetify.breakpoint.smAndDown"
+                        :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-4" 
                         color="primary"
                         title="First time added to srs."
                     > 
-                        Added on {{ item.added_to_srs }}<v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1">mdi-cards</v-icon>
+                        Added on {{ item.added_to_srs }}<v-icon :small="$vuetify.display.smAndDown" right class="ml-1">mdi-cards</v-icon>
                     </v-chip>
 
                     <v-chip 
                         v-if="!item.next_review || item.stage >= 0 || !item.added_to_srs"
                         dark
-                        :small="$vuetify.breakpoint.smAndDown"
+                        :small="$vuetify.display.smAndDown"
                         class="ma-1" 
                         color="primary" 
                         title="This word or phrase was in review and has been learned."
                     >
                         Finished review
-                        <v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1">mdi-timer-off-outline</v-icon>
+                        <v-icon :small="$vuetify.display.smAndDown" right class="ml-1">mdi-timer-off-outline</v-icon>
                     </v-chip>
 
                     <v-chip 
                         v-else
                         dark
-                        :small="$vuetify.breakpoint.smAndDown"
+                        :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-3" 
                         color="primary" 
                         title="Next review."
                     >
-                        Due on {{ item.next_review }}<v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1">mdi-timer-outline</v-icon>
+                        Due on {{ item.next_review }}<v-icon :small="$vuetify.display.smAndDown" right class="ml-1">mdi-timer-outline</v-icon>
                     </v-chip>
                     
                     <v-chip 
                         dark
-                        :small="$vuetify.breakpoint.smAndDown"
+                        :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-3" 
                         color="primary"
                         title="Number of lookups for this word or phrase."
                     >
-                        {{ item.lookup_count }} lookups<v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1">mdi-magnify</v-icon>
+                        {{ item.lookup_count }} lookups<v-icon :small="$vuetify.display.smAndDown" right class="ml-1">mdi-magnify</v-icon>
                     </v-chip>
                     
                     <!-- <v-chip 
                         v-if="$props.itemType == 'Word'"
                         dark
-                        :small="$vuetify.breakpoint.smAndDown"
+                        :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-4" 
                         color="primary"
                         title="Number of times this word or phrase has been read."
                     >
-                        {{ item.read_count }} reads<v-icon :small="$vuetify.breakpoint.smAndDown" right class="ml-1">mdi-book-open</v-icon>
+                        {{ item.read_count }} reads<v-icon :small="$vuetify.display.smAndDown" right class="ml-1">mdi-book-open</v-icon>
                     </v-chip> -->
                     
                 </div>

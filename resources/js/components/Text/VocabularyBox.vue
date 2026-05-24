@@ -78,9 +78,9 @@
 
                                 <!-- Level info box -->
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
+                                    <template v-slot:activator="{ props }">
                                         <div>
-                                            <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                            <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                         </div>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">

@@ -14,7 +14,8 @@ class ThemeService {
 
         this.setThemeColors(vuetifyHandler, 'light', lightTheme);
         this.setThemeColors(vuetifyHandler, 'dark', defaultThemes.dark);
-        this.setActiveTheme(vuetifyHandler, themeName === 'dark' ? 'dark' : 'light');
+        this.setThemeColors(vuetifyHandler, 'eink', defaultThemes.eink);
+        this.setActiveTheme(vuetifyHandler, themeName === 'dark' ? 'dark' : themeName === 'eink' ? 'eink' : 'light');
     }
 
     setThemeColors(vuetifyHandler, themeName, colors) {
@@ -41,6 +42,11 @@ class ThemeService {
     setActiveTheme(vuetifyHandler, themeName) {
         if (vuetifyHandler?.theme?.global?.name?.value !== undefined) {
             vuetifyHandler.theme.global.name.value = themeName;
+            return;
+        }
+
+        if (vuetifyHandler?.theme?.global?.name !== undefined) {
+            vuetifyHandler.theme.global.name = themeName;
             return;
         }
 
@@ -73,6 +79,7 @@ class ThemeService {
 
         this.setThemeColors(vuetifyHandler, 'light', lightTheme);
         this.setThemeColors(vuetifyHandler, 'dark', darkTheme);
+        this.setThemeColors(vuetifyHandler, 'eink', localStorageManager.loadSetting('theme') === 'eink' ? lightTheme : defaultThemes.eink);
     }
 
     getCurrentTheme() {

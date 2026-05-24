@@ -133,7 +133,6 @@
                         value.index = index;
                     });
                     
-                    console.log('fonts', this.fonts);
                     this.loading = false;
                 });
 

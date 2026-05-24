@@ -68,14 +68,14 @@
                 <template v-slot:item.actions="{ item }">
                     <v-btn icon title="Open book" @click="openBook(item.id)"><v-icon>mdi-book-open</v-icon></v-btn>
                     <v-menu content-class="book-menu" rounded offset-y bottom left nudge-top="-5">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon v-bind="attrs" v-on="on"  title="Actions">
+                        <template v-slot:activator="{ props }">
+                            <v-btn icon v-bind="props"  title="Actions">
                                 <v-icon>mdi-dots-horizontal</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn class="menu-button" tile color="white" @click="showEditBookDialog(item)">Edit</v-btn>
-                        <v-btn class="menu-button" tile color="white" @click="showStartReviewDialog(item)">Review</v-btn>
-                        <v-btn class="menu-button" tile color="white" @click="showDeleteBookDialog(item)">Delete</v-btn>
+                        <v-btn class="menu-button" tile  @click="showEditBookDialog(item)">Edit</v-btn>
+                        <v-btn class="menu-button" tile  @click="showStartReviewDialog(item)">Review</v-btn>
+                        <v-btn class="menu-button" tile  @click="showDeleteBookDialog(item)">Delete</v-btn>
                     </v-menu>
                 </template>
 
@@ -99,7 +99,6 @@
         },
         methods: {
             openBook(bookId) {
-                console.log('books', this.$props.books);
                 this.$emit('open-book', bookId);
             },
             showEditBookDialog(book) {

@@ -44,17 +44,17 @@
         <!-- Toolbar -->
         <div id="toolbar" class="d-flex mx-auto mt-6 mb-2">
               <v-menu offset-y class="rounded-lg">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                    <template v-slot:activator="{ props }">
+                        <v-btn color="foreground" rounded depressed v-bind="props">
                             Layout
-                            <v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
-                            <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                            <v-icon v-if="props?.['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+                            <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                         </v-btn>
                     </template>
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="setLayout('table')"
                     >
                         <v-icon class="mr-1">mdi-view-list</v-icon>
@@ -63,7 +63,7 @@
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="setLayout('cover-only')"
                     >
                         <v-icon class="mr-1">mdi-view-module</v-icon>
@@ -72,7 +72,7 @@
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="setLayout('detailed')"
                     >
                         <v-icon class="mr-1">mdi-view-agenda</v-icon>
@@ -82,17 +82,17 @@
 
                 <v-spacer></v-spacer>
                 <v-menu offset-y class="rounded-lg">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn class="library-small-screen" :color="theme == 'eink' ? 'white' : ''" rounded depressed v-bind="attrs" v-on="on">
+                    <template v-slot:activator="{ props }">
+                        <v-btn class="library-small-screen" rounded depressed v-bind="props">
                             Library
-                            <v-icon v-if="attrs['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
-                            <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                            <v-icon v-if="props?.['aria-expanded'] === 'true'">mdi-chevron-up</v-icon>
+                            <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                         </v-btn>
                     </template>
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="showEditBookDialog(null)"
                     >
                         <v-icon class="mr-1">mdi-book-plus</v-icon>
@@ -101,7 +101,7 @@
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="importDialog.active = true;"
                     >
                         <v-icon class="mr-1">mdi-import</v-icon>
@@ -254,10 +254,18 @@
                     }
                 }
 
+                if (bookIndex === -1) {
+                    this.openedBook = -1;
+                    if (this.$route.path !== '/books') {
+                        this.$router.replace('/books');
+                    }
+                    return;
+                }
+
                 this.openedBook = bookIndex;
 
                 // update url
-                if (this.$router.currentRoute.fullPath !== ('/books/' + this.books[bookIndex].id)) {
+                if (this.$route.path !== ('/books/' + this.books[bookIndex].id)) {
                     this.$router.push('/books/' + this.books[bookIndex].id);
                 }
             },
@@ -265,7 +273,7 @@
                 this.openedBook = -1;
 
                 // update url
-                if (this.$router.currentRoute.fullPath !== ('/books')) {
+                if (this.$route.path !== ('/books')) {
                     this.$router.push('/books');
                 }
             },

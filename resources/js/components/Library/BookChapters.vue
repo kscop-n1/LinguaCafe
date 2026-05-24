@@ -194,14 +194,14 @@
                     <template v-if="item.processing_status == 'processed'">
                         <v-btn icon :to="'/chapters/read/' + item.id" title="Read"><v-icon>mdi-book-open-variant</v-icon></v-btn>
                         <v-menu rounded offset-y bottom left nudge-top="-5">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
+                            <template v-slot:activator="{ props }">
+                                <v-btn icon v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
                             <v-btn
                                 width="100"
                                 class="menu-button"
                                 tile
-                                color="white"
+                                
                                 @click="showEditChapterDialog(item.id)"
                             >
                                 Edit
@@ -210,7 +210,7 @@
                                 width="100"
                                 class="menu-button"
                                 tile
-                                color="white"
+                                
                                 @click="showStartReviewDialog(book.id, book.name, item.id, item.name)"
                             >
                                 Review
@@ -219,7 +219,7 @@
                                 width="100"
                                 class="menu-button"
                                 tile
-                                color="white"
+                                
                                 @click="showDeleteChapterDialog(item)"
                             >
                                 Delete

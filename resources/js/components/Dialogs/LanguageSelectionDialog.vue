@@ -94,7 +94,7 @@
         },
         methods: {
             manageLanguages() {
-                if (this.$router.currentRoute.fullPath !== '/admin/languages') {
+                if (this.$route.path !== '/admin/languages') {
                     this.$router.push('/admin/languages');
                 }
                 

@@ -21,7 +21,7 @@ REM If the folder already exists, update and close
 if exist linguacafe (
     echo Installation of LingaCafe detected, updating...
     cd linguacafe
-    curl -O https://raw.githubusercontent.com/simjanos-dev/LinguaCafe/main/docker-compose.yml
+    curl -O https://raw.githubusercontent.com/kscop-n1/LinguaCafe/main/docker-compose.yml
     docker-compose pull
     docker-compose up -d --force-recreate
     timeout /t 10 >nul
@@ -47,7 +47,7 @@ if /i "!confirm_installation!"=="Y" (
     cd linguacafe
     
     REM Download docker-compose.yml from the main branch
-    curl -O https://raw.githubusercontent.com/simjanos-dev/LinguaCafe/main/docker-compose.yml
+    curl -O https://raw.githubusercontent.com/kscop-n1/LinguaCafe/main/docker-compose.yml
     
     docker-compose up -d
 

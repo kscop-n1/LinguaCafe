@@ -29,14 +29,14 @@
                         <div class="book-title-text default-font">{{ book.name }}</div>
                         <v-spacer></v-spacer>
                         <v-menu content-class="book-menu" rounded offset-y bottom left nudge-top="-5">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
+                            <template v-slot:activator="{ props }">
+                                <v-btn icon v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
-                            <v-btn class="menu-button" tile color="white" @click="loadBookWordCounts()">Load word counts</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="retryFailedImports()">Retry failed imports</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="showEditBookDialog()">Edit</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="showStartReviewDialog()">Review</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="showDeleteBookDialog()">Delete</v-btn>
+                            <v-btn class="menu-button" tile  @click="loadBookWordCounts()">Load word counts</v-btn>
+                            <v-btn class="menu-button" tile  @click="retryFailedImports()">Retry failed imports</v-btn>
+                            <v-btn class="menu-button" tile  @click="showEditBookDialog()">Edit</v-btn>
+                            <v-btn class="menu-button" tile  @click="showStartReviewDialog()">Review</v-btn>
+                            <v-btn class="menu-button" tile  @click="showDeleteBookDialog()">Delete</v-btn>
                         </v-menu>
                         <v-btn icon @click.stop="closeBook"><v-icon>mdi-close</v-icon></v-btn>
                     </v-card-title>
@@ -199,7 +199,6 @@
                 this.editBookChapterDialog.chapterId = -1;
             },
             wordCountChanged() {
-                console.log('wordCountChanged')
                 this.loadBookWordCounts();
                 this.$refs.bookChapters.loadChapters();
             },

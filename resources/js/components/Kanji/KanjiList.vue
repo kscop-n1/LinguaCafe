@@ -2,8 +2,7 @@
     <v-container id="kanji-list">
         <v-tabs 
             v-model="groupBy" 
-            background-color="white" 
-            class="rounded-lg border overflow-hidden"
+            background-color="foreground" class="rounded-lg border overflow-hidden"
             @change="updateKanjiList" 
         >
             <v-tab>Grade</v-tab>

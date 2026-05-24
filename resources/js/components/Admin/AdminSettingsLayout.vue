@@ -78,7 +78,7 @@
             tabChanged(event) {
                 var page = this.tabUrls[event];
 
-                if (this.$router.currentRoute.fullPath !== '/admin/' + page) {
+                if (this.$route.path !== '/admin/' + page) {
                     this.$router.push('/admin/' + page);
                 }
             }

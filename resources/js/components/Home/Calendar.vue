@@ -6,18 +6,18 @@
 
             <!-- Displayed goal select -->
             <v-menu offset-y class="rounded-lg">
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn class="calendar-button" color="foreground" rounded depressed v-bind="attrs" v-on="on">
+                <template v-slot:activator="{ props }">
+                    <v-btn class="calendar-button" color="foreground" rounded depressed v-bind="props">
                         <span id="goal-selection-text-small">Goal</span>
                         <span id="goal-selection-text">Displayed goal</span>
-                        <v-icon v-if="attrs['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
-                        <v-icon v-if="attrs['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
+                        <v-icon v-if="props?.['aria-expanded'] === 'true' ">mdi-chevron-up</v-icon>
+                        <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                     </v-btn>
                 </template>
-                <v-btn  class="menu-button justife-start" tile color="white" @click="selectedGoal = 'reviews_due'; updateCalendar();">Reviews due</v-btn>
-                <v-btn  class="menu-button justife-start" tile color="white" @click="selectedGoal = 'read_words'; updateCalendar();">Reading</v-btn>
-                <v-btn  class="menu-button justife-start" tile color="white" @click="selectedGoal = 'review'; updateCalendar();">Review</v-btn>
-                <v-btn  class="menu-button justife-start" tile color="white" @click="selectedGoal = 'learn_words'; updateCalendar();">New words</v-btn>
+                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'reviews_due'; updateCalendar();">Reviews due</v-btn>
+                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'read_words'; updateCalendar();">Reading</v-btn>
+                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'review'; updateCalendar();">Review</v-btn>
+                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'learn_words'; updateCalendar();">New words</v-btn>
             </v-menu>
 
             <!-- Date picker -->
@@ -28,7 +28,7 @@
                 left
                 content-class="date-picker-dialog"
             >
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ props }">
                     <v-btn
                         id="calendar-date-button"
                         class="calendar-button ml-2"

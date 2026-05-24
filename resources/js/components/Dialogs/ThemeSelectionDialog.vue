@@ -11,7 +11,7 @@
             <v-card-text>
                 <v-list nav rounded>
                     <v-list-item-group color="primary" v-model="selectedTheme">
-                        <v-list-item class="my-1" v-for="(theme, index) in displayNames" :key="index" :value="index" @click="selectTheme(index)">
+                        <v-list-item class="my-1" v-for="(theme, themeName) in displayNames" :key="themeName" :value="themeName" @click="selectTheme(themeName)">
                             <v-list-item-avatar tile min-width="60">
                                 <v-icon>{{ theme.icon }}</v-icon>
                             </v-list-item-avatar>
@@ -61,7 +61,6 @@
             };
         },
         mounted: function() {
-            console.log(this.$vuetify.theme.themes);
         },
         methods: {
             selectTheme: function(newTheme) {
@@ -74,6 +73,7 @@
                 }
 
                 DefaultLocalStorageManager.saveSetting('theme', newTheme);
+                this.$cookie?.set('theme', newTheme);
                 ThemeService.setDefaultVuetifyTheme(this.$vuetify);
                 this.$vuetify.theme.dark = (newTheme === 'dark');
                 ThemeService.setVuetifyTheme(this.$vuetify, this.$store)

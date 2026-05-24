@@ -5,7 +5,7 @@ div.v-list.filter-popup {
     max-height: 440px;
     
     .v-list-item {
-        background-color: white;
+        background-color: var(--v-foreground-base);
     }
 }
 

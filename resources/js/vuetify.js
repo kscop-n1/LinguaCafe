@@ -19,6 +19,7 @@ export default createVuetify({
         themes: {
             light: { dark: false, colors: defaultThemes.light, variables: {} },
             dark: { dark: true, colors: defaultThemes.dark, variables: {} },
+            eink: { dark: false, colors: defaultThemes.eink, variables: {} },
         },
     },
 });

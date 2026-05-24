@@ -96,7 +96,7 @@
             v-html="subtitles[selectedSubtitle].displayText"
         ></div>
         <v-btn
-            v-if="selectedSubtitle !== -1 && $vuetify.breakpoint.xsOnly"
+            v-if="selectedSubtitle !== -1 && $vuetify.display.xsOnly"
             rounded
             depressed
             color="primary"

@@ -161,8 +161,11 @@
                 this.addUserDialog = false;
                 this.firstUserAdded = true;
             },
-            login() {
-                if(!this.$refs.loginForm.validate()) {
+            async login() {
+                const validation = await this.$refs.loginForm.validate();
+                const isValid = typeof validation === "boolean" ? validation : validation.valid;
+
+                if (!isValid) {
                     return;
                 }
 

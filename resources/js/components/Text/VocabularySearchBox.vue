@@ -212,7 +212,6 @@
                             records: []
                         };
 
-                        console.log('wtf', data[dictionaryIndex])
                         for (var recordIndex = 0; recordIndex < data[dictionaryIndex].records.length; recordIndex++) {
                             searchResult.records.push({
                                 word: data[dictionaryIndex].records[recordIndex].word,

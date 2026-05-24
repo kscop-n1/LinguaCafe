@@ -150,7 +150,6 @@ export default {
 
                         // remove unsupported language subtitle
                         if (!sessions[sessionIndex].subtitles[subtitleIndex].supportedLanguage) {
-                            console.log('unsupported language code:', sessions[sessionIndex].subtitles[subtitleIndex].language);
                         }
 
                         // remove note-selected language subtitle

@@ -100,7 +100,7 @@
                 <v-checkbox 
                     v-if="saveResult !== 'success'"
                     class="font-weight-normal"
-                    :label="$vuetify.breakpoint.smAndUp ? 'Select all' : 'All'"
+                    :label="$vuetify.display.smAndUp ? 'Select all' : 'All'"
                     hide-details
                     dense
                     @change="selectAllChanged"

@@ -41,7 +41,7 @@ return [
                 'channel' => env('REVERB_SCALING_CHANNEL', 'reverb'),
                 'server' => [
                     'url' => env('REDIS_URL'),
-                    'host' => env('REDIS_HOST', '127.0.0.1'),
+                    'host' => env('REDIS_HOST', 'linguacafe-redis'),
                     'port' => env('REDIS_PORT', '6379'),
                     'username' => env('REDIS_USERNAME'),
                     'password' => env('REDIS_PASSWORD'),
@@ -71,11 +71,11 @@ return [
 
         'apps' => [
             [
-                'key' => env('REVERB_APP_KEY'),
-                'secret' => env('REVERB_APP_SECRET'),
-                'app_id' => env('REVERB_APP_ID'),
+                'key' => env('REVERB_APP_KEY', env('PUSHER_APP_KEY', 'wjp2pou6ebgibtwccqsj')),
+                'secret' => env('REVERB_APP_SECRET', env('PUSHER_APP_SECRET', 'linguacafe')),
+                'app_id' => env('REVERB_APP_ID', env('PUSHER_APP_ID', 'linguacafe')),
                 'options' => [
-                    'host' => env('REVERB_HOST'),
+                    'host' => env('REVERB_HOST', '0.0.0.0'),
                     'port' => env('REVERB_PORT', 443),
                     'scheme' => env('REVERB_SCHEME', 'https'),
                     'useTLS' => env('REVERB_SCHEME', 'https') === 'https',

@@ -166,7 +166,6 @@
                 });
             },
             imageChanged(event) {
-                console.log('image changed', this.image, event);
                 this.editImage = true;
                 if (this.image === null || this.image === undefined) {
                     this.image = null;

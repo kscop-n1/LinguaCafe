@@ -148,7 +148,6 @@ class ChapterService {
         $chapter = Chapter
             ::where('id', $chapterId)
             ->where('user_id', $userId)
-            ->where('language', $language)
             ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
             ->first();
         
@@ -188,7 +187,7 @@ class ChapterService {
         $data->chapterName = $chapter->name;
         $data->bookId = $book->id;
         $data->language = $chapter->language;
-        $data->languageSpaces = !in_array($language, $languagesWithoutSpaces, true);
+        $data->languageSpaces = !in_array($chapter->language, $languagesWithoutSpaces, true);
         $data->nextChapter = $nextChapter ?: -1;
         $data->wordCount = $chapter->word_count;
         

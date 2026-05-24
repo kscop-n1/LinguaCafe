@@ -35,7 +35,7 @@ class StatisticsService {
         $languageStatistics->readWordCount->value = GoalAchievement
             ::where('user_id', $userId)
             ->where('language', $language)
-            ->where('goal_id', $readingGoal->id)
+            ->where('goal_id', $readingGoal?->id ?? 0)
             ->sum('achieved_quantity');
 
         if ($language == 'japanese') {

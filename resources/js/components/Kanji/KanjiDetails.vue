@@ -126,8 +126,8 @@
                 },
                 stroke: {
                     attr: {
-                        active: this.$vuetify.theme.currentTheme.primary,
-                        stroke: this.$vuetify.theme.currentTheme.text,
+                        active: this.currentThemeColors.primary,
+                        stroke: this.currentThemeColors.text,
                         'stroke-width': 5,
                         'font-size': 1
                     },

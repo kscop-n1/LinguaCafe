@@ -59,7 +59,7 @@ RUN addgroup --gid 1000 laravel \
     && chown -R laravel /var/www/html
 USER laravel
 
-RUN composer install --optimize-autoloader --no-dev
+RUN BROADCAST_DRIVER=log composer install --optimize-autoloader --no-dev
 
 ENTRYPOINT ["/var/www/html/entrypoint.sh"]
 CMD ["supervisord", "--configuration=/var/www/html/config/supervisord.conf", "--nodaemon"]

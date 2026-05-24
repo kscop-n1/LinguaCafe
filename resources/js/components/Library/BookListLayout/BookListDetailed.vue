@@ -25,13 +25,13 @@
                         <div class="book-title-text default-font">{{ book.name }}</div>
                         <v-spacer></v-spacer>
                         <v-menu content-class="book-menu" rounded offset-y bottom left nudge-top="-5">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
+                            <template v-slot:activator="{ props }">
+                                <v-btn icon v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
-                            <v-btn class="menu-button" tile color="white" @click="loadBookWordCounts(index)">Load word counts</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="showEditBookDialog(book)">Edit</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="showStartReviewDialog(book)">Review</v-btn>
-                            <v-btn class="menu-button" tile color="white" @click="showDeleteBookDialog(book)">Delete</v-btn>
+                            <v-btn class="menu-button" tile  @click="loadBookWordCounts(index)">Load word counts</v-btn>
+                            <v-btn class="menu-button" tile  @click="showEditBookDialog(book)">Edit</v-btn>
+                            <v-btn class="menu-button" tile  @click="showStartReviewDialog(book)">Review</v-btn>
+                            <v-btn class="menu-button" tile  @click="showDeleteBookDialog(book)">Delete</v-btn>
                         </v-menu>
                     </v-card-title>
 

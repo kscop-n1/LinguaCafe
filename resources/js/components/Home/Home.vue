@@ -59,7 +59,7 @@
                             <router-link to="/attributions"><v-icon class="mr-2">mdi-copyright</v-icon>Attributions</router-link>
                         </div>
                         <div class="footer-link-box mb-1">
-                            <a href="https://simjanos-dev.github.io/LinguaCafeHome/"><v-icon class="mr-2">mdi-file-document</v-icon>Overview</a>
+                            <a href="https://kscop-n1.github.io/LinguaCafeHome/"><v-icon class="mr-2">mdi-file-document</v-icon>Overview</a>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -72,7 +72,7 @@
                             <a href="https://discord.gg/wZYZYrdaeP"><v-icon class="mr-2">mdi-message-text</v-icon>Discord chat</a>
                         </div>
                         <div class="footer-link-box mb-1">
-                            <a href="https://github.com/simjanos-dev/LinguaCafe"><v-icon class="mr-2">mdi-github</v-icon>Github</a>
+                            <a href="https://github.com/kscop-n1/LinguaCafe"><v-icon class="mr-2">mdi-github</v-icon>Github</a>
                         </div>
                         <div class="footer-link-box mb-1">
                             <a href="https://www.reddit.com/r/linguacafe/"><v-icon class="mr-2">mdi-reddit</v-icon>Reddit</a>

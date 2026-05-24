@@ -3,7 +3,7 @@
         v-if="currentReviewIndex !== -1 || finished"
         id="review-box"
         :class="{
-            'pa-0': $vuetify.breakpoint.smAndDown
+            'pa-0': $vuetify.display.smAndDown
         }"
     >
 
@@ -79,7 +79,7 @@
                     <div
                         id="progress-bar-correct-counter"
                         class="border"
-                        :style="{'border-color': $vuetify.theme.currentTheme.success}"
+                        :style="{'border-color': currentThemeColors.success}"
                     >
                         {{ correctReviews }}
                     </div>
@@ -120,13 +120,12 @@
                 </v-btn>
 
                 <v-menu offset-y left class="rounded-lg">
-                    <template v-slot:activator="{ on, attrs }">
+                    <template v-slot:activator="{ props }">
                         <v-btn
                             icon
                             title="Example sentence mode"
                             class="my-2"
-                            v-bind="attrs"
-                            v-on="on"
+                            v-bind="props"
                         >
                             <v-icon>mdi-text-long</v-icon>
                         </v-btn>
@@ -134,7 +133,7 @@
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="settings.reviewSentenceMode = 'disabled'; saveSettings();"
                     >
                         <v-icon class="mr-1">mdi-close</v-icon>
@@ -144,7 +143,7 @@
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="settings.reviewSentenceMode = 'plain-text'; saveSettings();"
                     >
                         <v-icon class="mr-1">mdi-text-long</v-icon>
@@ -153,7 +152,7 @@
                     <v-btn
                         class="menu-button justify-start"
                         tile
-                        color="white"
+                        
                         @click="settings.reviewSentenceMode = 'interactive-text'; saveSettings();"
                     >
                         <v-icon class="mr-1">mdi-comment-text-outline</v-icon>
@@ -356,6 +355,7 @@
     import moment from 'moment';
     import TextToSpeechService from './../../services/TextToSpeechService';
     import {formatNumber} from './../../helper.js';
+    import defaultThemes from './../../themes';
     import { DefaultLocalStorageManager } from './../../services/LocalStorageManagerService';
 
     export default {
@@ -378,17 +378,17 @@
                 revealed: false,
                 backToDeckAnimation: false,
                 intoTheCorrectDeckAnimation: false,
-                backgroundColor: this.$vuetify.theme.currentTheme.foreground,
+                backgroundColor: (defaultThemes[DefaultLocalStorageManager.loadSetting('theme') || 'light'] || defaultThemes.light).foreground,
                 newCardAnimation: false,
                 settingsDialog: false,
                 settings: {
                     fontSize: DefaultLocalStorageManager.loadSetting('fontSize') || 20,
                     reviewSentenceMode: DefaultLocalStorageManager.loadSetting('reviewSentenceMode') || 'plain-text',
-                    vocabularyHoverBox: DefaultLocalStorageManager.loadSetting('vocabularyHoverBox') || true,
-                    vocabularyHoverBoxSearch: DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxSearch') || true,
+                    vocabularyHoverBox: DefaultLocalStorageManager.loadSetting('vocabularyHoverBox') ?? true,
+                    vocabularyHoverBoxSearch: DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxSearch') ?? true,
                     vocabularyHoverBoxDelay: DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxDelay') || 300,
                     vocabularyHoverBoxPreferredPosition: DefaultLocalStorageManager.loadSetting('vocabularyHoverBoxPreferredPosition') || 'bottom',
-                    vocabularyBottomSheet: DefaultLocalStorageManager.loadSetting('vocabularyBottomSheet') || true,
+                    vocabularyBottomSheet: DefaultLocalStorageManager.loadSetting('vocabularyBottomSheet') ?? true,
                 },
                 transitionDuration: DefaultLocalStorageManager.loadSetting('theme') === 'eink' ? 0 : 400,
                 fullscreen: false,
@@ -413,15 +413,23 @@
                 practiceMode: this.practiceMode,
             };
 
-            if (this.$route.params.bookId !== undefined) {
-                data.bookId = parseInt(this.$route.params.bookId);
+            const routeBookId = this.$route.params.bookId;
+            if (routeBookId !== undefined && routeBookId !== null && routeBookId !== '') {
+                data.bookId = parseInt(routeBookId);
+                if (Number.isNaN(data.bookId)) {
+                    data.bookId = -1;
+                }
             }
 
-            if (this.$route.params.chapterId !== undefined) {
-                data.chapterId = parseInt(this.$route.params.chapterId);
+            const routeChapterId = this.$route.params.chapterId;
+            if (routeChapterId !== undefined && routeChapterId !== null && routeChapterId !== '') {
+                data.chapterId = parseInt(routeChapterId);
+                if (Number.isNaN(data.chapterId)) {
+                    data.chapterId = -1;
+                }
             }
 
-            if (this.$route.params.practiceMode !== undefined) {
+            if (this.$route.params.practiceMode !== undefined && this.$route.params.practiceMode !== null) {
                 data.practiceMode = this.$route.params.practiceMode === 'true';
                 this.practiceMode = this.$route.params.practiceMode === 'true';
             }
@@ -438,7 +446,7 @@
                     this.$nextTick(() => {
                         this.next();
                         this.$nextTick(() => {
-                            document.getElementById('review-box').addEventListener('fullscreenchange', this.updateFullscreen);
+                            document.getElementById('review-box')?.addEventListener('fullscreenchange', this.updateFullscreen);
                         });
                     });
                 } else {
@@ -561,7 +569,7 @@
                 this.intoTheCorrectDeckAnimation = true;
                 this.backToDeckAnimation = false;
                 this.newCardAnimation = false;
-                this.backgroundColor = this.$vuetify.theme.currentTheme.success;
+                this.backgroundColor = this.currentThemeColors.success;
 
                 this.correctReviews ++;
                 this.countReadWords();
@@ -614,7 +622,7 @@
                 this.backToDeckAnimation = true;
                 this.intoTheCorrectDeckAnimation = false;
                 this.newCardAnimation = false;
-                this.backgroundColor = this.$vuetify.theme.currentTheme.error;
+                this.backgroundColor = this.currentThemeColors.error;
                 this.revealed = false;
                 this.countReadWords();
 
@@ -653,7 +661,7 @@
                 this.backToDeckAnimation = false;
                 this.intoTheCorrectDeckAnimation = false;
                 this.newCardAnimation = true;
-                this.backgroundColor = this.$vuetify.theme.currentTheme.foreground;
+                this.backgroundColor = this.currentThemeColors.foreground;
 
                 if (this.$refs.textBlock !== undefined && this.settings.reviewSentenceMode === 'interactive-text') {
                     this.$refs.textBlock.unselectAllWords(true);

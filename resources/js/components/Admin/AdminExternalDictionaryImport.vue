@@ -129,7 +129,7 @@
                                 right
                                 :close-on-content-click="false"
                             >
-                                <template v-slot:activator="{ on, attrs }">
+                                <template v-slot:activator="{ props }">
                                     <v-card
                                         class="border"
                                         outlined

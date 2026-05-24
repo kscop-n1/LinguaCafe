@@ -104,7 +104,16 @@ export class LocalStorageManagerService {
 
     loadSetting(key) {
         const value = localStorage.getItem(this.settingNames[key]) || localStorage.getItem(key);
-        return value ? JSON.parse(value) : null;
+
+        if (!value) {
+            return null;
+        }
+
+        try {
+            return JSON.parse(value);
+        } catch (error) {
+            return value;
+        }
     }
 
     loadAndParseSetting(settings, key, defaultValue) {

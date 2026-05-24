@@ -50,6 +50,7 @@ class ReviewController extends Controller {
         $readWords = $request->post('readWords');
 
         try {
+            $this->goalService->createGoalsForLanguage($userId, $language);
             $this->goalService->updateGoalAchievement($userId, $language, 'read_words', $readWords);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());

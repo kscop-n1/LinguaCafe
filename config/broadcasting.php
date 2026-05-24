@@ -32,11 +32,11 @@ return [
 
         'pusher' => [
             'driver' => 'reverb',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'key' => env('PUSHER_APP_KEY', 'wjp2pou6ebgibtwccqsj'),
+            'secret' => env('PUSHER_APP_SECRET', 'linguacafe'),
+            'app_id' => env('PUSHER_APP_ID', 'linguacafe'),
             'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'cluster' => env('PUSHER_APP_CLUSTER', 'mt1'),
                 // 'useTLS' => true,
                 'host' => '0.0.0.0',
                 'port' => 6001,

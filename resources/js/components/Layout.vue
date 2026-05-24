@@ -257,10 +257,12 @@
             window.addEventListener('resize', this.updateWindowWidth);
 
             // load default and selected font types into the dom
-            var fontTypeService = new FontTypeService(this.selectedLanguage, () => {
-                fontTypeService.loadSelectedFontTypeIntoDom();
-                fontTypeService.loadDefaultFontTypeIntoDom();
-            });
+            if (window.location.pathname !== '/login') {
+                var fontTypeService = new FontTypeService(this.selectedLanguage, () => {
+                    fontTypeService.loadSelectedFontTypeIntoDom();
+                    fontTypeService.loadDefaultFontTypeIntoDom();
+                });
+            }
         },
         beforeUnmount() {
             window.removeEventListener('resize', this.updateWindowWidth);
@@ -292,10 +294,8 @@
                     // auto-select user's system theme if 'auto' is enabled
                     if (preferredDarkTheme.matches) {
                         this.theme = 'dark';
-                        console.log('auto dark')
                     } else {
                         this.theme = 'light';
-                        console.log('auto light')
                     }
 
                     DefaultLocalStorageManager.saveSetting('theme', this.theme);

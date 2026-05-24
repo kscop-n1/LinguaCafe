@@ -5,8 +5,8 @@
             <label class="font-weight-bold mt-2" v-if="$props.type === 'e-book'">
                 E-book chapter order
                 <v-menu offset-y nudge-top="-12px">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                    <template v-slot:activator="{ props }">
+                        <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                     </template>
                     <v-card outlined class="rounded-lg pa-4" width="320px">
                         For some rare cases the chapter order can be incorrect after importing an e-book. If it 

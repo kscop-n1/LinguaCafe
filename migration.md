@@ -55,7 +55,7 @@ The easiest way to migrate to the new structure is to clone the `deploy` branch 
 
 Run this command to download and create the new folder structure. This will create a `linguacafe` folder:
 ```
-git clone -b deploy https://github.com/simjanos-dev/LinguaCafe.git linguacafe
+git clone -b deploy https://github.com/kscop-n1/LinguaCafe.git linguacafe
 ```
 If you are an Apple silicon Mac user, uncomment the `platform: linux/amd64` line in the new `linguacafe/docker-compose.yml`.
 

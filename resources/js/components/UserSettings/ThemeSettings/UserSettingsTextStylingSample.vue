@@ -7,8 +7,8 @@
                 Sample text
                 
                 <v-menu offset-y nudge-top="-12px">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-information</v-icon>
+                    <template v-slot:activator="{ props }">
+                        <v-icon class="ml-1" v-bind="props">mdi-information</v-icon>
                     </template>
                     <v-card outlined class="rounded-lg pa-4" width="320px">
                         Font size and space between lines can be set in the text reader.

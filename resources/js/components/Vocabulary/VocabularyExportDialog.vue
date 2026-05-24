@@ -216,7 +216,6 @@
             };
         },
         mounted: function() {
-            console.log(this.$props.sampleWords);
         },
         methods: {
             selectAll() {

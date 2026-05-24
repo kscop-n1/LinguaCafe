@@ -6,6 +6,43 @@ import vuetify from './vuetify';
 import './bootstrap';
 import '../sass/app.scss';
 
+if (vuetify?.theme && vuetify.theme.currentTheme === undefined) {
+    Object.defineProperty(vuetify.theme, 'currentTheme', {
+        get() {
+            return vuetify.theme.global?.current?.value?.colors || {};
+        },
+    });
+}
+
+if (vuetify?.display && vuetify.breakpoint === undefined) {
+    Object.defineProperty(vuetify, 'breakpoint', {
+        get() {
+            const display = vuetify.display?.value || vuetify.display || {};
+
+            return {
+                xs: Boolean(display.xs),
+                sm: Boolean(display.sm),
+                md: Boolean(display.md),
+                lg: Boolean(display.lg),
+                xl: Boolean(display.xl),
+                xxl: Boolean(display.xxl),
+                xsOnly: Boolean(display.xs),
+                smAndUp: Boolean(display.smAndUp),
+                smAndDown: Boolean(display.smAndDown),
+                mdAndUp: Boolean(display.mdAndUp),
+                mdAndDown: Boolean(display.mdAndDown),
+                lgAndUp: Boolean(display.lgAndUp),
+                lgAndDown: Boolean(display.lgAndDown),
+                xlAndUp: Boolean(display.xlAndUp),
+                name: display.name || '',
+                mobile: Boolean(display.mobile),
+                width: display.width,
+                height: display.height,
+            };
+        },
+    });
+}
+
 window.__LINGUACAFE_BOOTSTRAP_STARTED = true;
 const rootElement = document.querySelector('#app');
 const app = createApp({
@@ -14,6 +51,9 @@ const app = createApp({
 
 app.mixin({
     computed: {
+        currentThemeColors() {
+            return this.$vuetify?.theme?.current?.value?.colors || this.$vuetify?.theme?.global?.current?.value?.colors || {};
+        },
         dialogValue() {
             return this.$attrs?.modelValue !== undefined ? this.$attrs.modelValue : this.value;
         },
@@ -312,6 +352,42 @@ try {
     app.use(store);
     app.use(router);
     app.use(vuetify);
+    app.config.globalProperties.$vuetify = app.config.globalProperties.$vuetify || vuetify;
+    if (app.config.globalProperties.$vuetify?.theme && app.config.globalProperties.$vuetify.theme.currentTheme === undefined) {
+        Object.defineProperty(app.config.globalProperties.$vuetify.theme, 'currentTheme', {
+            get() {
+                return app.config.globalProperties.$vuetify.theme.global?.current?.value?.colors || {};
+            },
+        });
+    }
+    if (app.config.globalProperties.$vuetify?.display && app.config.globalProperties.$vuetify.breakpoint === undefined) {
+        Object.defineProperty(app.config.globalProperties.$vuetify, 'breakpoint', {
+            get() {
+                const display = app.config.globalProperties.$vuetify.display?.value || app.config.globalProperties.$vuetify.display || {};
+
+                return {
+                    xs: Boolean(display.xs),
+                    sm: Boolean(display.sm),
+                    md: Boolean(display.md),
+                    lg: Boolean(display.lg),
+                    xl: Boolean(display.xl),
+                    xxl: Boolean(display.xxl),
+                    xsOnly: Boolean(display.xs),
+                    smAndUp: Boolean(display.smAndUp),
+                    smAndDown: Boolean(display.smAndDown),
+                    mdAndUp: Boolean(display.mdAndUp),
+                    mdAndDown: Boolean(display.mdAndDown),
+                    lgAndUp: Boolean(display.lgAndUp),
+                    lgAndDown: Boolean(display.lgAndDown),
+                    xlAndUp: Boolean(display.xlAndUp),
+                    name: display.name || '',
+                    mobile: Boolean(display.mobile),
+                    width: display.width,
+                    height: display.height,
+                };
+            },
+        });
+    }
     app.mount('#app');
     window.__LINGUACAFE_BOOTSTRAP_MOUNTED = true;
 } catch (error) {

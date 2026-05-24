@@ -38,8 +38,8 @@
                             {{ color.name }}
                             
                             <v-menu offset-y nudge-top="-12px" v-if="colorInformations[color.name] !== undefined">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
+                                <template v-slot:activator="{ props }">
+                                    <v-icon class="ml-1" v-bind="props">mdi-help-circle</v-icon>
                                 </template>
                                 <v-card outlined class="rounded-lg pa-4" width="320px">
                                     {{ colorInformations[color.name] }}
@@ -55,7 +55,7 @@
                                 right
                                 :close-on-content-click="false"
                             >
-                                <template v-slot:activator="{ on, attrs }">
+                                <template v-slot:activator="{ props }">
                                     <v-card
                                         class="border mx-auto"
                                         outlined
@@ -142,7 +142,7 @@
                 saving: false,
                 saveResult: '',
                 textStyling: null,
-                selectedTheme: ThemeService.getCurrentTheme() === 'dark' ? 'dark' : 'light',
+                selectedTheme: ThemeService.getCurrentTheme() === 'dark' ? 'dark' : ThemeService.getCurrentTheme() === 'eink' ? 'eink' : 'light',
                 themes: [
                     {
                         name: 'Light theme',
@@ -151,10 +151,15 @@
                     {
                         name: 'Dark theme',
                         value: 'dark'
+                    },
+                    {
+                        name: 'Eink theme',
+                        value: 'eink'
                     }
                 ],
                 lightTheme: [],
                 darkTheme: [],
+                einkTheme: [],
                 colorInformations: {
                     newWordBackground: 'Used as background for indicating or displaying a new word outside of the interactive text areas.',
                     highlightedWordBackground: 'Used as background for indicating or displaying a highlighted word outside of the interactive text areas.',
@@ -254,6 +259,13 @@
                         'opened': false,
                         'hex': darkColorValue,
                     });
+
+                    this.einkTheme.push({
+                        'name': colorName,
+                        'value': defaultThemes['eink'][themeSettingName],
+                        'opened': false,
+                        'hex': defaultThemes['eink'][themeSettingName],
+                    });
                 });
             });
         },
@@ -264,6 +276,8 @@
             colorChanged(index, event) {
                 if (this.selectedTheme == 'light') {
                     this.lightTheme[index].hex = event.hex;
+                } else if (this.selectedTheme == 'eink') {
+                    this.einkTheme[index].hex = event.hex;
                 } else {
                     this.darkTheme[index].hex = event.hex;
                 }
@@ -275,17 +289,22 @@
 
                 if (this.selectedTheme == 'light') {
                     this.lightTheme[index].value = this.lightTheme[index].hex;
+                } else if (this.selectedTheme == 'eink') {
+                    this.einkTheme[index].value = this.einkTheme[index].hex;
                 } else {
                     this.darkTheme[index].value = this.darkTheme[index].hex;
                 }
             },
             resetColor(index) {
-                var name = this.selectedTheme === 'light' ? this.lightTheme[index].name : this.darkTheme[index].name;
+                var name = this.selectedTheme === 'light' ? this.lightTheme[index].name : this.selectedTheme === 'eink' ? this.einkTheme[index].name : this.darkTheme[index].name;
                 var defaultValue = defaultThemes[this.selectedTheme][name];
 
                 if (this.selectedTheme == 'light') {
                     this.lightTheme[index].value = defaultValue;
                     this.lightTheme[index].hex = defaultValue;
+                } else if (this.selectedTheme == 'eink') {
+                    this.einkTheme[index].value = defaultValue;
+                    this.einkTheme[index].hex = defaultValue;
                 } else {
                     this.darkTheme[index].value = defaultValue;
                     this.darkTheme[index].hex = defaultValue;
@@ -297,7 +316,8 @@
                     textStyling: this.textStyling,
                     vuetifyThemes: {
                         light: {},
-                        dark: {}
+                        dark: {},
+                        eink: {}
                     },
                 };
 
@@ -309,6 +329,10 @@
                     colorSettings['vuetifyThemes']['dark'][value.name] = value.value;
                 });
 
+                this.einkTheme.forEach((value, key) => {
+                    colorSettings['vuetifyThemes']['eink'][value.name] = value.value;
+                });
+
                 axios.post('/settings/user/update', {settings: colorSettings}).then((response) => {
                     this.saveResult = '';
                     this.saving = false;
@@ -317,7 +341,6 @@
                     this.$store.commit('shared/setTextStylingSettings', colorSettings.textStyling)
                     ThemeService.setVuetifyTheme(this.$vuetify, this.$store);
                 }).catch((error) => {
-                    console.log('error', error)
                     this.saveResult = 'error';
                     this.saving = false;
                 });

@@ -75,7 +75,7 @@ Follow these steps to setup your developer environment.
 
 **Step 1:** Run these commands to clone LinguaCafe into a dev folder: 
 ```
-git clone -b dev https://github.com/simjanos-dev/LinguaCafe.git linguacafe-dev
+git clone -b dev https://github.com/kscop-n1/LinguaCafe.git linguacafe-dev
 
 cd linguacafe-dev
 ```

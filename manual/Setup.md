@@ -12,7 +12,7 @@ This section contains information related to hosting, setting up and maintaining
 
 #### Step 2: Create linguacafe folder and download the docker-compose.yml file.
 
-Create a folder for linguacafe, and a storage subfolder. Then download the [docker-compose.yml](https://github.com/simjanos-dev/LinguaCafe/blob/main/docker-compose.yml) file, and place in inside your linguacafe folder. Your folder structure should look like this:
+Create a folder for linguacafe, and a storage subfolder. Then download the [docker-compose.yml](https://github.com/kscop-n1/LinguaCafe/blob/main/docker-compose.yml) file, and place in inside your linguacafe folder. Your folder structure should look like this:
 ```
 .
 ├── linguacafe
@@ -50,7 +50,7 @@ For Windows, you can download [this installation script](/install_linguacafe.bat
 #### Step 4: Admin settings
 Your server now should be running and accessible on http://localhost:9191. 
 
-Although your server is set up and functional, please read the [user manual](https://github.com/simjanos-dev/LinguaCafe/wiki/2.-Setup), because there are a few additional steps before you can use linguacafe, like installing languages and importing dictionaries.
+Although your server is set up and functional, please read the [user manual](https://github.com/kscop-n1/LinguaCafe/wiki/2.-Setup), because there are a few additional steps before you can use linguacafe, like installing languages and importing dictionaries.
 
 #### Install error troubleshooting
 <details>
@@ -69,20 +69,20 @@ We do not know why, but pulling the images individually fixes this error.
 
 Run these commands, then run `docker compose up -d` again:
 ```
-docker pull --platform linux/arm64 ghcr.io/simjanos-dev/linguacafe-webserver:latest
-docker pull --platform linux/amd64 ghcr.io/simjanos-dev/linguacafe-python-service:latest
+docker pull --platform linux/arm64 ghcr.io/kscop-n1/linguacafe-webserver:latest
+docker pull --platform linux/amd64 ghcr.io/kscop-n1/linguacafe-python-service:latest
 ```
 </details>
 
 # Updating
 
-Please **backup** linguacafe before updating, otherwise you can lose your data if anything goes wrong. You can read more about backups in the [user manual](https://github.com/simjanos-dev/LinguaCafe/wiki/2.-Setup#backup).
+Please **backup** linguacafe before updating, otherwise you can lose your data if anything goes wrong. You can read more about backups in the [user manual](https://github.com/kscop-n1/LinguaCafe/wiki/2.-Setup#backup).
 
 If you are below v0.12, please use the migration guide provided [here](/migration.md) instead of this command.
 
 ### Download the latest docker-compose.yml file
 
-Download the latest [docker-compose.yml](https://github.com/simjanos-dev/LinguaCafe/blob/main/docker-compose.yml) file, and overwrite the old one. I did not want to introduce this to the updating process, but there were several features that required this additional step. In future updates I will provide a list of changes in the file, so users with custom configurations won't have to start over.
+Download the latest [docker-compose.yml](https://github.com/kscop-n1/LinguaCafe/blob/main/docker-compose.yml) file, and overwrite the old one. I did not want to introduce this to the updating process, but there were several features that required this additional step. In future updates I will provide a list of changes in the file, so users with custom configurations won't have to start over.
 
 ### Update to the latest docker image
 
@@ -255,11 +255,11 @@ After the import process is finished, your dictionary should be available whenev
 
 | Dictionary | Languages | Download | Comment |
 | :--- | ---- | ---- | ---- |
-| JMDict | Japanese | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) | This dictionary contains kanji and radicals for the Japanese language. Some Japanese features do not work without importing this dictionary. |
-| CC-CEDICT | Chinese |  [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
-| Kengdic | Korean | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
-| Eurfa | Welsh | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
-|  Wiktionary | Chinese, Czech, Finnish, French, German, Italian, Japanese, Korean, Norwegian, Russian, Spanish, Ukrainian, Welsh | [GitHub release](https://github.com/simjanos-dev/LinguaCafe/releases/tag/dictionaries) |  |
+| JMDict | Japanese | [GitHub release](https://github.com/kscop-n1/LinguaCafe/releases/tag/dictionaries) | This dictionary contains kanji and radicals for the Japanese language. Some Japanese features do not work without importing this dictionary. |
+| CC-CEDICT | Chinese |  [GitHub release](https://github.com/kscop-n1/LinguaCafe/releases/tag/dictionaries) |  |
+| Kengdic | Korean | [GitHub release](https://github.com/kscop-n1/LinguaCafe/releases/tag/dictionaries) |  |
+| Eurfa | Welsh | [GitHub release](https://github.com/kscop-n1/LinguaCafe/releases/tag/dictionaries) |  |
+|  Wiktionary | Chinese, Czech, Finnish, French, German, Italian, Japanese, Korean, Norwegian, Russian, Spanish, Ukrainian, Welsh | [GitHub release](https://github.com/kscop-n1/LinguaCafe/releases/tag/dictionaries) |  |
 | Dict.cc | Czech, Dutch, Finnish, French, German, Italian, Norwegian, Russian, Spanish, Swedish | [dict.cc](https://www1.dict.cc/translation_file_request.php?l=e) |  | This dictionary's license only allows personal use. |
 
 >[!NOTE]

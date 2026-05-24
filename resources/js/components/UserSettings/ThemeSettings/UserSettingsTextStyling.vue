@@ -101,8 +101,8 @@
                     <label class="w-100 mb-0">
                         Horizontal padding
                         <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
+                            <template v-slot:activator="{ props }">
+                                <v-icon class="ml-1" v-bind="props">mdi-help-circle</v-icon>
                             </template>
                             <v-card outlined class="rounded-lg pa-4" width="320px">
                                 Some languages like Chinese, Japanese and Thai do not have spaces between words. This option is for users who prefer having padding 
@@ -264,7 +264,7 @@
                             <td>Border color</td>
                             <td>
                                 <v-menu offset-y :close-on-content-click="false">
-                                    <template v-slot:activator="{ on, attrs }">
+                                    <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
                                             outlined
@@ -272,7 +272,7 @@
                                             height="26px"
                                             :color="textStyling[selectedTheme][selectedLevel].borderColor"
                                             depressed
-                                            v-on="on"
+                                            v-bind="props"
                                         >
                                         
                                         </v-card>
@@ -310,7 +310,7 @@
                             <td>Text color</td>
                             <td>
                                 <v-menu offset-y :close-on-content-click="false">
-                                    <template v-slot:activator="{ on, attrs }">
+                                    <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
                                             outlined
@@ -318,7 +318,7 @@
                                             height="26px"
                                             :color="textStyling[selectedTheme][selectedLevel].textColor"
                                             depressed
-                                            v-on="on"
+                                            v-bind="props"
                                         >
                                         
                                         </v-card>
@@ -356,7 +356,7 @@
                             <td>Background color</td>
                             <td>
                                 <v-menu offset-y :close-on-content-click="false">
-                                    <template v-slot:activator="{ on, attrs }">
+                                    <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
                                             outlined
@@ -364,7 +364,7 @@
                                             height="26px"
                                             :color="textStyling[selectedTheme][selectedLevel].backgroundColor"
                                             depressed
-                                            v-on="on"
+                                            v-bind="props"
                                         >
                                         
                                         </v-card>
@@ -570,7 +570,6 @@
                 this.$emit('update', this.textStyling)
             },
             logTextStylingSettingsObject() {
-                console.log('this.textStyling', this.textStyling)
             },
             updateSampleTextColors() {
                 this.highlightedStyling[`--interactive-text-${this.levelMapping[this.selectedLevel]}-border-color`] = this.textStyling[this.selectedTheme][this.selectedLevel].borderColor;

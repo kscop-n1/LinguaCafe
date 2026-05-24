@@ -163,8 +163,8 @@
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto move words to known:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                    <template v-slot:activator="{ props }">
+                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">
                                         Clicking the <b>Finish reading</b> button moves new words to known.
@@ -184,8 +184,8 @@
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto highlight words:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                    <template v-slot:activator="{ props }">
+                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">
                                         Auto highlight words when you add a translation to them.
@@ -205,8 +205,8 @@
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto level up words:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                    <template v-slot:activator="{ props }">
+                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">
                                         Clicking the 'Finished reading' button will automatically level up any words and phrases for which you haven't opened the vocabulary box.
@@ -324,8 +324,8 @@
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <!-- Vocabulary sidebar info box -->
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                    <template v-slot:activator="{ props }">
+                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">
                                         An always visible sidebar vocabulary in a fixed position, that replaces the popup vocabulary. <br><br>
@@ -349,8 +349,8 @@
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <!-- Vocabulary sidebar info box -->
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                    <template v-slot:activator="{ props }">
+                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">
                                         A bottom sheet vocabulary designed for mobile screens, that replaces the popup vocabulary. <br><br>
@@ -374,8 +374,8 @@
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary box:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-menu offset-y left nudge-top="-12px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon class="mr-2" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                                    <template v-slot:activator="{ props }">
+                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card outlined class="rounded-lg pa-4" width="320px">
                                         A minimalistic vocabulary box that appears when you move the mouse over a word or phrase.

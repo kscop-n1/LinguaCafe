@@ -33,8 +33,8 @@
                     
                     <!-- Source language info box -->
                     <v-menu offset-y nudge-top="-12px">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                        <template v-slot:activator="{ props }">
+                            <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
                         <v-card outlined class="rounded-lg pa-4" width="320px">
                             The language that you are learning.
@@ -70,8 +70,8 @@
 
                     <!-- Target language info box -->
                     <v-menu offset-y nudge-top="-12px">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                        <template v-slot:activator="{ props }">
+                            <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
                         <v-card outlined class="rounded-lg pa-4" width="320px">
                             The language that LibreTranslate translates to.
@@ -111,7 +111,7 @@
                     right
                     :close-on-content-click="false"
                 >
-                    <template v-slot:activator="{ on, attrs }">
+                    <template v-slot:activator="{ props }">
                         <v-card
                             class="border"
                             outlined

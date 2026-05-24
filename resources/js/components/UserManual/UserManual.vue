@@ -87,7 +87,7 @@ import axios from 'axios';
                     hash = window.location.hash;
                 }
 
-                var currentPath = '' + this.$router.currentRoute.path + hash;
+                var currentPath = '' + this.$route.path + hash;
                 var newPath = '' + '/user-manual/' + event[0].fileName;
                 if (currentPath !== newPath) {
                     this.$router.push({ path: '/user-manual/' + event[0].fileName, replace: true });

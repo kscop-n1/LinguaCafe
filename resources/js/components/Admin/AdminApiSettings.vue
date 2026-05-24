@@ -157,8 +157,8 @@
                         
                         <!-- Auto add cards info box -->
                         <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                            <template v-slot:activator="{ props }">
+                                <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
                             <v-card outlined class="rounded-lg pa-4" width="320px">
                                 Your words and phrases will be sent to Anki automatically when you highlight them (set their level to 1-7).
@@ -182,8 +182,8 @@
                         
                         <!-- Update existing cards info box -->
                         <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                            <template v-slot:activator="{ props }">
+                                <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
                             <v-card outlined class="rounded-lg pa-4" width="320px">
                                 If you send a word to Anki, and it already exists, then the translation, reading and example sentence fields will be updated.
@@ -207,8 +207,8 @@
                         
                         <!-- Show notifications info box -->
                         <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                            <template v-slot:activator="{ props }">
+                                <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
                             <v-card outlined class="rounded-lg pa-4" width="320px">
                                 There will be a notification displayed on the screen when a word or phrase is sent to Anki with a success or error message.
@@ -236,8 +236,8 @@
                         Enable Jellyfin
 
                         <v-menu offset-y nudge-top="-12px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="ml-1" v-bind="attrs" v-on="on">mdi-help-circle-outline</v-icon>
+                            <template v-slot:activator="{ props }">
+                                <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
                             <v-card outlined class="rounded-lg pa-4" width="320px">
                             You may want to disable Jellyfin if hosting LinguaCafe for multiple users.

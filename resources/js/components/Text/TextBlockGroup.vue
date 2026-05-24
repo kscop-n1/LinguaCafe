@@ -20,8 +20,7 @@
             :value="true"
             right
             top
-            :light="$props.theme == 'light'"
-            :dark="$props.theme == 'dark'"
+            :theme="$props.theme"
             color="foreground"
             class="anki-snackbar rounded-lg mr-2"
             height="108"
@@ -1385,7 +1384,6 @@
                             apiDefinitions = apiDefinitions.concat(item.definitions);
                         });
 
-                        console.log('apiDefinitions', response.data, apiDefinitions);
                         this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'apiTranslations', value: apiDefinitions });
                         this.$store.commit('hoverVocabularyBox/setValue', { propertyName: 'key', value: this.$store.state.hoverVocabularyBox.key + 1 });
                         this.$nextTick(() => {

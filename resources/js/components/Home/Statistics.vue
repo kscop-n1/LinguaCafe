@@ -11,13 +11,13 @@
                 :key="index"
             >
                 <div class="statistic-icon">
-                    <v-icon :color="$vuetify.theme.currentTheme['primary']">{{ statistic.icon }}</v-icon>
+                    <v-icon :color="currentThemeColors['primary']">{{ statistic.icon }}</v-icon>
                 </div>
 
                 <div class="statistic-data">
                     <div 
                         class="statistic-value" 
-                        :style="{color: $vuetify.theme.currentTheme['primary']}"
+                        :style="{color: currentThemeColors['primary']}"
                     >
                         {{ formatNumber(statistic.value) }}
                     </div>

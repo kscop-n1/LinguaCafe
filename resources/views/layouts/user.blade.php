@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" href="/icon512rounded.png">
     @if ($theme === 'dark')
         <meta name="theme-color" content="#28272C" />
+    @elseif ($theme === 'eink')
+        <meta name="theme-color" content="#FFFFFF" />
     @else
         <meta name="theme-color" content="#F2F3F5" />
     @endif
