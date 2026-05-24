@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(color, index) in (selectedTheme == 'light' ? lightTheme : darkTheme)" :key="selectedTheme + color.name">
+                    <tr v-for="(color, index) in (selectedTheme == 'light' ? lightTheme : selectedTheme == 'eink' ? einkTheme : darkTheme)" :key="selectedTheme + color.name">
                         <td>
                             {{ color.name }}
                             
@@ -175,7 +175,7 @@
                         borderBottom: false,
                         borderSides: false,
                     },
-                    level1: {
+                    level2: {
                         borderWidth: 0,
                         borderRadius: 0,
                         borderType: 'solid',
@@ -183,7 +183,7 @@
                         borderBottom: false,
                         borderSides: false,
                     },
-                    level1: {
+                    level3: {
                         borderWidth: 0,
                         borderRadius: 0,
                         borderType: 'solid',
@@ -191,7 +191,7 @@
                         borderBottom: false,
                         borderSides: false,
                     },
-                    level1: {
+                    level4: {
                         borderWidth: 0,
                         borderRadius: 0,
                         borderType: 'solid',
@@ -237,11 +237,15 @@
                     var colorName = themeSettingName;
                     
                     var lightColorValue, darkColorValue
-                    if (!savedColors || !savedColors['light'][themeSettingName]) {
+                    if (!savedColors || !savedColors['light'] || savedColors['light'][themeSettingName] === undefined) {
                         lightColorValue = defaultThemes['light'][themeSettingName];
-                        darkColorValue = defaultThemes['dark'][themeSettingName];
                     } else {
                         lightColorValue = savedColors['light'][themeSettingName];
+                    }
+
+                    if (!savedColors || !savedColors['dark'] || savedColors['dark'][themeSettingName] === undefined) {
+                        darkColorValue = defaultThemes['dark'][themeSettingName];
+                    } else {
                         darkColorValue = savedColors['dark'][themeSettingName];
                     }
                     
@@ -262,9 +266,9 @@
 
                     this.einkTheme.push({
                         'name': colorName,
-                        'value': defaultThemes['eink'][themeSettingName],
+                        'value': !savedColors || !savedColors['eink'] || savedColors['eink'][themeSettingName] === undefined ? defaultThemes['eink'][themeSettingName] : savedColors['eink'][themeSettingName],
                         'opened': false,
-                        'hex': defaultThemes['eink'][themeSettingName],
+                        'hex': !savedColors || !savedColors['eink'] || savedColors['eink'][themeSettingName] === undefined ? defaultThemes['eink'][themeSettingName] : savedColors['eink'][themeSettingName],
                     });
                 });
             });

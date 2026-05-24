@@ -28,7 +28,7 @@ class HomeController extends Controller {
         $userName = Auth::user()->name;
         $userEmail = Auth::user()->email;
         $isAdmin = Auth::user()->is_admin === 1;
-        $theme = $_COOKIE['theme'] ?? 'dark';
+        $theme = $_COOKIE['theme'] ?? 'light';
         $themeSettings = $this->settingsService->getUserSettingsByName(
             Auth::user()->id,
             ['textStyling', 'vuetifyThemes']
