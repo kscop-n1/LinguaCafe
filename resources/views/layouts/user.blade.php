@@ -17,6 +17,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>LinguaCafe</title>
+    <script>window.__LINGUACAFE_WEBSOCKET_APP_KEY = @json(config('broadcasting.connections.pusher.key'));</script>
 
     @vite(['resources/js/app.js'])
     <script src="/js/dmak/raphael.js"></script>

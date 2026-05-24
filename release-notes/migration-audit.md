@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.21
+## Resolved in releases 0.5.6-0.5.22
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -26,6 +26,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The review page now mounts cleanly without the initialization crash that previously read theme colors too early.
 - The theme bootstrap now uses cookie-first resolution for both server and client paths, login and home default to light consistently, and auto mode resolves the system theme in the shell and theme service.
 - The theme selection dialog now reloads the page after a theme change, so the authenticated shell and the screens that cache theme state reinitialize on switch.
+- The websocket app key is now exported from the server-rendered layouts instead of being hardcoded in the frontend bundle.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
 
 The verified issues below remain the active open audit surface.
@@ -99,17 +100,6 @@ Impact:
 
 
 
-### 11. Websocket app key is duplicated as a hardcoded frontend constant
-
-Evidence:
-- resources/js/vuex/Shared.js:11-18 hardcodes the Echo/Pusher key as wjp2pou6ebgibtwccqsj.
-- config/broadcasting.php:35-40 and config/reverb.php:68-76 also default to the same key through env fallbacks.
-
-Impact:
-- The browser bundle is coupled to a specific websocket app key instead of reading it from the server or env at runtime.
-- If the deployment key changes, the frontend must be rebuilt to match the backend config.
-- This is another example of old/new infrastructure being mixed rather than centralized cleanly after the migration.
-
 
 ### 15. Several auth screens still use the old Bootstrap layout instead of the migrated Vue shell
 
@@ -126,16 +116,6 @@ Impact:
 - These screens bypass the same theming and component migration path, which makes the overall auth experience inconsistent.
 - The mixed layout strategy increases maintenance burden and makes it harder to reason about where theme and component bugs originate.
 
-### 16. Root route is defined twice and the first definition returns only the Laravel version
-
-Evidence:
-- `routes/web.php:16-18` defines `GET /` as a closure returning `['Laravel' => app()->version()]`.
-- `routes/web.php:34-100` later defines another `GET /` inside the authenticated web group pointing to `HomeController@index`.
-
-Impact:
-- The app has two competing root handlers in one file, which is a routing inconsistency created or preserved during the migration.
-- The first root definition can mask the real home shell route, or at minimum makes the routing intent unclear and fragile.
-- This is an easy-to-miss functional issue because it sits outside the frontend migration code but directly affects the app's main entrypoint.
 
 ## Actionable clusters
 

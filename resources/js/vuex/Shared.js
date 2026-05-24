@@ -12,7 +12,7 @@ export default {
         textStylingSettings: null,
         echo: new Echo({
             broadcaster: 'pusher',
-            key: 'wjp2pou6ebgibtwccqsj',
+            key: window.__LINGUACAFE_WEBSOCKET_APP_KEY,
             cluster: 'mt1',
             forceTLS: false,
             wsHost: window.location.hostname,
