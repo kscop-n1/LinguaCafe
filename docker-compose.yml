@@ -9,9 +9,6 @@ services:
         image: ghcr.io/kscop-n1/linguacafe-webserver:${VERSION:-latest}
         container_name: linguacafe-webserver
         restart: unless-stopped
-        depends_on:
-            mysql:
-                condition: service_healthy
         volumes:
             - ./storage:/var/www/html/storage
             - ./docker/supervisor-horizon.conf:/etc/supervisor/conf.d/horizon.conf
@@ -20,8 +17,8 @@ services:
             DB_DATABASE: ${DB_DATABASE:-linguacafe}
             DB_USERNAME: ${DB_USERNAME:-linguacafe}
             DB_PASSWORD: ${DB_PASSWORD:-linguacafe}
-            DB_HOST: ${DB_HOST:-linguacafe-database}
-            DB_PORT: ${DB_PORT:-3306}
+            DB_HOST: ${DB_HOST:-host.docker.internal}
+            DB_PORT: ${DB_PORT:-3308}
             BACKUP_INTERVAL: "59 23 * * *"
             MAX_SAVED_BACKUPS: 14
         ports:

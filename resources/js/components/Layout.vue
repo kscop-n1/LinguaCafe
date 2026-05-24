@@ -121,6 +121,7 @@
                 navbarVisible: true,
                 navbarCollapsed: false,
                 windowWidth: window.innerWidth,
+                preferredDarkTheme: null,
                 navigation: [
                     {
                         name: 'Home',
@@ -245,9 +246,8 @@
 
             this.initializeThemes();
 
-            // Watch OS theme change. Currently disabled to 
-            // const preferredDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
-            // preferredDarkTheme.addEventListener("change", this.loadSelectedTheme);
+            this.preferredDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+            this.preferredDarkTheme.addEventListener('change', this.handleSystemThemeChange);
 
             // load navbar status
             const savedNavbarCollapsed = DefaultLocalStorageManager.loadSetting('navbar-collapsed');
@@ -266,6 +266,9 @@
         },
         beforeUnmount() {
             window.removeEventListener('resize', this.updateWindowWidth);
+            if (this.preferredDarkTheme) {
+                this.preferredDarkTheme.removeEventListener('change', this.handleSystemThemeChange);
+            }
         },
         methods: {
             updateWindowWidth() {
@@ -277,33 +280,43 @@
             },
             initializeThemes() {
                 this.loadSelectedTheme();
-                ThemeService.setDefaultVuetifyTheme(this.$vuetify);
 
                 if (this.$props.themeSettings?.vuetifyThemes) {
                     this.$store.commit('shared/setVuetifyThemeSettings', this.$props.themeSettings.vuetifyThemes)
                     this.$store.commit('shared/setTextStylingSettings', this.$props.themeSettings.textStyling)
                 }
 
+                ThemeService.setDefaultVuetifyTheme(this.$vuetify);
                 ThemeService.setVuetifyTheme(this.$vuetify, this.$store)
             },
             loadSelectedTheme() {
                 const autoEnabled = ThemeService.isAuto();
-                const preferredDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
                 if (autoEnabled) {
-                    // auto-select user's system theme if 'auto' is enabled
-                    if (preferredDarkTheme.matches) {
-                        this.theme = 'dark';
-                    } else {
-                        this.theme = 'light';
-                    }
-
-                    DefaultLocalStorageManager.saveSetting('theme', this.theme);
-                } else {
-                    // otherwise use saved theme
-                    const savedTheme = DefaultLocalStorageManager.loadSetting('theme');
-                    this.theme = savedTheme ? savedTheme : 'light';
+                    this.applyTheme(this.getSystemTheme());
+                    return;
                 }
+
+                // otherwise use saved theme
+                const savedTheme = DefaultLocalStorageManager.loadSetting('theme');
+                this.theme = savedTheme ? savedTheme : 'light';
+            },
+            getSystemTheme() {
+                return window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
+            },
+            applyTheme(theme) {
+                this.theme = theme;
+                DefaultLocalStorageManager.saveSetting('theme', theme);
+                this.$cookie?.set('theme', theme);
+                ThemeService.setDefaultVuetifyTheme(this.$vuetify);
+                ThemeService.setVuetifyTheme(this.$vuetify, this.$store);
+            },
+            handleSystemThemeChange() {
+                if (!ThemeService.isAuto()) {
+                    return;
+                }
+
+                this.applyTheme(this.getSystemTheme());
             },
             collapseNavbar() {
                 this.navbarCollapsed = true;
