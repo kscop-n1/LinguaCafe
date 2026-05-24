@@ -1,11 +1,11 @@
 # LinguaCafe Phased Migration Progress
 
-Updated: 2026-05-23
+Updated: 2026-05-24
 Source audit: `UPGRADE_AUDIT_REPORT.md`
 
 ## Current Summary
 
-Phases 1-5 have now been implemented and verified at build/backend-test/basic-browser-smoke level. Phase 5 now runs on native Vue 3 without `@vue/compat`.
+Phases 1-5 have been implemented and verified at build/backend-test/basic-browser-smoke level. Phase 5 now runs on native Vue 3 without `@vue/compat`, but the migration still has follow-up cleanup tracked in `release-notes/migration-audit.md`.
 
 | Phase | Status | Current Result |
 |---|---|---|
@@ -13,7 +13,7 @@ Phases 1-5 have now been implemented and verified at build/backend-test/basic-br
 | Phase 2: Smoke-Test Coverage Before Frontend Migration | Complete | Reader, vocabulary edit, chapter read marker, and review/SRS endpoint flows covered by PHPUnit; Docker update checklist added |
 | Phase 3: Frontend Security Isolation | Complete | `vue-showdown`/`showdown` removed; user manual uses local markdown renderer; production npm audit clean |
 | Phase 4: Build Tool Migration | Complete | Laravel Mix/Webpack removed; Vite build pipeline active through Blade `@vite` and `vite.config.js` |
-| Phase 5: Vue 3 / Vuetify 3 Migration | Complete | Runtime moved to native Vue 3, Vue Router 4, Vuex 4, and Vuetify 3; `@vue/compat` removed |
+| Phase 5: Vue 3 / Vuetify 3 Migration | Implemented | Runtime moved to native Vue 3, Vue Router 4, Vuex 4, and Vuetify 3; `@vue/compat` removed, with remaining cleanup tracked in `release-notes/migration-audit.md` |
 
 ## Phase 1: Backend Security And Runtime Stabilization
 

@@ -1,6 +1,6 @@
 # LinguaCafe Upgrade Audit Report
 
-Generated: 2026-05-22
+Generated: 2026-05-24
 
 Source plan: `UPGRADE_AUDIT_PLAN.md`
 
@@ -18,7 +18,7 @@ Current verified result:
 | PHPUnit on dev MySQL | Pass: 10 tests, 36 assertions |
 | Browser smoke | Pass: /login bootstraps with native Vue 3/Vuetify 3, `mounted: true`, `error: null` |
 
-Phases 1-5 are implemented. Phase 5 now runs without `@vue/compat`; Vue 3 compatibility mode has been removed from dependencies and Vite config.
+Phases 1-5 are implemented. Phase 5 now runs without `@vue/compat`, and the remaining migration cleanup is tracked in `release-notes/migration-audit.md`.
 
 ## Executive Summary
 

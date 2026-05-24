@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.24
+## Resolved in releases 0.5.6-0.5.25
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -30,6 +30,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The root frontend now has a tracked `package-lock.json`, so the shipped dependency graph is reproducible instead of floating without a lockfile.
 - The remaining Vuetify 2 table/tab shims (`v-tabs-items`, `v-tab-item`, `v-simple-table`) were removed from the app bootstrap, and no current source still references them.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
+- The upgrade docs now describe the migration as implemented but still with follow-up cleanup tracked in `release-notes/migration-audit.md`, instead of claiming the migration is fully complete.
 
 The verified issues below remain the active open audit surface.
 
@@ -50,19 +51,6 @@ Impact:
 - The migration is not complete; the app is still carrying some compatibility behavior instead of a clean Vuetify 3 component model.
 - The remaining legacy props can still cause warnings and subtle behavior differences when newer components are mixed with older markup patterns.
 
-### 4. Password migration can force existing users into a change-password flow
-
-Evidence:
-- `database/migrations/2023_11_01_224016_modify_users_table_2.php:12-19` adds `password_changed` with a default of `false`.
-- `app/Http/Controllers/UserController.php:26-30` exposes that flag to the frontend.
-- `resources/js/components/Home/Home.vue:9-34` shows the password-change gate when `passwordChanged` is false.
-- `app/Services/UserService.php:37-40` only flips the flag to true when the user changes password later.
-- Live DB queried from the running webserver container shows a single user row (`id` 9) with `is_admin = 0`, `password_changed = 0`, and `created_at` / `updated_at` timestamps from 2026-05-23.
-
-Impact:
-- Existing users who were migrated into the new schema can be marked as needing a password change even if that was not intended for them.
-- This matches the reported password regression after migration.
-- If the database migration was applied to an existing installation, the lack of a data backfill makes this a behavior change, not just a schema change.
 
 ### 6. A separate Vue 3 / PrimeVue app tree exists, but the build does not use it
 
@@ -76,17 +64,6 @@ Impact:
 - This is a direct inconsistency between "old code that remained in the app" and "new components started to be applied".
 - Any work done in `resources/vue3` can drift from the actual shipped app unless the build entrypoint is switched or the tree is removed.
 
-### 7. Upgrade docs claim the migration is complete, but the code still shows migration leftovers
-
-Evidence:
-- `UPGRADE_MIGRATION_PHASES.md:8-16` says phases 1-5 are complete and Vue 3 / Vuetify 3 migration is complete.
-- `UPGRADE_AUDIT_REPORT.md:7-21` repeats that the phases are implemented and compatibility mode is removed.
-- `resources/js/app.js:9-18` and `resources/js/app.js:69-89` still add compatibility shims for old Vuetify APIs and old components.
-
-Impact:
-- The documentation and codebase are out of sync.
-- This makes the current migration state harder to trust and hides the real cleanup surface needed for an actionable plan.
-- The audit needs to treat the docs as historical claims, not as proof that cleanup is finished.
 
 
 
