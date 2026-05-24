@@ -4,14 +4,14 @@
             <v-tab>Account</v-tab>
             <v-tab>Themes</v-tab>
         </v-tabs>
-        <v-tabs-items v-model="tab" id="admin-tab-items" elevation="0" class="no-background rounded-lg mt-4 pa-6">
-            <v-tab-item :value="0">
+        <v-window v-model="tab" id="admin-tab-items" elevation="0" class="no-background rounded-lg mt-4 pa-6">
+            <v-window-item :value="0">
                 <user-settings-account :language="$props.language" />
-            </v-tab-item>
-            <v-tab-item :value="1">
+            </v-window-item>
+            <v-window-item :value="1">
                 <user-settings-themes />
-            </v-tab-item>
-        </v-tabs-items>
+            </v-window-item>
+        </v-window>
     </v-container>
 </template>
 
