@@ -87,9 +87,9 @@
 
                 <!-- Calendar popup achievements-->
                 <div id="calendar-popup-achievements" class="pa-3" v-if="popupMenu.day" @click.stop=";">
-                    <v-tabs-items v-model="popupMenu.tab">
+                    <v-window v-model="popupMenu.tab">
                         <!-- Popup menu info -->
-                        <v-tab-item :value="0">
+                        <v-window-item :value="0">
                             <v-simple-table dense class="no-row-border no-hover">
                                 <tbody>
                                     <tr>
@@ -103,10 +103,10 @@
                                     </tr>
                                 </tbody>
                             </v-simple-table>
-                        </v-tab-item>
+                        </v-window-item>
 
                         <!-- Popup menu editing -->
-                        <v-tab-item :value="1">
+                        <v-window-item :value="1">
                             <v-simple-table dense class="no-row-border no-hover">
                                 <tbody>
                                     <tr v-for="(achievement, index) in popupMenu.achievements" :key="index">
@@ -128,8 +128,8 @@
                                     </tr>
                                 </tbody>
                             </v-simple-table>
-                        </v-tab-item>
-                    </v-tabs-items>
+                        </v-window-item>
+                    </v-window>
                 </div>
             </v-menu>
 

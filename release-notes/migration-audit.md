@@ -12,6 +12,8 @@ The following live regressions were fixed and browser-verified after the initial
 - Existing migrated users were backfilled out of the unintended password-change gate, while new admin-created users still keep the intended flow.
 - The theme selection dialog now uses native Vuetify 3 list items instead of the legacy list-group shim, while keeping auto/light/dark/eink selection behavior intact.
 - The vocabulary filter menus now use plain Vuetify 3 list items instead of the legacy list-group wrapper, while preserving the existing active-state styling and selection logic.
+- The home calendar popup now uses native Vuetify 3 window items instead of the legacy tabs-items shim, while keeping the info/edit toggle behavior intact.
+- The admin settings layout now uses native Vuetify 3 window items instead of the legacy tabs-items shim, while keeping the tab switching behavior intact.
 
 The verified issues below remain the active open audit surface.
 

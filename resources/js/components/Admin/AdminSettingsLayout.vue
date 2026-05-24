@@ -9,29 +9,29 @@
             <v-tab>API</v-tab>
             <v-tab>Reviews</v-tab>
         </v-tabs>
-        <v-tabs-items v-model="tab" id="admin-tab-items" elevation="0" class="no-background rounded-lg mt-4 pa-6">
-            <v-tab-item :value="0">
+        <v-window v-model="tab" id="admin-tab-items" elevation="0" class="no-background rounded-lg mt-4 pa-6">
+            <v-window-item :value="0">
                 <admin-dashboard></admin-dashboard>
-            </v-tab-item>
-            <v-tab-item :value="1">
+            </v-window-item>
+            <v-window-item :value="1">
                 <admin-user-settings></admin-user-settings>
-            </v-tab-item>
-            <v-tab-item :value="2">
+            </v-window-item>
+            <v-window-item :value="2">
                 <admin-language-settings></admin-language-settings>
-            </v-tab-item>
-            <v-tab-item :value="3">
+            </v-window-item>
+            <v-window-item :value="3">
                 <admin-dictionary-settings :language="$props.language"></admin-dictionary-settings>
-            </v-tab-item>
-            <v-tab-item :value="4">
+            </v-window-item>
+            <v-window-item :value="4">
                 <admin-font-type-settings></admin-font-type-settings>
-            </v-tab-item>
-            <v-tab-item :value="5">
+            </v-window-item>
+            <v-window-item :value="5">
                 <admin-api-settings></admin-api-settings>
-            </v-tab-item>
-            <v-tab-item :value="6">
+            </v-window-item>
+            <v-window-item :value="6">
                 <admin-review-settings></admin-review-settings>
-            </v-tab-item>
-        </v-tabs-items>
+            </v-window-item>
+        </v-window>
     </v-container>
     <v-container v-else>
         You do not have permission to access this page.
