@@ -250,7 +250,7 @@
                 </div>
 
                 <!-- Colors table -->
-                <v-simple-table class="rounded-lg no-hover border mt-4" v-if="!loading">
+                <v-table class="rounded-lg no-hover border mt-4" v-if="!loading">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -416,7 +416,7 @@
                             </td>
                         </tr>
                     </tbody>
-                </v-simple-table>
+                </v-table>
             
                 <!-- Sample text -->
                  <div :style="highlightedStyling">
