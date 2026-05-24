@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.17
+## Resolved in releases 0.5.6-0.5.18
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -18,6 +18,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The reader vocabulary box, sidebar, and bottom sheet now also use native Vuetify 3 window items instead of the legacy tabs-items shim, while keeping the reader word-selection flow intact.
 - The user-settings theme color table now uses a native Vuetify 3 table instead of the legacy simple-table shim, while keeping the color editing flow intact.
 - The user-settings text-styling panel now uses a native Vuetify 3 table instead of the legacy simple-table shim, while keeping the text styling controls intact.
+- The admin language settings page now uses a native Vuetify 3 table instead of the legacy simple-table shim, while keeping the install flow intact.
 - The book detail and book list tables now use native Vuetify 3 table markup instead of the legacy simple-table shim, while keeping the book info and navigation flow intact.
 
 The verified issues below remain the active open audit surface.

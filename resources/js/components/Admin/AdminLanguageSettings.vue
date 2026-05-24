@@ -23,7 +23,7 @@
         </div>
 
         <!-- Language list -->
-        <v-simple-table class="no-hover border rounded-lg" v-if="languages.length">
+        <v-table class="no-hover border rounded-lg" v-if="languages.length">
             <thead>
                 <tr>
                     <th class="text-center" colspan="2">Language</th>
@@ -69,10 +69,10 @@
                     </td>
                 </tr>
             </tbody>
-        </v-simple-table>
+        </v-table>
 
         <!-- Skeleton loader language list -->
-        <v-simple-table class="no-hover border rounded-lg" v-if="!languages.length">
+        <v-table class="no-hover border rounded-lg" v-if="!languages.length">
             <thead>
                 <tr>
                     <th class="text-center" colspan="2">Language</th>
@@ -106,7 +106,7 @@
                     </td>
                 </tr>
             </tbody>
-        </v-simple-table>
+        </v-table>
     </div>
 </template>
 
