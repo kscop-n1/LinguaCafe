@@ -4,7 +4,7 @@ Date: 2026-05-24
 
 This file is an iterative audit of the current LinguaCafe migration state. It records verified regressions and migration leftovers that still need an actionable fix plan.
 
-## Resolved in releases 0.5.6-0.5.22
+## Resolved in releases 0.5.6-0.5.23
 
 The following live regressions were fixed and browser-verified after the initial audit was written:
 - Theme bootstrap and auto-mode handling now stay in sync across cookie, localStorage, and the active Vuetify theme.
@@ -27,6 +27,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The theme bootstrap now uses cookie-first resolution for both server and client paths, login and home default to light consistently, and auto mode resolves the system theme in the shell and theme service.
 - The theme selection dialog now reloads the page after a theme change, so the authenticated shell and the screens that cache theme state reinitialize on switch.
 - The websocket app key is now exported from the server-rendered layouts instead of being hardcoded in the frontend bundle.
+- The root frontend now has a tracked `package-lock.json`, so the shipped dependency graph is reproducible instead of floating without a lockfile.
 - The dead Vuetify 2 selection shims (`v-list-item-group`, `v-list-item-avatar`, `v-list-item-content`) were removed from the app bootstrap, and no current source still references them.
 
 The verified issues below remain the active open audit surface.
@@ -87,16 +88,6 @@ Impact:
 - This makes the current migration state harder to trust and hides the real cleanup surface needed for an actionable plan.
 - The audit needs to treat the docs as historical claims, not as proof that cleanup is finished.
 
-### 8. Dependency reproducibility is split across two frontend tracks
-
-Evidence:
-- `git -C /data/git/LinguaCafe ls-files -- package-lock.json resources/vue3/package-lock.json` only returns `resources/vue3/package-lock.json`, so the alternate Vue 3 tree is locked while the shipped root frontend is not.
-- `resources/vue3/package-lock.json` is tracked, but the deployable root frontend still resolves dependencies from `package.json` without a tracked lockfile.
-
-Impact:
-- The repo can drift into different dependency graphs between the shipped app and the alternate Vue 3 tree.
-- This makes component version comparisons, migration validation, and reproducible builds harder.
-- It increases the chance that a fresh install or CI run will produce behavior that differs from the deployed stack.
 
 
 
