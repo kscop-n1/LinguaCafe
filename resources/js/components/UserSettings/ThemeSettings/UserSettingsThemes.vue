@@ -15,7 +15,7 @@
                     hide-details
                     width="140"
                     :items="themes"
-                    item-text="name"
+                    item-title="name"
                     item-value="value"
                 ></v-select>
             </div>
@@ -142,7 +142,7 @@
                 saving: false,
                 saveResult: '',
                 textStyling: null,
-                selectedTheme: ThemeService.getCurrentTheme() === 'dark' ? 'dark' : ThemeService.getCurrentTheme() === 'eink' ? 'eink' : 'light',
+                selectedTheme: ThemeService.getCurrentTheme() === 'auto' ? ThemeService.getAutoTheme() : ThemeService.getCurrentTheme() === 'dark' ? 'dark' : ThemeService.getCurrentTheme() === 'eink' ? 'eink' : 'light',
                 themes: [
                     {
                         name: 'Light theme',

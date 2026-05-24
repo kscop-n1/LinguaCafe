@@ -20,6 +20,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The user-settings text-styling panel now uses a native Vuetify 3 table instead of the legacy simple-table shim, while keeping the text styling controls intact.
 - The admin language settings page now uses a native Vuetify 3 table instead of the legacy simple-table shim, while keeping the install flow intact.
 - The book detail and book list tables now use native Vuetify 3 table markup instead of the legacy simple-table shim, while keeping the book info and navigation flow intact.
+- The user-settings theme editor now uses the selected theme value directly in the Vuetify 3 selector, so stored light/dark/eink values are shown correctly instead of collapsing to light.
 
 The verified issues below remain the active open audit surface.
 
@@ -81,9 +82,8 @@ Impact:
 ### 5. Theme settings UI is still internally inconsistent
 
 Evidence:
-- `resources/js/components/UserSettings/ThemeSettings/UserSettingsThemes.vue:145-155` only exposes light and dark theme editing.
-- `resources/js/services/ThemeService.js:11-18` and `resources/js/themes.js:1-70` still support `eink`.
 - `resources/js/components/UserSettings/ThemeSettings/UserSettingsThemes.vue:164-205` has repeated `level1` keys in `wordStyling`, so only the last duplicate survives.
+- `resources/js/services/ThemeService.js:11-18` and `resources/js/themes.js:1-70` still support `eink`.
 
 Impact:
 - Theme customization coverage is incomplete relative to the themes the app can actually load.
@@ -157,18 +157,6 @@ Impact:
 - The browser bundle is coupled to a specific websocket app key instead of reading it from the server or env at runtime.
 - If the deployment key changes, the frontend must be rebuilt to match the backend config.
 - This is another example of old/new infrastructure being mixed rather than centralized cleanly after the migration.
-
-### 12. Theme settings page collapses auto and eink into the light-theme editor
-
-Evidence:
-- `resources/js/components/UserSettings/ThemeSettings/UserSettingsThemes.vue:145-155` initializes `selectedTheme` with `ThemeService.getCurrentTheme() === 'dark' ? 'dark' : 'light'`.
-- `resources/js/components/UserSettings/ThemeSettings/UserSettingsThemes.vue:146-155` only exposes `light` and `dark` in the selectable theme list.
-- `resources/js/components/UserSettings/ThemeSettings/UserSettingsThemes.vue:297-309` saves only `light` and `dark` theme colors.
-
-Impact:
-- When the current theme is `auto` or `eink`, the editor silently opens the light theme instead of the active theme.
-- Users can think they are editing the active theme while actually modifying the light theme only.
-- This is a functional migration regression in the color settings flow, not just an incomplete theme list.
 
 ### 13. Login page ignores user-specific theme color settings
 
