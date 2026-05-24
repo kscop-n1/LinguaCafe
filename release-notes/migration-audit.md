@@ -11,6 +11,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The webserver entrypoint now waits for the database socket before running migrations and seeding, which removes the startup connection-refused noise.
 - Existing migrated users were backfilled out of the unintended password-change gate, while new admin-created users still keep the intended flow.
 - The theme selection dialog now uses native Vuetify 3 list items instead of the legacy list-group shim, while keeping auto/light/dark/eink selection behavior intact.
+- The vocabulary filter menus now use plain Vuetify 3 list items instead of the legacy list-group wrapper, while preserving the existing active-state styling and selection logic.
 
 The verified issues below remain the active open audit surface.
 

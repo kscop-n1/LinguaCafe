@@ -54,7 +54,6 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
-                            <v-list-item-group color="primary">
                                 <v-list-item :class="{'v-list-item--active': filters.stage == -999}" @click="applyFilter('stage', -999)">Any</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.stage == 2}" @click="applyFilter('stage', 2)">New</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.stage == 1}" @click="applyFilter('stage', 1)">Ignored</v-list-item>
@@ -66,7 +65,6 @@
                                 <v-list-item :class="{'v-list-item--active': filters.stage == -5}" @click="applyFilter('stage', -5)">5</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.stage == -6}" @click="applyFilter('stage', -6)">6</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.stage == -7}" @click="applyFilter('stage', -7)">7</v-list-item>
-                            </v-list-item-group>
                         </v-list>
                     </v-menu>
 
@@ -80,13 +78,11 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
-                            <v-list-item-group color="primary">
                                 <v-list-item :class="{'v-list-item--active': filters.book == -1}" @click="applyFilter('book', -1, -1)">Any</v-list-item>
                                 <v-list-item 
                                     v-for="(book, index) in books" :key="index"
                                     :class="{'default-font': true, 'v-list-item--active': filters.book == book.id}"
                                     @click="applyFilter('book', book.id, index)">{{ book.name }}</v-list-item>
-                            </v-list-item-group>
                         </v-list>
                     </v-menu>
 
@@ -100,13 +96,11 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
-                            <v-list-item-group color="primary">
                                 <v-list-item :class="{'v-list-item--active': filters.chapter == -1}" @click="applyFilter('chapter', -1)">Any</v-list-item>
                                 <v-list-item 
                                     v-for="(chapter, index) in selectedBook.chapters" :key="index"
                                     :class="{'default-font': true, 'v-list-item--active': filters.chapter == chapter.id}"
                                     @click="applyFilter('chapter', chapter.id, index)">{{ chapter.name }}</v-list-item>
-                            </v-list-item-group>
                         </v-list>
                     </v-menu>
 
@@ -120,7 +114,6 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
-                            <v-list-item-group color="primary">
                                 <v-list-item 
                                     :class="{'v-list-item--active': filters.translation == 'any'}"
                                     @click="applyFilter('translation', 'any')">Any
@@ -129,7 +122,6 @@
                                     :class="{'v-list-item--active': filters.translation == 'not empty'}" 
                                     @click="applyFilter('translation', 'not empty')">Not empty
                                 </v-list-item>
-                            </v-list-item-group>
                         </v-list>
                     </v-menu>
 
@@ -143,7 +135,6 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
-                            <v-list-item-group color="primary">
                                 <v-list-item 
                                     :class="{'v-list-item--active': filters.phrases == 'both'}"
                                     @click="applyFilter('phrases', 'both')">Both
@@ -156,7 +147,6 @@
                                     :class="{'v-list-item--active': filters.phrases == 'only phrases'}" 
                                     @click="applyFilter('phrases', 'only phrases')">Only phrases
                                 </v-list-item>
-                            </v-list-item-group>
                         </v-list>
                     </v-menu>
 
@@ -170,12 +160,10 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" dense>
-                            <v-list-item-group color="primary">
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'words'}" @click="applyFilter('orderBy', 'words')"><v-icon class="mr-1">mdi-sort-alphabetical-ascending</v-icon>Word</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'words desc'}" @click="applyFilter('orderBy', 'words desc')"><v-icon class="mr-1">mdi-sort-alphabetical-descending</v-icon>Word</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'stage'}" @click="applyFilter('orderBy', 'stage')"><v-icon class="mr-1">mdi-sort-numeric-ascending</v-icon>Level</v-list-item>
                                 <v-list-item :class="{'v-list-item--active': filters.orderBy == 'stage desc'}" @click="applyFilter('orderBy', 'stage desc')"><v-icon class="mr-1">mdi-sort-numeric-descending</v-icon>Level</v-list-item>
-                            </v-list-item-group>
                         </v-list>
                     </v-menu>
 
