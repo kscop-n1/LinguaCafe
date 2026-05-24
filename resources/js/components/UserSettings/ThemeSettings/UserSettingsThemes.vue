@@ -23,7 +23,7 @@
 
         <!-- Color table -->
         <v-form v-model="isFormValid">
-            <v-simple-table class="rounded-lg no-hover border mt-2" v-if="!loading">
+            <v-table class="rounded-lg no-hover border mt-2" v-if="!loading">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -99,7 +99,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </v-simple-table>
+            </v-table>
         </v-form>
 
         <!-- Save result alerts -->

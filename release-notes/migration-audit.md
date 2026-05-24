@@ -16,6 +16,7 @@ The following live regressions were fixed and browser-verified after the initial
 - The admin settings layout now uses native Vuetify 3 window items instead of the legacy tabs-items shim, while keeping the tab switching behavior intact.
 - The text reader settings dialog now uses native Vuetify 3 window items instead of the legacy tabs-items shim, while keeping the tab switching behavior intact.
 - The reader vocabulary box, sidebar, and bottom sheet now also use native Vuetify 3 window items instead of the legacy tabs-items shim, while keeping the reader word-selection flow intact.
+- The user-settings theme color table now uses a native Vuetify 3 table instead of the legacy simple-table shim, while keeping the color editing flow intact.
 
 The verified issues below remain the active open audit surface.
 
