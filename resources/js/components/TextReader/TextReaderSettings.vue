@@ -13,7 +13,7 @@
                 </v-btn>
             </v-card-title>
             <v-card-text class="pb-12" v-if="settingsLoaded" style="height: 800px;">
-                <v-tabs :show-arrows="false" v-model="tab" background-color="foreground" class="rounded-lg border overflow-hidden">
+                <v-tabs :show-arrows="false" v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden">
                     <v-tab>Text</v-tab>
                     <v-tab>Vocabulary box</v-tab>
                     <v-tab>Vocabulary hover box</v-tab>

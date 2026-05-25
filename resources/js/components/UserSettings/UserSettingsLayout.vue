@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-tabs v-model="tab" background-color="foreground" class="rounded-lg border overflow-hidden">
+        <v-tabs v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden">
             <v-tab>Account</v-tab>
             <v-tab>Themes</v-tab>
         </v-tabs>

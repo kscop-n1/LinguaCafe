@@ -88,7 +88,7 @@
                 <v-progress-linear
                     id="review-progress-bar"
                     color="success"
-                    background-color="foreground"
+                    bg-color="foreground"
                     background-opacity="1"
                     height="36"
                     :value="correctReviews / totalReviews * 100"

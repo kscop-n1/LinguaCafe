@@ -21,7 +21,7 @@
                 <!-- Logo -->
                 <div id="logo" class="d-flex justify-center my-5" v-if="display.lgAndUp && !navbarCollapsed">
                     <img src="/icon512rounded.png" class="mr-2" width="32px" height="32px"/>
-                    <span class="text--text">Lingua Cafe</span>
+                    <span class="text-text">Lingua Cafe</span>
                 </div>
 
                 <v-list nav shaped density="compact" class="pl-0">
@@ -78,7 +78,7 @@
             </v-navigation-drawer>
 
             <!-- Bottom navigation -->
-            <v-bottom-navigation density="compact" grow shift class="d-flex d-sm-flex d-md-none" theme="dark" background-color="primary">
+            <v-bottom-navigation density="compact" grow shift class="d-flex d-sm-flex d-md-none" bg-color="primary" color="on-primary">
                 <v-btn class="text-decoration-none" width="60" style="float: left;" @click="drawer = true;">
                     <span>More</span>
                     <v-icon>mdi-menu</v-icon>

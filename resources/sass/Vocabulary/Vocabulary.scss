@@ -1,5 +1,3 @@
-@import './../variables';
-
 div.v-list.filter-popup {
     max-width: 200px;
     max-height: 440px;
@@ -29,15 +27,14 @@ div.v-list.filter-popup {
         margin-bottom: 10px;
         
         
-        .v-input__slot fieldset,
-        .v-input__slot {
+        .v-field {
             transition: .2s;
             height: 40px;
             border-top-right-radius: 0px;
             border-bottom-right-radius: 0px;
             border-right: 0px solid rgba(0, 0, 0, 0) !important;
 
-            label.v-label.v-label--active {
+            .v-label.v-field-label--floating {
                 display: none !important;
             }
         }

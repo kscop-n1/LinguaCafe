@@ -4,6 +4,7 @@ export default {
         foreground: '#FFFFFF',
         navigation: '#FFFFFF',
         primary: '#2563EB',
+        'on-primary': '#FFFFFF',
         
         gray: '#D1D5DB',
         gray2: '#E5E7EB',
@@ -28,6 +29,7 @@ export default {
         foreground: '#1E293B',
         navigation: '#1E293B',
         primary: '#38BDF8',
+        'on-primary': '#0F172A',
         gray: '#334155',
         gray2: '#475569',
         gray3: '#64748B',
@@ -49,6 +51,7 @@ export default {
         background: '#FFFFFF',
         navigation: '#FFFFFF',
         primary: '#000000',
+        'on-primary': '#FFFFFF',
         secondary: '#000000',
         gray: '#E9EAEC',
         gray2: '#E9EAEC',

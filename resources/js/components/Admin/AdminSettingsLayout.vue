@@ -1,6 +1,6 @@
 <template>
     <v-container v-if="$store.getters['shared/userAdmin']">
-        <v-tabs v-model="tab" background-color="foreground" class="rounded-lg border overflow-hidden" @change="tabChanged">
+        <v-tabs v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden" @update:model-value="tabChanged">
             <v-tab>Dashboard</v-tab>
             <v-tab>Users</v-tab>
             <v-tab>Languages</v-tab>

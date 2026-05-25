@@ -45,7 +45,7 @@
                                 rounded 
                                 variant="flat" 
                                 color="gray"
-                                class="text--text"
+                                class="text-text"
                                 @click="addUserDialog = true;"
                             >   
                                 <v-icon color="text" class="mr-2">mdi-account-plus</v-icon>

@@ -25,6 +25,12 @@ class VueMigrationStaticTest extends TestCase
             'legacy Vue 2 dialog input emit declaration' => '/emits:\s*\[\'input\'\]/',
             'malformed Vue 3 model listener' => '/@input:model-value=/',
             'legacy Vuetify 2 theme css variable' => '/var\(--v-[A-Za-z0-9]+-base\)/',
+            'legacy Vuetify 2 input slot selector' => '/\.v-input__slot\b/',
+            'legacy Vuetify 2 text field state selector' => '/\.v-input--(has-state|is-disabled)\b/',
+            'legacy Vuetify 2 background-color component prop' => '/\bbackground-color=/',
+            'legacy Vuetify 2 text color utility' => '/\b(text|white|error|success)--text\b/',
+            'legacy Vuetify 2 mini drawer selector' => '/\.v-navigation-drawer--mini-variant\b/',
+            'invalid Vue 3 model change listener' => '/@change:model-value=/',
         ];
 
         $failures = [];
@@ -36,6 +42,58 @@ class VueMigrationStaticTest extends TestCase
                 if (preg_match($pattern, $contents) === 1) {
                     $failures[] = $description . ' in ' . str_replace(base_path() . '/', '', $file);
                 }
+            }
+        }
+
+        $this->assertSame([], $failures);
+    }
+
+    public function test_varela_font_is_a_vite_managed_source_asset(): void
+    {
+        $this->assertFileExists(base_path('resources/fonts/VarelaRound-Regular.ttf'));
+        $this->assertFileDoesNotExist(base_path('public/fonts/VarelaRound-Regular.ttf'));
+
+        $appScss = file_get_contents(base_path('resources/sass/app.scss'));
+
+        $this->assertStringContainsString(
+            "url('../fonts/VarelaRound-Regular.ttf')",
+            $appScss,
+            'The Varela font must be referenced as a relative source asset so Vite fingerprints it.'
+        );
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/url\(["\']?\/fonts\/VarelaRound-Regular\.ttf/',
+            $appScss,
+            'The bundled Varela font must not use a public runtime /fonts URL.'
+        );
+    }
+
+    public function test_bootstrap_sass_and_legacy_frontend_dependencies_are_removed(): void
+    {
+        $sassFiles = $this->sourceFiles([base_path('resources/sass')]);
+        $failures = [];
+
+        foreach ($sassFiles as $file) {
+            $contents = file_get_contents($file);
+
+            foreach ([
+                'deprecated Sass import' => '/^\s*@import\s+/m',
+                'Bootstrap Sass import' => '/bootstrap\/scss/',
+                'deprecated Bootstrap color function' => '/\b(lighten|darken)\s*\(/',
+                'deprecated Bootstrap global map merge' => '/\bmap-merge\s*\(/',
+            ] as $description => $pattern) {
+                if (preg_match($pattern, $contents) === 1) {
+                    $failures[] = $description . ' in ' . str_replace(base_path() . '/', '', $file);
+                }
+            }
+        }
+
+        $packageJson = json_decode(file_get_contents(base_path('package.json')), true);
+        $dependencies = array_merge($packageJson['dependencies'] ?? [], $packageJson['devDependencies'] ?? []);
+
+        foreach (['bootstrap', 'jquery', 'popper.js'] as $package) {
+            if (array_key_exists($package, $dependencies)) {
+                $failures[] = 'legacy frontend package ' . $package . ' is still installed';
             }
         }
 

@@ -1,34 +1,34 @@
 <template>
     <v-container id="kanji-list">
-        <v-tabs 
-            v-model="groupBy" 
-            background-color="foreground" class="rounded-lg border overflow-hidden"
-            @change="updateKanjiList" 
+        <v-tabs
+            v-model="groupBy"
+            bg-color="foreground" class="rounded-lg border overflow-hidden"
+            @update:model-value="updateKanjiList"
         >
             <v-tab>Grade</v-tab>
             <v-tab>JLPT</v-tab>
             <v-spacer></v-spacer>
-            
+
             <!-- Hide unknown button -->
-            <v-btn 
+            <v-btn
                 v-if="showUnknown"
                 rounded
                 variant="flat"
                 text
-                class="px-2 kanji-list-toolbar-button" 
-                @click="showUnknown = !showUnknown; updateKanjiList();" 
+                class="px-2 kanji-list-toolbar-button"
+                @click="showUnknown = !showUnknown; updateKanjiList();"
             >
                 Hide unknown <v-icon class="ml-1">mdi-eye-off</v-icon>
             </v-btn>
-            
+
             <!-- Show unknown button -->
-            <v-btn 
+            <v-btn
                 v-if="!showUnknown"
                 rounded
                 variant="flat"
                 text
-                class="px-2 kanji-list-toolbar-button" 
-                @click="showUnknown = !showUnknown; updateKanjiList();" 
+                class="px-2 kanji-list-toolbar-button"
+                @click="showUnknown = !showUnknown; updateKanjiList();"
             >
                 Show unknown <v-icon class="ml-1">mdi-eye</v-icon>
             </v-btn>
@@ -61,7 +61,7 @@
                 The JLPT data is from the previous 4 level system, which was changed in 2010. There is no official kanji list for the current JLPT.
                 The old levels are similar to the current ones, except that the old N2 is now divided between N2 and N3.
             </v-alert>
-            
+
             <!-- Kanji List -->
             <template v-for="(group, groupIndex) in kanji" v-if="!loading">
                 <div class="subheader mt-8" v-if="group.length">
@@ -126,7 +126,7 @@
             }
         },
         props: {
-            
+
         },
         mounted() {
             this.updateKanjiList();
@@ -145,7 +145,7 @@
                     this.loading = false;
                 }).catch((error) => {
                     this.loading = false;
-                });            
+                });
             }
         }
     }

@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 @mixin triangle($size, $color, $direction) {
     height: 0;
     width: 0;

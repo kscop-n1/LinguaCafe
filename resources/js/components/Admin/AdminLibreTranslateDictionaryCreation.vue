@@ -175,7 +175,6 @@
 </template>
 
 <script>
-import { support } from 'jquery';
 
     export default {
         props: {

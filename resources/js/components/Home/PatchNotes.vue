@@ -5,6 +5,24 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.31<v-spacer /> 2026.05.25.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed remaining active control states after the Vue/Vuetify migration so selected tabs, buttons and inputs no longer turn black.</li>
+                    <li>Fixed mobile bottom navigation, login fields, user manual tree, dropdowns and overlay surfaces to keep text readable in light and dark themes.</li>
+                    <li>Moved the Varela font into Vite-managed source assets so production builds use the fingerprinted bundled font.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Removed legacy Bootstrap, jQuery and Popper frontend dependencies that were left over from the old stack.</li>
+                    <li>Expanded migration static checks for obsolete Vuetify overlay, theme, activator and asset patterns.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.30<v-spacer /> 2026.05.25.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

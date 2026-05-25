@@ -1,52 +1,42 @@
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
-
-// Pages
-@import 'Dialogs/LanguageSelectionDialog';
-@import 'Login/Login';
-@import 'Home/Home';
-@import 'UserManual';
-@import 'UserSettings/UserSettings';
-@import 'Review/Review';
-@import 'Text/InteractiveTextStyling';
-@import 'Text/TextBlockGroup';
-@import 'Text/VocabularyBox';
-@import 'Text/VocabularyHoverBox';
-@import 'Text/VocabularySideBox';
-@import 'Text/VocabularyBottomSheet';
-@import 'Text/VocabularySearchBox';
-@import 'TextReader/TextReader';
-@import 'TextReader/TextReaderChapterList';
-@import 'TextReader/TextReaderGlossary';
-@import 'Vocabulary/Vocabulary';
-@import 'Vocabulary/VocabularyEditDialog';
-@import 'Vocabulary/VocabularyExport';
-@import 'Kanji/KanjiList';
-@import 'Kanji/KanjiDetails';
-@import 'Library/NoBookCoverIcon';
-@import 'Library/Books';
-@import 'Library/BookChapters';
-@import 'Library/ImportDialog';
-@import 'Library/EditBookDialog';
-@import 'Library/JellyfinSubtitleList';
-@import 'slider';
-@import 'DarkMode';
-
-
-
-// admin pages
-@import 'Admin/AdminSettings';
-@import 'Admin/AdminLanguageSettings';
-@import 'Admin/AdminDictionarySettings';
-@import 'Admin/AdminApiSettings';
-@import 'Admin/AdminReviewSettings';
+@use 'variables';
+@use 'Dialogs/LanguageSelectionDialog';
+@use 'Login/Login';
+@use 'Home/Home';
+@use 'UserManual';
+@use 'UserSettings/UserSettings';
+@use 'Review/Review';
+@use 'Text/InteractiveTextStyling';
+@use 'Text/TextBlockGroup';
+@use 'Text/VocabularyBox';
+@use 'Text/VocabularyHoverBox';
+@use 'Text/VocabularySideBox';
+@use 'Text/VocabularyBottomSheet';
+@use 'Text/VocabularySearchBox';
+@use 'TextReader/TextReader';
+@use 'TextReader/TextReaderChapterList';
+@use 'TextReader/TextReaderGlossary';
+@use 'Vocabulary/Vocabulary';
+@use 'Vocabulary/VocabularyEditDialog';
+@use 'Vocabulary/VocabularyExport';
+@use 'Kanji/KanjiList';
+@use 'Kanji/KanjiDetails';
+@use 'Library/NoBookCoverIcon';
+@use 'Library/Books';
+@use 'Library/BookChapters';
+@use 'Library/ImportDialog';
+@use 'Library/EditBookDialog';
+@use 'Library/JellyfinSubtitleList';
+@use 'slider';
+@use 'DarkMode';
+@use 'Admin/AdminSettings';
+@use 'Admin/AdminLanguageSettings';
+@use 'Admin/AdminDictionarySettings';
+@use 'Admin/AdminApiSettings';
+@use 'Admin/AdminReviewSettings';
 
 @font-face {
     font-family: Varela;
-    src: url('/fonts/VarelaRound-Regular.ttf');
+    src: url('../fonts/VarelaRound-Regular.ttf') format('truetype');
 }
 
 * {
@@ -310,8 +300,8 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .35);
 }
 
-.v-input--selection-controls .v-input__slot>.v-label {
-    height: 28px;
+.v-selection-control .v-label {
+    min-height: 28px;
     line-height: 28px;
     margin-bottom: 0px;
 }
@@ -429,7 +419,7 @@
         }
     }
 
-    &.v-navigation-drawer--mini-variant {
+    &.v-navigation-drawer--rail {
 
         width: 64px;
 
@@ -670,4 +660,113 @@ div.v-data-table {
 .v-overlay__content {
     background: rgb(var(--v-theme-foreground));
     color: rgb(var(--v-theme-text));
+}
+
+/* Shared Vuetify 3 surface and input normalization. */
+.v-application {
+    color: rgb(var(--v-theme-text));
+    background: rgb(var(--v-theme-background));
+}
+
+.v-card,
+.v-sheet,
+.v-list,
+.v-table,
+.v-data-table,
+.v-window.v-item-group:not(.no-background),
+.v-window:not(.no-background) .v-window-item,
+.v-window:not(.no-background).v-window__container {
+    background: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
+}
+
+.v-card > .v-card__title,
+.v-card > .v-card__subtitle,
+.v-card > .v-card__text,
+.v-card > .v-card__actions,
+.v-list-item,
+.v-table,
+.v-data-table,
+.v-data-table th,
+.v-data-table td {
+    color: rgb(var(--v-theme-text));
+}
+
+.v-field,
+.v-field.v-field--variant-filled,
+.v-field.v-field--variant-solo,
+.v-field.v-field--variant-solo-filled {
+    background: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
+}
+
+.v-field--variant-filled .v-field__overlay {
+    background: rgb(var(--v-theme-gray2));
+    opacity: .45;
+}
+
+.v-field:hover .v-field__overlay,
+.v-field--focused .v-field__overlay {
+    background: rgb(var(--v-theme-gray));
+    opacity: .55;
+}
+
+.v-field input,
+.v-field textarea,
+.v-field .v-field__input,
+.v-field .v-label,
+.v-selection-control .v-label {
+    color: rgb(var(--v-theme-text));
+    -webkit-text-fill-color: rgb(var(--v-theme-text));
+}
+
+.v-field input::placeholder,
+.v-field textarea::placeholder {
+    color: rgb(var(--v-theme-text));
+    -webkit-text-fill-color: rgb(var(--v-theme-text));
+    opacity: .55;
+}
+
+.v-field input:-webkit-autofill,
+.v-field textarea:-webkit-autofill {
+    -webkit-text-fill-color: rgb(var(--v-theme-text));
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--v-theme-foreground)) inset;
+}
+
+.v-bottom-navigation {
+    background: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-on-primary)) !important;
+    border-top: 1px solid rgba(var(--v-theme-on-primary), .18);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, .18);
+}
+
+.v-bottom-navigation .v-btn,
+.v-bottom-navigation .v-btn .v-btn__content,
+.v-bottom-navigation .v-btn .v-icon,
+.v-bottom-navigation .v-btn span {
+    color: rgb(var(--v-theme-on-primary)) !important;
+}
+
+.v-bottom-navigation .v-btn--active .v-btn__overlay,
+.v-bottom-navigation .v-btn:hover .v-btn__overlay,
+.v-bottom-navigation .v-btn:focus-visible .v-btn__overlay {
+    background: rgb(var(--v-theme-on-primary));
+    opacity: .14;
+}
+
+.v-btn--active:not(.v-bottom-navigation .v-btn) .v-btn__overlay {
+    background: rgb(var(--v-theme-primary));
+    opacity: .12 !important;
+}
+
+.v-btn--active:not(.v-bottom-navigation .v-btn) {
+    color: rgb(var(--v-theme-text));
+}
+
+.v-tab--selected .v-btn__overlay {
+    opacity: 0 !important;
+}
+
+.v-tab--selected {
+    color: rgb(var(--v-theme-text)) !important;
 }

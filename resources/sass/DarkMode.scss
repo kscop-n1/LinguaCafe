@@ -1,5 +1,3 @@
-@import 'variables';
-
 #app.dark .v-theme--dark.v-chip,
 #app.dark .v-chip {
     color: rgb(var(--v-theme-textDark));
@@ -28,8 +26,6 @@
     opacity: .5 !important;
 }
 
-.v-text-field.v-input--has-state .v-input__control>.v-text-field__details>.v-counter, .v-text-field.v-input--is-disabled .v-input__control>.v-text-field__details>.v-counter, .v-text-field.v-input--is-disabled .v-input__control>.v-text-field__details>.v-messages, .v-text-field .v-input__control, .v-text-field fieldset
-
 // text area
 #app.dark textarea {
     color: rgb(var(--v-theme-text));
@@ -38,25 +34,6 @@
 // select text color
 #app.dark .v-theme--dark.v-select .v-select__selections {
     color: rgb(var(--v-theme-text));
-}
-
-// google autofill input background
-#app.dark .v-input__control {
-    input {
-        -webkit-text-fill-color: rgb(var(--v-theme-text)) !important;
-        &:-webkit-autofill{
-            -webkit-text-fill-color: rgb(var(--v-theme-text)) !important;
-            -webkit-box-shadow: 0 0 0 50px rgb(var(--v-theme-gray)) inset;
-        }
-    }
-
-    .v-input__slot:hover input:not(:active):not(:focus) {
-        -webkit-text-fill-color: rgb(var(--v-theme-text)) !important;
-        &:-webkit-autofill {
-            -webkit-text-fill-color: rgb(var(--v-theme-text)) !important;
-            -webkit-box-shadow: 0 0 0 50px #4B4A4E inset;
-        }
-    }
 }
 
 // pagination
@@ -113,8 +90,7 @@
 
 // vocabulary page search bar
 #app.dark #vocabulary #vocabulary-search-field {
-    .v-input__slot fieldset,
-    .v-input__slot {
+    .v-field {
         background: rgb(var(--v-theme-gray));
         border-right: 0px solid rgba(0, 0, 0, 0) !important;
 
@@ -217,17 +193,17 @@
 }
 
 // white button icon
-#app.dark .v-btn .v-theme--dark.v-icon.white--text {
+#app.dark .v-btn .v-theme--dark.v-icon.text-white {
     color: rgb(var(--v-theme-textDark)) !important;
 }
 
 // error v-icon button
-#app.dark .v-btn.error--text .v-theme--dark.v-icon {
+#app.dark .v-btn.text-error .v-theme--dark.v-icon {
     color: rgb(var(--v-theme-error));
 }
 
 // success v-icon button
-#app.dark .v-btn.success--text .v-theme--dark.v-icon {
+#app.dark .v-btn.text-success .v-theme--dark.v-icon {
     color: rgb(var(--v-theme-success));
 }
 

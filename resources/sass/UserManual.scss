@@ -1,5 +1,3 @@
-@import 'variables';
-
 #user-manual {
     display: flex;
     flex-wrap: nowrap;
@@ -183,5 +181,59 @@
     #user-manual-content {
         width: 100%;
         height: auto;
+    }
+}
+#user-manual {
+    color: rgb(var(--v-theme-text));
+
+    #user-manual-menu .v-card,
+    #user-manual-menu .v-list,
+    #user-manual-menu .v-treeview {
+        background: rgb(var(--v-theme-foreground));
+        color: rgb(var(--v-theme-text));
+    }
+
+    #user-manual-menu .v-list-item,
+    #user-manual-menu .v-list-item .v-list-item-title,
+    #user-manual-menu .v-treeview-item,
+    #user-manual-menu .v-treeview-item span {
+        color: rgb(var(--v-theme-text));
+    }
+
+    #user-manual-menu .v-list-item:hover .v-list-item__overlay,
+    #user-manual-menu .v-list-item--active .v-list-item__overlay {
+        opacity: .08;
+    }
+
+    .user-manual-markdown {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .user-manual-markdown h1,
+    .user-manual-markdown h2,
+    .user-manual-markdown h3,
+    .user-manual-markdown h4,
+    .user-manual-markdown h5,
+    .user-manual-markdown h6,
+    .user-manual-markdown p,
+    .user-manual-markdown li,
+    .user-manual-markdown td,
+    .user-manual-markdown th,
+    .user-manual-markdown details,
+    .user-manual-markdown summary {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .user-manual-markdown a {
+        color: rgb(var(--v-theme-primary));
+    }
+
+    .user-manual-markdown code,
+    .user-manual-markdown pre,
+    .user-manual-markdown blockquote,
+    .user-manual-markdown table th,
+    .user-manual-markdown table td {
+        background: rgb(var(--v-theme-foreground));
+        color: rgb(var(--v-theme-text));
     }
 }

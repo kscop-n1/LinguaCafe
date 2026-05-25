@@ -1,5 +1,5 @@
 <template>
-    <v-container class="text--text">
+    <v-container class="text-text">
         <div class="subheader">
             Attributions
         </div>

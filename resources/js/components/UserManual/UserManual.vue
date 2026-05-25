@@ -10,11 +10,13 @@
                     hoverable
                     activatable
                     open-on-click
-                    return-object
                     open-all
                     color="primary"
                     :items="pages"
-                    @update:active="updateSelectedPage"
+                    item-title="name"
+                    item-value="fileName"
+                    item-children="children"
+                    @update:activated="updateSelectedPage"
                 >
                     <template #label="{ item }">
                         <span>{{item.name}}</span>
@@ -54,12 +56,12 @@ import axios from 'axios';
             axios.get('/manual/get-menu-tree').then((response) => {
                 this.pages = response.data;
             });
-            
-            
+
+
             if (this.$route.params.currentPage !== undefined) {
                 this.selectedPage = this.$route.params.currentPage;
             }
-            
+
             this.loadManualFile(this.selectedPage);
         },
         props: {
@@ -81,25 +83,26 @@ import axios from 'axios';
                 if (!event.length) {
                     return;
                 }
-                
+
                 var hash = '';
                 if (window.location.hash) {
                     hash = window.location.hash;
                 }
 
                 var currentPath = '' + this.$route.path + hash;
-                var newPath = '' + '/user-manual/' + event[0].fileName;
+                var selectedFile = typeof event[0] === 'string' ? event[0] : event[0].fileName;
+                var newPath = '' + '/user-manual/' + selectedFile;
                 if (currentPath !== newPath) {
-                    this.$router.push({ path: '/user-manual/' + event[0].fileName, replace: true });
+                    this.$router.push({ path: '/user-manual/' + selectedFile, replace: true });
                 }
-                
+
             },
             loadManualFile(fileName) {
                 this.userManualFile = null;
                 axios.get('/manual/get-manual-file/' + fileName).then((response) => {
                     this.userManualFile = this.replaceElements(response.data);
-                    
-                    
+
+
                     if (window.location.hash) {
                         var hash = window.location.hash;
                         hash = decodeURI(hash);
@@ -346,4 +349,4 @@ import axios from 'axios';
         }
     }
 </script>
- 
+

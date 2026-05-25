@@ -9,7 +9,7 @@
         box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.38);
         user-select: text;
 
-        .dictionary-search-field .v-input__slot{
+        .dictionary-search-field .v-field{
             padding-left: 16px;
         }
         
@@ -142,7 +142,7 @@
             margin-left: -16px;
         }
 
-        #vocab-box-edit-page .v-input__slot {
+        #vocab-box-edit-page .v-field__input {
             font-size: 18px;
         }
     }
