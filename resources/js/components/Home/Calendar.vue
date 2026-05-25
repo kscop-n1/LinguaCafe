@@ -5,7 +5,7 @@
             <v-spacer></v-spacer>
 
             <!-- Displayed goal select -->
-            <v-menu offset-y class="rounded-lg">
+            <v-menu location="bottom" :offset="8" class="rounded-lg">
                 <template v-slot:activator="{ props }">
                     <v-btn class="calendar-button" color="foreground" rounded variant="flat" v-bind="props">
                         <span id="goal-selection-text-small">Goal</span>
@@ -14,18 +14,28 @@
                         <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                     </v-btn>
                 </template>
-                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'reviews_due'; updateCalendar();">Reviews due</v-btn>
-                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'read_words'; updateCalendar();">Reading</v-btn>
-                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'review'; updateCalendar();">Review</v-btn>
-                <v-btn  class="menu-button justife-start" tile  @click="selectedGoal = 'learn_words'; updateCalendar();">New words</v-btn>
+                <v-list class="pa-0" density="compact">
+                    <v-list-item @click="selectedGoal = 'reviews_due'; updateCalendar();">
+                        <v-list-item-title>Reviews due</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="selectedGoal = 'read_words'; updateCalendar();">
+                        <v-list-item-title>Reading</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="selectedGoal = 'review'; updateCalendar();">
+                        <v-list-item-title>Review</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="selectedGoal = 'learn_words'; updateCalendar();">
+                        <v-list-item-title>New words</v-list-item-title>
+                    </v-list-item>
+                </v-list>
             </v-menu>
 
             <!-- Date picker -->
             <v-menu
                 v-model="showDatePicker"
                 width="290px"
-                offset-y
-                left
+                location="bottom end"
+                :offset="8"
                 content-class="date-picker-dialog"
             >
                 <template v-slot:activator="{ props }">
@@ -34,7 +44,7 @@
                         class="calendar-button ml-2"
                         color="foreground"
                         rounded
-                        variant="flat"
+                        v-bind="props"
                         @click="showDatePicker = true;"
                     >
                         <span id="calendar-date-button-text">{{ pickerDateFormated }}&nbsp;</span><v-icon>mdi-calendar</v-icon>
@@ -61,12 +71,12 @@
             <v-menu
                 content-class="calendar-popup-menu rounded-lg"
                 v-model="popupMenu.active"
-                absolute
+                :target="[popupMenu.x, popupMenu.y]"
+                location-strategy="connected"
+                location="bottom start"
+                :offset="8"
                 :close-on-click="false"
                 :close-on-content-click="false"
-                :position-x="popupMenu.x"
-                :position-y="popupMenu.y"
-                offset-y
             >
                 <!-- Calendar popup date and reviews due-->
                 <div id="calendar-popup-date" class="px-3 py-1" v-if="popupMenu.day" @click.stop=";">

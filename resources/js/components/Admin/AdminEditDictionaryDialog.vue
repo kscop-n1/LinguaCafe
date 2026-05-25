@@ -46,7 +46,7 @@
                             Source language
                             
                             <!-- Source language info box -->
-                            <v-menu offset-y nudge-top="-12px">
+                            <v-menu location="bottom" :offset="[0, -12]">
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                                 </template>
@@ -62,7 +62,7 @@
                             v-model="dictionary.source_language"
                             :items="supportedMyMemoryLanguages"
                             item-value="name"
-                            item-text="name"
+                            item-title="name"
                             placeholder="Language"
                             density="compact"
                             variant="filled"
@@ -107,7 +107,7 @@
                             Target language
 
                             <!-- Target language info box -->
-                            <v-menu offset-y nudge-top="-12px">
+                            <v-menu location="bottom" :offset="[0, -12]">
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                                 </template>
@@ -149,7 +149,7 @@
                             v-model="dictionary.target_language"
                             :items="supportedMyMemoryLanguages"
                             item-value="name"
-                            item-text="name"
+                            item-title="name"
                             placeholder="Language"
                             density="compact"
                             variant="filled"
@@ -172,7 +172,7 @@
                             Target language
 
                             <!-- Target language info box -->
-                            <v-menu offset-y nudge-top="-12px">
+                            <v-menu location="bottom" :offset="[0, -12]">
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                                 </template>
@@ -209,9 +209,8 @@
                     <v-menu
                         v-model="colorPicker"
                         width="290px"
-                        offset-y
-                        nudge-top="-10px"
-                        right
+                        location="bottom end"
+                        :offset="[0, -10]"
                         :close-on-content-click="false"
                     >
                         <template v-slot:activator="{ props }">
@@ -220,8 +219,9 @@
                                 variant="outlined"
                                 :color="dictionary.color"
                                 width="64px"
-                                height="32px"
-                                @click="colorPicker = !colorPicker;"
+                            height="32px"
+                            v-bind="props"
+                            @click="colorPicker = !colorPicker;"
                             ></v-card>
                         </template>
                         <v-color-picker hide-inputs v-model="dictionary.color" />
@@ -282,7 +282,7 @@
             value : Boolean,
             dictionaryId: Number
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 loading: true,

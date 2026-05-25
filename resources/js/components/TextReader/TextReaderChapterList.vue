@@ -1,6 +1,6 @@
 <template>
     <v-dialog :model-value="dialogValue" @update:model-value="updateValue" scrollable persistent max-width="1000" attach=".v-main">
-        <v-card 
+        <v-card
             id="text-reader-chapter-list"
             variant="outlined"
             class="rounded-lg"
@@ -59,8 +59,8 @@
 </template>
 
 <script>
-    export default {    
-        emits: ['input'],   
+    export default {
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 headers: [

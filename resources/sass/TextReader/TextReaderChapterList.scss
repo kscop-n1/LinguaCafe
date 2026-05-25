@@ -5,8 +5,8 @@
         width: 60px;
         height: 24px;
         line-height: 24px;
-        background-color: var(--v-highlightedWordBackground-base);
-        color: var(--v-highlightedWordText-base);
+        background-color: rgb(var(--v-theme-highlightedWordBackground));
+        color: rgb(var(--v-theme-highlightedWordText));
     }
 
     span.new {
@@ -15,8 +15,8 @@
         width: 60px;
         height: 24px;
         line-height: 24px;
-        background-color: var(--v-newWordBackground-base);
-        color: var(--v-highlightedWordText-base);
+        background-color: rgb(var(--v-theme-newWordBackground));
+        color: rgb(var(--v-theme-highlightedWordText));
     }
 }
 

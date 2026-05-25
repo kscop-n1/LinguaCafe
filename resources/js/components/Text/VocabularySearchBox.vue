@@ -3,7 +3,7 @@
         <!-- Apis loading -->
          <div class="search-result disabled" v-if="dictionaryApiSearchLoading">
             <div class="search-result-title">
-                <div class="dictionary-title-icon mr-1" style="background-color: var(--v-primary-base);">
+                <div class="dictionary-title-icon mr-1" style="background-color: rgb(var(--v-theme-primary));">
                     <v-icon small>mdi-translate</v-icon>
                 </div>
                 {{ $props.searchTerm }}
@@ -42,7 +42,7 @@
         <!-- Dictionary loading -->
         <div class="search-result disabled" v-if="dictionarySearchLoading">
             <div class="search-result-title">
-                <div class="dictionary-title-icon mr-1" style="background-color: var(--v-primary-base);">
+                <div class="dictionary-title-icon mr-1" style="background-color: rgb(var(--v-theme-primary));">
                     <v-icon small>mdi-list-box</v-icon>
                 </div>
                 <span class="default-font" :title="$props.searchTerm">{{ $props.searchTerm }}</span> <div class="search-result-word">Dictionary search</div>
@@ -56,7 +56,7 @@
         <!-- Dictionary no result message -->
         <div class="search-result disabled" v-if="!dictionarySearchLoading && !dictionarySearchResultsFound">
             <div class="search-result-title default-font" :title="$props.searchTerm">
-                <div class="dictionary-title-icon mr-1" style="background-color: var(--v-primary-base);">
+                <div class="dictionary-title-icon mr-1" style="background-color: rgb(var(--v-theme-primary));">
                     <v-icon small>mdi-list-box</v-icon>
                 </div>
                 {{ $props.searchTerm }}

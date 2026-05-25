@@ -215,7 +215,7 @@
             language: String,
             languageSpaces: Boolean,
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 saved: true,

@@ -156,7 +156,7 @@
                         Auto add cards while reading
                         
                         <!-- Auto add cards info box -->
-                        <v-menu offset-y nudge-top="-12px">
+                        <v-menu location="bottom" :offset="[0, -12]">
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
@@ -181,7 +181,7 @@
                         Update existing cards
                         
                         <!-- Update existing cards info box -->
-                        <v-menu offset-y nudge-top="-12px">
+                        <v-menu location="bottom" :offset="[0, -12]">
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
@@ -206,7 +206,7 @@
                         Show notifications
                         
                         <!-- Show notifications info box -->
-                        <v-menu offset-y nudge-top="-12px">
+                        <v-menu location="bottom" :offset="[0, -12]">
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>
@@ -235,7 +235,7 @@
                     <label class="font-weight-bold mt-4 mb-0">
                         Enable Jellyfin
 
-                        <v-menu offset-y nudge-top="-12px">
+                        <v-menu location="bottom" :offset="[0, -12]">
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                             </template>

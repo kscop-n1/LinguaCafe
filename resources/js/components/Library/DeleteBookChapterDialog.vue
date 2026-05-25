@@ -37,7 +37,7 @@
             chapterId: Number,
             chapterName: String,
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 deletionEnabledDelay: 0,

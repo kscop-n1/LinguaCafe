@@ -13,7 +13,7 @@
         }" 
         :style="{
             'width': '400px',
-            'border-left': '1px solid var(--v-gray2-base)',
+            'border-left': '1px solid rgb(var(--v-theme-gray2))',
             'left': positionLeft + 'px',
             'top': positionTop + 'px',
             'height': height + 'px',

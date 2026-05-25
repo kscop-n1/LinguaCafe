@@ -37,7 +37,7 @@
                         <td>
                             {{ color.name }}
                             
-                            <v-menu offset-y nudge-top="-12px" v-if="colorInformations[color.name] !== undefined">
+                            <v-menu location="bottom" :offset="[0, -12]" v-if="colorInformations[color.name] !== undefined">
                                 <template v-slot:activator="{ props }">
                                     <v-icon class="ml-1" v-bind="props">mdi-help-circle</v-icon>
                                 </template>
@@ -50,9 +50,8 @@
                             <v-menu
                                 v-model="color.opened"
                                 width="290px"
-                                offset-y
-                                nudge-top="-10px"
-                                right
+                                location="bottom end"
+                                :offset="[0, -10]"
                                 :close-on-content-click="false"
                             >
                                 <template v-slot:activator="{ props }">
@@ -62,6 +61,7 @@
                                         :color="color.value"
                                         width="48px"
                                         height="26px"
+                                        v-bind="props"
                                         @click="color.opened = true;"
                                     ></v-card>
                                 </template>

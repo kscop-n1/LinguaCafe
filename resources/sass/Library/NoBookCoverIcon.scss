@@ -6,8 +6,8 @@
     align-items: center;
     text-align: center;
     font-weight: bold;
-    color: var(--v-foreground-base);
-    background: var(--v-primary-base);
+    color: rgb(var(--v-theme-foreground));
+    background: rgb(var(--v-theme-primary));
     height: 100%;
     width: 100%;
     border-radius: 6px;
@@ -42,16 +42,16 @@
     }
 
     .no-cover-bg {
-        fill: var(--v-background-base);
+        fill: rgb(var(--v-theme-background));
     }
 
     .no-cover-fg {
-        fill: var(--v-primary-base);
+        fill: rgb(var(--v-theme-primary));
     }   
 }
 
 .cover-image.no-cover {
-    color: var(--v-foreground-base);
-    background: var(--v-primary-base);
+    color: rgb(var(--v-theme-foreground));
+    background: rgb(var(--v-theme-primary));
     hyphens: auto;
 }

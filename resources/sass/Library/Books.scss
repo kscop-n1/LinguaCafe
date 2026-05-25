@@ -123,13 +123,13 @@
                     width: 64px;
         
                     &.highlighted-words {
-                        background-color: var(--v-highlightedWordBackground-base);
-                        color: var(--v-highlightedWordText-base);
+                        background-color: rgb(var(--v-theme-highlightedWordBackground));
+                        color: rgb(var(--v-theme-highlightedWordText));
                     }
         
                     &.new-words {
-                        background-color: var(--v-newWordBackground-base);
-                        color: var(--v-highlightedWordText-base);
+                        background-color: rgb(var(--v-theme-newWordBackground));
+                        color: rgb(var(--v-theme-highlightedWordText));
                     }
                 }
         

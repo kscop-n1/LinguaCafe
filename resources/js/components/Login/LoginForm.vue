@@ -1,6 +1,6 @@
 <template>
     <v-container class="d-flex justify-center">
-        <theme-selection-dialog v-model="themeSelectionDialog" @input="updateTheme"></theme-selection-dialog>
+        <theme-selection-dialog v-model="themeSelectionDialog" @update:model-value="updateTheme"></theme-selection-dialog>
 
         <!-- Create user dialog -->
         <admin-edit-user-dialog 

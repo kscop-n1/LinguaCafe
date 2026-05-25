@@ -50,8 +50,8 @@
             }
 
             &.highlighted, &:hover{
-                background-color: var(--v-readerWordSelection-base);
-                color: var(--v-highlightedWordText-base);
+                background-color: rgb(var(--v-theme-readerWordSelection));
+                color: rgb(var(--v-theme-highlightedWordText));
             }
 
             &.no-highlight:not([stage="0"]):not([stage="1"]):not(.highlighted):not(:hover) {
@@ -122,9 +122,9 @@
             &.phrase.highlighted,
             &.phrase:hover,
             &.highlighted, &:hover{
-                background-color: var(--v-readerWordSelection-base);
-                border-color: var(--v-readerWordSelection-base);
-                color: var(--v-highlightedWordText-base);
+                background-color: rgb(var(--v-theme-readerWordSelection));
+                border-color: rgb(var(--v-theme-readerWordSelection));
+                color: rgb(var(--v-theme-highlightedWordText));
                 border-radius: 0px;
 
                 &.phrase {
@@ -182,7 +182,7 @@
     padding-left: none !important;
     padding-right: none !important;
     background-color: rgba(0, 0, 0, 0) !important;
-    color: var(--v-text-base) !important;
+    color: rgb(var(--v-theme-text)) !important;
     border: none !important;
     cursor: default !important;
     user-select: text !important;
@@ -196,7 +196,7 @@
         padding-left: 0px !important;
         padding-right: 0px !important;
         background-color: rgba(0, 0, 0, 0) !important;
-        color: var(--v-text-base) !important;
+        color: rgb(var(--v-theme-text)) !important;
         border: none !important;
         cursor: default !important;
         user-select: text !important;

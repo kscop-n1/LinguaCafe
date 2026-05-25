@@ -24,14 +24,16 @@
                     <v-card-title class="book-title pa-3">
                         <div class="book-title-text default-font">{{ book.name }}</div>
                         <v-spacer></v-spacer>
-                        <v-menu content-class="book-menu" rounded offset-y bottom left nudge-top="-5">
+                        <v-menu content-class="book-menu" rounded location="bottom end" :offset="[0, -5]">
                             <template v-slot:activator="{ props }">
                                 <v-btn icon v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
-                            <v-btn class="menu-button" tile  @click="loadBookWordCounts(index)">Load word counts</v-btn>
-                            <v-btn class="menu-button" tile  @click="showEditBookDialog(book)">Edit</v-btn>
-                            <v-btn class="menu-button" tile  @click="showStartReviewDialog(book)">Review</v-btn>
-                            <v-btn class="menu-button" tile  @click="showDeleteBookDialog(book)">Delete</v-btn>
+                            <v-list class="pa-0" density="compact">
+                                <v-list-item @click="loadBookWordCounts(index)"><v-list-item-title>Load word counts</v-list-item-title></v-list-item>
+                                <v-list-item @click="showEditBookDialog(book)"><v-list-item-title>Edit</v-list-item-title></v-list-item>
+                                <v-list-item @click="showStartReviewDialog(book)"><v-list-item-title>Review</v-list-item-title></v-list-item>
+                                <v-list-item @click="showDeleteBookDialog(book)"><v-list-item-title>Delete</v-list-item-title></v-list-item>
+                            </v-list>
                         </v-menu>
                     </v-card-title>
 

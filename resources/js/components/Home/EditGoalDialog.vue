@@ -62,7 +62,7 @@
             _goalQuantity: Number,
             _achievedQuantity: Number,
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 saving: false,

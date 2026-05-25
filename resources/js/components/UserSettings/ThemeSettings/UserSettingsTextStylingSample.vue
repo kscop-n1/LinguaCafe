@@ -6,7 +6,7 @@
             <label class="mb-2">
                 Sample text
                 
-                <v-menu offset-y nudge-top="-12px">
+                <v-menu location="bottom" :offset="[0, -12]">
                     <template v-slot:activator="{ props }">
                         <v-icon class="ml-1" v-bind="props">mdi-information</v-icon>
                     </template>

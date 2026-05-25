@@ -43,7 +43,7 @@
 
         <!-- Toolbar -->
         <div id="toolbar" class="d-flex mx-auto mt-6 mb-2">
-              <v-menu offset-y class="rounded-lg">
+              <v-menu location="bottom" :offset="8" class="rounded-lg">
                     <template v-slot:activator="{ props }">
                         <v-btn color="foreground" rounded variant="flat" v-bind="props">
                             Layout
@@ -51,37 +51,21 @@
                             <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                         </v-btn>
                     </template>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="setLayout('table')"
-                    >
-                        <v-icon class="mr-1">mdi-view-list</v-icon>
-                        List
-                    </v-btn>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="setLayout('cover-only')"
-                    >
-                        <v-icon class="mr-1">mdi-view-module</v-icon>
-                        Cover only
-                    </v-btn>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="setLayout('detailed')"
-                    >
-                        <v-icon class="mr-1">mdi-view-agenda</v-icon>
-                        Detailed
-                    </v-btn>
+                    <v-list class="pa-0" density="compact">
+                        <v-list-item prepend-icon="mdi-view-list" @click="setLayout('table')">
+                            <v-list-item-title>List</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item prepend-icon="mdi-view-module" @click="setLayout('cover-only')">
+                            <v-list-item-title>Cover only</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item prepend-icon="mdi-view-agenda" @click="setLayout('detailed')">
+                            <v-list-item-title>Detailed</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
                 </v-menu>
 
                 <v-spacer></v-spacer>
-                <v-menu offset-y class="rounded-lg">
+                <v-menu location="bottom" :offset="8" class="rounded-lg">
                     <template v-slot:activator="{ props }">
                         <v-btn class="library-small-screen" rounded variant="flat" v-bind="props">
                             Library
@@ -89,24 +73,14 @@
                             <v-icon v-if="props?.['aria-expanded'] !== 'true'">mdi-chevron-down</v-icon>
                         </v-btn>
                     </template>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="showEditBookDialog(null)"
-                    >
-                        <v-icon class="mr-1">mdi-book-plus</v-icon>
-                        Create book
-                    </v-btn>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="importDialog.active = true;"
-                    >
-                        <v-icon class="mr-1">mdi-import</v-icon>
-                        Import
-                    </v-btn>
+                    <v-list class="pa-0" density="compact">
+                        <v-list-item prepend-icon="mdi-book-plus" @click="showEditBookDialog(null)">
+                            <v-list-item-title>Create book</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item prepend-icon="mdi-import" @click="importDialog.active = true;">
+                            <v-list-item-title>Import</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
                 </v-menu>
 
                 <v-btn

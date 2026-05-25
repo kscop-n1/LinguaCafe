@@ -5,6 +5,24 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.30<v-spacer /> 2026.05.25.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed popups, dropdowns, menus and date picker overlays after the Vue/Vuetify migration.</li>
+                    <li>Fixed transparent overlay backgrounds and unreadable text caused by old Vuetify 2 theme variables.</li>
+                    <li>Fixed misplaced overlays by binding Vuetify 3 activator props consistently.</li>
+                    <li>Fixed left navigation hover and active states so menu text remains readable.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Added migration static checks to catch legacy overlay, theme variable, activator and v-model patterns.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.14.1<v-spacer /> 2025.03.19.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

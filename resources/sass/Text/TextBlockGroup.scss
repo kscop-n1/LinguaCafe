@@ -9,10 +9,10 @@
         .v-snack__content {
             min-width: 320px;
             padding: 0px;
-            color: var(--v-text-base);
+            color: rgb(var(--v-theme-text));
             
             .v-btn span {
-                color: var(--v-text-base);
+                color: rgb(var(--v-theme-text));
             }
         }
 
@@ -27,7 +27,7 @@
     overflow-x: visible !important;
     
     .subtitle-timestamp {
-        background-color: var(--v-primary-base);
+        background-color: rgb(var(--v-theme-primary));
         color: white;
         border-radius: 30px;
         width: 72px;
@@ -44,7 +44,7 @@
     }
 
     .text-block {
-        background-color: var(--v-foreground-base);
+        background-color: rgb(var(--v-theme-foreground));
         overflow: hidden !important;
         padding: 0px !important;
     }
@@ -58,7 +58,7 @@
 //         padding-top: 4px; 
 //         padding-bottom: 4px;
 //         transition: .2s;
-//         color: var(--v-text-base);
+//         color: rgb(var(--v-theme-text));
 //         border-radius: 0px;
 //         border-top: 1px solid rgba(0, 0, 0, 0);
 //         border-bottom: 1px solid rgba(0, 0, 0, 0);
@@ -78,7 +78,7 @@
 
 //         &[stage="-7"], &[stage="-6"], &[stage="-5"], 
 //         &[stage="-4"], &[stage="-3"], &[stage="-2"], &[stage="-1"] {
-//             color: var(--v-highlightedWordText-base);
+//             color: rgb(var(--v-theme-highlightedWordText));
 //             margin-left: .5px !important;
 //             margin-right: .5px !important;
 //             padding-left: 4px !important;
@@ -86,40 +86,40 @@
 //         }
 
 //         &[stage="1"] {
-//             color: var(--v-ignoredWordTextColor-base);
+//             color: rgb(var(--v-theme-ignoredWordTextColor));
 //         }
 
 //         &[stage="-1"] {
-//             background-color: var(--v-highlightedWordLevel1-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel1));
 //         }
 
 //         &[stage="-2"] {
-//             background-color: var(--v-highlightedWordLevel2-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel2));
 //         }
         
 //         &[stage="-3"] {
-//             background-color: var(--v-highlightedWordLevel3-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel3));
 //         }
         
 //         &[stage="-4"] {
-//             background-color: var(--v-highlightedWordLevel4-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel4));
 //         }
         
 //         &[stage="-5"] {
-//             background-color: var(--v-highlightedWordLevel5-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel5));
 //         }
         
 //         &[stage="-6"] {
-//             background-color: var(--v-highlightedWordLevel6-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel6));
 //         }
 
 //         &[stage="-7"] {
-//             background-color: var(--v-highlightedWordLevel7-base);
+//             background-color: rgb(var(--v-theme-highlightedWordLevel7));
 //         }
         
 //         &.no-highlight {
 //             background-color: rgba(0, 0, 0, 0) !important;
-//             color: var(--v-text-base) !important;
+//             color: rgb(var(--v-theme-text)) !important;
 //             border-bottom: 1px solid rgba(0, 0, 0, 0);
 //         }
 
@@ -130,58 +130,58 @@
 
 
 //         &.phrase {
-//             color: var(--v-highlightedWordText-base);
+//             color: rgb(var(--v-theme-highlightedWordText));
 //             margin-left: 0 !important;
 //             margin-right: 0 !important;
 
 //             &[phraseStage="-1"] {
-//                 background-color: var(--v-highlightedWordLevel1-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel1));
 //                 border-top: 1px solid var(--v-highlightedWordLevel1-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel1-darken1);
 //             }
     
 //             &[phraseStage="-2"] {
-//                 background-color: var(--v-highlightedWordLevel2-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel2));
 //                 border-top: 1px solid var(--v-highlightedWordLevel2-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel2-darken1);
 //             }
             
 //             &[phraseStage="-3"] {
-//                 background-color: var(--v-highlightedWordLevel3-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel3));
 //                 border-top: 1px solid var(--v-highlightedWordLevel3-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel3-darken1);
 //             }
             
 //             &[phraseStage="-4"] {
-//                 background-color: var(--v-highlightedWordLevel4-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel4));
 //                 border-top: 1px solid var(--v-highlightedWordLevel4-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel4-darken1);
 //             }
             
 //             &[phraseStage="-5"] {
-//                 background-color: var(--v-highlightedWordLevel5-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel5));
 //                 border-top: 1px solid var(--v-highlightedWordLevel5-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel5-darken1);
 //             }
             
 //             &[phraseStage="-6"] {
-//                 background-color: var(--v-highlightedWordLevel6-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel6));
 //                 border-top: 1px solid var(--v-highlightedWordLevel6-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel6-darken1);
 //             }
     
 //             &[phraseStage="-7"] {
-//                 background-color: var(--v-highlightedWordLevel7-base);
+//                 background-color: rgb(var(--v-theme-highlightedWordLevel7));
 //                 border-top: 1px solid var(--v-highlightedWordLevel7-darken1);
 //                 border-bottom: 1px solid var(--v-highlightedWordLevel7-darken1);
 //             }
             
 //             &[phrasestage="0"] {
 //                 border-color: rgb(180, 180, 180) !important;
-//                 color: var(--v-text-base);
+//                 color: rgb(var(--v-theme-text));
                 
 //                 &[stage="2"] {
-//                     color: var(--v-textDark-base);
+//                     color: rgb(var(--v-theme-textDark));
 //                 }
 
 //                 &.no-highlight {
@@ -193,25 +193,25 @@
 //                 background-color: rgba(0, 0, 0, 0);
 
 //                 &.highlighted {
-//                     background-color: var(--v-readerWordSelection-base);
+//                     background-color: rgb(var(--v-theme-readerWordSelection));
 //                 }
 //             }
 
 //             &.no-highlight {
 //                 background-color: rgba(0, 0, 0, 0);
 //                 border-color: rgb(180, 180, 180) !important;
-//                 color: var(--v-text-base);
+//                 color: rgb(var(--v-theme-text));
 
 
 //             }
 
 //             &.highlighted, &:hover, &[phrasestage="0"]:hover {
-//                 background-color: var(--v-readerWordSelection-base);
+//                 background-color: rgb(var(--v-theme-readerWordSelection));
 //             }
 //         }
 
 //         &.phrase-start {
-//             border-left: 1px solid var(--v-text-base);
+//             border-left: 1px solid rgb(var(--v-theme-text));
 //             border-top-left-radius: 6px !important;
 //             border-bottom-left-radius: 6px !important;
 //             margin-left: .5px !important;
@@ -247,7 +247,7 @@
 //         }
 
 //         &.phrase-end {
-//             border-right: 1px solid var(--v-text-base);
+//             border-right: 1px solid rgb(var(--v-theme-text));
 //             border-top-right-radius: 6px !important;
 //             border-bottom-right-radius: 6px !important;
 //             margin-right: .5px !important;
@@ -283,16 +283,16 @@
 //         }
 
 //         &[stage="2"] {
-//             background-color: var(--v-newWord-base);
-//             color: var(--v-highlightedWordText-base);
+//             background-color: rgb(var(--v-theme-newWord));
+//             color: rgb(var(--v-theme-highlightedWordText));
 //             margin-left: .5px !important;
 //             margin-right: .5px !important;
 //         }
         
 //         &.highlighted, &:hover {
-//             background-color: var(--v-readerWordSelection-base) !important;
-//             color: var(--v-highlightedWordText-base) !important;
-//             border-color: var(--v-readerWordSelection-base) !important;
+//             background-color: rgb(var(--v-theme-readerWordSelection)) !important;
+//             color: rgb(var(--v-theme-highlightedWordText)) !important;
+//             border-color: rgb(var(--v-theme-readerWordSelection)) !important;
 //             border-top-left-radius: 0px;
 //             border-bottom-left-radius: 0px;
 //         }

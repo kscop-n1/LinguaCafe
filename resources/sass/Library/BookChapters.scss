@@ -1,7 +1,7 @@
 .book-chapters {
     .highlighted-words {
-        background-color: var(--v-highlightedWordBackground-base);
-        color: var(--v-highlightedWordText-base);
+        background-color: rgb(var(--v-theme-highlightedWordBackground));
+        color: rgb(var(--v-theme-highlightedWordText));
         height: 24px;
         line-height: 24px;
         width: 60px;
@@ -9,8 +9,8 @@
     }
 
     .new-words {
-        background-color: var(--v-newWordBackground-base);
-        color: var(--v-highlightedWordText-base);
+        background-color: rgb(var(--v-theme-newWordBackground));
+        color: rgb(var(--v-theme-highlightedWordText));
         height: 24px;
         line-height: 24px;
         width: 60px;
@@ -23,6 +23,6 @@
     }
 
     .importing-text {
-        color: var(--v-warning-base);
+        color: rgb(var(--v-theme-warning));
     }
 }

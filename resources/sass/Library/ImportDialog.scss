@@ -3,8 +3,8 @@
 #import-dialog {
 
     #website-text {
-        background-color: var(--v-gray3-base);
-        color: var(--v-text-base);
+        background-color: rgb(var(--v-theme-gray3));
+        color: rgb(var(--v-theme-text));
     }
 
     #website-import-input {
@@ -23,8 +23,8 @@
         #selected-jellyfin-subtitle {
             font-size: 16px;
             line-height: 28px;
-            background-color: var(--v-gray3-base);
-            color: var(--v-text-base);
+            background-color: rgb(var(--v-theme-gray3));
+            color: rgb(var(--v-theme-text));
         }
     }
 
@@ -50,8 +50,8 @@
         #selected-youtube-subtitle {
             font-size: 16px;
             line-height: 28px;
-            background-color: var(--v-gray3-base);
-            color: var(--v-text-base);
+            background-color: rgb(var(--v-theme-gray3));
+            color: rgb(var(--v-theme-text));
         }
 
         #youtube-subtitles {
@@ -64,7 +64,7 @@
                 padding-top: 11px;
 
                 &:hover {
-                    background-color: var(--v-gray-base);
+                    background-color: rgb(var(--v-theme-gray));
                 }
             }
         }
@@ -79,10 +79,10 @@
         display: block;
         width: 120px;
         height: 120px;
-        border: 1px solid var(--v-gray-base);
+        border: 1px solid rgb(var(--v-theme-gray));
         user-select: none;
         cursor: pointer;
-        color: var(--v-text-base);
+        color: rgb(var(--v-theme-text));
         transition: .1s;
         overflow: hidden;
 
@@ -102,16 +102,16 @@
             line-height: 28px;
             display: block;
             text-align: center;
-            background-color: var(--v-gray-base);
+            background-color: rgb(var(--v-theme-gray));
         }
         
         &:hover {
-            background-color: var(--v-gray-base);
+            background-color: rgb(var(--v-theme-gray));
         }
 
         &:active span,
         &:active {
-            background-color: var(--v-gray3-base);
+            background-color: rgb(var(--v-theme-gray3));
         }
     }
 

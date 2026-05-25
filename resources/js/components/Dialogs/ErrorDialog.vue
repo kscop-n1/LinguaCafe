@@ -37,7 +37,7 @@
                 default: 'Close'
             },
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
             };

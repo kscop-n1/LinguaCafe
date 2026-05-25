@@ -43,12 +43,12 @@
 
         &.header {
             border-radius: 0px !important;
-            border-bottom: 1px solid var(--v-customBorder-base);
+            border-bottom: 1px solid rgb(var(--v-theme-customBorder));
             user-select: text;
         }
 
         &:hover:not(.header) {
-            background-color: var(--v-gray-base);
+            background-color: rgb(var(--v-theme-gray));
             cursor: pointer;
         }
 

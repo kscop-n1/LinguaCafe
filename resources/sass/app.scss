@@ -91,16 +91,16 @@
 
 // toggle button
 .v-item-group:not(.v-bottom-navigation) > .v-btn {
-    background-color: var(--v-foreground-base) !important;
+    background-color: rgb(var(--v-theme-foreground)) !important;
 }
 
 .v-item-group .v-btn.v-btn--active {
-    background-color: var(--v-primary-base) !important;
-    border-color: var(--v-primary-base) !important;
-    color: var(--v-foreground-base) !important;
-    
+    background-color: rgb(var(--v-theme-primary)) !important;
+    border-color: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-foreground)) !important;
+
     i {
-        color: var(--v-foreground-base) !important;
+        color: rgb(var(--v-theme-foreground)) !important;
     }
 
     &:before {
@@ -114,52 +114,52 @@
 }
 
 // tab item
-.v-window.v-item-group:not(.no-background), 
-.v-window:not(.no-background) .v-window-item, 
+.v-window.v-item-group:not(.no-background),
+.v-window:not(.no-background) .v-window-item,
 .v-window:not(.no-background).v-window__container {
-    background-color: var(--v-foreground-base);
+    background-color: rgb(var(--v-theme-foreground));
 }
 
 // v-card
-.v-card.theme--light,
-.v-card.theme--light > .v-card__subtitle, 
-.v-card.theme--light > .v-card__title, 
-.v-card.theme--light > .v-card__actions,
-.v-card.theme--light > .v-card__text {
-    color: var(--v-text-base);
-    background: var(--v-foreground-base);
+.v-card.v-theme--light,
+.v-card.v-theme--light > .v-card__subtitle,
+.v-card.v-theme--light > .v-card__title,
+.v-card.v-theme--light > .v-card__actions,
+.v-card.v-theme--light > .v-card__text {
+    color: rgb(var(--v-theme-text));
+    background: rgb(var(--v-theme-foreground));
 }
 
 // pagination
-.theme--light.v-pagination .v-pagination__item,
-.theme--light.v-pagination .v-pagination__navigation {
-    background: var(--v-foreground-base);
+.v-theme--light.v-pagination .v-pagination__item,
+.v-theme--light.v-pagination .v-pagination__navigation {
+    background: rgb(var(--v-theme-foreground));
 }
 
 // v-menu
-.v-menu__content .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-    background-color: var(--v-foreground-base);
-    color: var(--v-text-base);
+.v-overlay__content .v-theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+    background-color: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
 }
 
-.v-menu__content .theme--light.v-list-item.v-list-item--active {
-    background-color: var(--v-primary-base) !important;
+.v-overlay__content .v-theme--light.v-list-item.v-list-item--active {
+    background-color: rgb(var(--v-theme-primary)) !important;
     color: white !important;
 }
 
-.v-menu__content .v-list-item.v-list-item--active i {
+.v-overlay__content .v-list-item.v-list-item--active i {
     color: white !important;
 }
 
 // vocabulary edit stage buttons
 #vocabulary-edit-stage-buttons,
 #vocabulary-bottom-sheet-stage-buttons {
-    button.v-btn.theme--light {
-        background-color: var(--v-foreground-base);
-        border-color: var(--v-foreground-base);
+    button.v-btn.v-theme--light {
+        background-color: rgb(var(--v-theme-foreground));
+        border-color: rgb(var(--v-theme-foreground));
 
         &.v-btn--active{
-            background-color: var(--v-primary-base);
+            background-color: rgb(var(--v-theme-primary));
         }
 
         &.v-btn--active .v-btn__content {
@@ -169,39 +169,30 @@
 }
 
 // v-list
-.theme--light.v-list {
-    background: var(--v-foreground-base);
+.v-theme--light.v-list {
+    background: rgb(var(--v-theme-foreground));
 }
 
 // tab bar
 .v-slide-group__wrapper {
-    background-color: var(--v-foreground-base);
+    background-color: rgb(var(--v-theme-foreground));
 }
 
 // v-stepper
-.theme--light.v-stepper {
-    background: var(--v-foreground-base);
+.v-theme--light.v-stepper {
+    background: rgb(var(--v-theme-foreground));
 }
 
 // v-menu
-.v-menu__content.theme--light {
-    border: 1px solid var(--v-customBorder-base) !important;
-}
-
-button.v-btn.menu-button {
-    background: var(--v-foreground-base) !important;
-    color: var(--v-text-base) !important;
-    
-    span {
-        color: var(--v-text-base) !important;
-    }
+.v-overlay__content.v-theme--light {
+    border: 1px solid rgb(var(--v-theme-customBorder)) !important;
 }
 
 // table
-.theme--light.v-data-table.v-data-table--fixed-header thead th,
-.theme--light.v-data-table {
-    background: var(--v-foreground-base);
-    color: var(--v-text-base);
+.v-theme--light.v-data-table.v-data-table--fixed-header thead th,
+.v-theme--light.v-data-table {
+    background: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
 }
 
 .v-data-table>.v-data-table__wrapper>table>thead>tr>th {
@@ -216,7 +207,7 @@ button.v-btn.menu-button {
 
     &:not(:last-child) .expansion-card-title,
     &.open .expansion-card-title {
-        border-bottom: 1px solid var(--v-customBorder-base);
+        border-bottom: 1px solid rgb(var(--v-theme-customBorder));
     }
 
     .expansion-card-title {
@@ -225,7 +216,7 @@ button.v-btn.menu-button {
         &:hover {
             cursor: pointer;
             transition: .2s;
-            background-color: var(--v-gray2-base);
+            background-color: rgb(var(--v-theme-gray2));
         }
     }
 
@@ -237,11 +228,11 @@ button.v-btn.menu-button {
         padding-bottom: 0px;
         transform: scaleY(0);
     }
-    
+
     &:not(:last-child) .expansion-card-content {
-        border-bottom: 1px solid var(--v-customBorder-base);
+        border-bottom: 1px solid rgb(var(--v-theme-customBorder));
     }
-    
+
     &.open .expansion-card-content{
         height: auto;
         padding-bottom: 16px;
@@ -251,8 +242,8 @@ button.v-btn.menu-button {
 }
 
 // progress circular
-.v-progress-circular__overlay { 
-    stroke-linecap: round; 
+.v-progress-circular__overlay {
+    stroke-linecap: round;
 }
 
 // progress bar
@@ -281,7 +272,7 @@ button.v-btn.menu-button {
     font-size: 14px !important;
     text-align: center;
     transition: .2s !important;
-    
+
     div {
         transform: none !important;
     }
@@ -291,7 +282,7 @@ button.v-btn.menu-button {
     opacity: 1 !important;
 }
 
-// it's required because otherwise it had 
+// it's required because otherwise it had
 // weird white background outside of rounded corners
 .date-picker-dialog {
     border-radius: 8px !important;
@@ -300,11 +291,11 @@ button.v-btn.menu-button {
     .v-picker.v-card.v-picker--date {
         border-radius: 0px !important;
         overflow: hidden !important;
-        background: var(--v-foreground-base) !important;
+        background: rgb(var(--v-theme-foreground)) !important;
     }
 
-    .theme--light.v-picker__body, .v-picker__actions.v-card__actions {
-        background: var(--v-foreground-base) !important;
+    .v-theme--light.v-picker__body, .v-picker__actions.v-card__actions {
+        background: rgb(var(--v-theme-foreground)) !important;
     }
 }
 
@@ -331,16 +322,16 @@ button.v-btn.menu-button {
 
 /* Default font color */
 .subheader,
-.theme--light.v-card,
-.theme--light.v-card>.v-card__text, 
-.theme--light.v-data-table,
-.theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr>th {
+.v-theme--light.v-card,
+.v-theme--light.v-card>.v-card__text,
+.v-theme--light.v-data-table,
+.v-theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr>th {
     color: #2d2d2d;
 }
 
 .v-pagination li button {
     box-shadow: none;
-    border: 1px solid var(--v-customBorder-base);
+    border: 1px solid rgb(var(--v-theme-customBorder));
     border-radius: 6px;
     font-size: 15px;
 
@@ -349,27 +340,27 @@ button.v-btn.menu-button {
     }
 
     &:not(.v-pagination__item--active):active {
-        background-color: var(--v-gray3-base) !important;
+        background-color: rgb(var(--v-theme-gray3)) !important;
     }
 }
 
 .v-tab {
-    color: var(--v-text-base);
+    color: rgb(var(--v-theme-text));
 }
 
-.v-menu__content {
+.v-overlay__content {
     border-radius: 4px !important;
-    
+
     .v-list-item {
-        // background-color: var(--v-warning-base) !important;
+        // background-color: rgb(var(--v-theme-warning)) !important;
         // color: white !important;
         // border-radius: 24px !important;
         // margin-top: 4px;
         // margin-bottom: 4px;
 
         &.v-list-item--active {
-            background-color: var(--v-gray3-base) !important;
-            color: var(--v-text-base) !important;
+            background-color: rgb(var(--v-theme-gray3)) !important;
+            color: rgb(var(--v-theme-text)) !important;
         }
     }
 
@@ -378,15 +369,42 @@ button.v-btn.menu-button {
     }
 }
 
-.v-btn.menu-button,
-a.v-btn.menu-button {
-    width: 100%;
-    line-height: 36px !important;
+// Vuetify 3 renders menus, dialogs, selects, tooltips, and custom popups through
+// .v-overlay__content.
+// These styles apply LinguaCafe surface treatment to migrated overlay content.
+.v-overlay__content {
+    &.rounded,
+    &.rounded-lg {
+        border-radius: 8px !important;
+        overflow: hidden;
+    }
+
+    &.date-picker-dialog {
+        width: 290px !important;
+        min-width: 290px !important;
+    }
+
+    &.book-menu {
+        overflow: hidden;
+        border: 1px solid rgb(var(--v-theme-customBorder));
+        border-radius: 4px;
+        background: rgb(var(--v-theme-foreground));
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+    }
+
+    .v-list.filter-popup {
+        background: rgb(var(--v-theme-foreground));
+        border: 1px solid rgb(var(--v-theme-customBorder));
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+        overflow-y: auto;
+    }
+}
+
+.v-card-title {
     display: flex;
-    border-radius: 0px;
-    margin: 0px;
-    border: 0px;
-    box-shadow: none;
+    align-items: center;
+    gap: 8px;
 }
 
 .regular-list-height {
@@ -402,11 +420,11 @@ a.v-btn.menu-button {
 
     div.navigation-button,
     a.navigation-button {
-        text-decoration: none !important; 
+        text-decoration: none !important;
         padding-left: 16px;
-        
+
         &.v-list-item--active {
-            background-color: var(--v-primary-base) !important;
+            background-color: rgb(var(--v-theme-primary)) !important;
             color: white !important;
         }
     }
@@ -452,7 +470,7 @@ a.v-btn.menu-button {
 }
 
 html, body, div#app {
-    background: var(--v-background-base);
+    background: rgb(var(--v-theme-background));
     scroll-behavior: smooth;
     scroll-padding-bottom: 32px;
     height: 100%;
@@ -472,12 +490,12 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-    background: var(--v-background-base);
+    background: rgb(var(--v-theme-background));
     z-index: 100;
 }
 
 .v-card ::-webkit-scrollbar{
-    background: var(--v-foreground-base);
+    background: rgb(var(--v-theme-foreground));
 }
 
 .v-input.v-textarea ::-webkit-scrollbar {
@@ -485,7 +503,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--v-primary-base), transparent 10%);
+    background: color-mix(in srgb, rgb(var(--v-theme-primary)), transparent 10%);
 
     border-radius: 4px;
     z-index: 100;
@@ -607,4 +625,49 @@ div.v-data-table {
 
 #navigation-drawer.eink {
     transition-duration: 0s !important;
+}
+/* Migrated Vuetify 3 overlay and navigation surfaces. */
+.v-overlay__content > .v-card,
+.v-overlay__content > .v-list,
+.v-overlay__content > .v-sheet {
+    background: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
+}
+
+.v-overlay__content > .v-card,
+.v-overlay__content > .v-sheet {
+    border: 1px solid rgb(var(--v-theme-customBorder));
+}
+
+.v-overlay__content .v-list {
+    background: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
+}
+
+#navigation-drawer .navigation-button {
+    color: rgb(var(--v-theme-text));
+}
+
+#navigation-drawer .navigation-button:hover {
+    background-color: rgba(var(--v-theme-primary), .12);
+    color: rgb(var(--v-theme-text));
+}
+
+#navigation-drawer .navigation-button:hover .v-list-item__overlay,
+#navigation-drawer .navigation-button.v-list-item--active .v-list-item__overlay {
+    opacity: 0;
+}
+
+#navigation-drawer .navigation-button.v-list-item--active {
+    background-color: rgb(var(--v-theme-primary));
+    color: #ffffff;
+}
+
+#navigation-drawer .navigation-button.v-list-item--active .v-icon {
+    color: #ffffff;
+}
+
+.v-overlay__content {
+    background: rgb(var(--v-theme-foreground));
+    color: rgb(var(--v-theme-text));
 }

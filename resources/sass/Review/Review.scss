@@ -1,7 +1,7 @@
 @import './../variables';
 
 #review-box #review-card ::-webkit-scrollbar {
-    background: var(--v-foreground-base);
+    background: rgb(var(--v-theme-foreground));
 }
 
 #review-settings div.row {
@@ -20,7 +20,7 @@
     width: 100%;
     height: 100%;
     margin: auto;
-    background-color: var(--v-background-base);
+    background-color: rgb(var(--v-theme-background));
 
     .text-block-group {
         user-select: none !important;
@@ -34,7 +34,7 @@
         width: 100%;
         height: 0px;
         bottom: 0px;
-        
+
         #review-reveal-button {
             position: absolute;
             box-sizing: border-box;
@@ -67,7 +67,7 @@
         right: calc(50% - 346px);
         top: 100px;
     }
-    
+
     #review {
         display: block;
         width: 100%;
@@ -77,12 +77,12 @@
 
     #review-progress-line {
         margin: auto;
-        position: relative; 
+        position: relative;
         width: 900px;
         height: 36px;
 
         .v-badge i {
-            color: var(--v-textDark-base) !important;
+            color: rgb(var(--v-theme-textDark)) !important;
             font-size: 15px;
         }
 
@@ -92,9 +92,9 @@
             line-height: 34px;
             text-align: center;
             font-size: 15px;
-            background-color: var(--v-foreground-base);
-            color: var(--v-text-base);
-            border-radius: 6px;   
+            background-color: rgb(var(--v-theme-foreground));
+            color: rgb(var(--v-theme-text));
+            border-radius: 6px;
         }
 
         #progress-bar-remaining-counter {
@@ -103,8 +103,8 @@
             line-height: 34px;
             text-align: center;
             font-size: 15px;
-            background-color: var(--v-foreground-base);
-            color: var(--v-text-base); 
+            background-color: rgb(var(--v-theme-foreground));
+            color: rgb(var(--v-theme-text));
             border-radius: 6px;
         }
     }
@@ -119,7 +119,7 @@
         perspective: 800px;
         margin-top: 25px;
         animation: none;
-        
+
         #review-card-content {
             display: flex;
             position: absolute;
@@ -148,7 +148,7 @@
 
         &.into-the-correct-deck-animation #review-card-content {
             animation: into-the-correct-deck-animation .4s forwards;
-            
+
             #review-card-front,
             #review-card-back {
                 color: white;
@@ -158,17 +158,17 @@
 
         &.draw-new-card-animation #review-card-content {
             animation: review-card-new-animation .4s;
-            
+
             #review-card-front,
             #review-card-back {
                 color: white;
-            }    
+            }
 
             #review-card-back *{
                 display: none !important;
             }
         }
-        
+
         #review-card-front,
         #review-card-back {
             text-align: center;
@@ -177,12 +177,12 @@
             height: auto;
             min-height: 360px;
             width: 100%;
-            background: var(--v-foreground-base);
-            color: var(--v-text-base);
+            background: rgb(var(--v-theme-foreground));
+            color: rgb(var(--v-theme-text));
             backface-visibility: hidden;
             padding: 16px;
             overflow: visible;
-            
+
             #vocab-box {
                 text-align: left;
             }
@@ -200,7 +200,7 @@
         #review-card-front,
         #review-card-back {
             justify-content: center;
-            
+
             .single-word {
                 display: block;
             }
@@ -214,12 +214,12 @@
 
 @keyframes review-card-revealed-animation {
     0%   {
-        
+
     }
 
     100% {
         transform: rotateY( -180deg );
-        
+
     }
 }
 
@@ -227,7 +227,7 @@
     0%   {
         transform: rotateY( -180deg );
     }
-    
+
     100% {
         transform: rotateY( -180deg ) translate(-420px, -240px) scale(0);
     }
@@ -237,7 +237,7 @@
     0%   {
         transform: rotateY( -180deg );
     }
-    
+
     100% {
         transform: rotateY( -180deg ) translate(420px, -240px) scale(0);
     }
@@ -247,7 +247,7 @@
     0%   {
         transform: rotateY( -180deg ) translate(-420px, -240px) scale(0);
     }
-    
+
     100% {
         transform: rotateY( -180deg );
     }
@@ -271,32 +271,32 @@
         right: calc(50% - 316px);
         top: 100px;
     }
-    
+
     @keyframes back-to-the-deck-animation {
         0%   {
             transform: rotateY( -180deg );
         }
-        
+
         100% {
             transform: rotateY( -180deg ) translate(-360px, -175px) scale(0);
         }
     }
-    
+
     @keyframes into-the-correct-deck-animation {
         0%   {
             transform: rotateY( -180deg );
         }
-        
+
         100% {
             transform: rotateY( -180deg ) translate(360px, -175px) scale(0);
         }
     }
-    
+
     @keyframes review-card-new-animation {
         0%   {
             transform: rotateY( -180deg ) translate(-360px, -175px) scale(0);
         }
-        
+
         100% {
             transform: rotateY( -180deg );
         }
@@ -321,32 +321,32 @@
         right: calc(50% - 276px);
         top: 86px;
     }
-    
+
     @keyframes back-to-the-deck-animation {
         0%   {
             transform: rotateY( -180deg );
         }
-        
+
         100% {
             transform: rotateY( -180deg ) translate(-40vw, -175px) scale(0);
         }
     }
-    
+
     @keyframes into-the-correct-deck-animation {
         0%   {
             transform: rotateY( -180deg );
         }
-        
+
         100% {
             transform: rotateY( -180deg ) translate(40vw, -175px) scale(0);
         }
     }
-    
+
     @keyframes review-card-new-animation {
         0%   {
             transform: rotateY( -180deg ) translate(-40vw, -175px) scale(0);
         }
-        
+
         100% {
             transform: rotateY( -180deg );
         }
@@ -379,7 +379,7 @@
             padding: 0px;
             box-sizing: border-box;
         }
-        
+
         #review-card {
             width: 90%;
             min-width: 260px;
@@ -399,7 +399,7 @@
                 width: 100%;
                 margin-left: 12px !important;
                 margin-right: 12px !important;
-                
+
                 #review-progress-bar-text {
                     display: none;
                 }
@@ -416,27 +416,27 @@
         0%   {
             transform: rotateY( -180deg );
         }
-        
+
         100% {
             transform: rotateY( -180deg ) translate(-33vw, -230px) scale(0);
         }
     }
-    
+
     @keyframes into-the-correct-deck-animation {
         0%   {
             transform: rotateY( -180deg );
         }
-        
+
         100% {
             transform: rotateY( -180deg ) translate(33vw, -230px) scale(0);
         }
     }
-    
+
     @keyframes review-card-new-animation {
         0%   {
             transform: rotateY( -180deg ) translate(-33vw, -230px) scale(0);
         }
-        
+
         100% {
             transform: rotateY( -180deg );
         }
@@ -453,7 +453,7 @@
         &.into-the-correct-deck-animation #review-card-content,
         &.draw-new-card-animation #review-card-content,
         &.back-to-deck-animation #review-card-content,
-        &.revealed #review-card-content {        
+        &.revealed #review-card-content {
             animation-duration: 0s;
         }
     }

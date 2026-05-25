@@ -65,7 +65,7 @@
             value : Boolean,
             id: Number
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 deleting: false,

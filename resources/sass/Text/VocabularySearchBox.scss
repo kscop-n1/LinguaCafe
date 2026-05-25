@@ -18,7 +18,7 @@
         &:not(:first-child) .search-result-title {
             padding-top: 12px !important;
             margin-top: 12px !important;
-            border-top: 1px solid var(--v-gray-base);
+            border-top: 1px solid rgb(var(--v-theme-gray));
             height: calc(32px + 12px);
         }
 
@@ -66,7 +66,7 @@
             font-size: 13px;
 
             &:hover {
-                background-color: var(--v-gray-base);
+                background-color: rgb(var(--v-theme-gray));
             }
 
             i.v-icon {
@@ -78,7 +78,7 @@
 
         &.disabled .search-result-definition:hover {
             &:hover {
-                background-color: var(--v-foreground-base);
+                background-color: rgb(var(--v-theme-foreground));
                 cursor: default;
             }
         }

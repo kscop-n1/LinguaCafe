@@ -197,7 +197,7 @@
             languageSpaces: Boolean,
             sampleWords: Array
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 fields: {

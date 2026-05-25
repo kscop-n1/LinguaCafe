@@ -6,15 +6,15 @@
 
 #supported-dictionaries {
     .dictionary {
-        border: 1px dashed var(--v-customBorder-base);
+        border: 1px dashed rgb(var(--v-theme-customBorder));
         user-select: none;
         height: 80px;
         line-height: 46px;
         width: 100%;
 
         &:hover {
-            background-color: var(--v-gray-base);
-            border: 1px solid var(--v-gray-base);
+            background-color: rgb(var(--v-theme-gray));
+            border: 1px solid rgb(var(--v-theme-gray));
         }
         
         .language {

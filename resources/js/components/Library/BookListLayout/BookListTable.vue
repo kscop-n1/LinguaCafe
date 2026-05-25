@@ -19,26 +19,26 @@
                 class="ma-4 mb-0 no-hover"
                 :headers="[
                     {
-                        text: 'Cover',
-                        value: 'cover_image',
+                        title: 'Cover',
+                        key: 'cover_image',
                         align: 'center',
                         width: '140px',
                         sortable: false,
                     },
                     {
-                        text: 'Title',
-                        value: 'name',
+                        title: 'Title',
+                        key: 'name',
                         align: 'left',
                     },
                     {
-                        text: 'Length',
-                        value: 'word_count',
+                        title: 'Length',
+                        key: 'word_count',
                         align: 'center',
                         width: '140px',
                     },
                     {
-                        text: 'Actions',
-                        value: 'actions',
+                        title: 'Actions',
+                        key: 'actions',
                         align: 'center',
                         width: '140px',
                         sortable: false,
@@ -67,15 +67,17 @@
                 <!-- Actions -->
                 <template v-slot:item.actions="{ item }">
                     <v-btn icon title="Open book" @click="openBook(item.id)"><v-icon>mdi-book-open</v-icon></v-btn>
-                    <v-menu content-class="book-menu" rounded offset-y bottom left nudge-top="-5">
+                    <v-menu content-class="book-menu" rounded location="bottom end" :offset="[0, -5]">
                         <template v-slot:activator="{ props }">
                             <v-btn icon v-bind="props"  title="Actions">
                                 <v-icon>mdi-dots-horizontal</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn class="menu-button" tile  @click="showEditBookDialog(item)">Edit</v-btn>
-                        <v-btn class="menu-button" tile  @click="showStartReviewDialog(item)">Review</v-btn>
-                        <v-btn class="menu-button" tile  @click="showDeleteBookDialog(item)">Delete</v-btn>
+                        <v-list class="pa-0" density="compact">
+                            <v-list-item @click="showEditBookDialog(item)"><v-list-item-title>Edit</v-list-item-title></v-list-item>
+                            <v-list-item @click="showStartReviewDialog(item)"><v-list-item-title>Review</v-list-item-title></v-list-item>
+                            <v-list-item @click="showDeleteBookDialog(item)"><v-list-item-title>Delete</v-list-item-title></v-list-item>
+                        </v-list>
                     </v-menu>
                 </template>
 

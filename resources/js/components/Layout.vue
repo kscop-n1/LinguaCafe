@@ -6,7 +6,7 @@
         <logout-dialog v-model="logoutDialog"/>
 
         <template v-if="$route.path !== '/login'">
-            <theme-selection-dialog v-model="themeSelectionDialog" @input="updateTheme"></theme-selection-dialog>
+            <theme-selection-dialog v-model="themeSelectionDialog" @update:model-value="updateTheme"></theme-selection-dialog>
             <language-selection-dialog v-model="languageSelectionDialog"></language-selection-dialog>
             <v-navigation-drawer
                 id="navigation-drawer"

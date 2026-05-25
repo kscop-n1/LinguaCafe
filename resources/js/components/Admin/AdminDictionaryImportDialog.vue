@@ -122,7 +122,7 @@ export default {
         value : Boolean,
         language: String,
     },
-    emits: ['input'],
+    emits: ['update:modelValue'],
     data: function() {
         return {
             dictionaryTypeInput: 'supported',

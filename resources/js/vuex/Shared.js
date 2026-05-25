@@ -1,6 +1,20 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
+window.Pusher = window.Pusher || Pusher;
+
+function createEcho() {
+    return new Echo({
+        broadcaster: 'pusher',
+        key: window.__LINGUACAFE_WEBSOCKET_APP_KEY,
+        cluster: 'mt1',
+        forceTLS: false,
+        wsHost: window.location.hostname,
+        wsPort: 6001,
+        enabledTransports: ['ws', 'wss'],
+    });
+}
+
 export default {
     namespaced: true,
     state: () => ({
@@ -10,15 +24,7 @@ export default {
         userAdmin: false,
         vuetifyThemeSettings: null,
         textStylingSettings: null,
-        echo: new Echo({
-            broadcaster: 'pusher',
-            key: window.__LINGUACAFE_WEBSOCKET_APP_KEY,
-            cluster: 'mt1',
-            forceTLS: false,
-            wsHost: window.location.hostname,
-            wsPort: 6001,
-            enabledTransports: ['ws', 'wss'],
-        })
+        echo: null
     }),
     mutations: {
         setUuid (state, userUuid) {
@@ -42,6 +48,9 @@ export default {
     },
     getters: {
         echo (state) {
+            if (!state.echo) {
+                state.echo = createEcho();
+            }
             return state.echo;
         },
         userUuid(state) {

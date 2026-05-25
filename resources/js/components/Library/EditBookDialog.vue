@@ -146,7 +146,7 @@
             bookName: String,
             bookCover: String
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         mounted() {
             this.$refs.bookName.focus();
 

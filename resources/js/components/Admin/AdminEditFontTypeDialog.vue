@@ -164,7 +164,7 @@
             _name: String,
             _languages: Array,
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 saving: false,

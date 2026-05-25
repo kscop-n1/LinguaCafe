@@ -124,9 +124,8 @@
                             <v-menu
                                 v-model="colorPicker"
                                 width="290px"
-                                offset-y
-                                nudge-top="-10px"
-                                right
+                                location="bottom end"
+                                :offset="[0, -10]"
                                 :close-on-content-click="false"
                             >
                                 <template v-slot:activator="{ props }">
@@ -135,8 +134,9 @@
                                         variant="outlined"
                                         :color="dictionary.color"
                                         width="64px"
-                                        height="32px"
-                                        @click="colorPicker = !colorPicker;"
+                            height="32px"
+                            v-bind="props"
+                            @click="colorPicker = !colorPicker;"
                                     ></v-card>
                                 </template>
                                 <v-color-picker hide-inputs v-model="dictionary.color" />

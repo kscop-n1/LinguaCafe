@@ -39,10 +39,10 @@
         border-radius: 8px;
         text-align: center;
         cursor: pointer; 
-        color: var(--v-text-base);
+        color: rgb(var(--v-theme-text));
 
         &:not(.learned) {
-            color: var(--v-gray-base);
+            color: rgb(var(--v-theme-gray));
         }
     }
 }   

@@ -24,7 +24,7 @@
                 
                 <!-- Practice mode -->
                 <v-checkbox class="mt-0 pt-0" hide-details v-model="practiceMode" label="Practice mode"></v-checkbox>
-                <v-menu offset-y left nudge-top="-12px" nudge-left="-88px">
+                <v-menu location="bottom end" :offset="[-88, -12]">
                     <template v-slot:activator="{ props }">
                         <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                     </template>
@@ -84,7 +84,7 @@
                 }
             }
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 practiceMode: false,

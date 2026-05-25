@@ -1,6 +1,6 @@
 <template>
     <v-dialog :model-value="dialogValue" @update:model-value="updateValue" scrollable persistent max-width="1000" attach=".v-main">
-        <v-card 
+        <v-card
             id="text-reader-glossary"
             variant="outlined"
             class="rounded-lg"
@@ -20,14 +20,14 @@
                             <div class="stage" :stage="word.stage">
                                 {{ word.stage === 2 ? 'new' : Math.abs(word.stage)}}
                             </div>
-                            
+
                             <!-- Glossary entry word-->
                             <div class="word default-font" v-if="word.base_word == ''">
                                 {{ word.word }} <template v-if="word.reading.length">({{ word.reading }})</template>
                             </div>
                             <div class="word default-font" v-if="word.base_word !== ''">
                                 {{ word.base_word }} <template v-if="word.base_word_reading.length">({{ word.base_word_reading }})</template>
-                                <i class="fas fa-long-arrow-alt-right mx-2"></i> 
+                                <i class="fas fa-long-arrow-alt-right mx-2"></i>
                                 {{ word.word }} <template v-if="word.reading.length">({{ word.reading }})</template>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-    export default {    
-        emits: ['input'],   
+    export default {
+        emits: ['update:modelValue'],
         data: function() {
             return {
             }

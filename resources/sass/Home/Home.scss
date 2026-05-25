@@ -12,18 +12,18 @@
     cursor: pointer;
 }
 
-.v-menu__content.date-picker-dialog {
+.v-overlay__content.date-picker-dialog {
     width: 290px !important;
     min-width: 290px !important;
 }
 
 .calendar-popup-menu {
-    background-color: var(--v-foreground-base);
+    background-color: rgb(var(--v-theme-foreground));
     width: 240px;
     border: 1px solid rgba(0, 0, 0, .2);
 
     #calendar-popup-date {
-        background-color: var(--v-primary-base);
+        background-color: rgb(var(--v-theme-primary));
         color: white;
         display: flex;
         justify-content: flex-start;
@@ -64,7 +64,7 @@
 
 #calendar {
     position: relative;
-    background-color: var(--v-foreground-base);
+    background-color: rgb(var(--v-theme-foreground));
     height: 200px;    
     
     #calendar-months {
@@ -87,7 +87,7 @@
             .calendar-month-title {
                 font-size: 14px;
                 font-weight: bold;
-                color: var(--v-text-base);
+                color: rgb(var(--v-theme-text));
                 display: block;
                 width: 100%;
                 height: 28px;
@@ -116,7 +116,7 @@
                     font-size: 9px;
                     text-align: center;
                     user-select: none;
-                    color: var(--v-text-base);
+                    color: rgb(var(--v-theme-text));
                     transition: .25s;
                     overflow: hidden;
                     cursor: pointer;
@@ -139,7 +139,7 @@
                         height: 250%;
                         z-index: 2;
                         transition: .3s;
-                        background-color: var(--v-primary-base);
+                        background-color: rgb(var(--v-theme-primary));
                     }
                     
                     &.no-achievement .calendar-day-background {
@@ -166,7 +166,7 @@
                     
                     &.no-achievement .calendar-day-text,
                     &.half-achievement .calendar-day-text {
-                        color: var(--v-text-base);
+                        color: rgb(var(--v-theme-text));
                     }
                 }
             }
@@ -184,7 +184,7 @@
 
         .v-progress-circular__info {
             font-size: 22px;
-            color: var(--v-text-base);
+            color: rgb(var(--v-theme-text));
         }
     }
 }

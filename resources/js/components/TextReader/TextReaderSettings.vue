@@ -28,7 +28,7 @@
                                 <v-select
                                     v-model="selectedFontType"
                                     :items="fontTypes"
-                                    item-text="name"
+                                    item-title="name"
                                     item-value="id"
                                     density="compact"
                                     rounded
@@ -162,7 +162,7 @@
                         <v-row>
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto move words to known:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
@@ -183,7 +183,7 @@
                         <v-row>
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto highlight words:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
@@ -204,7 +204,7 @@
                         <v-row>
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto level up words:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
@@ -264,7 +264,7 @@
                                 <v-select
                                     v-model="textToSpeechSelectedVoice"
                                     :items="textToSpeechVoices"
-                                    item-text="name"
+                                    item-title="name"
                                     item-value="name"
                                     density="compact"
                                     rounded
@@ -305,7 +305,7 @@
                                 <v-select
                                     v-model="settings.vocabBoxScrollIntoView"
                                     :items="vocabBoxScrollIntoViewData"
-                                    item-text="name"
+                                    item-title="name"
                                     item-value="value"
                                     density="compact"
                                     rounded
@@ -323,7 +323,7 @@
                             </v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <!-- Vocabulary sidebar info box -->
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
@@ -348,7 +348,7 @@
                             </v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <!-- Vocabulary sidebar info box -->
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
@@ -373,7 +373,7 @@
                         <v-row>
                             <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary box:</v-col>
                             <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
@@ -429,7 +429,7 @@
                                 <v-select
                                     v-model="settings.vocabularyHoverBoxPreferredPosition"
                                     :items="vocabularyHoverBoxPreferredPositionData"
-                                    item-text="name"
+                                    item-title="name"
                                     item-value="value"
                                     density="compact"
                                     rounded
@@ -458,7 +458,7 @@
     import {  defaultSettings, DefaultLocalStorageManager } from './../../services/LocalStorageManagerService';
 
     export default {
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
                 /*

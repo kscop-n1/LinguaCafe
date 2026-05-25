@@ -4,7 +4,7 @@
             <!-- E-book chapter order -->
             <label class="font-weight-bold mt-2" v-if="$props.type === 'e-book'">
                 E-book chapter order
-                <v-menu offset-y nudge-top="-12px">
+                <v-menu location="bottom" :offset="[0, -12]">
                     <template v-slot:activator="{ props }">
                         <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                     </template>

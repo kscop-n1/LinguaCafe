@@ -43,7 +43,7 @@
                     Source language
                     
                     <!-- Source language info box -->
-                    <v-menu offset-y nudge-top="-12px">
+                    <v-menu location="bottom" :offset="[0, -12]">
                         <template v-slot:activator="{ props }">
                             <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
@@ -80,7 +80,7 @@
                     Target language
 
                     <!-- Target language info box -->
-                    <v-menu offset-y nudge-top="-12px">
+                    <v-menu location="bottom" :offset="[0, -12]">
                         <template v-slot:activator="{ props }">
                             <v-icon class="ml-1" v-bind="props">mdi-help-circle-outline</v-icon>
                         </template>
@@ -117,9 +117,8 @@
                 <v-menu
                     v-model="colorPicker"
                     width="290px"
-                    offset-y
-                    nudge-top="-10px"
-                    right
+                    location="bottom end"
+                    :offset="[0, -10]"
                     :close-on-content-click="false"
                 >
                     <template v-slot:activator="{ props }">
@@ -129,6 +128,7 @@
                             :color="dictionary.color"
                             width="64px"
                             height="32px"
+                            v-bind="props"
                             @click="colorPicker = !colorPicker;"
                         ></v-card>
                     </template>

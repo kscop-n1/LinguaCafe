@@ -133,7 +133,7 @@
             bookId: Number,
             chapterId: Number
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         mounted() {
             this.loadChapter();
         },

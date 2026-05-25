@@ -119,7 +119,7 @@
                     <v-icon>mdi-bullhorn</v-icon>
                 </v-btn>
 
-                <v-menu offset-y left class="rounded-lg">
+                <v-menu location="bottom end" :offset="8" class="rounded-lg">
                     <template v-slot:activator="{ props }">
                         <v-btn
                             icon
@@ -130,34 +130,17 @@
                             <v-icon>mdi-text-long</v-icon>
                         </v-btn>
                     </template>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="settings.reviewSentenceMode = 'disabled'; saveSettings();"
-                    >
-                        <v-icon class="mr-1">mdi-close</v-icon>
-                        Disabled
-
-                    </v-btn>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="settings.reviewSentenceMode = 'plain-text'; saveSettings();"
-                    >
-                        <v-icon class="mr-1">mdi-text-long</v-icon>
-                        Plain text
-                    </v-btn>
-                    <v-btn
-                        class="menu-button justify-start"
-                        tile
-                        
-                        @click="settings.reviewSentenceMode = 'interactive-text'; saveSettings();"
-                    >
-                        <v-icon class="mr-1">mdi-comment-text-outline</v-icon>
-                        Interactive text
-                    </v-btn>
+                    <v-list class="pa-0" density="compact">
+                        <v-list-item prepend-icon="mdi-close" @click="settings.reviewSentenceMode = 'disabled'; saveSettings();">
+                            <v-list-item-title>Disabled</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item prepend-icon="mdi-text-long" @click="settings.reviewSentenceMode = 'plain-text'; saveSettings();">
+                            <v-list-item-title>Plain text</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item prepend-icon="mdi-comment-text-outline" @click="settings.reviewSentenceMode = 'interactive-text'; saveSettings();">
+                            <v-list-item-title>Interactive text</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
                 </v-menu>
 
                 <v-btn title="Increase font size" icon class="my-2" @click="increaseFontSize"><v-icon>mdi-magnify-plus</v-icon></v-btn>

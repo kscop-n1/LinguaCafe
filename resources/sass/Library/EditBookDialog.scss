@@ -20,11 +20,11 @@
         height: 142px;
         width: calc(100% - 116px);
         margin-left: 16px;
-        border: 1px dashed var(--v-gray3-base);
+        border: 1px dashed rgb(var(--v-theme-gray3));
 
         &:hover {
-            background-color: var(--v-gray-base);
-            border: 1px solid var(--v-gray-base);
+            background-color: rgb(var(--v-theme-gray));
+            border: 1px solid rgb(var(--v-theme-gray));
         }
     }
 }

@@ -77,7 +77,7 @@
                                 <v-spacer />
 
                                 <!-- Level info box -->
-                                <v-menu offset-y left nudge-top="-12px">
+                                <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
                                         <div>
                                             <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>

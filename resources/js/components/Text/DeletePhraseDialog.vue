@@ -32,7 +32,7 @@
         props: {
             value : Boolean,
         },
-        emits: ['input'],
+        emits: ['update:modelValue'],
         data: function() {
             return {
             };

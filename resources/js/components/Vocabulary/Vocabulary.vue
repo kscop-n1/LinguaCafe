@@ -45,7 +45,7 @@
             <v-container fluid>
                 <v-row id="filters" :class="{'hidden': filtersHidden}">
                     <!-- Stage filter -->
-                    <v-menu offset-y>
+                    <v-menu location="bottom" :offset="8">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Level
@@ -69,7 +69,7 @@
                     </v-menu>
 
                     <!-- Book filter -->
-                    <v-menu right offset-y v-if="books.length">
+                    <v-menu location="bottom end" :offset="8" v-if="books.length">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Book
@@ -87,7 +87,7 @@
                     </v-menu>
 
                     <!-- Chapter filter -->
-                    <v-menu offset-y v-if="selectedBook">
+                    <v-menu location="bottom" :offset="8" v-if="selectedBook">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Chapter
@@ -105,7 +105,7 @@
                     </v-menu>
 
                     <!-- Translation filter -->
-                    <v-menu offset-y>
+                    <v-menu location="bottom" :offset="8">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Translation
@@ -126,7 +126,7 @@
                     </v-menu>
 
                     <!-- Phrases filter -->
-                    <v-menu offset-y>
+                    <v-menu location="bottom" :offset="8">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Phrases
@@ -151,7 +151,7 @@
                     </v-menu>
 
                     <!-- Search result order -->
-                    <v-menu offset-y>
+                    <v-menu location="bottom" :offset="8">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu pl-3 pr-2 mx-1" color="foreground" rounded variant="flat" v-bind="props">
                                 Order by
@@ -177,7 +177,7 @@
                     <v-spacer></v-spacer>
 
                     <!-- Export / import -->
-                    <v-menu offset-y>
+                    <v-menu location="bottom" :offset="8">
                         <template v-slot:activator="{ props }">
                             <v-btn class="filter-menu export pl-3 pr-2" color="foreground" rounded variant="flat" v-bind="props">
                                 <v-icon small class="mr-1">mdi-file-download</v-icon>Data

@@ -193,37 +193,15 @@
                     <!-- Action buttons -->
                     <template v-if="item.processing_status == 'processed'">
                         <v-btn icon :to="'/chapters/read/' + item.id" title="Read"><v-icon>mdi-book-open-variant</v-icon></v-btn>
-                        <v-menu rounded offset-y bottom left nudge-top="-5">
+                        <v-menu rounded location="bottom end" :offset="[0, -5]">
                             <template v-slot:activator="{ props }">
                                 <v-btn icon v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
-                            <v-btn
-                                width="100"
-                                class="menu-button"
-                                tile
-                                
-                                @click="showEditChapterDialog(item.id)"
-                            >
-                                Edit
-                            </v-btn>
-                            <v-btn
-                                width="100"
-                                class="menu-button"
-                                tile
-                                
-                                @click="showStartReviewDialog(book.id, book.name, item.id, item.name)"
-                            >
-                                Review
-                            </v-btn>
-                            <v-btn
-                                width="100"
-                                class="menu-button"
-                                tile
-                                
-                                @click="showDeleteChapterDialog(item)"
-                            >
-                                Delete
-                            </v-btn>
+                            <v-list class="pa-0" density="compact" width="100">
+                                <v-list-item @click="showEditChapterDialog(item.id)"><v-list-item-title>Edit</v-list-item-title></v-list-item>
+                                <v-list-item @click="showStartReviewDialog(book.id, book.name, item.id, item.name)"><v-list-item-title>Review</v-list-item-title></v-list-item>
+                                <v-list-item @click="showDeleteChapterDialog(item)"><v-list-item-title>Delete</v-list-item-title></v-list-item>
+                            </v-list>
                         </v-menu>
                     </template>
 

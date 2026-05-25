@@ -100,7 +100,7 @@
                 <div class="w-100 mb-0">
                     <label class="w-100 mb-0">
                         Horizontal padding
-                        <v-menu offset-y nudge-top="-12px">
+                        <v-menu location="bottom" :offset="[0, -12]">
                             <template v-slot:activator="{ props }">
                                 <v-icon class="ml-1" v-bind="props">mdi-help-circle</v-icon>
                             </template>
@@ -263,7 +263,7 @@
                         <tr>
                             <td>Border color</td>
                             <td>
-                                <v-menu offset-y :close-on-content-click="false">
+                                <v-menu location="bottom" :offset="8" :close-on-content-click="false">
                                     <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
@@ -308,7 +308,7 @@
                         <tr>
                             <td>Text color</td>
                             <td>
-                                <v-menu offset-y :close-on-content-click="false">
+                                <v-menu location="bottom" :offset="8" :close-on-content-click="false">
                                     <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
@@ -353,7 +353,7 @@
                         <tr>
                             <td>Background color</td>
                             <td>
-                                <v-menu offset-y :close-on-content-click="false">
+                                <v-menu location="bottom" :offset="8" :close-on-content-click="false">
                                     <template v-slot:activator="{ props }">
                                         <v-card
                                             class="border mx-auto"
