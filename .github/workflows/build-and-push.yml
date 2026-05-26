@@ -42,18 +42,18 @@ jobs:
     # steps to perform in the job
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       # set up Docker build action
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
 
       # https://github.com/docker/metadata-action
       - name: Docker PHP meta
         id: meta_php
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ github.actor }}/linguacafe-webserver
           tags: |
@@ -63,7 +63,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Docker Python meta
         id: meta_python
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ github.actor }}/linguacafe-python-service
           tags: |
@@ -73,7 +73,7 @@ jobs:
 
       # https://github.com/docker/login-action#github-container-registry
       - name: Log in to Github Packages
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -82,7 +82,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push PHP image to GitHub Container Registry
         id: docker_build_php
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           file: "./docker/PhpDockerfile"
           # extra platforms can be added here:
@@ -103,7 +103,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Python image to GitHub Container Registry
         id: docker_build_python
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           file: "./docker/PythonDockerfile"
           platforms: |
