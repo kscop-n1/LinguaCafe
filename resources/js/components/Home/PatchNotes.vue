@@ -5,6 +5,17 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.34<v-spacer /> 2026.05.26.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed opened dropdown activator buttons so they keep the same light hover state while the cursor moves over menu items.</li>
+                    <li>Extended Vuetify overlay normalization to opened menu buttons, not only hovered or focused controls.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.33<v-spacer /> 2026.05.26.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

@@ -767,6 +767,7 @@ div.v-data-table {
 /* Vuetify 3 hover/focus overlays must stay translucent instead of covering controls. */
 .v-btn:not(.v-bottom-navigation .v-btn):hover .v-btn__overlay,
 .v-btn:not(.v-bottom-navigation .v-btn):focus-visible .v-btn__overlay,
+.v-btn:not(.v-bottom-navigation .v-btn)[aria-expanded="true"] .v-btn__overlay,
 .v-list-item:not(.v-list-item--active):hover .v-list-item__overlay,
 .v-list-item:not(.v-list-item--active):focus-visible .v-list-item__overlay {
     opacity: .08 !important;
