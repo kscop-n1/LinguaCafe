@@ -349,8 +349,18 @@
         // margin-bottom: 4px;
 
         &.v-list-item--active {
-            background-color: rgb(var(--v-theme-gray3)) !important;
-            color: rgb(var(--v-theme-text)) !important;
+            background-color: rgb(var(--v-theme-primary)) !important;
+            color: rgb(var(--v-theme-on-primary)) !important;
+        }
+
+        &.v-list-item--active .v-list-item-title,
+        &.v-list-item--active .v-list-item__content,
+        &.v-list-item--active .v-icon {
+            color: rgb(var(--v-theme-on-primary)) !important;
+        }
+
+        &.v-list-item--active .v-list-item__overlay {
+            opacity: 0 !important;
         }
     }
 
@@ -754,19 +764,25 @@ div.v-data-table {
     opacity: .14;
 }
 
-.v-btn--active:not(.v-bottom-navigation .v-btn) .v-btn__overlay {
-    background: rgb(var(--v-theme-primary));
-    opacity: .12 !important;
-}
-
-.v-btn--active:not(.v-bottom-navigation .v-btn) {
-    color: rgb(var(--v-theme-text));
-}
-
+/* Vuetify 3 active-state overlays can become opaque and cover readable colors. */
+.v-list-item--active .v-list-item__overlay,
+.v-btn--active .v-btn__overlay,
 .v-tab--selected .v-btn__overlay {
     opacity: 0 !important;
 }
 
+.v-list-item--active {
+    background: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-on-primary)) !important;
+}
+
+.v-list-item--active .v-list-item-title,
+.v-list-item--active .v-list-item__content,
+.v-list-item--active .v-icon {
+    color: rgb(var(--v-theme-on-primary)) !important;
+}
+
+.v-btn--active:not(.v-bottom-navigation .v-btn),
 .v-tab--selected {
     color: rgb(var(--v-theme-text)) !important;
 }

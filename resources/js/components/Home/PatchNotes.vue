@@ -5,6 +5,17 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.32<v-spacer /> 2026.05.26.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed the remaining migrated active states in dropdowns, overlay menus, selected tabs and active buttons so the Vuetify overlay layer no longer turns controls black or hides their text.</li>
+                    <li>Unified active overlay menu colors around the current theme primary/on-primary tokens in both light and dark themes.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.31<v-spacer /> 2026.05.25.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

@@ -132,15 +132,6 @@
     color: rgb(var(--v-theme-text));
 }
 
-#app.dark .v-overlay__content .v-list-item.v-list-item--active {
-    background-color: rgb(var(--v-theme-primary)) !important;
-    color: rgb(var(--v-theme-textDark)) !important;
-}
-
-#app.dark .v-overlay__content .v-list-item.v-list-item--active i {
-    color: rgb(var(--v-theme-textDark)) !important;
-}
-
 // date picker
 #app.dark .v-theme--dark.v-picker__body {
     background: rgb(var(--v-theme-foreground));
