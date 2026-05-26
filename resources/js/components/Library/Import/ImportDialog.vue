@@ -131,7 +131,7 @@
                         </v-stepper-content>
                         <v-stepper-content step="5">
                             <!-- Importing info -->
-                            <v-alert theme="dark" border="left" type="info" color="primary" v-if="importResult === ''">
+                            <v-alert border="left" type="info" color="primary" v-if="importResult === ''">
                                 Importing your selected text. Please be patient, it can take several minutes based on:
                                 <ul>
                                     <li>How long is the text you are importing.</li>
@@ -142,12 +142,12 @@
                             </v-alert>
 
                             <!-- Error message -->
-                            <v-alert theme="dark" border="left" type="error" color="error" v-if="importResult === 'error'">
+                            <v-alert border="left" type="error" color="error" v-if="importResult === 'error'">
                                 An error has occurred while importing your text.
                             </v-alert>
 
                             <!-- Success message -->
-                            <v-alert theme="dark" border="left" type="success" color="success" v-if="importResult === 'success'">
+                            <v-alert border="left" type="success" color="success" v-if="importResult === 'success'">
                                 Your book and chapters have been created successfully. The chapters will be processed in the background and become available for reading as soon as it's finished.
                             </v-alert>
                         </v-stepper-content>
@@ -161,19 +161,9 @@
             <!-- Action buttons -->
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn 
-                    v-if="importResult === 'success'"
-                    rounded 
-                    text 
-                    @click="close"
-                >Close</v-btn>
+                <v-btn v-if="importResult === 'success'" rounded @click="close" variant="text">Close</v-btn>
 
-                <v-btn 
-                    rounded 
-                    text 
-                    @click="close" 
-                    v-if="stepperPage == 1"
-                >Cancel</v-btn>
+                <v-btn rounded @click="close" v-if="stepperPage == 1" variant="text">Cancel</v-btn>
 
                 <v-btn 
                     v-if="stepperPage > 1 && importResult !== 'success'"

@@ -22,7 +22,7 @@
             <v-card-text>
                 <template v-if="importResult === null || importResult.error">
                     <!-- Import information -->
-                    <v-alert theme="dark" border="left" type="info" color="primary" v-if="!loading">
+                    <v-alert border="left" type="info" color="primary" v-if="!loading">
                         Please read the <a href="/user-manual/vocabulary-import"><v-icon small class="mr-0.5">mdi-file</v-icon>user manual</a> before importing.
                     </v-alert>
 
@@ -76,13 +76,13 @@
                     ></v-switch>
 
                     <!-- Import information -->
-                    <v-alert theme="dark" class="mt-4" border="left" type="error" color="error" v-if="!loading && importResult !== null && importResult.error">
+                    <v-alert class="mt-4" border="left" type="error" color="error" v-if="!loading && importResult !== null && importResult.error">
                         An error has occured while importing. Please make sure that your file is in the correct format.
                     </v-alert>
                 </template>
 
                 <!-- Importing message -->
-                <v-alert class="mt-4" theme="dark" border="left" type="info" color="primary" v-if="loading">
+                <v-alert class="mt-4" border="left" type="info" color="primary" v-if="loading">
                     Importing your selected file. This might take take a while...
                 </v-alert>
 
@@ -113,7 +113,7 @@
 
                 <!-- Import and cancel buttons -->
                 <template v-if="importResult === null || importResult.error">
-                    <v-btn rounded text :disabled="loading" @click="close">Cancel</v-btn>
+                    <v-btn rounded :disabled="loading" @click="close" variant="text">Cancel</v-btn>
                     <v-btn 
                         rounded 
                         variant="flat"
@@ -125,7 +125,7 @@
 
                 <!-- Close button -->
                 <template v-if="importResult !== null && !importResult.error">
-                    <v-btn rounded text @click="close">Close</v-btn>
+                    <v-btn rounded @click="close" variant="text">Close</v-btn>
                 </template>
             </v-card-actions>
         </v-card>

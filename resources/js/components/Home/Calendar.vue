@@ -60,7 +60,7 @@
                     @change="datePickerChanged"
                 >
                     <v-spacer></v-spacer>
-                    <v-btn text rounded @click="showDatePicker = false">Close</v-btn>
+                    <v-btn rounded @click="showDatePicker = false" variant="text">Close</v-btn>
                 </v-date-picker>
             </v-menu>
         </div>
@@ -83,13 +83,13 @@
                     <span id="calendar-popup-date-text">{{ popupMenu.day.fullDate }}</span>
                     <v-spacer></v-spacer>
                     <span id="calendar-popup-reviews-due">
-                        <v-btn icon theme="dark" @click.stop="popupMenu.tab = 1;" v-if="popupMenu.tab == 0">
+                        <v-btn icon @click.stop="popupMenu.tab = 1;" v-if="popupMenu.tab == 0">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn icon theme="dark" @click.stop="popupMenu.tab = 0;" v-if="popupMenu.tab == 1">
+                        <v-btn icon @click.stop="popupMenu.tab = 0;" v-if="popupMenu.tab == 1">
                             <v-icon>mdi-arrow-left</v-icon>
                         </v-btn>
-                        <v-btn icon theme="dark" @click="popupMenu.active = false;">
+                        <v-btn icon @click="popupMenu.active = false;">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </span>

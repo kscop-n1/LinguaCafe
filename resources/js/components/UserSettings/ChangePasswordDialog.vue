@@ -52,7 +52,6 @@
                     color="error"
                     type="error"
                     border="left"
-                    theme="dark"
                 >
                     <div v-html="saveResult"></div>
                 </v-alert>
@@ -63,7 +62,6 @@
                     color="success"
                     type="success"
                     border="left"
-                    theme="dark"
                 >
                     Password changed successfully!
                 </v-alert>
@@ -72,7 +70,7 @@
             
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">Cancel</v-btn>
+                <v-btn rounded @click="close" variant="text">Cancel</v-btn>
 
                 <!-- Save button -->
                 <v-btn 

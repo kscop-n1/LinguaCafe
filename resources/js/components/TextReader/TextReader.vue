@@ -16,7 +16,7 @@
                     <v-btn title="Glossary" icon @click="openDialog('glossary')"><v-icon>mdi-translate</v-icon></v-btn>
                     <v-btn title="Increase font size" icon @click="increaseFontSize"><v-icon>mdi-magnify-plus</v-icon></v-btn>
                     <v-btn title="Decrease font size" icon @click="decreaseFontSize"><v-icon>mdi-magnify-minus</v-icon></v-btn>
-                    <v-btn title="Toggle plain text mode" icon @click="settings.plainTextMode = !settings.plainTextMode; toolbarSettingChanged();"><v-icon :color="settings.plainTextMode ? 'primary' : ''">mdi-marker</v-icon></v-btn>
+                    <v-btn title="Toggle plain mode" icon @click="settings.plainTextMode = !settings.plainTextMode; toolbarSettingChanged();" variant="text"><v-icon :color="settings.plainTextMode ? 'primary' : ''">mdi-marker</v-icon></v-btn>
                     <v-btn title="Show hotkey information" icon @click="hotkeyDialog = !hotkeyDialog;"><v-icon>mdi-keyboard-outline</v-icon></v-btn>
                 </div>
             </div>

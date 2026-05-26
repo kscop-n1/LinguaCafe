@@ -109,7 +109,6 @@
             color="error"
             type="error"
             border="left"
-            theme="dark"
         >
             An error has occurred while saving color theme settings.
         </v-alert>

@@ -63,17 +63,17 @@
                 <v-spacer></v-spacer>
 
                 <!-- Cancel button -->
-                <v-btn rounded text @click="close" :disabled="installing" v-if="installResult !== 'success'">
+                <v-btn rounded @click="close" :disabled="installing" v-if="installResult !== 'success'" variant="text">
                     Cancel
                 </v-btn>
                 
                 <!-- Close button -->
-                <v-btn rounded text @click="close" :disabled="installing" v-if="installResult === 'success'">
+                <v-btn rounded @click="close" :disabled="installing" v-if="installResult === 'success'" variant="text">
                     Close
                 </v-btn>
                 
                 <!-- Install button -->
-                <v-btn rounded text @click="install" :disabled="installing" v-if="installResult !== 'success'">
+                <v-btn rounded @click="install" :disabled="installing" v-if="installResult !== 'success'" variant="text">
                     <v-icon class="mr-1">mdi-download</v-icon>
                     Install
                 </v-btn>

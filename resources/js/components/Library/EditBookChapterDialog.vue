@@ -82,7 +82,7 @@
             <!-- Action buttons -->
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">Cancel</v-btn>
+                <v-btn rounded @click="close" variant="text">Cancel</v-btn>
 
                 <v-btn 
                     rounded 

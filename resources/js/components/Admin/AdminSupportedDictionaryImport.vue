@@ -145,7 +145,6 @@
                                 color="success"
                                 type="success"
                                 border="left"
-                                theme="dark"
                             >
                                 The import process has finished successfully. {{ dictionary.name }} has been imported.
                             </v-alert>
@@ -157,7 +156,6 @@
                                 color="error"
                                 type="error"
                                 border="left"
-                                theme="dark"
                             >
                                     The import process has failed. Please make sure your dictionary files are the correct ones. If the problem 
                                     still persist, please create a <a href="https://github.com/kscop-n1/LinguaCafe">GitHub</a> Issue.
@@ -172,11 +170,7 @@
 
             <!-- Buttons before import -->
             <template v-if="!importing && importResult === null">
-                <v-btn 
-                    rounded 
-                    text 
-                    @click="back"
-                >Back</v-btn>
+                <v-btn rounded @click="back" variant="text">Back</v-btn>
                 <v-btn
                     v-if="stepperPage == 2 && importResult === null && dictionaryFile !== null  && dictionaryFile !== undefined"
                     rounded
@@ -188,11 +182,7 @@
 
             <!-- Buttons after import complete -->
             <template v-if="importResult !== null">
-                <v-btn 
-                    rounded 
-                    text 
-                    @click="close"
-                >Close</v-btn>
+                <v-btn rounded @click="close" variant="text">Close</v-btn>
             </template>
         </v-card-actions>
     </v-card>

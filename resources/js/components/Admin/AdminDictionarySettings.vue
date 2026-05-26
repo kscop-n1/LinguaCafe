@@ -33,7 +33,7 @@
         <div class="d-flex subheader mt-4 mb-4 px-2 ">
             Dictionaries
             <v-spacer/>
-            <v-btn rounded theme="dark" color="primary" @click="importDialog = true;">
+            <v-btn rounded color="primary" @click="importDialog = true;">
                 <v-icon class="mr-1">mdi-database-plus</v-icon>
                 <span id="import-button-text">Add dictionary</span>
                 <span id="import-button-text-short">Import</span>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-form ref="importFileForm" v-model="isFormValid">
-            <v-alert theme="dark" border="left" type="info" color="primary" class="mb-8">
+            <v-alert border="left" type="info" color="primary" class="mb-8">
                 Please make sure that your .epub file contains no DRM (digital rights management) protection. 
                 Unfortunately we have no means to read DRM protected files.
             </v-alert>

@@ -16,7 +16,7 @@
         <div class="d-flex subheader mt-4 mb-4 px-2 ">
             Users
             <v-spacer />
-            <v-btn rounded theme="dark" color="primary" @click="addUser" >
+            <v-btn rounded color="primary" @click="addUser" >
                 <v-icon class="mr-1">mdi-plus</v-icon>
                 Add user
             </v-btn>

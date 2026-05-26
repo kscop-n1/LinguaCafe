@@ -102,7 +102,6 @@
                         color="error"
                         type="error"
                         border="left"
-                        theme="dark"
                     >
                         This is your current user, and this action will remove your own admin rights.
                     </v-alert>
@@ -113,7 +112,6 @@
                         color="error"
                         type="error"
                         border="left"
-                        theme="dark"
                     >
                         <div v-html="errorMessage"></div>
                     </v-alert>
@@ -122,7 +120,7 @@
             
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">Cancel</v-btn>
+                <v-btn rounded @click="close" variant="text">Cancel</v-btn>
 
                 <!-- Save button -->
                 <v-btn 

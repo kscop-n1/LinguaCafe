@@ -64,13 +64,13 @@
 
                     <!-- Mini navigation drawer -->
                     <template v-else>
-                        <v-btn v-if="display.lgAndUp" id="collapse" rounded text class="mini-drawer-button" @click="expandNavbar" title="Expand sidebar">
+                        <v-btn v-if="display.lgAndUp" id="collapse" rounded class="mini-drawer-button" @click="expandNavbar" title="Expand sidebar" variant="text">
                             <v-icon>mdi-arrow-collapse-right</v-icon>
                         </v-btn>
-                        <v-btn id="theme" rounded text class="mini-drawer-button" @click="themeSelectionDialog = true" title="Theme">
+                        <v-btn id="theme" rounded class="mini-drawer-button" @click="themeSelectionDialog = true" title="Theme" variant="text">
                             <v-icon>mdi-palette</v-icon>
                         </v-btn>
-                        <v-btn id="language" rounded text class="mini-drawer-button" @click="languageSelectionDialog = true" title="Select language">
+                        <v-btn id="language" rounded class="mini-drawer-button" @click="languageSelectionDialog = true" title="Select language" variant="text">
                             <v-img :src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'" max-width="31" height="20"></v-img>
                         </v-btn>
                     </template>

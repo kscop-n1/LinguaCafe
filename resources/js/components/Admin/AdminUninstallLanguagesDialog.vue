@@ -51,12 +51,12 @@
                 <v-spacer></v-spacer>
                 
                 <!-- Cancel button -->
-                <v-btn rounded text @click="close" :disabled="uninstalling" v-if="uninstallResult !== 'success'">
+                <v-btn rounded @click="close" :disabled="uninstalling" v-if="uninstallResult !== 'success'" variant="text">
                     Cancel
                 </v-btn>
                 
                 <!-- Close button -->
-                <v-btn rounded text @click="close" :disabled="uninstalling" v-if="uninstallResult === 'success'">
+                <v-btn rounded @click="close" :disabled="uninstalling" v-if="uninstallResult === 'success'" variant="text">
                     Close
                 </v-btn>
                 

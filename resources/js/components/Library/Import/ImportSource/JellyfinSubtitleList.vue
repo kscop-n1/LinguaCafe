@@ -7,7 +7,6 @@
             color="primary"
             type="info"
             border="left"
-            theme="dark"
         >
             Choose a subtitle from the media currently being played on your Jellyfin server. 
             You can import them seamlessly into LinguaCafe for later reading.
@@ -60,7 +59,6 @@
                     color="error"
                     type="error"
                     border="left"
-                    theme="dark"
                 >
                     Cannot connect to Jellyfin.
                 </v-alert>
@@ -108,7 +106,6 @@
                     class="media-player-subtitle-info my-6 rounded-lg"
                     color="primary"
                     border="left"
-                    theme="dark"
                     icon="mdi-progress-clock"
                 >
                     Your selected subtitle is being processed. This can take 10 to 30 seconds. 

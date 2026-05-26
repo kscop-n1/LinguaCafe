@@ -24,7 +24,6 @@
                 <div id="vocabulary-edit-chips" class="pb-4">
                     <v-chip 
                         v-if="item.added_to_srs"
-                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-4" 
                         color="primary"
@@ -35,7 +34,6 @@
 
                     <v-chip 
                         v-if="!item.next_review || item.stage >= 0 || !item.added_to_srs"
-                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1" 
                         color="primary" 
@@ -47,7 +45,6 @@
 
                     <v-chip 
                         v-else
-                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-3" 
                         color="primary" 
@@ -56,8 +53,7 @@
                         Due on {{ item.next_review }}<v-icon :small="$vuetify.display.smAndDown" right class="ml-1">mdi-timer-outline</v-icon>
                     </v-chip>
                     
-                    <v-chip 
-                        theme="dark"
+                    <v-chip
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-3" 
                         color="primary"
@@ -68,7 +64,6 @@
                     
                     <!-- <v-chip 
                         v-if="$props.itemType == 'Word'"
-                        theme="dark"
                         :small="$vuetify.display.smAndDown"
                         class="ma-1 pr-4" 
                         color="primary"
@@ -187,7 +182,7 @@
             <!-- Action bar -->
             <v-card-actions v-if="!loading">
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">Cancel</v-btn>
+                <v-btn rounded @click="close" variant="text">Cancel</v-btn>
                 <v-btn 
                     rounded 
                     variant="flat"

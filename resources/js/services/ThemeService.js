@@ -15,8 +15,24 @@ class ThemeService {
         return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
     }
 
+    setCookie(name, value, days = 365) {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+    }
+
     getStoredTheme() {
-        return this.getCookie('theme') || localStorageManager.loadSetting('theme');
+        const storedTheme = localStorageManager.loadSetting('theme');
+        const cookieTheme = this.getCookie('theme');
+
+        if (storedTheme) {
+            if (cookieTheme !== storedTheme) {
+                this.setCookie('theme', storedTheme);
+            }
+
+            return storedTheme;
+        }
+
+        return cookieTheme;
     }
 
     getResolvedTheme() {
@@ -100,6 +116,7 @@ class ThemeService {
         this.setThemeColors(vuetifyHandler, 'light', lightTheme);
         this.setThemeColors(vuetifyHandler, 'dark', darkTheme);
         this.setThemeColors(vuetifyHandler, 'eink', currentTheme === 'eink' ? lightTheme : defaultThemes.eink);
+        this.setActiveTheme(vuetifyHandler, currentTheme === 'dark' ? 'dark' : currentTheme === 'eink' ? 'eink' : 'light');
     }
 
     getCurrentTheme() {

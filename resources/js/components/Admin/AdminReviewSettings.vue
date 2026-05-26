@@ -3,7 +3,7 @@
         
         <!-- SRS info -->
         <div class="subheader mt-4">Spaced repetition system</div>
-        <v-alert theme="dark" border="left" type="info" color="primary" class="mt-2 mb-4">
+        <v-alert border="left" type="info" color="primary" class="mt-2 mb-4">
             Numbers represent how many days later words will be reviewed again 
             after a review or a manual level change.<br><br>
 

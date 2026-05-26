@@ -29,7 +29,7 @@
             <!-- Close button -->
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">Close</v-btn>
+                <v-btn rounded @click="close" variant="text">Close</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

@@ -20,8 +20,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">Cancel</v-btn>
-                <v-btn rounded :dark="deletionEnabledDelay > 100" color="error" @click="confirm" :disabled="deletionEnabledDelay < 101">
+                <v-btn rounded @click="close" variant="text">Cancel</v-btn>
+                <v-btn rounded color="error" @click="confirm" :disabled="deletionEnabledDelay < 101">
                     <v-icon class="mr-2" color="white">mdi-delete</v-icon>
                     Delete
                 </v-btn>

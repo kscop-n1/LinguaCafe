@@ -76,7 +76,6 @@
                     color="success"
                     type="success"
                     border="left"
-                    theme="dark"
                 >
                     Font type has been {{ $props.id === -1 ? 'uploaded' : 'saved'  }} successfully.
                 </v-alert>
@@ -91,7 +90,6 @@
                     color="error"
                     type="error"
                     border="left"
-                    theme="dark"
                 >
                     An error has occured while {{ $props.id === -1 ? 'uploading' : 'saving'  }} the font type.
                 </v-alert>
@@ -110,18 +108,12 @@
                 <v-spacer></v-spacer>
 
                 <!-- Cancel button -->
-                <v-btn 
-                    v-if="saveResult !== 'success'"
-                    rounded 
-                    text 
-                    :disabled="saving"
-                    @click="close" 
-                >
+                <v-btn v-if="saveResult !== 'success'" rounded :disabled="saving" @click="close" variant="text">
                     Cancel
                 </v-btn>
                 
                 <!-- Close button -->
-                <v-btn rounded text @click="close" v-if="saveResult === 'success'">Close</v-btn>
+                <v-btn rounded @click="close" v-if="saveResult === 'success'" variant="text">Close</v-btn>
 
                 <!-- Upload button -->
                 <v-btn 

@@ -15,7 +15,6 @@
                     color="primary"
                     type="info"
                     border="left"
-                    theme="dark"
                 >
                     This setting will only affect today's and upcoming days' goal. Past days' goals will not be affected.
                 </v-alert>
@@ -37,7 +36,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn rounded text @click="close">Cancel</v-btn>
+                <v-btn rounded @click="close" variant="text">Cancel</v-btn>
                 <v-btn 
                     rounded 
                     variant="flat"

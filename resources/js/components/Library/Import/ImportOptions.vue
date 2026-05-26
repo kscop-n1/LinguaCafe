@@ -53,7 +53,7 @@
                 :rules="[rules.maximumCharactersPerChapter]"
             ></v-text-field>
 
-            <v-alert theme="dark" border="left" color="warning" type="error" v-if="maximumCharactersPerChapter > defaultMaximumCharactersPerChapter">
+            <v-alert border="left" color="warning" type="error" v-if="maximumCharactersPerChapter > defaultMaximumCharactersPerChapter">
                 Using larger chapter sizes can lead to performance issues. The default settings are highly recommended!
             </v-alert>
         </v-form>

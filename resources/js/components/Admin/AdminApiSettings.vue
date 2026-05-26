@@ -111,7 +111,6 @@
                         color="error"
                         type="error"
                         border="left"
-                        theme="dark"
                     >
                         DeepL API call failed. Please make sure that your API key is valid and DeepL services are online.
                     </v-alert>
@@ -286,7 +285,6 @@
                 color="error"
                 type="error"
                 border="left"
-                theme="dark"
             >
                 An error has occurred while saving API settings.
             </v-alert>

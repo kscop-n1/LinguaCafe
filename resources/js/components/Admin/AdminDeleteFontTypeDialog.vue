@@ -23,7 +23,6 @@
                     color="error"
                     type="error"
                     border="left"
-                    theme="dark"
                 >
                     An error has occured while deleting the font type.
                 </v-alert>
@@ -34,12 +33,7 @@
                 <v-spacer />
                 
                 <!-- Cancel button -->
-                <v-btn 
-                    rounded 
-                    text 
-                    :disabled="deleting"
-                    @click="close" 
-                >
+                <v-btn rounded :disabled="deleting" @click="close" variant="text">
                     Cancel
                 </v-btn>
 

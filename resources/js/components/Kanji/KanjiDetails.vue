@@ -14,16 +14,16 @@
                 <!-- Kanji info -->
                 <div id ="kanji-info">
                     <div id="chip-info" class="mb-2">
-                        <v-chip small class="mb-1" theme="dark" color="pink" v-if="strokes">
+                        <v-chip small class="mb-1" color="pink" v-if="strokes">
                             {{ strokes }} strokes
                         </v-chip>
-                        <v-chip small class="mb-1" theme="dark" color="indigo" v-if="grade">
+                        <v-chip small class="mb-1" color="indigo" v-if="grade">
                             {{ grade }}. grade
                         </v-chip>
-                        <v-chip small class="mb-1" theme="dark" color="teal" v-if="jlpt">
+                        <v-chip small class="mb-1" color="teal" v-if="jlpt">
                             JLPT {{ jlptNames[jlpt] }}
                         </v-chip>
-                        <v-chip small class="mb-1" theme="dark" color="red" v-if="frequency">
+                        <v-chip small class="mb-1" color="red" v-if="frequency">
                             {{ frequency }}. most common
                         </v-chip>
                     </div>

@@ -5,6 +5,19 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.33<v-spacer /> 2026.05.26.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed the root theme mismatch where an old theme cookie could force the app into dark mode while local settings showed light mode.</li>
+                    <li>Fixed hover and focus overlays on buttons, list items and fields so controls no longer become solid black when hovered or selected.</li>
+                    <li>Migrated remaining Vuetify 2 dark/text button props to Vuetify 3 patterns so dialogs, alerts, toolbar buttons and sidebar buttons inherit the active theme correctly.</li>
+                    <li>Removed remaining Popper/Bootstrap Vite leftovers from the frontend build configuration.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.32<v-spacer /> 2026.05.26.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

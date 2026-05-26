@@ -151,7 +151,6 @@
                             color="primary"
                             type="info"
                             border="left"
-                            theme="dark"
                         >
                             You can import a custom dictionary from a .csv file. It has to have 2 columns, the first containing a word
                             and the second containing the translations. You can provide multiple translations for a single word by 
@@ -201,7 +200,6 @@
                             color="error"
                             type="error"
                             border="left"
-                            theme="dark"
                         >
                             There has been an error reading the file. Please make sure it follows the correct format and try again.
                         </v-alert>
@@ -211,7 +209,6 @@
                             color="success"
                             type="success"
                             border="left"
-                            theme="dark"
                         >
                             The file has been tested without any errors. It contains {{ fileRecordCount }} records.
                         </v-alert>
@@ -302,7 +299,6 @@
                                 color="success"
                                 type="success"
                                 border="left"
-                                theme="dark"
                             >
                                 Dictionary has been successfully imported.
                             </v-alert>
@@ -314,7 +310,6 @@
                                 color="error"
                                 type="error"
                                 border="left"
-                                theme="dark"
                             >
                                 An error has occurred while importing the dictionary.
                             </v-alert>
@@ -329,12 +324,7 @@
         <!-- Action bar -->
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn 
-                v-if="stepperPage == 1"
-                rounded 
-                text 
-                @click="backToDictionaries"
-            >Back</v-btn>
+            <v-btn v-if="stepperPage == 1" rounded @click="backToDictionaries" variant="text">Back</v-btn>
 
             <v-btn
                 v-if="(stepperPage > 1 && stepperPage < 4) || (stepperPage == 4 && importResult !== 'success')"
@@ -344,12 +334,7 @@
             >
                 Back
             </v-btn>
-            <v-btn
-                v-if="stepperPage == 4 && importResult == 'success'"
-                rounded 
-                text 
-                @click="close"
-            >
+            <v-btn v-if="stepperPage == 4 && importResult == 'success'" rounded @click="close" variant="text">
                 Close
             </v-btn>
             <v-btn

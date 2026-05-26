@@ -34,7 +34,6 @@
                         color="primary"
                         type="info" 
                         border="left"
-                        theme="dark"
                     >
                         It seems like this is your first time using LinguaCafe after installation. Please create your first user, 
                         it will be automatically set as admin.
@@ -60,7 +59,6 @@
                         color="success"
                         type="success"
                         border="left"
-                        theme="dark"
                     >
                         User account created successfully.
                     </v-alert>                
@@ -98,7 +96,6 @@
                         color="error"
                         type="error"
                         border="left"
-                        theme="dark"
                     >
                         {{ error }}
                     </v-alert>

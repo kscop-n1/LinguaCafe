@@ -31,6 +31,9 @@ class VueMigrationStaticTest extends TestCase
             'legacy Vuetify 2 text color utility' => '/\b(text|white|error|success)--text\b/',
             'legacy Vuetify 2 mini drawer selector' => '/\.v-navigation-drawer--mini-variant\b/',
             'invalid Vue 3 model change listener' => '/@change:model-value=/',
+            'legacy Vuetify 2 dark theme prop' => '/<[A-Za-z][^>]*\s:?dark=/',
+            'legacy forced dark local theme' => '/<[A-Za-z][^>]*\stheme="dark"/',
+            'legacy Vuetify 2 text button prop' => '/<v-btn[^>]*\stext(\s|>)/',
         ];
 
         $failures = [];
@@ -91,10 +94,16 @@ class VueMigrationStaticTest extends TestCase
         $packageJson = json_decode(file_get_contents(base_path('package.json')), true);
         $dependencies = array_merge($packageJson['dependencies'] ?? [], $packageJson['devDependencies'] ?? []);
 
-        foreach (['bootstrap', 'jquery', 'popper.js'] as $package) {
+        foreach (['bootstrap', 'jquery', 'popper.js', '@popperjs/core'] as $package) {
             if (array_key_exists($package, $dependencies)) {
                 $failures[] = 'legacy frontend package ' . $package . ' is still installed';
             }
+        }
+
+        $viteConfig = file_get_contents(base_path('vite.config.js'));
+
+        if (strpos($viteConfig, 'node_modules/bootstrap') !== false || strpos($viteConfig, '~bootstrap') !== false) {
+            $failures[] = 'legacy Bootstrap Vite alias is still configured';
         }
 
         $this->assertSame([], $failures);

@@ -764,6 +764,19 @@ div.v-data-table {
     opacity: .14;
 }
 
+/* Vuetify 3 hover/focus overlays must stay translucent instead of covering controls. */
+.v-btn:not(.v-bottom-navigation .v-btn):hover .v-btn__overlay,
+.v-btn:not(.v-bottom-navigation .v-btn):focus-visible .v-btn__overlay,
+.v-list-item:not(.v-list-item--active):hover .v-list-item__overlay,
+.v-list-item:not(.v-list-item--active):focus-visible .v-list-item__overlay {
+    opacity: .08 !important;
+}
+
+.v-field:hover .v-field__overlay,
+.v-field--focused .v-field__overlay {
+    opacity: .06 !important;
+}
+
 /* Vuetify 3 active-state overlays can become opaque and cover readable colors. */
 .v-list-item--active .v-list-item__overlay,
 .v-btn--active .v-btn__overlay,

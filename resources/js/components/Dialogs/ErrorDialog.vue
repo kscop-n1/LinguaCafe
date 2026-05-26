@@ -14,7 +14,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn rounded text @click="close">{{ $props.buttonText }}</v-btn>
+                <v-btn rounded @click="close" variant="text">{{ $props.buttonText }}</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

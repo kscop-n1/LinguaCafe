@@ -10,26 +10,12 @@
             <v-spacer></v-spacer>
 
             <!-- Hide unknown button -->
-            <v-btn
-                v-if="showUnknown"
-                rounded
-                variant="flat"
-                text
-                class="px-2 kanji-list-toolbar-button"
-                @click="showUnknown = !showUnknown; updateKanjiList();"
-            >
+            <v-btn v-if="showUnknown" rounded variant="flat" class="px-2 kanji-list-toolbar-button" @click="showUnknown = !showUnknown; updateKanjiList();">
                 Hide unknown <v-icon class="ml-1">mdi-eye-off</v-icon>
             </v-btn>
 
             <!-- Show unknown button -->
-            <v-btn
-                v-if="!showUnknown"
-                rounded
-                variant="flat"
-                text
-                class="px-2 kanji-list-toolbar-button"
-                @click="showUnknown = !showUnknown; updateKanjiList();"
-            >
+            <v-btn v-if="!showUnknown" rounded variant="flat" class="px-2 kanji-list-toolbar-button" @click="showUnknown = !showUnknown; updateKanjiList();">
                 Show unknown <v-icon class="ml-1">mdi-eye</v-icon>
             </v-btn>
         </v-tabs>

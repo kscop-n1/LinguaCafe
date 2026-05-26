@@ -73,7 +73,7 @@
                 </v-btn>
 
                 <!-- Unselect word button -->
-                <v-btn theme="dark" icon title="Unselect word" @click="close">
+                <v-btn icon title="Unselect word" @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </div>

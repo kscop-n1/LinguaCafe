@@ -97,7 +97,6 @@
                     color="error"
                     type="error"
                     border="left"
-                    theme="dark"
                 >
                     An error has occurred while deleting your {{ formattedLanguageText }} data.
                 </v-alert>
@@ -109,7 +108,6 @@
                     color="success"
                     type="success"
                     border="left"
-                    theme="dark"
                 >
                     Your {{ formattedLanguageText }} data has been deleted successfully. 
                 </v-alert>

@@ -243,7 +243,6 @@
                     color="success"
                     type="success"
                     border="left"
-                    theme="dark"
                 >
                     Dictionary saved successfully.
                 </v-alert>
@@ -256,7 +255,7 @@
 
                 <!-- Buttons before successfull save -->
                 <template v-if="saveResult !== 'success'">
-                    <v-btn rounded text @click="close">Cancel</v-btn>
+                    <v-btn rounded @click="close" variant="text">Cancel</v-btn>
                     <v-btn 
                         rounded
                         variant="flat" 
@@ -269,7 +268,7 @@
 
                 <!-- Buttons after successfull save -->
                 <template v-if="saveResult === 'success'">
-                    <v-btn rounded text @click="close">Close</v-btn>
+                    <v-btn rounded @click="close" variant="text">Close</v-btn>
                 </template>
             </v-card-actions>
         </v-card>
