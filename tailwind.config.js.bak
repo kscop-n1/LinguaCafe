@@ -1,0 +1,22 @@
+const primeui = require('tailwindcss-primeui');
+
+module.exports = {
+    darkMode: 'selector',
+    content: [
+        "./resources/views/**/*.blade.php",
+        "./resources/js/**/*.{vue,js,ts,jsx,tsx}"
+    ],
+    plugins: [primeui],
+    theme: {
+        extend: {
+            colors: {
+                // custom theme bindings matching resources/js/themes.js
+                primary: 'var(--v-primary-base, #AB8875)',
+                background: 'var(--v-background-base, #F2F3F5)',
+                foreground: 'var(--v-foreground-base, #FFFFFF)',
+                navigation: 'var(--v-navigation-base, #FFFFFF)',
+                customBorder: 'var(--v-customBorder-base, #E9EAEC)',
+            }
+        },
+    },
+};
