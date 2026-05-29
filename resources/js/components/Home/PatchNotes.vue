@@ -5,6 +5,23 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.35<v-spacer /> 2026.05.29.</v-card-title>
+            <v-card-text>
+                <b>New features:</b>
+                <ul>
+                    <li>Integrated PrimeVue Aura theme components and updated frontend design infrastructure.</li>
+                    <li>Added automated migration audit checks for codebase health (verifying legacy Vue 2 syntax, package dependencies, and CSS selectors).</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Cleaned up legacy Vue 2 compiler/runtime APIs, styles, and obsolete assets.</li>
+                    <li>Removed redundant Bootstrap, jQuery, and Popper.js frontend dependencies.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.34<v-spacer /> 2026.05.26.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
