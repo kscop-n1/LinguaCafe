@@ -29,7 +29,7 @@
                     density="compact"
                     rounded
                     placeholder="Goal quantity"
-                    @change="quantityChanged"
+                    @update:model-value="quantityChanged"
                 />
             </v-card-text>
 

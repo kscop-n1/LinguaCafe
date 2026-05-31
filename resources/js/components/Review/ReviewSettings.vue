@@ -31,7 +31,7 @@
                             rounded
                             variant="filled"
                             hide-details
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-select>
                     </v-col>
                 </v-row>
@@ -50,7 +50,7 @@
                             thumb-label="always"
                             thumb-size="38"
                             track-color="#c5c5c5"
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-slider>
                     </v-col>
                 </v-row>
@@ -68,7 +68,7 @@
                             rounded
                             variant="filled"
                             hide-details
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-select>
                     </v-col>
                 </v-row>
@@ -98,7 +98,7 @@
                         <v-switch
                             color="primary"
                             v-model="settings.vocabularyBottomSheet"
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-switch>
                     </v-col>
                 </v-row>
@@ -132,7 +132,7 @@
                         <v-switch
                             color="primary"
                             v-model="settings.vocabularyHoverBox"
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-switch>
                     </v-col>
                 </v-row>
@@ -144,7 +144,7 @@
                         <v-switch
                             v-model="settings.vocabularyHoverBoxSearch"
                             color="primary"
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-switch>
                     </v-col>
                 </v-row>
@@ -163,7 +163,7 @@
                             thumb-size="38"
                             step="100"
                             track-color="#c5c5c5"
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         >
                         </v-slider>
                     </v-col>
@@ -182,7 +182,7 @@
                             rounded
                             variant="filled"
                             hide-details
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-select>
                     </v-col>
                 </v-row>
@@ -205,7 +205,7 @@
                             rounded
                             variant="filled"
                             hide-details
-                            @change="saveSettings"
+                            @update:model-value="saveSettings"
                         ></v-select>
                     </v-col>
                     <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">TTS speed:</v-col>
@@ -221,7 +221,7 @@
                                         step="0.1"
                                         track-color="#c5c5c5"
                                         class="align-center"
-                                        @change="saveSettings"
+                                        @update:model-value="saveSettings"
                                     />
                                 </v-col>
                 </v-row>

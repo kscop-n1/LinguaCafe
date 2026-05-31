@@ -6,7 +6,7 @@
             <v-radio-group
                 v-model="method"
                 class="mt-0"
-                @change="save"
+                @update:model-value="save"
             >
                 <v-radio
                     label="GET"

@@ -46,7 +46,7 @@
                             clearable
                             placeholder="Dictionary file"
                             prepend-icon="mdi-file"
-                            @change="testDictionaryFile"
+                            @update:model-value="testDictionaryFile"
                         ></v-file-input>
 
                         <v-alert

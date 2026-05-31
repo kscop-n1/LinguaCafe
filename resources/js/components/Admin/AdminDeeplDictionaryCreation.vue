@@ -51,7 +51,7 @@
                     variant="filled"
                     rounded
                     :error-messages=" isFormValid ? [] : ['The source and target language cannot be the same!']"
-                    @change="updateDictionaryName(); validateForm();"
+                    @update:model-value="updateDictionaryName(); validateForm();"
                 >
                     <template v-slot:selection="{ item, index }">
                         <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
@@ -87,7 +87,7 @@
                     variant="filled"
                     rounded
                     :error-messages=" isFormValid ? [] : ['The source and target language cannot be the same!']"
-                    @change="updateDictionaryName(); validateForm();"
+                    @update:model-value="updateDictionaryName(); validateForm();"
                 >
                     <template v-slot:selection="{ item, index }">
                         <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">

@@ -333,21 +333,32 @@
             this.loading = true;
             document.getElementById('app')?.addEventListener('scroll', () => { this.visiblePopup = ''; });
             document.getElementById('app')?.addEventListener('click', () => { this.visiblePopup = ''; });
-            
-            if (this.$route.params.text !== undefined) {
+            this.syncFiltersFromRoute();
+            this.loadVocabularySearchPage();
+        },
+        watch: {
+            '$route.params': {
+                handler() {
+                    this.syncFiltersFromRoute();
+                    this.loadVocabularySearchPage();
+                }
+            }
+        },
+        methods: {
+            syncFiltersFromRoute() {
+                if (this.$route.params.text === undefined) {
+                    return;
+                }
+
                 this.filters.text = (this.$route.params.text == 'anytext') ? '' : this.$route.params.text;
-                this.filters.stage = this.$route.params.stage;
-                this.filters.book = this.$route.params.book;
-                this.filters.chapter = this.$route.params.chapter;
+                this.filters.stage = parseInt(this.$route.params.stage);
+                this.filters.book = parseInt(this.$route.params.book);
+                this.filters.chapter = parseInt(this.$route.params.chapter);
                 this.filters.translation = this.$route.params.translation;
                 this.filters.phrases = this.$route.params.phrases;
                 this.filters.orderBy = this.$route.params.orderBy;
                 this.currentPage = parseInt(this.$route.params.page);
-            }
-
-            this.loadVocabularySearchPage();
-        },
-        methods: {
+            },
             loadVocabularySearchPage() {
                 axios.post('/vocabulary/search', {
                     text: (this.filters.text == '') ? 'anytext' : this.filters.text,

@@ -1,14 +1,14 @@
 <template>
     <div id="admin-review-settings">
-        
+
         <!-- SRS info -->
         <div class="subheader mt-4">Spaced repetition system</div>
         <v-alert border="left" type="info" color="primary" class="mt-2 mb-4">
-            Numbers represent how many days later words will be reviewed again 
+            Numbers represent how many days later words will be reviewed again
             after a review or a manual level change.<br><br>
 
-            You can set multiple numbers for a single level by typing in numbers delimited by a comma. 
-            In this case the next review date will be selected based on which day has the least amount of 
+            You can set multiple numbers for a single level by typing in numbers delimited by a comma.
+            In this case the next review date will be selected based on which day has the least amount of
             reviews scheduled at the time of the level change.
         </v-alert>
 
@@ -24,14 +24,14 @@
                                 Level {{ interval.name }}:
                             </td>
                             <td class="pt-4">
-                                <v-text-field 
-                                    v-model="interval.values" 
-                                    variant="filled" 
-                                    rounded 
-                                    density="compact" 
-                                    hide-details 
+                                <v-text-field
+                                    v-model="interval.values"
+                                    variant="filled"
+                                    rounded
+                                    density="compact"
+                                    hide-details
                                     :disabled="!index"
-                                    @change="reviewIntervalChanged($event, index)" 
+                                    @update:model-value="reviewIntervalChanged($event, index)"
                                 />
                             </td>
                         </tr>
@@ -41,9 +41,9 @@
 
             <v-card-actions>
                 <v-spacer />
-                <v-btn 
-                    rounded 
-                    variant="flat" 
+                <v-btn
+                    rounded
+                    variant="flat"
                     color="primary"
                     :disabled="!reviewIntervals.length || saving"
                     :loading="saving"
@@ -83,7 +83,7 @@
                 for (let intervalIndex = 0; intervalIndex < intervals.length; intervalIndex++) {
                     let parsedInterval = parseInt(intervals[intervalIndex]);
                     intervals[intervalIndex] = isNaN(parsedInterval) ? 1 : parsedInterval;
-                    
+
                     if (intervals[intervalIndex] > 3650) {
                         intervals[intervalIndex] = 3650;
                     }
@@ -110,7 +110,7 @@
                     reviewIntervalsArray[key] = this.reviewIntervals[intervalIndex].values.split(',');
                     reviewIntervalsArray[key] = reviewIntervalsArray[key].map(Number);
                 }
-                
+
                 axios.post('/settings/global/update', {
                     'settings': {
                         'reviewIntervals': reviewIntervalsArray,
@@ -130,7 +130,7 @@
                             values: result.data.reviewIntervals[key].join(',')
                         });
                     });
-                    
+
                     this.saving = false;
                     this.$forceUpdate();
                 });
@@ -138,4 +138,3 @@
         }
     }
 </script>
- 

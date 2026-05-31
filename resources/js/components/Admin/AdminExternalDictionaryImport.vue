@@ -54,7 +54,7 @@
                                 density="compact"
                                 variant="filled"
                                 rounded
-                                @change="updateDatabaseName"
+                                @update:model-value="updateDatabaseName"
                             >
                                 <template v-slot:selection="{ item, index }">
                                     <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
@@ -76,7 +76,7 @@
                                 density="compact"
                                 variant="filled"
                                 rounded
-                                @change="updateDatabaseName"
+                                @update:model-value="updateDatabaseName"
                             >
                                 <template v-slot:selection="{ item, index }">
                                     <img class="mr-2 border" :src="'/images/flags/' + item.name + '.png'" width="40" height="26">
@@ -98,7 +98,7 @@
                                 placeholder="Dictionary name"
                                 :rules="rules.dictionaryName"
                                 @keyup="updateDatabaseName"
-                                @change="updateDatabaseName"
+                                @update:model-value="updateDatabaseName"
                                 maxlength="16"
                             ></v-text-field>
                             
@@ -168,7 +168,7 @@
                             class="mt-0"
                             color="primary"
                             label="Skip first line"
-                            @change="fileInputChange"
+                            @update:model-value="fileInputChange"
                         ></v-switch>
 
                         <label class="font-weight-bold">Delimiter character</label>
@@ -178,7 +178,7 @@
                             density="compact"
                             rounded
                             placeholder="Delimiter character"
-                            @change="fileInputChange"
+                            @update:model-value="fileInputChange"
                             maxlength="1"
                             :rules="rules.csvDelimiter"
                         ></v-text-field>
@@ -192,7 +192,7 @@
                             placeholder="Select a file"
                             accept=".csv"
                             prepend-icon="mdi-file-delimited"
-                            @change="fileInputChange"
+                            @update:model-value="fileInputChange"
                         ></v-file-input>
                         <v-alert
                             v-if="!fileTestLoading && fileTestError"

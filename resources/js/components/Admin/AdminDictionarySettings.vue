@@ -82,7 +82,7 @@
                         <v-switch
                             color="primary"
                             v-model="dictionaries[item.index].enabled" 
-                            @change="saveDictionary(item.index)"
+                            @update:model-value="saveDictionary(item.index)"
                         ></v-switch>
                     </div>
                 </template>

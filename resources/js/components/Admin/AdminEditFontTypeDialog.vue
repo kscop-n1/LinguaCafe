@@ -37,7 +37,7 @@
                         prepend-icon="mdi-file"
                         :disabled="saving"
                         :rules="[rules.fontFileRule]"
-                        @change="validateForm"
+                        @update:model-value="validateForm"
                     ></v-file-input>
 
                     <!-- Font name -->
@@ -101,7 +101,7 @@
                     :label="$vuetify.display.smAndUp ? 'Select all' : 'All'"
                     hide-details
                     density="compact"
-                    @change="selectAllChanged"
+                    @update:model-value="selectAllChanged"
                     :disabled="$props.default || saving"
                 ></v-checkbox>
 

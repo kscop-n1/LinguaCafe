@@ -144,8 +144,8 @@
                             width="100%"
                             hide-details
                             prepend-inner-icon="mdi-magnify"
-                            :value="searchField"
-                            @change="searchFieldChanged"
+                            :model-value="searchField"
+                            @update:model-value="searchFieldChanged"
                             @keydown.stop=";"
                         ></v-text-field>
 
@@ -201,7 +201,7 @@
                                 variant="filled"
                                 density="compact"
                                 rounded
-                                :value="word"
+                                :model-value="word"
                                 @keyup="inputChanged"
                                 @keydown.stop=";"
                             ></v-text-field>

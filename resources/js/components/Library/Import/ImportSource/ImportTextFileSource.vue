@@ -14,7 +14,7 @@
             placeholder="Text file"
             prepend-icon="mdi-book"
             :rules="[rules.textFileRule]"
-            @change="textFileSelected"
+            @update:model-value="textFileSelected"
         ></v-file-input>
 
     </div>

@@ -7,6 +7,23 @@ const EXCLUDE_DIRS = ['node_modules', 'vendor', 'storage', 'public/build', '.git
 const EXCLUDE_FILES = ['PatchNotes.vue'];
 const FILE_EXTENSIONS = ['.vue', '.js', '.ts', '.blade.php'];
 
+const VUETIFY_MODEL_COMPONENTS = new Set([
+  'v-autocomplete',
+  'v-checkbox',
+  'v-checkbox-btn',
+  'v-color-picker',
+  'v-combobox',
+  'v-file-input',
+  'v-otp-input',
+  'v-radio-group',
+  'v-range-slider',
+  'v-select',
+  'v-slider',
+  'v-switch',
+  'v-text-field',
+  'v-textarea',
+]);
+
 const PATTERNS = [
   { regex: /new\s+Vue\s*\(/g, desc: "Vue 2 app initialization (new Vue)" },
   { regex: /Vue\.use\s*\(/g, desc: "Vue 2 plugin installation (Vue.use)" },
@@ -49,6 +66,60 @@ const PATTERNS = [
 
 let matchCount = 0;
 
+function reportLegacyPattern(desc, relPath, lineNumber, line) {
+  console.log(`❌ Found legacy pattern: ${desc}`);
+  console.log(`  File: ${relPath}:${lineNumber}`);
+  console.log(`  Line: ${line.trim()}`);
+  console.log('');
+  matchCount++;
+}
+
+function getLineNumber(content, index) {
+  return content.slice(0, index).split('\n').length;
+}
+
+function checkVuetifyModelBindings(content, relPath) {
+  const tagRegex = /<\s*(v-[a-z0-9-]+)\b[\s\S]*?>/g;
+  let match;
+
+  while ((match = tagRegex.exec(content)) !== null) {
+    const tagName = match[1];
+    if (!VUETIFY_MODEL_COMPONENTS.has(tagName)) {
+      continue;
+    }
+
+    const tag = match[0];
+    const hasLegacyValueBinding = /\s(?:v-bind:|:)value\s*=/.test(tag) || /\svalue\s*=/.test(tag);
+    const hasLegacyModelEvent = /\s(?:v-on:|@)(?:change|input)(?::model-value)?\s*=/.test(tag);
+
+    if (hasLegacyModelEvent) {
+      reportLegacyPattern(
+        `Vuetify 3 form control ${tagName} uses legacy change/input event; use @update:model-value`,
+        relPath,
+        getLineNumber(content, match.index),
+        tag.split('\n')[0]
+      );
+      continue;
+    }
+
+    if (!hasLegacyValueBinding) {
+      continue;
+    }
+
+    const hasVue3ModelBinding = /\sv-model(?:[:\s=]|$)/.test(tag) || /\s(?:v-on:|@)update:model-value\s*=/.test(tag);
+    if (hasVue3ModelBinding) {
+      continue;
+    }
+
+    reportLegacyPattern(
+      `Vuetify 3 form control ${tagName} uses legacy value binding; use v-model or :model-value`,
+      relPath,
+      getLineNumber(content, match.index),
+      tag.split('\n')[0]
+    );
+  }
+}
+
 function walkDir(dir, callback) {
   const files = fs.readdirSync(dir);
   for (const file of files) {
@@ -88,16 +159,14 @@ for (const scanDir of SCAN_DIRS) {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
 
+    checkVuetifyModelBindings(content, relPath);
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       for (const pattern of PATTERNS) {
         pattern.regex.lastIndex = 0; // Reset regex
         if (pattern.regex.test(line)) {
-          console.log(`❌ Found legacy pattern: ${pattern.desc}`);
-          console.log(`  File: ${relPath}:${i + 1}`);
-          console.log(`  Line: ${line.trim()}`);
-          console.log("");
-          matchCount++;
+          reportLegacyPattern(pattern.desc, relPath, i + 1, line);
         }
       }
     }

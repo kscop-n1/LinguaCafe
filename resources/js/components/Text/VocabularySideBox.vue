@@ -106,7 +106,7 @@
                         variant="filled"
                         density="compact"
                         rounded
-                        :value="word"
+                        :model-value="word"
                         @keyup="inputChanged"
                         @keydown.stop=";"
                     ></v-text-field>
@@ -153,7 +153,7 @@
                     hide-details
                     height="80"
                     disabled
-                    :value="phraseText"
+                    :model-value="phraseText"
                     @keydown.stop=";"
                 ></v-textarea>
 
@@ -228,8 +228,8 @@
                     density="compact"
                     rounded
                     hide-details
-                    :value="searchField"
-                    @change="searchFieldChanged"
+                    :model-value="searchField"
+                    @update:model-value="searchFieldChanged"
                     @keydown.stop=";"
                 ></v-text-field>
 

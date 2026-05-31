@@ -15,7 +15,7 @@
             prepend-icon="mdi-book"
             class="mb-4"
             :rules="[rules.subtitleFileRule]"
-            @change="subtitleFileSelected"
+            @update:model-value="subtitleFileSelected"
         ></v-file-input>
 
         <!-- Subtitle content loading -->

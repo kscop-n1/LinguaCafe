@@ -34,7 +34,7 @@
                                     rounded
                                     variant="filled"
                                     hide-details
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-select>
                             </v-col>
                         </v-row>
@@ -52,7 +52,7 @@
                                     thumb-size="38"
                                     step="1"
                                     track-color="#c5c5c5"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 >
                                 </v-slider>
                             </v-col>
@@ -71,7 +71,7 @@
                                     thumb-size="38"
                                     step="1"
                                     track-color="#c5c5c5"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 >
                                     <template v-slot:thumb-label>{{ maximumTextWidthData[settings.maximumTextWidth] }}</template>
                                 </v-slider>
@@ -92,7 +92,7 @@
                                     thumb-label="always"
                                     thumb-size="38"
                                     track-color="#c5c5c5"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-slider>
                             </v-col>
                         </v-row>
@@ -104,7 +104,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.hideAllHighlights"
-                                    @change="saveSettings('hideAllHighlights')"
+                                    @update:model-value="saveSettings('hideAllHighlights')"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -116,7 +116,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.hideNewWordHighlights"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -128,7 +128,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.verticalText"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                     disabled
                                 ></v-switch>
                             </v-col>
@@ -141,7 +141,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.furiganaOnHighlightedWords"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -153,7 +153,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.furiganaOnNewWords"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -174,7 +174,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoMoveWordsToKnown"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -195,7 +195,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoHighlightWords"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -216,7 +216,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoLevelUpWords"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -228,7 +228,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.showSubtitleTimestamps"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -247,7 +247,7 @@
                                     thumb-label="always"
                                     thumb-size="38"
                                     track-color="#c5c5c5"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-slider>
                             </v-col>
                         </v-row>
@@ -270,7 +270,7 @@
                                     rounded
                                     variant="filled"
                                     hide-details
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-select>
                             </v-col>
                         </v-row>
@@ -290,7 +290,7 @@
                                     step="0.1"
                                     track-color="#c5c5c5"
                                     class="align-center"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 />
                             </v-col>
                         </v-row>
@@ -311,7 +311,7 @@
                                     rounded
                                     variant="filled"
                                     hide-details
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-select>
                             </v-col>
                         </v-row>
@@ -336,7 +336,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularySidebar"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -361,7 +361,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularyBottomSheet"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -385,7 +385,7 @@
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularyHoverBox"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -397,7 +397,7 @@
                                 <v-switch
                                     v-model="settings.vocabularyHoverBoxSearch"
                                     color="primary"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
@@ -416,7 +416,7 @@
                                     thumb-size="38"
                                     step="100"
                                     track-color="#c5c5c5"
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 >
                                 </v-slider>
                             </v-col>
@@ -435,7 +435,7 @@
                                     rounded
                                     variant="filled"
                                     hide-details
-                                    @change="saveSettings"
+                                    @update:model-value="saveSettings"
                                 ></v-select>
                             </v-col>
                         </v-row>

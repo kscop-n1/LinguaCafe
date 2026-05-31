@@ -42,7 +42,7 @@
                 v-model="newOrExistingBook"
                 class="mt-0"
                 :rules="[rules.newOrExistingBook]"
-                @change="formChanged"
+                @update:model-value="formChanged"
             >
                 <v-radio
                     label="Create new book"
@@ -68,7 +68,7 @@
                     variant="filled"
                     rounded
                     :rules="[rules.bookId]"
-                    @change="formChanged"
+                    @update:model-value="formChanged"
                 >
                     <template v-slot:selection="{ item, index }">
                         {{ item.name }}

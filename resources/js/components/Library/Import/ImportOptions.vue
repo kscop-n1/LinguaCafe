@@ -18,7 +18,7 @@
             <v-radio-group
                 v-if="$props.type === 'e-book'"
                 v-model="eBookChapterSortMethod"
-                @change="importOptionsChanged"
+                @update:model-value="importOptionsChanged"
                 class="mt-0"
             >
                 <v-radio

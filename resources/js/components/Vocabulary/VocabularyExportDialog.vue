@@ -24,7 +24,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Lemma"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Word switch -->
@@ -34,7 +34,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Word"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Lemma reading switch -->
@@ -44,7 +44,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Lemma reading"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Reading switch -->
@@ -54,7 +54,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Reading"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Translation switch -->
@@ -64,7 +64,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Translation"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Stage switch -->
@@ -74,7 +74,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Level"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Added to srs switch -->
@@ -84,7 +84,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Added to srs date"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Read count switch -->
@@ -94,7 +94,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Read count"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
 
                     <!-- Lookup count switch -->
@@ -104,7 +104,7 @@
                         class="vocabulary-export-switch my-1"
                         color="primary"
                         label="Lookup count"
-                        @change="fieldSwitchChange"
+                        @update:model-value="fieldSwitchChange"
                     ></v-checkbox>
                 </div>
 
@@ -164,7 +164,7 @@
                     class="select-all-switch vocabulary-export-switch my-1"
                     color="primary"
                     label="Select all"
-                    @change="selectAll"
+                    @update:model-value="selectAll"
                 ></v-checkbox>
                 <v-checkbox
                     v-model="fields.selectAll"
@@ -172,7 +172,7 @@
                     class="select-all-switch-small vocabulary-export-switch my-1"
                     color="primary"
                     label="All"
-                    @change="selectAll"
+                    @update:model-value="selectAll"
                 ></v-checkbox>
 
                 <v-spacer></v-spacer>

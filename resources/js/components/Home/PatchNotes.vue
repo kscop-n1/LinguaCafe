@@ -5,6 +5,22 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.36<v-spacer /> 2026.05.31.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed the remaining Vuetify 2 form-control bindings on the user theme text styling settings page.</li>
+                    <li>Restored live preview updates for text styling sliders, checkboxes, selects and color pickers after the Vue/Vuetify migration.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Expanded the legacy migration check to catch old Vuetify value, input and change bindings on form controls.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.35<v-spacer /> 2026.05.29.</v-card-title>
             <v-card-text>
                 <b>New features:</b>

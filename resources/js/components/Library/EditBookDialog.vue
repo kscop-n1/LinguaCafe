@@ -49,7 +49,7 @@
                         accept=".jpg,.jpeg,.png,.webp"
                         placeholder="Cover image"
                         prepend-icon="mdi-image"
-                        @change="imageChanged"
+                        @update:model-value="imageChanged"
                     ></v-file-input>
                     
                     <template v-if="!editImage">

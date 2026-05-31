@@ -131,7 +131,7 @@
                                                 density="compact"
                                                 rounded
                                                 :disabled="popupMenu.saving"
-                                                @change="updateAchievement(popupMenu.achievements[index], index, popupMenu.achievements[index].id, popupMenu.achievements[index].achievedQuantity)"
+                                                @update:model-value="updateAchievement(popupMenu.achievements[index], index, popupMenu.achievements[index].id, popupMenu.achievements[index].achievedQuantity)"
                                             >
                                             </v-text-field>
                                         </td>

@@ -18,7 +18,7 @@
                 placeholder="E-book file"
                 prepend-icon="mdi-book"
                 :rules="[rules.ebookFileRule]"
-                @change="selectImportFile"
+                @update:model-value="selectImportFile"
             ></v-file-input>
         </v-form>
     </div>

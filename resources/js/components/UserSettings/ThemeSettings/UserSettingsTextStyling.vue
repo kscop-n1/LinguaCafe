@@ -18,7 +18,7 @@
                             Word level
                         </label>
                         <v-select
-                            :value="selectedLevel"
+                            v-model="selectedLevelModel"
                             label="Level"
                             rounded
                             density="compact"
@@ -26,7 +26,6 @@
                             single-line
                             hide-details
                             :items="levels"
-                            @change="selectedLevelInputChanged"
                         ></v-select>
                     </div>
 
@@ -36,14 +35,13 @@
                         </label>
                         <v-select
                             label="Theme"
-                            :value="selectedTheme"
+                            v-model="selectedThemeModel"
                             rounded
                             density="compact"
                             variant="filled"
                             single-line
                             hide-details
                             :items="themes"
-                            @change="selectedThemeInputChanged"
                         ></v-select>
                     </div>
                 </div>
@@ -60,7 +58,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     ></v-slider>
                 </div>
 
@@ -76,7 +74,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     ></v-slider>
                 </div>
 
@@ -92,7 +90,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     ></v-slider>
                 </div>
 
@@ -117,7 +115,7 @@
                         density="compact"
                         class="d-inline-block mt-0"
                         label="For spaceless languages only"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     >
                     </v-checkbox>
                 </div>
@@ -134,7 +132,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     ></v-slider>
                 </div>
 
@@ -150,7 +148,7 @@
                         hide-details
                         thumb-label="always"
                         :thumb-size="24"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     ></v-slider>
                 </div>
 
@@ -173,7 +171,7 @@
                             'dotted',
                             'dashed',
                         ]"
-                        @change="updateSampleTextStyling"
+                        @update:model-value="updateSampleTextStyling"
                     ></v-select>
                 </div>
 
@@ -189,7 +187,7 @@
                             density="compact"
                             class="d-inline-block mt-0"
                             label="Top"
-                            @change="updateSampleTextStyling"
+                            @update:model-value="updateSampleTextStyling"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -198,7 +196,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Bottom"
-                            @change="updateSampleTextStyling"
+                            @update:model-value="updateSampleTextStyling"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -207,7 +205,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Sides"
-                            @change="updateSampleTextStyling"
+                            @update:model-value="updateSampleTextStyling"
                         >
                         </v-checkbox>
                     </div>
@@ -225,7 +223,7 @@
                             density="compact"
                             class="d-inline-block mt-0"
                             label="Bold"
-                            @change="updateSampleTextStyling"
+                            @update:model-value="updateSampleTextStyling"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -234,7 +232,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Italic"
-                            @change="updateSampleTextStyling"
+                            @update:model-value="updateSampleTextStyling"
                         >
                         </v-checkbox>
                         <v-checkbox
@@ -243,7 +241,7 @@
                             density="compact"
                             class="d-inline-block mt-0 ml-2"
                             label="Wavy underline (removes borders)"
-                            @change="updateSampleTextStyling"
+                            @update:model-value="updateSampleTextStyling"
                         >
                         </v-checkbox>
                     </div>
@@ -277,8 +275,8 @@
                                         </v-card>
                                     </template>
                                     <v-color-picker
-                                        :value="textStyling[selectedTheme][selectedLevel].borderColor"
-                                        @input="colorChanged($event, 'borderColor')"
+                                        :model-value="textStyling[selectedTheme][selectedLevel].borderColor"
+                                        @update:model-value="colorChanged($event, 'borderColor')"
                                     />
                                 </v-menu>
                             </td>
@@ -292,7 +290,7 @@
                                     density="compact"
                                     hide-details
                                     maxlength="7"
-                                    @input="updateSampleTextStyling"
+                                    @update:model-value="updateSampleTextStyling"
                                 ></v-text-field>
                             </td>
                             <td>
@@ -322,8 +320,8 @@
                                         </v-card>
                                     </template>
                                     <v-color-picker
-                                        :value="textStyling[selectedTheme][selectedLevel].textColor"
-                                        @input="colorChanged($event, 'textColor')"
+                                        :model-value="textStyling[selectedTheme][selectedLevel].textColor"
+                                        @update:model-value="colorChanged($event, 'textColor')"
                                     />
                                 </v-menu>
                             </td>
@@ -337,7 +335,7 @@
                                     density="compact"
                                     hide-details
                                     maxlength="7"
-                                    @input="updateSampleTextStyling"
+                                    @update:model-value="updateSampleTextStyling"
                                 ></v-text-field>
                             </td>
                             <td>
@@ -367,8 +365,8 @@
                                         </v-card>
                                     </template>
                                     <v-color-picker
-                                        :value="textStyling[selectedTheme][selectedLevel].backgroundColor"
-                                        @input="colorChanged($event, 'backgroundColor')"
+                                        :model-value="textStyling[selectedTheme][selectedLevel].backgroundColor"
+                                        @update:model-value="colorChanged($event, 'backgroundColor')"
                                     />
                                 </v-menu>
                             </td>
@@ -382,7 +380,7 @@
                                     density="compact"
                                     hide-details
                                     maxlength="7"
-                                    @input="updateSampleTextStyling"
+                                    @update:model-value="updateSampleTextStyling"
                                 ></v-text-field>
                             </td>
                             <td>
@@ -407,7 +405,7 @@
                                         hide-details
                                         thumb-label="always"
                                         :thumb-size="24"
-                                        @change="updateSampleTextStyling"
+                                        @update:model-value="updateSampleTextStyling"
                                     ></v-slider>
                                 </div>
                             </td>
@@ -498,8 +496,24 @@
             selectedTheme: function(){
                 return this.themes[this.selectedThemeIndex]
             },
+            selectedThemeModel: {
+                get: function() {
+                    return this.selectedTheme;
+                },
+                set: function(value) {
+                    this.selectedThemeInputChanged(value);
+                }
+            },
             selectedLevel: function(){
                 return this.levels[this.selectedLevelIndex]
+            },
+            selectedLevelModel: {
+                get: function() {
+                    return this.selectedLevel;
+                },
+                set: function(value) {
+                    this.selectedLevelInputChanged(value);
+                }
             }
         },
         watch: {
