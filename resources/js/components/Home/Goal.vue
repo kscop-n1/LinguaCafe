@@ -11,6 +11,9 @@
             >
                 <v-icon>mdi-pencil</v-icon>
             </v-btn>
+            <v-btn v-else icon class="goal-title-placeholder" aria-hidden="true" tabindex="-1">
+                <v-icon>mdi-pencil</v-icon>
+            </v-btn>
         </v-card-title>
         <v-card-text class="goal-body d-flex flex-column align-center">
             <v-progress-circular
@@ -34,7 +37,6 @@
                 Highlight and save {{ goalQuantity }} new words for review.
             </div>
         </v-card-text>
-        <v-spacer></v-spacer>
         <v-card-actions class="goal-actions">
             <v-spacer></v-spacer> 
             <v-btn plain to="/review/false/-1/-1" v-if="name == 'Reviews'">Start review</v-btn>

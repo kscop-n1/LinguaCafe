@@ -36,6 +36,16 @@
         min-width: 66px;
         justify-content: center;
         font-weight: 600;
+
+        .v-chip__content {
+            color: rgb(var(--v-theme-text));
+            gap: 4px;
+        }
+
+        .v-icon {
+            color: rgb(var(--v-theme-primary));
+            margin-inline-start: 0px;
+        }
     }
 
     .v-data-table td {

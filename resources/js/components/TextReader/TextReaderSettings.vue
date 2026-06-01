@@ -160,17 +160,17 @@
 
                         <!-- Auto move words to known -->
                         <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto move words to known:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Auto move words to known:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         Clicking the <b>Finish reading</b> button moves new words to known.
                                     </v-card>
                                 </v-menu>
-
+                            </v-col>
+                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoMoveWordsToKnown"
@@ -181,17 +181,17 @@
 
                         <!-- Auto highlight words -->
                         <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto highlight words:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Auto highlight words:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         Auto highlight words when you add a translation to them.
                                     </v-card>
                                 </v-menu>
-
+                            </v-col>
+                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoHighlightWords"
@@ -202,17 +202,17 @@
 
                         <!-- Auto level up words -->
                         <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Auto level up words:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Auto level up words:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         Clicking the 'Finished reading' button will automatically level up any words and phrases for which you haven't opened the vocabulary box.
                                     </v-card>
                                 </v-menu>
-
+                            </v-col>
+                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoLevelUpWords"
@@ -367,17 +367,17 @@
                     <v-window-item :value="2">
                         <!-- Vocabulary hover box -->
                         <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary box:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary box:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         A minimalistic vocabulary box that appears when you move the mouse over a word or phrase.
                                     </v-card>
                                 </v-menu>
-
+                            </v-col>
+                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularyHoverBox"

@@ -8,7 +8,7 @@
     
     &.fullscreen-mode {
         #reader-box #toolbar {
-            max-width: calc(100% - 8px) !important;
+            max-width: 100% !important;
         }
     }
 
@@ -59,6 +59,11 @@
     .settings-label-with-help {
         gap: 6px;
         flex-wrap: nowrap;
+
+        .v-icon {
+            flex: 0 0 auto;
+            margin-left: 6px !important;
+        }
     }
 
     .v-slider {
@@ -92,7 +97,6 @@
         z-index: 2;
         background-color: rgb(var(--v-theme-background));
         border-radius: 8px;
-        box-shadow: 0 0 0 1px rgb(var(--v-theme-customBorder));
         padding: 24px 0px;
     }
 

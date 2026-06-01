@@ -65,8 +65,8 @@
                     v-if="item.read_count > 0"
                     small
                     class="read-status-chip"
-                    color="success"
-                    text-color="white"
+                    variant="outlined"
+                    color="primary"
                     title="Chapter has been finished at least once."
                 >
                     <v-icon small left>mdi-check</v-icon>

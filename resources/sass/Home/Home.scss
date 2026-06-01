@@ -182,10 +182,20 @@
         min-height: 400px;
         height: auto;
 
+        .v-card-title {
+            min-height: 64px;
+        }
+
+        .goal-title-placeholder {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
         .goal-body {
             flex: 1 1 auto;
             min-height: 242px;
             text-align: center;
+            justify-content: flex-start;
         }
 
         .goal-description {
@@ -201,6 +211,7 @@
         .goal-actions {
             min-height: 52px;
             border-top: 1px solid rgb(var(--v-theme-customBorder));
+            margin-top: auto;
         }
 
         .v-progress-circular__info {

@@ -5,6 +5,23 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.38<v-spacer /> 2026.06.01.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Restored the pre-migration warm LinguaCafe theme colors across light and dark themes.</li>
+                    <li>Fixed migrated Vuetify 3 menu, dropdown, popup, modal, form, mobile bottom navigation, hover, focus, active and icon colors to follow the old visual language with current theme variables.</li>
+                    <li>Fixed remaining dashboard, sidebar, chapter status, reader settings, slider hover and reader toolbar visual regressions.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Added release notes with GHCR Docker image update instructions for v0.5.38.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.37<v-spacer /> 2026.06.01.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>
