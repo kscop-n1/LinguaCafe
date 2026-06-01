@@ -12,7 +12,7 @@
                 <v-icon>mdi-pencil</v-icon>
             </v-btn>
         </v-card-title>
-        <v-card-text class="d-flex flex-column align-center">
+        <v-card-text class="goal-body d-flex flex-column align-center">
             <v-progress-circular
                 :size="progressCircleSize"
                 :width="progressCircleWidth"
@@ -22,20 +22,20 @@
                 class="mb-5"
             >{{ todaysAchievedQuantity }} / {{ goalQuantity }}</v-progress-circular>
             
-            <div v-if="name == 'Reading'">
+            <div class="goal-description" v-if="name == 'Reading'">
                 Read {{ goalQuantity }} words from any imported text.
             </div>
 
-            <div v-if="name == 'Reviews'">
+            <div class="goal-description" v-if="name == 'Reviews'">
                 Review {{ goalQuantity }} flashcards which are due today. 
             </div>
 
-            <div v-if="name == 'New words'">
+            <div class="goal-description" v-if="name == 'New words'">
                 Highlight and save {{ goalQuantity }} new words for review.
             </div>
         </v-card-text>
         <v-spacer></v-spacer>
-        <v-card-actions>
+        <v-card-actions class="goal-actions">
             <v-spacer></v-spacer> 
             <v-btn plain to="/review/false/-1/-1" v-if="name == 'Reviews'">Start review</v-btn>
             <v-btn plain to="/books" v-if="name == 'Reading' || name == 'New words'">Library</v-btn>

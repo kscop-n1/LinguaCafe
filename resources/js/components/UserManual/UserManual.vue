@@ -58,7 +58,7 @@ import axios from 'axios';
             });
 
 
-            if (this.$route.params.currentPage !== undefined) {
+            if (this.$route.params.currentPage) {
                 this.selectedPage = this.$route.params.currentPage;
             }
 
@@ -99,7 +99,10 @@ import axios from 'axios';
             },
             loadManualFile(fileName) {
                 this.userManualFile = null;
-                axios.get('/manual/get-manual-file/' + fileName).then((response) => {
+                var normalizedFileName = fileName || 'Home';
+                normalizedFileName = normalizedFileName.split('#')[0] || 'Home';
+
+                axios.get('/manual/get-manual-file/' + encodeURIComponent(normalizedFileName)).then((response) => {
                     this.userManualFile = this.replaceElements(response.data);
 
 

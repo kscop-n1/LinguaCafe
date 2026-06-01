@@ -4,7 +4,10 @@
         color: rgb(var(--v-theme-highlightedWordText));
         height: 24px;
         line-height: 24px;
-        width: 60px;
+        min-width: 76px;
+        width: auto;
+        box-sizing: border-box;
+        white-space: nowrap;
         text-align: center;
     }
 
@@ -13,7 +16,10 @@
         color: rgb(var(--v-theme-highlightedWordText));
         height: 24px;
         line-height: 24px;
-        width: 60px;
+        min-width: 76px;
+        width: auto;
+        box-sizing: border-box;
+        white-space: nowrap;
         text-align: center
     }
 
@@ -24,5 +30,15 @@
 
     .importing-text {
         color: rgb(var(--v-theme-warning));
+    }
+
+    .read-status-chip {
+        min-width: 66px;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .v-data-table td {
+        vertical-align: middle;
     }
 }

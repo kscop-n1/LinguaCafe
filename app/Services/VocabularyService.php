@@ -584,11 +584,12 @@ class VocabularyService {
         // get words and phrases
         // from filtered chapters
         $filteredChapters = Chapter
-            ::select(['id', 'unique_words', 'unique_phrase_ids'])
+            ::select(['id', 'unique_words', 'unique_word_ids', 'unique_phrase_ids'])
             ->where('user_id', $userId)
             ->where('language', $language)
             ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value);
         $filteredWords = [];
+        $filteredWordIds = [];
         $filteredPhraseIds = [];
         if ($bookId !== -1) {
             $filteredChapters = $filteredChapters->where('book_id', $bookId);
@@ -611,9 +612,14 @@ class VocabularyService {
                 foreach ($filteredChapterUniqueWords as $filteredChapterUniqueWord) {
                     $filteredWords[$filteredChapterUniqueWord] = true;
                 }
+
+                foreach (json_decode($filteredChapter->unique_word_ids) ?: [] as $filteredChapterUniqueWordId) {
+                    $filteredWordIds[intval($filteredChapterUniqueWordId)] = true;
+                }
             }
 
             $filteredWords = array_keys($filteredWords);
+            $filteredWordIds = array_keys($filteredWordIds);
             $filteredPhraseIds = array_keys($filteredPhraseIds);
         }
 
@@ -631,7 +637,11 @@ class VocabularyService {
         }
 
         if ($bookId !== -1) {
-            $wordSearch->whereIn('word', $filteredWords);
+            if (count($filteredWordIds) > 0) {
+                $wordSearch->whereIn('id', $filteredWordIds);
+            } else {
+                $wordSearch->whereIn('word', $filteredWords);
+            }
         }
 
         if ($stage !== -999) {

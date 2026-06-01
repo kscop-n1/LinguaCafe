@@ -100,7 +100,7 @@ class VueMigrationStaticTest extends TestCase
             }
         }
 
-        $viteConfig = file_get_contents(base_path('vite.config.js'));
+        $viteConfig = file_get_contents(base_path('vite.config.mjs'));
 
         if (strpos($viteConfig, 'node_modules/bootstrap') !== false || strpos($viteConfig, '~bootstrap') !== false) {
             $failures[] = 'legacy Bootstrap Vite alias is still configured';

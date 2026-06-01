@@ -118,9 +118,14 @@
                 text-align: left;
         
                 .info-table-value {
+                    display: inline-block;
+                    box-sizing: border-box;
                     height: 24px;
                     line-height: 24px;
-                    width: 64px;
+                    min-width: 76px;
+                    width: auto;
+                    white-space: nowrap;
+                    text-align: center;
         
                     &.highlighted-words {
                         background-color: rgb(var(--v-theme-highlightedWordBackground));

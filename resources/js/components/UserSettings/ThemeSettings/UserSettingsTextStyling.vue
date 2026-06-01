@@ -427,6 +427,62 @@
     </div>
 </template>
 
+<style scoped lang="scss">
+#text-user-settings {
+    .v-container > .w-100 {
+        display: grid;
+        grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
+        column-gap: 24px;
+        align-items: center;
+        margin-top: 14px;
+        margin-bottom: 18px;
+    }
+
+    .v-container > .w-100 > label {
+        margin-top: 0px !important;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        line-height: 1.3;
+    }
+
+    .v-container > .w-100 > .v-slider {
+        min-width: 0;
+        padding-top: 22px;
+    }
+
+    .v-container > .w-100.mb-0 {
+        align-items: flex-start;
+    }
+
+    .v-container > .w-100.mb-0 .v-checkbox {
+        margin-top: 0px !important;
+    }
+
+    #border-positions,
+    #font-options {
+        flex-wrap: wrap;
+        gap: 0px 12px;
+    }
+
+    #option-select-inputs {
+        gap: 16px;
+    }
+
+    .text-option-input {
+        flex: 1 1 220px;
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 700px) {
+    #text-user-settings .v-container > .w-100 {
+        display: block;
+    }
+}
+</style>
+
 
 <!-- 
     This is a separate setting from the theme colors, because I can only store colors in vuetify, 

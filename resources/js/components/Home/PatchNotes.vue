@@ -5,6 +5,24 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.37<v-spacer /> 2026.06.01.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed vocabulary book filtering after the migration by filtering with migrated unique word ids when available.</li>
+                    <li>Fixed user manual loading when no manual page name is present, removing the empty manual file request that caused a 404.</li>
+                    <li>Fixed daily goal card wrapping, sidebar bottom spacing, import stepper labels, book and chapter count pills, chapter read-status chips, reader settings controls, dark fullscreen reader toolbar contrast, and theme text styling layout regressions.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Added regression coverage for vocabulary book filtering and a reusable PHP test command.</li>
+                    <li>Added release notes with Docker image update instructions for GHCR installs.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.36<v-spacer /> 2026.05.31.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

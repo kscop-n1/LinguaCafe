@@ -45,7 +45,7 @@
                 <template v-slot:append>
                     <!-- Large navigation drawer -->
                     <template v-if="!display.md && !navbarCollapsed">
-                        <v-list nav shaped density="compact" class="pl-0">
+                        <v-list nav shaped density="compact" class="navigation-bottom-list pl-0">
                             <!-- Navigation buttons -->
                             <v-list-item class="navigation-button" @click="collapseNavbar">
                                 <v-icon> mdi-arrow-collapse-left </v-icon>
@@ -57,13 +57,14 @@
                             </v-list-item>
                             <v-list-item class="navigation-button" @click="languageSelectionDialog = true;">
                                 <v-img class="border" :src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'" max-width="26" height="17"></v-img>
-                                <span class="pl-5"> Language</span>
+                                <span class="pl-6"> Language</span>
                             </v-list-item>
                         </v-list>
                     </template>
 
                     <!-- Mini navigation drawer -->
                     <template v-else>
+                        <div class="mini-navigation-bottom">
                         <v-btn v-if="display.lgAndUp" id="collapse" rounded class="mini-drawer-button" @click="expandNavbar" title="Expand sidebar" variant="text">
                             <v-icon>mdi-arrow-collapse-right</v-icon>
                         </v-btn>
@@ -73,6 +74,7 @@
                         <v-btn id="language" rounded class="mini-drawer-button" @click="languageSelectionDialog = true" title="Select language" variant="text">
                             <v-img :src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'" max-width="31" height="20"></v-img>
                         </v-btn>
+                        </div>
                     </template>
                 </template>
             </v-navigation-drawer>

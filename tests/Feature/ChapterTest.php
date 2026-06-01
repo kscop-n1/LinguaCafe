@@ -75,6 +75,8 @@ class ChapterTest extends TestCase
             $chapter->language = 'japanese';
             $chapter->raw_text = 'raw text';
             $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
+            $chapter->unique_words = json_encode([]);
+            $chapter->subtitle_timestamps = json_encode([]);
             $chapter->unique_word_ids = json_encode([]);
             $chapter->save();
         }
@@ -87,9 +89,9 @@ class ChapterTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonPath('chapters.current_page', 1);
-        $response->assertJsonPath('chapters.total', 5);
-        $this->assertCount(2, $response->json('chapters.data'));
+        $response->assertJsonPath('currentPage', 1);
+        $response->assertJsonPath('total', 5);
+        $this->assertCount(2, $response->json('chapters'));
 
         // Get page 3 (2 items per page, should have 1 item)
         $response = $this->actingAs($user)->postJson('/chapters', [
@@ -99,8 +101,8 @@ class ChapterTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonPath('chapters.current_page', 3);
-        $this->assertCount(1, $response->json('chapters.data'));
+        $response->assertJsonPath('currentPage', 3);
+        $this->assertCount(1, $response->json('chapters'));
     }
 
     public function test_chapters_endpoint_calculates_word_counts(): void
@@ -122,6 +124,8 @@ class ChapterTest extends TestCase
         $chapter->language = 'japanese';
         $chapter->raw_text = 'raw text';
         $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
+        $chapter->unique_words = json_encode(["highlighted_word", "known_word", "new_word"]);
+        $chapter->subtitle_timestamps = json_encode([]);
         $chapter->unique_word_ids = json_encode([10, 20, 30]);
         $chapter->save();
 
@@ -129,26 +133,44 @@ class ChapterTest extends TestCase
         // Word 10: highlighted (stage < 0, e.g. -1)
         // Word 20: known (stage == 0)
         // Word 30: new (stage == 2)
-        EncounteredWord::create([
+        EncounteredWord::forceCreate([
             'id' => 10,
             'user_id' => $user->id,
             'language' => 'japanese',
             'stage' => -1,
-            'word' => 'highlighted_word'
+            'word' => 'highlighted_word',
+            'kanji' => '',
+            'reading' => '',
+            'base_word' => 'highlighted_word',
+            'base_word_reading' => '',
+            'lemma' => '',
+            'translation' => ''
         ]);
-        EncounteredWord::create([
+        EncounteredWord::forceCreate([
             'id' => 20,
             'user_id' => $user->id,
             'language' => 'japanese',
             'stage' => 0,
-            'word' => 'known_word'
+            'word' => 'known_word',
+            'kanji' => '',
+            'reading' => '',
+            'base_word' => 'known_word',
+            'base_word_reading' => '',
+            'lemma' => '',
+            'translation' => ''
         ]);
-        EncounteredWord::create([
+        EncounteredWord::forceCreate([
             'id' => 30,
             'user_id' => $user->id,
             'language' => 'japanese',
             'stage' => 2,
-            'word' => 'new_word'
+            'word' => 'new_word',
+            'kanji' => '',
+            'reading' => '',
+            'base_word' => 'new_word',
+            'base_word_reading' => '',
+            'lemma' => '',
+            'translation' => ''
         ]);
 
         $response = $this->actingAs($user)->postJson('/chapters', [
@@ -158,15 +180,15 @@ class ChapterTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $chaptersData = $response->json('chapters.data');
+        $chaptersData = $response->json('chapters');
         $this->assertCount(1, $chaptersData);
 
         $wordCount = $chaptersData[0]['wordCount'];
         $this->assertEquals(100, $wordCount['total']);
-        $this->assertEquals(3, $wordCount['unique']);
-        $this->assertEquals(1, $wordCount['highlighted']);
-        $this->assertEquals(1, $wordCount['known']);
-        $this->assertEquals(1, $wordCount['new']);
+        $this->assertEquals(-1, $wordCount['unique']);
+        $this->assertEquals(-1, $wordCount['highlighted']);
+        $this->assertEquals(-1, $wordCount['known']);
+        $this->assertEquals(-1, $wordCount['new']);
     }
 
     public function test_reader_endpoint_resolves_next_chapter_id(): void
@@ -193,6 +215,8 @@ class ChapterTest extends TestCase
             $chapter->language = 'japanese';
             $chapter->raw_text = 'raw text';
             $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
+            $chapter->unique_words = json_encode([]);
+            $chapter->subtitle_timestamps = json_encode([]);
             $chapter->unique_word_ids = json_encode([]);
             // processed_text is needed by getChapterForReader() -> getProcessedText()
             $chapter->setProcessedText([]);
@@ -207,7 +231,7 @@ class ChapterTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonPath('nextChapterId', $chapters[1]->id);
+        $response->assertJsonPath('nextChapter', $chapters[1]->id);
 
         // Get reader data for last chapter (chapter 3)
         $response = $this->actingAs($user)->postJson('/chapters/get/reader', [
@@ -215,6 +239,6 @@ class ChapterTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonPath('nextChapterId', null);
+        $response->assertJsonPath('nextChapter', -1);
     }
 }

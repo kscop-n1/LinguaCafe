@@ -256,12 +256,14 @@
     opacity: 0 !important;
     height: 28px !important;
     width: auto !important;
-    transform: translateY(-20%) translateY(-12px) translateX(-50%) !important;
+    transform: translateY(-8px) translateX(-50%) !important;
     border-radius: 6px !important;
     padding: 0px 6px !important;
     font-size: 14px !important;
     text-align: center;
     transition: .2s !important;
+    pointer-events: none;
+
 
     div {
         transform: none !important;
@@ -271,6 +273,31 @@
 .v-slider:hover .v-slider__thumb-label {
     opacity: 1 !important;
 }
+
+.v-switch .v-selection-control__input {
+    color: rgb(var(--v-theme-primary));
+}
+
+.v-switch .v-switch__track {
+    opacity: 1 !important;
+    border: 1px solid rgb(var(--v-theme-customBorder));
+    background-color: rgb(var(--v-theme-gray2)) !important;
+}
+
+.v-switch .v-switch__thumb {
+    background-color: rgb(var(--v-theme-foreground)) !important;
+    border: 1px solid rgb(var(--v-theme-customBorder));
+}
+
+.v-switch.v-selection-control--dirty .v-switch__track {
+    border-color: rgb(var(--v-theme-primary));
+    background-color: rgb(var(--v-theme-primary)) !important;
+}
+
+.v-switch.v-selection-control--dirty .v-switch__thumb {
+    background-color: rgb(var(--v-theme-foreground)) !important;
+}
+
 
 // it's required because otherwise it had
 // weird white background outside of rounded corners
@@ -413,6 +440,35 @@
 
 #navigation-drawer {
     height: 100% !important;
+
+    .v-navigation-drawer__append {
+        padding-bottom: 12px;
+    }
+
+    .navigation-bottom-list {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .navigation-language-button .v-list-item__prepend,
+    .navigation-button .v-list-item__prepend {
+        align-items: center;
+    }
+
+    .navigation-flag,
+    .navigation-button .v-img {
+        flex: 0 0 auto;
+        align-self: center;
+    }
+
+    .mini-navigation-bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding-bottom: 10px;
+    }
+
 
     #logo span{
         font-size: 24px !important;

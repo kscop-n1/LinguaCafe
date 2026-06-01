@@ -128,7 +128,15 @@ class HomeController extends Controller {
         return response()->json($manualTree, 200);
     }
 
-    public function getUserManualFile($fileName) {
-        return response()->file('./../manual/' . $fileName . '.md');
+    public function getUserManualFile($fileName = 'Home') {
+        $fileName = $fileName ?: 'Home';
+        $fileName = str_replace([chr(47), chr(92)], '', $fileName);
+        $filePath = base_path('manual/' . $fileName . '.md');
+
+        if (!file_exists($filePath)) {
+            abort(404, 'Manual file does not exist.');
+        }
+
+        return response()->file($filePath);
     }
 }

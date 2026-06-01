@@ -11,23 +11,62 @@
             max-width: calc(100% - 8px) !important;
         }
     }
+
+    &.fullscreen-mode #reader-box #toolbar-box,
+    &.fullscreen-mode #reader-box #toolbar {
+        background-color: rgba(var(--v-theme-foreground), 0.92);
+        border-radius: 8px;
+    }
+
+    &.fullscreen-mode #reader-box #toolbar button {
+        background-color: rgb(var(--v-theme-foreground));
+        color: rgb(var(--v-theme-text));
+    }
+
+    &.fullscreen-mode #reader-box #toolbar button:hover {
+        background-color: rgb(var(--v-theme-gray2));
+    }
 }
 
 #text-reader-settings {
+    .v-card__text {
+        overflow-x: hidden;
+    }
+
     .v-window {
         padding-top: 12px !important;
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
 
-    div.row {
-        .switch-container {
-            height: 50px !important;
-        }
+    .v-row {
+        min-height: 58px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
 
-        .slider-container {
-            height: 60px !important;
-        }
+    .switch-container {
+        min-height: 50px !important;
+        height: auto !important;
+    }
+
+    .slider-container {
+        min-height: 78px !important;
+        height: auto !important;
+        padding-top: 26px !important;
+    }
+
+    .settings-label-with-help {
+        gap: 6px;
+        flex-wrap: nowrap;
+    }
+
+    .v-slider {
+        margin-top: 8px;
+    }
+
+    .v-switch {
+        flex: 0 0 auto;
     }
 }
 
@@ -52,6 +91,8 @@
         width: 44px;
         z-index: 2;
         background-color: rgb(var(--v-theme-background));
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px rgb(var(--v-theme-customBorder));
         padding: 24px 0px;
     }
 
@@ -66,6 +107,10 @@
 
     #toolbar button {
         margin: 8px 0px;
+    }
+
+    #toolbar button {
+        color: rgb(var(--v-theme-text));
     }
 
     #reader.japanese-text {

@@ -318,21 +318,19 @@
 
                         <!-- Vocabulary sidebar -->
                         <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5 ">
+                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5 ">
                                 Vocabulary sidebar:
-                            </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
-                                <!-- Vocabulary sidebar info box -->
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         An always visible sidebar vocabulary in a fixed position, that replaces the popup vocabulary. <br><br>
                                         This option is only available for devices with at least 960px screen width, and it is also only available in subtitle reader if the media controls are hidden.
                                     </v-card>
                                 </v-menu>
-
+                            </v-col>
+                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularySidebar"
@@ -343,21 +341,19 @@
 
                         <!-- Vocabulary bottom sheet -->
                         <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5 ">
+                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5 ">
                                 Vocabulary bottom sheet:
-                            </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
-                                <!-- Vocabulary sidebar info box -->
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="mr-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         A bottom sheet vocabulary designed for mobile screens, that replaces the popup vocabulary. <br><br>
                                         This option is only available for devices with less than or equal to 768px screen width.
                                     </v-card>
                                 </v-menu>
-
+                            </v-col>
+                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularyBottomSheet"

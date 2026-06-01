@@ -24,7 +24,7 @@ class GetChaptersForBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'bookId' => 'required|numeric|gte:0',
+            'bookId' => 'required|numeric|gte:0|exists:books,id',
             'page' => 'nullable|numeric|gte:1',
             'perPage' => 'nullable|numeric|gte:1|lte:100',
         ];

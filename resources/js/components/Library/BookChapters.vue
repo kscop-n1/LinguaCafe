@@ -64,16 +64,18 @@
                 <v-chip
                     v-if="item.read_count > 0"
                     small
+                    class="read-status-chip"
                     color="success"
                     text-color="white"
                     title="Chapter has been finished at least once."
                 >
                     <v-icon small left>mdi-check</v-icon>
-                    {{ item.read_count }}
+                    {{ item.read_count }}x
                 </v-chip>
                 <v-chip
                     v-else
                     small
+                    class="read-status-chip"
                     variant="outlined"
                     color="grey"
                     title="Chapter has not been finished yet."

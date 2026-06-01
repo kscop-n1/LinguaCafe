@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth', 'auth.session', 'web']], function () {
 
     // user manual
     Route::get('/manual/get-menu-tree', [App\Http\Controllers\HomeController::class, 'getUserManualTree']);
-    Route::get('/manual/get-manual-file/{fileName}', [App\Http\Controllers\HomeController::class, 'getUserManualFile']);
+    Route::get('/manual/get-manual-file/{fileName?}', [App\Http\Controllers\HomeController::class, 'getUserManualFile']);
 
     // goals
     Route::post('/goals/get', [App\Http\Controllers\GoalController::class, 'getGoals']);
