@@ -55,7 +55,7 @@
                                 <v-icon> mdi-palette </v-icon>
                                 <span class="pl-6"> Theme</span>
                             </v-list-item>
-                            <v-list-item class="navigation-button" @click="languageSelectionDialog = true;">
+                            <v-list-item class="navigation-button navigation-language-button" @click="languageSelectionDialog = true;">
                                 <v-img class="border" :src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'" max-width="26" height="17"></v-img>
                                 <span class="pl-6"> Language</span>
                             </v-list-item>

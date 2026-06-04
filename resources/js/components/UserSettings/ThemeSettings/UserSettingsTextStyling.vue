@@ -479,6 +479,24 @@
 @media (max-width: 700px) {
     #text-user-settings .v-container > .w-100 {
         display: block;
+        margin-bottom: 24px;
+    }
+
+    #text-user-settings .v-container > .w-100 > .v-slider {
+        padding-top: 24px;
+    }
+
+    #text-user-settings #border-positions,
+    #text-user-settings #font-options {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+    }
+
+    #text-user-settings .v-table {
+        display: block;
+        overflow-x: auto;
+        max-width: 100%;
     }
 }
 </style>

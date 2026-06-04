@@ -5,6 +5,22 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.39<v-spacer /> 2026.06.05.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed remaining mobile UI regressions in dashboard goal cards, sidebar bottom language controls, import stepper spacing, book and chapter count pills, reader settings controls, reader toolbar contrast, and the user theme text editor.</li>
+                    <li>Improved reusable layout behavior for numeric pills, switch rows, slider rows, help icons, responsive setting groups, and mobile overflow handling after the Vue/Vuetify migration.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Added a trackable mobile UI regression root-cause plan and release notes with GHCR Docker image update instructions for v0.5.39.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.38<v-spacer /> 2026.06.01.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

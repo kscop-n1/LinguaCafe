@@ -28,6 +28,7 @@
         .v-divider {
             align-self: flex-start;
             margin-top: 24px;
+            min-width: 24px;
         }
     }
 
@@ -186,6 +187,8 @@
         .v-stepper-step {
             flex: 1 1 30%;
             min-height: 78px;
+            padding-left: 4px;
+            padding-right: 4px;
         }
 
         .v-divider {

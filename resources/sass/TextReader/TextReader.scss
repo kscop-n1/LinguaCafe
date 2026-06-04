@@ -14,7 +14,8 @@
 
     &.fullscreen-mode #reader-box #toolbar-box,
     &.fullscreen-mode #reader-box #toolbar {
-        background-color: rgba(var(--v-theme-foreground), 0.92);
+        background-color: rgba(var(--v-theme-foreground), 0.96);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, .35);
         border-radius: 8px;
     }
 
@@ -51,9 +52,9 @@
     }
 
     .slider-container {
-        min-height: 78px !important;
+        min-height: 88px !important;
         height: auto !important;
-        padding-top: 26px !important;
+        padding-top: 32px !important;
     }
 
     .settings-label-with-help {
@@ -72,6 +73,38 @@
 
     .v-switch {
         flex: 0 0 auto;
+    }
+
+    @media (max-width: 600px) {
+        .v-row:has(.v-switch) {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            column-gap: 12px;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .v-row:has(.v-switch) > .v-col {
+            width: auto;
+            max-width: none;
+            flex-basis: auto;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .v-row:has(.v-switch) > .v-col:last-child {
+            justify-content: flex-end !important;
+            min-width: 64px;
+        }
+
+        .settings-label-with-help {
+            flex-wrap: wrap;
+            row-gap: 2px;
+        }
+
+        .slider-container {
+            min-height: 92px !important;
+        }
     }
 }
 

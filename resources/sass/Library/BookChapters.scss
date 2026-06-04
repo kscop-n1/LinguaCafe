@@ -2,6 +2,9 @@
     .highlighted-words {
         background-color: rgb(var(--v-theme-highlightedWordBackground));
         color: rgb(var(--v-theme-highlightedWordText));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         height: 24px;
         line-height: 24px;
         min-width: 76px;
@@ -14,6 +17,9 @@
     .new-words {
         background-color: rgb(var(--v-theme-newWordBackground));
         color: rgb(var(--v-theme-highlightedWordText));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         height: 24px;
         line-height: 24px;
         min-width: 76px;
@@ -36,10 +42,12 @@
         min-width: 66px;
         justify-content: center;
         font-weight: 600;
+        background-color: rgb(var(--v-theme-foreground));
 
         .v-chip__content {
             color: rgb(var(--v-theme-text));
             gap: 4px;
+            white-space: nowrap;
         }
 
         .v-icon {

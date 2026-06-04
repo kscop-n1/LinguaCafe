@@ -176,8 +176,11 @@
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
+    gap: 16px;
 
     .goal {
+        flex: 1 1 292px;
+        max-width: 360px;
         width: 292px;
         min-height: 400px;
         height: auto;
@@ -206,6 +209,7 @@
             align-items: flex-start;
             justify-content: center;
             padding: 0px 8px;
+            overflow-wrap: anywhere;
         }
 
         .goal-actions {
@@ -217,6 +221,19 @@
         .v-progress-circular__info {
             font-size: 22px;
             color: rgb(var(--v-theme-text));
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    #goals {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+
+        .goal {
+            width: 100%;
+            max-width: none;
+            min-height: 0;
         }
     }
 }
