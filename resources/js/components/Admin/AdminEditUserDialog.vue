@@ -142,7 +142,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             _userId: {
                 type: Number,
                 default: -1

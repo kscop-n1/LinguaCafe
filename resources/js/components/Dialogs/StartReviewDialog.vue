@@ -58,7 +58,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             bookId: {
                 type: Number,
                 default: -1
@@ -78,7 +78,7 @@
         },
         watch: { 
             // reset practice mode when dialog opens
-            value: function(newValue) {
+            modelValue: function(newValue) {
                 if (newValue) {
                     this.practiceMode = false;
                 }

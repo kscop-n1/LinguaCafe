@@ -33,12 +33,16 @@
                         :to="item.url"
                         @click="navigationClick(item.name, $event)"
                     >
-                        <v-icon> {{ item.icon }} </v-icon>
-                        <span class="pl-6"> {{ item.name }} </span>
+                        <template #prepend>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </template>
+                        <v-list-item-title class="pl-6">{{ item.name }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item class="navigation-button" @click="openLogoutDialog">
-                        <v-icon> mdi-logout </v-icon>
-                        <span class="pl-6"> Logout </span>
+                        <template #prepend>
+                            <v-icon>mdi-logout</v-icon>
+                        </template>
+                        <v-list-item-title class="pl-6">Logout</v-list-item-title>
                     </v-list-item>
                 </v-list>
 
@@ -48,16 +52,22 @@
                         <v-list nav shaped density="compact" class="navigation-bottom-list pl-0">
                             <!-- Navigation buttons -->
                             <v-list-item class="navigation-button" @click="collapseNavbar">
-                                <v-icon> mdi-arrow-collapse-left </v-icon>
-                                <span class="pl-6"> Hide</span>
+                                <template #prepend>
+                                    <v-icon>mdi-arrow-collapse-left</v-icon>
+                                </template>
+                                <v-list-item-title class="pl-6">Hide</v-list-item-title>
                             </v-list-item>
                             <v-list-item class="navigation-button" @click="themeSelectionDialog = true;">
-                                <v-icon> mdi-palette </v-icon>
-                                <span class="pl-6"> Theme</span>
+                                <template #prepend>
+                                    <v-icon>mdi-palette</v-icon>
+                                </template>
+                                <v-list-item-title class="pl-6">Theme</v-list-item-title>
                             </v-list-item>
                             <v-list-item class="navigation-button navigation-language-button" @click="languageSelectionDialog = true;">
-                                <v-img class="border" :src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'" max-width="26" height="17"></v-img>
-                                <span class="pl-6"> Language</span>
+                                <template #prepend>
+                                    <v-img class="navigation-flag border" :src="selectedLanguageFlagSource" width="26" max-width="26" height="17" cover></v-img>
+                                </template>
+                                <v-list-item-title class="pl-6">Language</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </template>
@@ -72,7 +82,7 @@
                             <v-icon>mdi-palette</v-icon>
                         </v-btn>
                         <v-btn id="language" rounded class="mini-drawer-button" @click="languageSelectionDialog = true" title="Select language" variant="text">
-                            <v-img :src="'/images/flags/' + selectedLanguage.toLowerCase() + '.png'" max-width="31" height="20"></v-img>
+                            <v-img class="navigation-flag" :src="selectedLanguageFlagSource" width="31" max-width="31" height="20" cover></v-img>
                         </v-btn>
                         </div>
                     </template>
@@ -185,6 +195,13 @@
                 }
 
                 return themes?.light?.background || '#F2F3F5';
+            },
+            selectedLanguageFlagSource() {
+                if (!this.selectedLanguage) {
+                    return '';
+                }
+
+                return '/images/flags/' + this.selectedLanguage.toLowerCase() + '.png';
             },
             isDrawerOpen() {
                 return this.display.mdAndUp || this.drawer;

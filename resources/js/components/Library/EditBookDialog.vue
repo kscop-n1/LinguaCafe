@@ -141,7 +141,7 @@
             }
         },
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             bookId: Number,
             bookName: String,
             bookCover: String

@@ -57,7 +57,7 @@
                     :show-current="false"
                     color="primary"
                     header-color="primary"
-                    @change="datePickerChanged"
+                    @update:model-value="datePickerChanged"
                 >
                     <v-spacer></v-spacer>
                     <v-btn rounded @click="showDatePicker = false" variant="text">Close</v-btn>

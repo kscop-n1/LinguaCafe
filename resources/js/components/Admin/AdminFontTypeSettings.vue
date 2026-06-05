@@ -36,12 +36,12 @@
             class="ma-4 mb-0 no-hover border"
             :headers="[
                 {
-                    text: 'Font',
-                    value: 'name',
+                    title: 'Font',
+                    key: 'name',
                 },
                 {
-                    text: 'Actions',
-                    value: 'actions',
+                    title: 'Actions',
+                    key: 'actions',
                     sortable: false,
                     width: '120px',
                     align: 'center',

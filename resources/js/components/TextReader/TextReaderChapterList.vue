@@ -64,12 +64,12 @@
         data: function() {
             return {
                 headers: [
-                    { text: 'Name', value: 'name', align: 'center' },
-                    { text: 'Words', value: 'wordCount.total', align: 'center' },
-                    { text: 'Unique', value: 'wordCount.unique', align: 'center' },
-                    { text: 'Highlighted', value: 'wordCount.highlighted', align: 'center' },
-                    { text: 'New', value: 'wordCount.new', align: 'center' },
-                    { text: 'Read', value: 'actions', align: 'center', sortable: false },
+                    { title: 'Name', key: 'name', align: 'center' },
+                    { title: 'Words', key: 'wordCount.total', align: 'center' },
+                    { title: 'Unique', key: 'wordCount.unique', align: 'center' },
+                    { title: 'Highlighted', key: 'wordCount.highlighted', align: 'center' },
+                    { title: 'New', key: 'wordCount.new', align: 'center' },
+                    { title: 'Read', key: 'actions', align: 'center', sortable: false },
                 ],
                 localChapters: [],
                 loading: false,
@@ -83,12 +83,12 @@
             }
         },
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             bookId: Number,
             currentChapterId: Number
         },
         watch: {
-            value(isOpen) {
+            modelValue(isOpen) {
                 if (isOpen) {
                     this.loadChapters();
                 }
@@ -105,7 +105,7 @@
                 this.updateValue(false);
             },
             loadChapters() {
-                if (!this.value || !this.bookId) {
+                if (!this.modelValue || !this.bookId) {
                     return;
                 }
 

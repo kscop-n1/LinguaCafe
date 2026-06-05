@@ -3,7 +3,7 @@
         <v-card id="delete-book-chapter-dialog" class="rounded-lg">
             <v-progress-linear
                 class="delete-dialog-delay"
-                :value="deletionEnabledDelay"
+                :model-value="deletionEnabledDelay"
                 color="error"
                 height="8"
             ></v-progress-linear>
@@ -33,7 +33,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             chapterId: Number,
             chapterName: String,
         },

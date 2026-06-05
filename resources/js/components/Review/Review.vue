@@ -91,7 +91,7 @@
                     bg-color="foreground"
                     background-opacity="1"
                     height="36"
-                    :value="correctReviews / totalReviews * 100"
+                    :model-value="reviewProgressPercentage"
                     class="rounded-pill border mx-6"
                 >
                 </v-progress-linear>
@@ -388,6 +388,11 @@
             }
         },
         props: {
+        },
+        computed: {
+            reviewProgressPercentage() {
+                return this.totalReviews > 0 ? this.correctReviews / this.totalReviews * 100 : 0;
+            },
         },
         mounted: function() {
             var data = {

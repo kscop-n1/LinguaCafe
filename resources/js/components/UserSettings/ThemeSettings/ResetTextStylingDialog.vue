@@ -37,7 +37,7 @@
 <script>
     export default {
         props: {
-            value : Boolean
+            modelValue: Boolean
         },
         emits: ['input', 'reset'],
         data: function() {

@@ -18,6 +18,10 @@ app.mixin({
             return this.$vuetify?.theme?.current?.value?.colors || this.$vuetify?.theme?.global?.current?.value?.colors || {};
         },
         dialogValue() {
+            if (this.modelValue !== undefined) {
+                return this.modelValue;
+            }
+
             return this.$attrs?.modelValue !== undefined ? this.$attrs.modelValue : this.value;
         },
     },

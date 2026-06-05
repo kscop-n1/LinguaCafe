@@ -135,7 +135,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
         },
         emits: ['update:modelValue'],
         data: function() {

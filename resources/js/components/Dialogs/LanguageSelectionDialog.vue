@@ -72,7 +72,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
         },
         emits: ['update:modelValue'],
         data: function() {
@@ -83,7 +83,7 @@
             };
         },
         watch: { 
-            value: function(newVal, oldVal) {
+            modelValue: function(newVal) {
                 if (newVal) {
                     this.loadLanguages();
                 }

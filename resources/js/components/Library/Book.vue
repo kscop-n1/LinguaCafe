@@ -129,7 +129,7 @@
                     mandatory
                     rounded
                     density="compact"
-                    @change="saveWordCountDisplayType"
+                    @update:model-value="saveWordCountDisplayType"
                     title="Word count display type"
                 >
                     <v-btn small class="px-1" min-width="40px">

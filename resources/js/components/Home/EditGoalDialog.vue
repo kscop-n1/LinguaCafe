@@ -55,7 +55,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             _id: Number,
             _name: String,
             _goalQuantity: Number,

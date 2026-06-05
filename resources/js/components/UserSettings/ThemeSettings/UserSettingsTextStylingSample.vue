@@ -22,7 +22,7 @@
                 mandatory
                 rounded
                 density="compact"
-                @change="updateSampleTextLanguage"
+                @update:model-value="updateSampleTextLanguage"
             >
                 <v-btn 
                     v-for="(language, languageIndex) in languages" 

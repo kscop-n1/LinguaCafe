@@ -160,10 +160,10 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" density="compact">
-                                <v-list-item :class="{'v-list-item--active': filters.orderBy == 'words'}" @click="applyFilter('orderBy', 'words')"><v-icon class="mr-1">mdi-sort-alphabetical-ascending</v-icon>Word</v-list-item>
-                                <v-list-item :class="{'v-list-item--active': filters.orderBy == 'words desc'}" @click="applyFilter('orderBy', 'words desc')"><v-icon class="mr-1">mdi-sort-alphabetical-descending</v-icon>Word</v-list-item>
-                                <v-list-item :class="{'v-list-item--active': filters.orderBy == 'stage'}" @click="applyFilter('orderBy', 'stage')"><v-icon class="mr-1">mdi-sort-numeric-ascending</v-icon>Level</v-list-item>
-                                <v-list-item :class="{'v-list-item--active': filters.orderBy == 'stage desc'}" @click="applyFilter('orderBy', 'stage desc')"><v-icon class="mr-1">mdi-sort-numeric-descending</v-icon>Level</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-alphabetical-ascending" :class="{'v-list-item--active': filters.orderBy == 'words'}" @click="applyFilter('orderBy', 'words')">Word</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-alphabetical-descending" :class="{'v-list-item--active': filters.orderBy == 'words desc'}" @click="applyFilter('orderBy', 'words desc')">Word</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-numeric-ascending" :class="{'v-list-item--active': filters.orderBy == 'stage'}" @click="applyFilter('orderBy', 'stage')">Level</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-numeric-descending" :class="{'v-list-item--active': filters.orderBy == 'stage desc'}" @click="applyFilter('orderBy', 'stage desc')">Level</v-list-item>
                         </v-list>
                     </v-menu>
 
@@ -274,10 +274,10 @@
                 class="my-6"
                 v-model="currentPage"
                 :length="pageCount"
-                :total-visible="10"
+                :total-visible="paginationTotalVisible"
                 prev-icon="mdi-menu-left"
                 next-icon="mdi-menu-right"
-                @input="moveToPage(currentPage)"
+                @update:model-value="moveToPage"
             ></v-pagination>
         </div>
     </v-container>
@@ -319,12 +319,16 @@
                     text: ''
                 },
                 languageSpaces: true,
+                windowWidth: window.innerWidth,
             }
         },
         props: {
             language: String
         },
         computed: {
+            paginationTotalVisible() {
+                return this.windowWidth < 600 ? 5 : 10;
+            },
             selectedBook() {
                 return this.books[this.filters.bookIndex] || null;
             },
@@ -335,6 +339,10 @@
             document.getElementById('app')?.addEventListener('click', () => { this.visiblePopup = ''; });
             this.syncFiltersFromRoute();
             this.loadVocabularySearchPage();
+            window.addEventListener('resize', this.updateWindowWidth);
+        },
+        beforeUnmount() {
+            window.removeEventListener('resize', this.updateWindowWidth);
         },
         watch: {
             '$route.params': {
@@ -345,6 +353,9 @@
             }
         },
         methods: {
+            updateWindowWidth() {
+                this.windowWidth = window.innerWidth;
+            },
             syncFiltersFromRoute() {
                 if (this.$route.params.text === undefined) {
                     return;

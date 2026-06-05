@@ -129,7 +129,7 @@
             }
         },
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             bookId: Number,
             chapterId: Number
         },

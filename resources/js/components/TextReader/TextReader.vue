@@ -156,8 +156,8 @@
                             <v-data-table
                                 class="no-hover"
                                 :headers="[
-                                    { text: 'Word', value: 'word' },
-                                    { text: 'Level', value: 'stage', align: 'center', width: '180px'},
+                                    { title: 'Word', key: 'word' },
+                                    { title: 'Level', key: 'stage', align: 'center', width: '180px'},
                                 ]"
                                 :items="leveledUpWordsAndPhrases.wordsAndPhrases"
                                 :items-per-page="-1"

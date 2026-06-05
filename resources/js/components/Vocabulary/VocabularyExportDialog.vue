@@ -192,7 +192,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             language: String,
             languageSpaces: Boolean,
             sampleWords: Array

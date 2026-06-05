@@ -41,14 +41,14 @@
         <v-data-table
             class="my-4 mb-0 no-hover"
             :headers="[
-                { text: 'Chapter', value: 'name'},
-                { text: 'Read', value: 'read_count', align: 'center' },
-                { text: 'Total', value: 'wordCount.total', align: 'center' },
-                { text: 'Unique', value: 'wordCount.unique', align: 'center' },
-                { text: 'Known', value: 'wordCount.known', align: 'center' },
-                { text: 'Highlighted', value: 'wordCount.highlighted', align: 'center' },
-                { text: 'New', value: 'wordCount.new', align: 'center' },
-                { text: 'Actions', value: 'actions', sortable: false },
+                { title: 'Chapter', key: 'name'},
+                { title: 'Read', key: 'read_count', align: 'center' },
+                { title: 'Total', key: 'wordCount.total', align: 'center' },
+                { title: 'Unique', key: 'wordCount.unique', align: 'center' },
+                { title: 'Known', key: 'wordCount.known', align: 'center' },
+                { title: 'Highlighted', key: 'wordCount.highlighted', align: 'center' },
+                { title: 'New', key: 'wordCount.new', align: 'center' },
+                { title: 'Actions', key: 'actions', sortable: false },
             ]"
             :items="chapters"
             :loading="chaptersLoading"

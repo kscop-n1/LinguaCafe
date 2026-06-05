@@ -198,7 +198,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             itemId: {
                 type: Number,
                 default: -1

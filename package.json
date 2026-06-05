@@ -10,8 +10,10 @@
         "test:php": "docker compose -f docker-compose-dev.yml run --rm --no-deps --entrypoint sh webserver -lc \"cd /var/www/html && ./vendor/bin/phpunit\"",
         "check:deps": "node scripts/check-deps.js",
         "check:legacy": "node scripts/check-legacy.js",
+        "check:legacy:hard": "sh scripts/check-legacy-hard.sh",
+        "audit:migration:review": "sh scripts/audit-migration-review.sh",
         "check:css": "node scripts/check-css-legacy.js",
-        "check:migration": "npm run check:deps && npm run check:legacy"
+        "check:migration": "npm run check:deps && npm run check:legacy:hard && npm run production"
     },
     "devDependencies": {
         "axios": "^1.16.1",

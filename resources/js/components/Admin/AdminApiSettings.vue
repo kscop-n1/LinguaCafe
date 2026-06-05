@@ -95,7 +95,7 @@
                             <v-progress-linear
                                 color="primary"
                                 height="36"
-                                :value="this.characterUsed / this.characterLimit * 100"
+                                :model-value="deeplUsagePercentage"
                                 class="rounded-pill mt-6 mb-2"
                             >
                                 <strong></strong>
@@ -335,6 +335,11 @@
         },
         props: {
             language: String
+        },
+        computed: {
+            deeplUsagePercentage() {
+                return this.characterLimit > 0 ? this.characterUsed / this.characterLimit * 100 : 0;
+            },
         },
         mounted() {
             this.loadSettings();

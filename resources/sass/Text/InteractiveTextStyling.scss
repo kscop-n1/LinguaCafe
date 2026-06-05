@@ -177,10 +177,10 @@
 
 .text-block-group.spaceless-language.plain-text-mode .word,
 .text-block-group.spaceless-language.plain-text-mode .word:hover {
-    margin-left: none !important;
-    margin-right: none !important;
-    padding-left: none !important;
-    padding-right: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     background-color: rgba(0, 0, 0, 0) !important;
     color: rgb(var(--v-theme-text)) !important;
     border: none !important;

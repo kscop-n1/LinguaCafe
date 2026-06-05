@@ -283,7 +283,7 @@
         }
     },
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             language: String,
         },
         mounted() {

@@ -39,11 +39,11 @@
             <v-data-table
                 class="my-4 mb-0 no-hover"
                 :headers="[
-                    { text: 'Name', value: 'name' },
-                    { text: 'E-mail', value: 'email' },
-                    { text: 'Created', value: 'created_at_text', align: 'center' },
-                    { text: 'Admin', value: 'is_admin', align: 'center' },
-                    { text: 'Actions', value: 'actions', align: 'center', sortable: false },
+                    { title: 'Name', key: 'name' },
+                    { title: 'E-mail', key: 'email' },
+                    { title: 'Created', key: 'created_at_text', align: 'center' },
+                    { title: 'Admin', key: 'is_admin', align: 'center' },
+                    { title: 'Actions', key: 'actions', align: 'center', sortable: false },
                 ]"
                 :items="users"
                 :loading="loading"

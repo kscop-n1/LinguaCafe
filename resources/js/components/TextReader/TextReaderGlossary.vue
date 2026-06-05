@@ -58,7 +58,7 @@
             }
         },
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             glossary: Array
         },
         mounted() {

@@ -19,7 +19,7 @@
             <v-progress-circular
                 :size="progressCircleSize"
                 :width="progressCircleWidth"
-                :value="percentage"
+                :model-value="percentage"
                 :rotate="270"
                 :color="color"
                 class="mb-5"

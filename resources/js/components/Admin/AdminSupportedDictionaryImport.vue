@@ -129,7 +129,7 @@
                             <v-progress-linear
                                 color="primary"
                                 height="36"
-                                :value="importingProgressPercentage"
+                                :model-value="importingProgressPercentage"
                                 class="rounded-pill mt-2"
                             >
                                 <strong>{{ importingProgressPercentage }}%</strong>

@@ -5,6 +5,23 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.40<v-spacer /> 2026.06.05.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed confirmed Vue 3 and Vuetify 3 migration regressions in the language dialog, sidebar language flag rendering, vocabulary pagination, and admin table headers.</li>
+                    <li>Fixed confirmed app-owned invalid CSS declarations in text styling, vocabulary search, and cursor rules.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Split migration validation into hard checks and review warnings, then classified the current migration review candidates without mass-rewriting broad false positives.</li>
+                    <li>Added release notes with GHCR Docker image update instructions for v0.5.40.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.39<v-spacer /> 2026.06.05.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

@@ -23,7 +23,7 @@
 <script>
     export default {
         props: {
-            value : Boolean,
+            modelValue: Boolean,
             title: {
                 type: String,
                 default: 'Error'
