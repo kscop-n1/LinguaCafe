@@ -60,3 +60,62 @@
         vertical-align: middle;
     }
 }
+
+#books .book.detailed.chapters-card {
+    width: min(1180px, 100%);
+    max-width: 1180px;
+}
+
+#books .book.detailed.chapters-card > .v-card-text {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.book-chapters {
+    width: 100%;
+    max-width: 100%;
+
+    .book-chapters-table {
+        width: 100%;
+    }
+
+    .v-table__wrapper {
+        overflow-x: auto;
+    }
+
+    .v-data-table th,
+    .v-data-table td {
+        white-space: nowrap;
+    }
+
+    .v-data-table th:first-child,
+    .v-data-table td:first-child {
+        white-space: normal;
+        min-width: 220px;
+    }
+
+    .chapter-actions {
+        gap: 4px;
+        min-width: 76px;
+    }
+
+    .chapter-actions .v-btn {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+}
+
+@media (max-width: 700px) {
+    #books .book.detailed.chapters-card > .v-card-text {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .book-chapters .v-data-table th:first-child,
+    .book-chapters .v-data-table td:first-child {
+        min-width: 180px;
+    }
+}

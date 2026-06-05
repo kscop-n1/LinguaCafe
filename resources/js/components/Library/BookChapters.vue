@@ -1,5 +1,5 @@
 <template>
-    <v-container class="book-chapters py-0">
+    <v-container fluid class="book-chapters py-0 px-0">
         <!-- Error dialog -->
         <error-dialog
             v-if="errorDialog.active"
@@ -39,7 +39,7 @@
 
         <!-- Chapter list -->
         <v-data-table
-            class="my-4 mb-0 no-hover"
+            class="book-chapters-table my-4 mb-0 no-hover"
             :headers="[
                 { title: 'Chapter', key: 'name'},
                 { title: 'Read', key: 'read_count', align: 'center' },
@@ -191,13 +191,13 @@
 
             <!-- Actions -->
             <template v-slot:item.actions="{ item }">
-                <div class="d-flex justify-center">
+                <div class="chapter-actions d-flex justify-center">
                     <!-- Action buttons -->
                     <template v-if="item.processing_status == 'processed'">
-                        <v-btn icon :to="'/chapters/read/' + item.id" title="Read"><v-icon>mdi-book-open-variant</v-icon></v-btn>
+                        <v-btn icon density="compact" size="small" :to="'/chapters/read/' + item.id" title="Read"><v-icon>mdi-book-open-variant</v-icon></v-btn>
                         <v-menu rounded location="bottom end" :offset="[0, -5]">
                             <template v-slot:activator="{ props }">
-                                <v-btn icon v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
+                                <v-btn icon density="compact" size="small" v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
                             <v-list class="pa-0" density="compact" width="100">
                                 <v-list-item @click="showEditChapterDialog(item.id)"><v-list-item-title>Edit</v-list-item-title></v-list-item>

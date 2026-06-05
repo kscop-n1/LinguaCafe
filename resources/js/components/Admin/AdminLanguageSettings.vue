@@ -1,14 +1,14 @@
 <template>
     <div id="admin-language-settings">
         <!-- Install language dialog -->
-        <admin-install-language-dialog 
+        <admin-install-language-dialog
             v-model="installLanguageDialog.active"
             :language="installLanguageDialog.language"
             @language-installed="loadLanguages"
         />
 
         <!-- Uninstall languages dialog -->
-        <admin-uninstall-languages-dialog 
+        <admin-uninstall-languages-dialog
             v-model="uninstallLanguagesDialog"
         />
 
@@ -33,16 +33,17 @@
             <tbody>
                 <tr v-for="(language, languageIndex) in languages" :key="languageIndex">
                     <!-- Flag -->
-                    <td>
-                        <v-img 
+                    <td class="admin-language-flag-cell">
+                        <v-img
                             eager
-                            class="border my-2" 
-                            :src="'/images/flags/' + language.name.toLowerCase() + '.png'" 
-                            max-width="43" 
+                            class="admin-language-flag border my-2 mx-auto"
+                            :src="'/images/flags/' + language.name.toLowerCase() + '.png'"
+                            width="43"
+                            max-width="43"
                             height="28"
-                        ></v-img> 
+                        ></v-img>
                     </td>
-                    
+
                     <!-- Language -->
                     <td>
                         {{ language.name }}
@@ -54,13 +55,13 @@
                         <v-icon color="success" v-if="language.installed">
                             mdi-check-circle
                         </v-icon>
-                        
+
                         <!-- Install button -->
-                        <v-btn 
+                        <v-btn
                             v-else
-                            rounded 
-                            variant="flat" 
-                            color="primary" 
+                            rounded
+                            variant="flat"
+                            color="primary"
                             @click="installLanguage(language.name)"
                         >
                             <v-icon class="mr-1">mdi-download</v-icon>
@@ -88,7 +89,7 @@
                             type="card"
                         ></v-skeleton-loader>
                     </td>
-                    
+
                     <!-- Language skeleton-->
                     <td>
                         <v-skeleton-loader

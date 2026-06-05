@@ -120,7 +120,7 @@
         </v-card>
 
         <!-- Chapters -->
-        <v-card variant="outlined" class="book opened detailed rounded-lg mx-auto my-6">
+        <v-card variant="outlined" class="book opened detailed chapters-card rounded-lg mx-auto my-6">
             <v-card-title class="book-title pa-3">
                 Chapters
                 <v-spacer />

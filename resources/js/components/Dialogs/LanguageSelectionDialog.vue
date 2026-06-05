@@ -41,23 +41,24 @@
                 </v-alert>
 
                 <!-- List of supported and installed languages -->
-                <div id="language-buttons" class="d-flex flex-wrap mt-2" v-if="!loading">
-                    <v-btn 
+                <div id="language-buttons" class="language-button-grid mt-3" v-if="!loading">
+                    <v-btn
                         v-for="(language, index) in supportedLanguages"
                         rounded
                         variant="flat"
                         :key="index"
-                        class="language-button my-1 mx-1" 
-                        @click="selectLanguage(language)" 
+                        class="language-button"
+                        @click="selectLanguage(language)"
                     >
-                        <v-img 
+                        <v-img
                             eager
-                            class="border" 
-                            :src="'/images/flags/' + language.toLowerCase() + '.png'" 
-                            max-width="43" 
+                            class="border"
+                            :src="'/images/flags/' + language.toLowerCase() + '.png'"
+                            width="43"
+                            max-width="43"
                             height="28"
-                        ></v-img> 
-                        <span>{{ language }}</span>
+                        ></v-img>
+                        <span class="language-button-label">{{ language }}</span>
                     </v-btn>
                 </div>
             </v-card-text>
@@ -82,7 +83,7 @@
                 notInstalledLanguages: 0,
             };
         },
-        watch: { 
+        watch: {
             modelValue: function(newVal) {
                 if (newVal) {
                     this.loadLanguages();
@@ -96,7 +97,7 @@
                 if (this.$route.path !== '/admin/languages') {
                     this.$router.push('/admin/languages');
                 }
-                
+
                 this.close();
             },
             loadLanguages() {

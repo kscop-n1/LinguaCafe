@@ -557,3 +557,29 @@
         }
     }
 }
+.calendar-popup-menu {
+    #calendar-popup-date {
+        align-items: center;
+        min-height: 44px;
+
+        #calendar-popup-date-text {
+            margin-top: 0px;
+            line-height: 32px;
+        }
+    }
+
+    #calendar-popup-reviews-due {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .calendar-popup-icon-button.v-btn {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        border-radius: 50% !important;
+    }
+}

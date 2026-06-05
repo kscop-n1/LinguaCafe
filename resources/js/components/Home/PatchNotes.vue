@@ -5,6 +5,22 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.41<v-spacer /> 2026.06.05.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed additional desktop and tablet UI regressions in the language selector, sidebar bottom language control, admin tabs, installable language flags, goal dialog, calendar popover, book chapters table, and reader side toolbar.</li>
+                    <li>Restored circular reader toolbar buttons and improved reusable table, modal, tab, flag, and action-button spacing without screenshot-specific positioning.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Added release notes with GHCR Docker image update instructions for v0.5.41.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.40<v-spacer /> 2026.06.05.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

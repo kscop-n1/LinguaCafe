@@ -1,13 +1,13 @@
 <template>
     <v-container v-if="$store.getters['shared/userAdmin']">
-        <v-tabs v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden" @update:model-value="tabChanged">
-            <v-tab>Dashboard</v-tab>
-            <v-tab>Users</v-tab>
-            <v-tab>Languages</v-tab>
-            <v-tab>Dictionaries</v-tab>
-            <v-tab>Fonts</v-tab>
-            <v-tab>API</v-tab>
-            <v-tab>Reviews</v-tab>
+        <v-tabs v-model="tab" bg-color="foreground" class="admin-settings-tabs rounded-lg border overflow-hidden" @update:model-value="tabChanged">
+            <v-tab :value="0">Dashboard</v-tab>
+            <v-tab :value="1">Users</v-tab>
+            <v-tab :value="2">Languages</v-tab>
+            <v-tab :value="3">Dictionaries</v-tab>
+            <v-tab :value="4">Fonts</v-tab>
+            <v-tab :value="5">API</v-tab>
+            <v-tab :value="6">Reviews</v-tab>
         </v-tabs>
         <v-window v-model="tab" id="admin-tab-items" elevation="0" class="no-background rounded-lg mt-4 pa-6">
             <v-window-item :value="0">

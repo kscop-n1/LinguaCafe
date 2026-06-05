@@ -1,6 +1,22 @@
 #admin-language-settings {
-    td:nth-child(1) {
+    .admin-language-flag-cell {
+        width: 64px;
+        min-width: 64px;
+        padding-left: 14px;
+        padding-right: 6px;
+        vertical-align: middle;
+    }
+
+    .admin-language-flag {
         width: 43px;
+        height: 28px;
+        min-width: 43px;
+        display: block;
+    }
+
+    td:nth-child(2) {
+        vertical-align: middle;
+        white-space: nowrap;
     }
 
     th:nth-child(2),

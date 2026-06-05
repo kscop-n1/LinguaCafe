@@ -1,73 +1,54 @@
 .language-selection-dialog {
-    width: 861px;
+    width: min(861px, calc(100vw - 32px));
 
-    #language-buttons {
-        button.v-btn.language-button {
-            position: relative;
-            width: 260px;
-            height: 56px;
-            
-            .v-btn__content {
-                width: 260px;
-                height: 56px;
-
-                span {
-                    position: absolute;
-                    left: 120px;
-                }
-
-                .v-image.v-responsive {
-                    position: absolute;
-                    left: 40px;
-                }
-            }
-        }
+    #language-buttons.language-button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 10px 12px;
+        align-items: stretch;
     }
-}
 
-@media (max-width: 910px) {
-    .language-selection-dialog {
-        width: 600px;
+    button.v-btn.language-button {
+        width: 100%;
+        min-width: 0px;
+        height: 56px;
+        justify-content: flex-start;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+
+        .v-btn__content {
+            display: grid;
+            grid-template-columns: 43px minmax(0, 1fr);
+            align-items: center;
+            justify-content: start;
+            column-gap: 14px;
+            width: 100%;
+            min-width: 0px;
+            text-align: left;
+        }
+
+        .v-image.v-responsive {
+            width: 43px;
+            height: 28px;
+            flex: 0 0 43px;
+        }
+
+        .language-button-label {
+            min-width: 0px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 20px;
+        }
     }
 }
 
 @media (max-width: 645px) {
     .language-selection-dialog {
-        width: unset;
-        max-width: 635px;
+        width: calc(100vw - 24px);
 
-        #language-buttons {
-            justify-content: center;
-
-            button.v-btn.language-button {
-                width: 100%;
-                max-width: 500px;
-                
-                .v-btn__content {
-                    width: 100%;
-                    max-width: 500px;
-                }
-            }
-        }
-    }
-}
-
-@media (max-width: 400px) {
-    .language-selection-dialog {
-        #language-buttons {
-            button.v-btn.language-button {
-                .v-btn__content {
-                    span {
-                        position: absolute;
-                        left: 80px;
-                    }
-    
-                    .v-image.v-responsive {
-                        position: absolute;
-                        left: 16px;
-                    }
-                }
-            }
+        #language-buttons.language-button-grid {
+            grid-template-columns: 1fr;
         }
     }
 }
