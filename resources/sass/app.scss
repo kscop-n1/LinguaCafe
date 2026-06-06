@@ -956,6 +956,20 @@ div.v-data-table {
         line-height: 20px;
     }
 
+    .navigation-bottom-title {
+        display: inline-flex;
+        align-items: center;
+        min-height: 20px;
+        padding-left: 24px;
+        line-height: 20px;
+    }
+
+    .navigation-language-button .v-list-item__prepend {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .navigation-language-button .v-img,
     .navigation-flag {
         width: 26px !important;

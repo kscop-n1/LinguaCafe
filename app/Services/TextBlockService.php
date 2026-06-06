@@ -94,10 +94,9 @@ class TextBlockService
         be skipped (specialc characters mostly).
     */
     public function getWordCount() {
-        $wordsToSkip = config('linguacafe.words_to_skip');      
         $wordCount = 0;
         foreach ($this->processedWords as $word) {
-            if (!in_array($word->word, $wordsToSkip, true)) {
+            if (self::isVocabularyToken($word->word, $this->language)) {
                 $wordCount ++;
             }
         }
@@ -105,9 +104,40 @@ class TextBlockService
         return $wordCount;
     }
 
-    /* 
-        Sends the raw text to python tokenizer service, and stores the result.
-    */
+    public static function isVocabularyToken($token, $language) {
+        if ($token === null) {
+            return false;
+        }
+
+        $token = trim((string) $token);
+        if ($token === "") {
+            return false;
+        }
+
+        $wordsToSkip = config("linguacafe.words_to_skip");
+        if (in_array($token, $wordsToSkip, true) || in_array(mb_strtolower($token, "UTF-8"), $wordsToSkip, true)) {
+            return false;
+        }
+
+        if (is_numeric($token)) {
+            return false;
+        }
+
+        if (preg_match("/^[+\\-]?\\d+d\\d+$/iu", $token)) {
+            return false;
+        }
+
+        if (preg_match("/^[+\\-]?\\d+(?:d\\d+)?(?:\\/[+\\-]?\\d+(?:d\\d+)?)+$/iu", $token)) {
+            return false;
+        }
+
+        if (preg_match("/^[\\x27’]s$/iu", $token)) {
+            return false;
+        }
+
+        return preg_match("/[\\p{L}\\p{M}]/u", $token) === 1;
+    }
+
     public function tokenizeRawText() {
         $text = $this->rawText;
         $text = preg_replace("/ {2,}/", " ", str_replace(["\r\n", "\r", "\n"], " NEWLINE ", $text));
@@ -303,6 +333,10 @@ class TextBlockService
 
             $encounteredWordsToInsert = [];
             for ($wordIndex = 0; $wordIndex < count($this->processedWords); $wordIndex ++) {
+                if (!self::isVocabularyToken($this->processedWords[$wordIndex]->word, $this->language)) {
+                    continue;
+                }
+
                 if (
                     in_array(mb_strtolower($this->processedWords[$wordIndex]->word, 'UTF-8'), $encounteredWords, true) ||
                     $this->processedWords[$wordIndex]->word === 'NEWLINE'
@@ -348,13 +382,19 @@ class TextBlockService
 
                 $encounteredWordsToInsert[] = $encounteredWord;
             }
-            DB::table('encountered_words')->insert($encounteredWordsToInsert);
+            if (count($encounteredWordsToInsert)) {
+                DB::table('encountered_words')->insert($encounteredWordsToInsert);
+            }
         });
     }
 
     public function collectUniqueWords() {
         $this->uniqueWords = [];
         for ($wordIndex = 0; $wordIndex < count($this->processedWords); $wordIndex ++) {
+            if (!self::isVocabularyToken($this->processedWords[$wordIndex]->word, $this->language)) {
+                continue;
+            }
+
             if (!in_array(mb_strtolower($this->processedWords[$wordIndex]->word), $this->uniqueWords, true)) {
                 $this->uniqueWords[] = mb_strtolower($this->processedWords[$wordIndex]->word);
             }
@@ -550,9 +590,15 @@ class TextBlockService
                 return $item->word == mb_strtolower($word->word);
             });
 
-            $word->stage = $encounteredWords[$wordId]->stage;
-            $word->lookup_count = $encounteredWords[$wordId]->lookup_count;
-            $word->furigana = $encounteredWords[$wordId]->reading;
+            if ($wordId === false) {
+                $word->stage = 1;
+                $word->lookup_count = 0;
+                $word->furigana = '';
+            } else {
+                $word->stage = $encounteredWords[$wordId]->stage;
+                $word->lookup_count = $encounteredWords[$wordId]->lookup_count;
+                $word->furigana = $encounteredWords[$wordId]->reading;
+            }
 
             $this->words[] = $word;
         }

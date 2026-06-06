@@ -83,13 +83,13 @@
                     <span id="calendar-popup-date-text">{{ popupMenu.day.fullDate }}</span>
                     <v-spacer></v-spacer>
                     <span id="calendar-popup-reviews-due">
-                        <v-btn icon @click.stop="popupMenu.tab = 1;" v-if="popupMenu.tab == 0">
+                        <v-btn icon class="calendar-popup-icon-button" density="compact" size="small" title="Edit achievements" @click.stop="popupMenu.tab = 1;" v-if="popupMenu.tab == 0">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn icon @click.stop="popupMenu.tab = 0;" v-if="popupMenu.tab == 1">
+                        <v-btn icon class="calendar-popup-icon-button" density="compact" size="small" title="Back to day summary" @click.stop="popupMenu.tab = 0;" v-if="popupMenu.tab == 1">
                             <v-icon>mdi-arrow-left</v-icon>
                         </v-btn>
-                        <v-btn icon @click="popupMenu.active = false;">
+                        <v-btn icon class="calendar-popup-icon-button" density="compact" size="small" title="Close day details" @click="popupMenu.active = false;">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </span>

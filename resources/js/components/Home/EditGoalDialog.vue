@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="500px" height="300px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="500px" content-class="edit-goal-dialog">
         <v-card class="rounded-lg">
             <v-card-title>
                 <span class="text-h5">Edit daily {{ $props._name.toLowerCase() }} goal</span>

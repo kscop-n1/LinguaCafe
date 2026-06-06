@@ -55,19 +55,19 @@
                                 <template #prepend>
                                     <v-icon>mdi-arrow-collapse-left</v-icon>
                                 </template>
-                                <v-list-item-title class="pl-6">Hide</v-list-item-title>
+                                <v-list-item-title class="navigation-bottom-title">Hide</v-list-item-title>
                             </v-list-item>
                             <v-list-item class="navigation-button" @click="themeSelectionDialog = true;">
                                 <template #prepend>
                                     <v-icon>mdi-palette</v-icon>
                                 </template>
-                                <v-list-item-title class="pl-6">Theme</v-list-item-title>
+                                <v-list-item-title class="navigation-bottom-title">Theme</v-list-item-title>
                             </v-list-item>
                             <v-list-item class="navigation-button navigation-language-button" @click="languageSelectionDialog = true;">
                                 <template #prepend>
                                     <v-img class="navigation-flag border" :src="selectedLanguageFlagSource" width="26" max-width="26" height="17" cover></v-img>
                                 </template>
-                                <v-list-item-title class="pl-6">Language</v-list-item-title>
+                                <v-list-item-title class="navigation-bottom-title">Language</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </template>

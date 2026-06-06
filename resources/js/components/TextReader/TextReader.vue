@@ -7,7 +7,12 @@
 
         <!-- Toolbar -->
         <div id="reader-box" :style="{'max-width': maximumTextWidthData[settings.maximumTextWidth]}" v-if="chapterId !== null">
-            <div id="toolbar-box">
+            <div
+                id="toolbar-box"
+                :class="{
+                    'vocabulary-sidebar-toolbar-offset': settings.vocabularySidebar && vocabularySidebarFits,
+                }"
+            >
                 <div v-if="!finished && !saving" id="toolbar" :class="{'d-flex': true}" :style="{'top': toolbarTop + 'px'}">
                     <v-btn title="Fullscreen" class="toolbar-button" icon @click="fullscreen" v-if="!fullscreenMode"><v-icon>mdi-arrow-expand-all</v-icon></v-btn>
                     <v-btn title="Exit fullscreen" class="toolbar-button" icon @click="exitFullscreen" v-if="fullscreenMode"><v-icon>mdi-arrow-collapse-all</v-icon></v-btn>
@@ -55,10 +60,12 @@
                     'vertical-text': settings.verticalText,
                     'rounded-lg': true,
                     'ml-2': true,
+                    'vocabulary-sidebar': settings.vocabularySidebar,
+                    'vocabulary-sidebar-fits': settings.vocabularySidebar && vocabularySidebarFits,
                 }"
                 :style="{
                     'height': $vuetify.display.mdAndUp ? 'calc(100% - 24px - 24px)' : 'calc(100% - 24px - 24px - 64px)',
-                    'padding-right': settings.vocabularySidebar && vocabularySidebarFits ? '400px !important' : '0px'
+                    'padding-right': settings.vocabularySidebar && vocabularySidebarFits ? '456px !important' : '0px'
                 }"
             >
                 <v-card-text id="reader-content" :class="{

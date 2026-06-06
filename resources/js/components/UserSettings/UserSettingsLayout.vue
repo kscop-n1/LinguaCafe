@@ -1,8 +1,8 @@
 <template>
     <v-container>
-        <v-tabs v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden">
-            <v-tab>Account</v-tab>
-            <v-tab>Themes</v-tab>
+        <v-tabs v-model="tab" bg-color="foreground" class="admin-settings-tabs user-settings-tabs rounded-lg border overflow-hidden">
+            <v-tab :value="0">Account</v-tab>
+            <v-tab :value="1">Theme</v-tab>
         </v-tabs>
         <v-window v-model="tab" id="admin-tab-items" elevation="0" class="no-background rounded-lg mt-4 pa-6">
             <v-window-item :value="0">

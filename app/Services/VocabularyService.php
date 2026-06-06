@@ -591,6 +591,8 @@ class VocabularyService {
         $filteredWords = [];
         $filteredWordIds = [];
         $filteredPhraseIds = [];
+        $useFilteredWordIds = false;
+        $hasChapterVocabularyFilter = $bookId !== -1 || $chapterId !== -1;
         if ($bookId !== -1) {
             $filteredChapters = $filteredChapters->where('book_id', $bookId);
         }
@@ -601,7 +603,7 @@ class VocabularyService {
         
         $filteredChapters = $filteredChapters->get();
 
-        if ($bookId !== -1) {
+        if ($hasChapterVocabularyFilter) {
             foreach ($filteredChapters as $filteredChapter) {
                 foreach ($filteredChapter->getUniquePhraseIds() as $phraseId) {
                     $filteredPhraseIds[intval($phraseId)] = true;
@@ -621,6 +623,27 @@ class VocabularyService {
             $filteredWords = array_keys($filteredWords);
             $filteredWordIds = array_keys($filteredWordIds);
             $filteredPhraseIds = array_keys($filteredPhraseIds);
+
+            if (count($filteredWordIds) > 0) {
+                $validWordIdSearch = EncounteredWord
+                    ::where('user_id', $userId)
+                    ->where('language', $language)
+                    ->whereIn('id', $filteredWordIds);
+
+                if (count($filteredWords) > 0) {
+                    $validWordIdSearch->whereIn('word', $filteredWords);
+                }
+
+                $validFilteredWordIds = $validWordIdSearch
+                    ->pluck('id')
+                    ->map(function($wordId) {
+                        return intval($wordId);
+                    })
+                    ->toArray();
+
+                $useFilteredWordIds = count($validFilteredWordIds) === count($filteredWordIds);
+                $filteredWordIds = $validFilteredWordIds;
+            }
         }
 
         // search for words and apply filters
@@ -636,8 +659,8 @@ class VocabularyService {
             });
         }
 
-        if ($bookId !== -1) {
-            if (count($filteredWordIds) > 0) {
+        if ($hasChapterVocabularyFilter) {
+            if ($useFilteredWordIds) {
                 $wordSearch->whereIn('id', $filteredWordIds);
             } else {
                 $wordSearch->whereIn('word', $filteredWords);
@@ -665,7 +688,7 @@ class VocabularyService {
             });
         }
 
-        if ($bookId !== -1) {
+        if ($hasChapterVocabularyFilter) {
             $phraseSearch->whereIn('id', $filteredPhraseIds);
         }
 
@@ -705,6 +728,7 @@ class VocabularyService {
 
         return $search;
     }
+
 
     public function searchKanji($userId, $language, $groupBy, $showUnknown) {
         $words = EncounteredWord

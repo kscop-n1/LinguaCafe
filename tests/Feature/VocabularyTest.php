@@ -232,4 +232,133 @@ class VocabularyTest extends TestCase
         $this->assertSame(1, $response->json("wordCount"));
         $this->assertSame($firstWord->id, $response->json("words.0.id"));
     }
+
+    public function test_book_filter_falls_back_when_unique_word_ids_are_missing_or_empty(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $book = $this->createVocabularyBook($user, "Migrated Book");
+
+        $alpha = $this->createVocabularyWord($user, "alpha");
+        $beta = $this->createVocabularyWord($user, "beta");
+        $this->createVocabularyWord($user, "outside");
+
+        $this->createVocabularyChapter($user, $book, ["alpha"], null);
+        $this->createVocabularyChapter($user, $book, ["beta"], []);
+
+        $response = $this->searchVocabularyWords($user, $book->id, -1);
+
+        $response->assertStatus(200);
+        $this->assertSame(2, $response->json("wordCount"));
+        $this->assertEqualsCanonicalizing([$alpha->id, $beta->id], $this->responseWordIds($response));
+    }
+
+    public function test_book_filter_falls_back_when_unique_word_ids_are_stale_or_mismatched(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $book = $this->createVocabularyBook($user, "Stale Id Book");
+
+        $expectedWord = $this->createVocabularyWord($user, "alpha");
+        $mismatchedWord = $this->createVocabularyWord($user, "wrong");
+        $this->createVocabularyWord($user, "outside");
+
+        $this->createVocabularyChapter($user, $book, ["alpha"], [$mismatchedWord->id]);
+
+        $response = $this->searchVocabularyWords($user, $book->id, -1);
+
+        $response->assertStatus(200);
+        $this->assertSame(1, $response->json("wordCount"));
+        $this->assertSame([$expectedWord->id], $this->responseWordIds($response));
+    }
+
+    public function test_chapter_filter_matches_book_filter_for_migrated_unique_words_fallback(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $book = $this->createVocabularyBook($user, "Chapter Filter Book");
+
+        $chapterWord = $this->createVocabularyWord($user, "chapterword");
+        $this->createVocabularyWord($user, "otherchapterword");
+
+        $chapter = $this->createVocabularyChapter($user, $book, ["chapterword"], null);
+        $this->createVocabularyChapter($user, $book, ["otherchapterword"], null);
+
+        $response = $this->searchVocabularyWords($user, -1, $chapter->id);
+
+        $response->assertStatus(200);
+        $this->assertSame(1, $response->json("wordCount"));
+        $this->assertSame([$chapterWord->id], $this->responseWordIds($response));
+    }
+
+    private function createVocabularyUser(string $language): User
+    {
+        $user = User::factory()->create();
+        $user->selected_language = $language;
+        $user->save();
+
+        return $user;
+    }
+
+    private function createVocabularyBook(User $user, string $name): Book
+    {
+        return Book::create([
+            "user_id" => $user->id,
+            "name" => $name,
+            "language" => $user->selected_language,
+        ]);
+    }
+
+    private function createVocabularyWord(User $user, string $word, array $attributes = []): EncounteredWord
+    {
+        return EncounteredWord::forceCreate(array_merge([
+            "user_id" => $user->id,
+            "language" => $user->selected_language,
+            "stage" => 2,
+            "word" => $word,
+            "base_word" => $word,
+            "base_word_reading" => "",
+            "kanji" => "",
+            "reading" => "",
+            "lemma" => "",
+            "translation" => "",
+        ], $attributes));
+    }
+
+    private function createVocabularyChapter(User $user, Book $book, array $uniqueWords, ?array $uniqueWordIds): Chapter
+    {
+        $chapter = new Chapter();
+        $chapter->user_id = $user->id;
+        $chapter->book_id = $book->id;
+        $chapter->name = "Chapter";
+        $chapter->read_count = 0;
+        $chapter->word_count = count($uniqueWords);
+        $chapter->language = $user->selected_language;
+        $chapter->raw_text = implode(" ", $uniqueWords);
+        $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
+        $chapter->unique_words = json_encode($uniqueWords);
+        $chapter->unique_word_ids = $uniqueWordIds === null ? null : json_encode($uniqueWordIds);
+        $chapter->unique_phrase_ids = json_encode([]);
+        $chapter->subtitle_timestamps = json_encode([]);
+        $chapter->save();
+
+        return $chapter;
+    }
+
+    private function searchVocabularyWords(User $user, int $bookId, int $chapterId)
+    {
+        return $this->actingAs($user)->postJson("/vocabulary/search", [
+            "text" => "anytext",
+            "book" => $bookId,
+            "chapter" => $chapterId,
+            "stage" => -999,
+            "phrases" => "only words",
+            "orderBy" => "words",
+            "translation" => "any",
+            "page" => 1,
+        ]);
+    }
+
+    private function responseWordIds($response): array
+    {
+        return array_column($response->json("words"), "id");
+    }
+
 }

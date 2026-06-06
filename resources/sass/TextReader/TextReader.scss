@@ -127,7 +127,7 @@
         display: inline-block;
         float: right;
         width: 44px;
-        z-index: 2;
+        z-index: 20;
         background-color: rgb(var(--v-theme-background));
         border-radius: 8px;
         padding: 24px 0px;
@@ -138,6 +138,7 @@
         flex-wrap: wrap;
         box-sizing: border-box;
         width: 44px;
+        z-index: 21;
         padding-left: 4px;
         transition: .2s;
     }
@@ -345,6 +346,10 @@
     #toolbar-box {
         width: 52px;
         padding: 18px 0px;
+    }
+
+    #toolbar-box.vocabulary-sidebar-toolbar-offset {
+        margin-left: 4px;
     }
 
     #toolbar {
