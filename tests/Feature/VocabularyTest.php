@@ -288,6 +288,26 @@ class VocabularyTest extends TestCase
         $this->assertSame([$chapterWord->id], $this->responseWordIds($response));
     }
 
+    public function test_vocabulary_search_filters_existing_invalid_non_word_tokens(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $valid = $this->createVocabularyWord($user, "don't");
+        $hyphenated = $this->createVocabularyWord($user, "mother-in-law");
+        $unicode = $this->createVocabularyWord($user, "привіт");
+        $this->createVocabularyWord($user, "+1d", ["stage" => 2]);
+        $this->createVocabularyWord($user, "+2/+4", ["stage" => -1]);
+        $this->createVocabularyWord($user, "#", ["stage" => 0]);
+
+        $response = $this->searchVocabularyWords($user, -1, -1);
+
+        $response->assertStatus(200);
+        $this->assertSame(3, $response->json("wordCount"));
+        $this->assertEqualsCanonicalizing(
+            [$valid->id, $hyphenated->id, $unicode->id],
+            $this->responseWordIds($response)
+        );
+    }
+
     private function createVocabularyUser(string $language): User
     {
         $user = User::factory()->create();

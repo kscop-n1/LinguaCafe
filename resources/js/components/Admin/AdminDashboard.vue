@@ -80,19 +80,19 @@
                 this.backupCreationRequest.loading = true;
 
                 axios.get('/backups/create').then((response) => {
-                    
-                    if (response.data.exitCode === 0) {
+                    if (response.data?.success === true && response.data?.filename) {
                         this.backupCreationRequest.loading = false;
                         this.backupCreationRequest.success = true;
-                        this.backupCreationRequest.fileName = response.data.fileName;
+                        this.backupCreationRequest.fileName = response.data.filename;
                     } else {
                         this.backupCreationRequest.loading = false;
                         this.backupCreationRequest.error = true;
-                        this.backupCreationRequest.fileName = response.data.fileName;
+                        this.backupCreationRequest.fileName = '';
                     }
                 }).catch((error) => {
                     this.backupCreationRequest.loading = false;
                     this.backupCreationRequest.error = true;
+                    this.backupCreationRequest.fileName = '';
                 });
             }
         }

@@ -101,6 +101,7 @@ class ChapterService {
         $wordIds = array_values(array_unique($wordIds));
         $words = EncounteredWord
             ::select(['id', 'word', 'stage'])
+            ->validVocabularyToken()
             ->where('user_id', $userId)
             ->where('language', $book->language)
             ->whereIn('id', $wordIds)

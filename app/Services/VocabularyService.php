@@ -628,6 +628,7 @@ class VocabularyService {
                 $validWordIdSearch = EncounteredWord
                     ::where('user_id', $userId)
                     ->where('language', $language)
+                    ->validVocabularyToken()
                     ->whereIn('id', $filteredWordIds);
 
                 if (count($filteredWords) > 0) {
@@ -648,7 +649,8 @@ class VocabularyService {
 
         // search for words and apply filters
         $wordSearch = EncounteredWord
-            ::select('id', 'base_word', 'word', DB::raw("'' AS words_searchable"), 'reading', 'base_word_reading', 'stage', 'translation', 'read_count', 'lookup_count', 'added_to_srs', DB::raw("'word' AS type"))->where('user_id', $userId)
+            ::validVocabularyToken()
+            ->select('id', 'base_word', 'word', DB::raw("'' AS words_searchable"), 'reading', 'base_word_reading', 'stage', 'translation', 'read_count', 'lookup_count', 'added_to_srs', DB::raw("'word' AS type"))->where('user_id', $userId)
             ->where('language', $language)
             ->whereNotIn('word', $wordsToSkip);
 
@@ -734,6 +736,7 @@ class VocabularyService {
         $words = EncounteredWord
             ::where('user_id', $userId)
             ->where('stage', 0)
+            ->validVocabularyToken()
             ->where('language', $language)
             ->where('kanji', '<>', '')
             ->get();
@@ -825,6 +828,7 @@ class VocabularyService {
 
         $words = EncounteredWord
             ::where('word', 'like', '%' . $kanjiCharacter . '%')
+            ->validVocabularyToken()
             ->where('user_id', $userId)
             ->limit(12)
             ->get();

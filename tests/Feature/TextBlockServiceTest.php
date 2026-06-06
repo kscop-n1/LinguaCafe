@@ -13,14 +13,14 @@ class TextBlockServiceTest extends TestCase
 
     public function test_vocabulary_token_classifier_rejects_reported_non_word_tokens(): void
     {
-        foreach (["#", "'s", "):", "+1", "+10d6", "+2/+4", "+5d6", "2020"] as $token) {
+        foreach (["#", "'s", "):", "+1", "+10", "+10d6", "+1d", "+1d10", "+1d20", "+1d3", "+1d4", "+1d6", "+1d8", "+2", "+2/+4", "+20", "+2d", "+2d10", "+2d6", "+3", "+30", "+3d6", "+4", "+4/+8", "+40", "+4d6", "+5", "+50", "+5d6", "+6", "1d6", "2d10", "2020"] as $token) {
             $this->assertFalse(TextBlockService::isVocabularyToken($token, "english"), $token);
         }
     }
 
     public function test_vocabulary_token_classifier_preserves_valid_words(): void
     {
-        foreach (["hello", "don't", "mother-in-law", "привіт", "日本語"] as $token) {
+        foreach (["hello", "don't", "it's", "mother-in-law", "привіт", "café", "日本語"] as $token) {
             $this->assertTrue(TextBlockService::isVocabularyToken($token, "english"), $token);
         }
     }
@@ -32,6 +32,7 @@ class TextBlockServiceTest extends TestCase
         $service->setProcessedWords([
             $this->processedWord("Hello"),
             $this->processedWord("+1d20"),
+            $this->processedWord("+1d"),
             $this->processedWord("#"),
             $this->processedWord("don't"),
         ]);
@@ -43,6 +44,7 @@ class TextBlockServiceTest extends TestCase
         $this->assertDatabaseHas("encountered_words", ["user_id" => $user->id, "word" => "hello", "stage" => 2]);
         $this->assertDatabaseHas("encountered_words", ["user_id" => $user->id, "word" => "don't", "stage" => 2]);
         $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "+1d20"]);
+        $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "+1d"]);
         $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "#"]);
     }
 

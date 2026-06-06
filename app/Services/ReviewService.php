@@ -45,6 +45,7 @@ class ReviewService {
         // base query
         $reviewWords = EncounteredWord
             ::where('user_id', $userId)
+            ->validVocabularyToken()
             ->where('language', $language)
             ->where('stage', '<', '0');
 

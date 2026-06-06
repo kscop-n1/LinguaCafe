@@ -166,6 +166,31 @@ class MigrationSmokeTest extends TestCase
         ]);
     }
 
+    public function test_review_flow_filters_existing_invalid_non_word_tokens(): void
+    {
+        $user = $this->createUser();
+        $valid = $this->createEncounteredWord($user, 'hola', [
+            'stage' => -3,
+            'translation' => 'hello',
+            'next_review' => Carbon::today()->toDateString(),
+        ]);
+        $this->createEncounteredWord($user, '+1d', [
+            'stage' => -3,
+            'translation' => 'invalid',
+            'next_review' => Carbon::today()->toDateString(),
+        ]);
+
+        $response = $this->actingAs($user)->post('/reviews', [
+            'practiceMode' => false,
+            'chapterId' => -1,
+            'bookId' => -1,
+        ]);
+
+        $response->assertOk();
+        $this->assertSame(1, count($response->json('reviews')));
+        $response->assertJsonPath('reviews.0.id', $valid->id);
+    }
+
     private function createUser(): User
     {
         $this->seed(SettingsSeeder::class);

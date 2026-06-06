@@ -43,6 +43,7 @@ class StatisticsService {
             $uniqueKanji = [];
             $words = EncounteredWord
                 ::where('stage', '<=', 0)
+                ->validVocabularyToken()
                 ->where('language', 'japanese')
                 ->where('user_id', $userId)
                 ->get();
@@ -67,6 +68,7 @@ class StatisticsService {
         $languageStatistics->known->icon = 'mdi-credit-card-check';
         $languageStatistics->known->value = EncounteredWord
             ::select('id')->where('stage', 0)
+            ->validVocabularyToken()
             ->where('user_id', $userId)
             ->where('language', $language)
             ->count('id');
@@ -77,6 +79,7 @@ class StatisticsService {
         $languageStatistics->learning->value = EncounteredWord
             ::select('id')
             ->where('stage', '<', 0)
+            ->validVocabularyToken()
             ->where('user_id', $userId)
             ->where('language', $language)
             ->count('id');
@@ -87,6 +90,7 @@ class StatisticsService {
         $languageStatistics->knownLemmas->value = EncounteredWord
             ::select('lemma')
             ->where('stage', 0)
+            ->validVocabularyToken()
             ->where('user_id', $userId)
             ->where('language', $language)
             ->groupBy('lemma')

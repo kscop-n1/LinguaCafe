@@ -2,11 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use App\Services\BackupService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class CreateBackup extends Command
 {
@@ -27,10 +24,22 @@ class CreateBackup extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(BackupService $backupService)
     {
-        $exitCode = (new BackupService())->createBackup();
-        
-        return $exitCode;
+        $result = $backupService->createBackup();
+
+        if (($result['success'] ?? false) !== true) {
+            $this->error('Database backup could not be created.');
+
+            if (array_key_exists('exitCode', $result)) {
+                $this->line('Exit code: ' . ($result['exitCode'] ?? 'unknown'));
+            }
+
+            return self::FAILURE;
+        }
+
+        $this->info('Database backup created: ' . $result['filename']);
+
+        return self::SUCCESS;
     }
 }

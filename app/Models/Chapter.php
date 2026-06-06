@@ -59,7 +59,7 @@ class Chapter extends Model
         $uniqueWordIds = json_decode($this->unique_word_ids) ?: [];
         $wordCounts = new \stdClass();
         $wordCounts->total = $this->word_count;
-        $wordCounts->unique = count($uniqueWordIds);
+        $wordCounts->unique = count(array_filter($uniqueWordIds, fn ($wordId) => isset($words[$wordId])));
         $wordCounts->known = 0;
         $wordCounts->highlighted = 0;
         $wordCounts->new = 0;

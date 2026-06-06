@@ -61,6 +61,7 @@ class BookService {
 
         $words = EncounteredWord
             ::select(['id', 'stage'])
+            ->validVocabularyToken()
             ->where('user_id', $userId)
             ->where('language', $book->language)
             ->whereIn('id', $bookUniqueWordIds)
@@ -70,7 +71,7 @@ class BookService {
 
         $wordCounts = new \stdClass();
         $wordCounts->total = $book->word_count;
-        $wordCounts->unique = count($bookUniqueWordIds);
+        $wordCounts->unique = count(array_filter($bookUniqueWordIds, fn ($wordId) => isset($words[$wordId])));
         $wordCounts->known = 0;
         $wordCounts->highlighted = 0;
         $wordCounts->new = 0;

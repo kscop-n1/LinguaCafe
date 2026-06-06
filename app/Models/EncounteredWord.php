@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 // models
 use App\Models\Setting;
@@ -15,6 +16,12 @@ use App\Services\GoalService;
 class EncounteredWord extends Model
 {
     use HasFactory;
+    public const INVALID_VOCABULARY_SQL_PATTERNS = [
+        "^[+\\-]?[0-9]+([.,][0-9]+)?$",
+        "^[+\\-]?[0-9]+d[0-9]*$",
+        "^[+\\-]?[0-9]+(d[0-9]*)?(\\/[+\\-]?[0-9]+(d[0-9]*)?)+$",
+        "^['’]s$",
+    ];
 
     protected $fillable = [
         'user_id',
@@ -32,6 +39,16 @@ class EncounteredWord extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function scopeValidVocabularyToken(Builder $query): Builder {
+        $query->whereRaw("word REGEXP ?", ["[[:alpha:]]"]);
+
+        foreach (self::INVALID_VOCABULARY_SQL_PATTERNS as $pattern) {
+            $query->whereRaw("word NOT REGEXP ?", [$pattern]);
+        }
+
+        return $query;
+    }
 
     public function setStage($stage, $ignoreAchivement = false) {
        

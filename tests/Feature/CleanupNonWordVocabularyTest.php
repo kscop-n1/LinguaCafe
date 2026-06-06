@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ChapterProcessingStatusEnum;
+use App\Models\Book;
+use App\Models\Chapter;
 use App\Models\EncounteredWord;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -69,7 +72,7 @@ class CleanupNonWordVocabularyTest extends TestCase
         $this->assertSame(2, $otherInvalid->stage);
     }
 
-    public function test_known_and_learning_invalid_tokens_are_reported_but_not_changed(): void
+    public function test_known_and_learning_invalid_tokens_are_marked_ignored_and_removed_from_review(): void
     {
         $user = User::factory()->create();
         $knownInvalid = $this->word($user, "#", 0);
@@ -86,11 +89,56 @@ class CleanupNonWordVocabularyTest extends TestCase
         $learningInvalid->refresh();
         $newInvalid->refresh();
 
-        $this->assertStringContainsString('"skipped_known": 1', $output);
-        $this->assertStringContainsString('"skipped_learning": 1', $output);
-        $this->assertSame(0, $knownInvalid->stage);
-        $this->assertSame(-1, $learningInvalid->stage);
+        $this->assertStringContainsString('"known_to_ignore": 1', $output);
+        $this->assertStringContainsString('"learning_to_ignore": 1', $output);
+        $this->assertSame(1, $knownInvalid->stage);
+        $this->assertSame(1, $learningInvalid->stage);
         $this->assertSame(1, $newInvalid->stage);
+        $this->assertNull($learningInvalid->next_review);
+    }
+
+    public function test_apply_repairs_chapter_unique_tokens_and_recalculates_book_counts(): void
+    {
+        $user = User::factory()->create();
+        $valid = $this->word($user, "hello", 2);
+        $invalid = $this->word($user, "+1d", 2);
+        $book = Book::create([
+            "user_id" => $user->id,
+            "name" => "Dirty Book",
+            "language" => "english",
+            "word_count" => 2,
+        ]);
+
+        $chapter = new Chapter();
+        $chapter->user_id = $user->id;
+        $chapter->book_id = $book->id;
+        $chapter->name = "Dirty Chapter";
+        $chapter->read_count = 0;
+        $chapter->word_count = 2;
+        $chapter->language = "english";
+        $chapter->raw_text = "hello +1d";
+        $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
+        $chapter->unique_words = json_encode(["hello", "+1d"]);
+        $chapter->unique_word_ids = json_encode([$valid->id, $invalid->id]);
+        $chapter->unique_phrase_ids = json_encode([]);
+        $chapter->subtitle_timestamps = json_encode([]);
+        $chapter->setProcessedText([(object) ["word" => "hello"], (object) ["word" => "+1d"]]);
+        $chapter->save();
+
+        Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--apply" => true,
+        ]);
+
+        $chapter->refresh();
+        $book->refresh();
+        $invalid->refresh();
+
+        $this->assertSame(1, $invalid->stage);
+        $this->assertSame(["hello"], json_decode($chapter->unique_words));
+        $this->assertSame([$valid->id], json_decode($chapter->unique_word_ids));
+        $this->assertSame(1, $chapter->word_count);
+        $this->assertSame(1, $book->word_count);
     }
 
     private function word(User $user, string $word, int $stage, string $language = "english"): EncounteredWord

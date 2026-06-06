@@ -119,23 +119,23 @@ class TextBlockService
             return false;
         }
 
-        if (is_numeric($token)) {
+        if (preg_match("~^[+\-]?\d+(?:[.,]\d+)?$~u", $token)) {
             return false;
         }
 
-        if (preg_match("/^[+\\-]?\\d+d\\d+$/iu", $token)) {
+        if (preg_match("~^[+\-]?\d+d\d*$~iu", $token)) {
             return false;
         }
 
-        if (preg_match("/^[+\\-]?\\d+(?:d\\d+)?(?:\\/[+\\-]?\\d+(?:d\\d+)?)+$/iu", $token)) {
+        if (preg_match("~^[+\-]?\d+(?:d\d*)?(?:\/[+\-]?\d+(?:d\d*)?)+$~iu", $token)) {
             return false;
         }
 
-        if (preg_match("/^[\\x27’]s$/iu", $token)) {
+        if (preg_match("~^[\x27’]s$~iu", $token)) {
             return false;
         }
 
-        return preg_match("/[\\p{L}\\p{M}]/u", $token) === 1;
+        return preg_match("~^[\p{L}\p{M}]+(?:[\x27’\-][\p{L}\p{M}]+)*$~u", $token) === 1;
     }
 
     public function tokenizeRawText() {

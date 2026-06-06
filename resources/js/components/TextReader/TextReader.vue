@@ -65,7 +65,6 @@
                 }"
                 :style="{
                     'height': $vuetify.display.mdAndUp ? 'calc(100% - 24px - 24px)' : 'calc(100% - 24px - 24px - 64px)',
-                    'padding-right': settings.vocabularySidebar && vocabularySidebarFits ? '456px !important' : '0px'
                 }"
             >
                 <v-card-text id="reader-content" :class="{

@@ -39,12 +39,16 @@ class Book extends Model
 
         $wordCounts = new \stdClass();
         $wordCounts->total = $this->word_count;
-        $wordCounts->unique = count($bookUniqueWordIds);
+        $wordCounts->unique = count(array_filter($bookUniqueWordIds, fn ($wordId) => isset($words[$wordId])));
         $wordCounts->known = 0;
         $wordCounts->highlighted = 0;
         $wordCounts->new = 0;
         
         foreach($bookUniqueWordIds as $wordId) {
+            if (!isset($words[$wordId])) {
+                continue;
+            }
+
             if ($words[$wordId]['stage'] < 0) {
                 $wordCounts->highlighted ++;
             }

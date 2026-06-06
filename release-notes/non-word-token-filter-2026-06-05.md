@@ -12,9 +12,9 @@ The classifier rejects:
 - slash stat tokens such as `+2/+4`;
 - punctuation/emoticon fragments such as `#` and `):`;
 - possessive fragments such as `'s`;
-- any token without Unicode letters or marks.
+- tokens that are not lexical words made of Unicode letters/marks with optional internal apostrophes or hyphens.
 
-Valid words such as contractions, hyphenated words, Cyrillic words, and CJK text remain valid.
+Valid words such as `don't`, `it's`, `mother-in-law`, words with diacritics, Cyrillic words, and CJK text remain valid.
 
 Future imports now apply the classifier to:
 
@@ -38,9 +38,9 @@ php artisan linguacafe:cleanup-non-word-vocabulary --user-id=1 --apply
 
 The command is dry-run by default. It prints counts and samples before changing anything.
 
-With `--apply`, the command only marks safe invalid stage-2 tokens as ignored (`stage = 1`). It does not hard-delete rows.
+With `--apply`, the command marks invalid vocabulary rows as ignored (`stage = 1`), clears review scheduling (`next_review = null`, `relearning = false`), and does not hard-delete rows. This removes invalid tokens from vocabulary/search/review/statistics behavior while keeping the operation auditable and repeatable.
 
-Known words (`stage = 0`) and learning/SRS words (`stage < 0`) are reported but skipped. Already ignored words (`stage = 1`) are counted separately and left as-is.
+The command also removes invalid token references from `chapters.unique_words` and `chapters.unique_word_ids`, recalculates affected chapter `word_count` values from processed text, and recalculates affected book `word_count` values. Already ignored words (`stage = 1`) are counted separately and left as-is.
 
 ## Deployment Recommendation
 
@@ -50,7 +50,7 @@ Run dry-run first in production:
 php artisan linguacafe:cleanup-non-word-vocabulary
 ```
 
-Review the summary and samples. Then run a scoped apply if the output is expected:
+Review the summary and samples, especially `known_to_ignore`, `learning_to_ignore`, `chapters_repaired`, and `books_recalculated`. Then run a scoped apply if the output is expected:
 
 ```bash
 php artisan linguacafe:cleanup-non-word-vocabulary --user-id=1 --apply
