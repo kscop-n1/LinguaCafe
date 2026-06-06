@@ -1,70 +1,70 @@
-#app.dark .v-theme--dark.v-chip,
-#app.dark .v-chip {
-    color: rgb(var(--v-theme-textDark));
+#app .v-application.dark .v-theme--dark.v-chip,
+#app .v-application.dark .v-chip {
+    color: rgb(var(--v-theme-text));
 
     i {
-        color: rgb(var(--v-theme-textDark));
+        color: rgb(var(--v-theme-icon));
     }
 }
 
-#app.dark kbd {
+#app .v-application.dark kbd {
     background-color: rgb(var(--v-theme-primary));
     color: rgb(var(--v-theme-textDark));
 }
 
 // input text color
-#app.dark input,
-#app.dark textarea {
+#app .v-application.dark input,
+#app .v-application.dark textarea {
     color: rgb(var(--v-theme-text)) !important;
 }
 
 // input placeholder color
-#app.dark input::placeholder,
-#app.dark textarea::placeholder {
+#app .v-application.dark input::placeholder,
+#app .v-application.dark textarea::placeholder {
     color: rgb(var(--v-theme-text)) !important;
     -webkit-text-fill-color: rgb(var(--v-theme-text)) !important;
     opacity: .5 !important;
 }
 
 // text area
-#app.dark textarea {
+#app .v-application.dark textarea {
     color: rgb(var(--v-theme-text));
 }
 
 // select text color
-#app.dark .v-theme--dark.v-select .v-select__selections {
+#app .v-application.dark .v-theme--dark.v-select .v-select__selections {
     color: rgb(var(--v-theme-text));
 }
 
 // pagination
 // pagination
-#app.dark .v-theme--dark.v-pagination .v-pagination__item,
-#app.dark .v-theme--dark.v-pagination .v-pagination__navigation {
+#app .v-application.dark .v-theme--dark.v-pagination .v-pagination__item,
+#app .v-application.dark .v-theme--dark.v-pagination .v-pagination__navigation {
     background: rgb(var(--v-theme-foreground));
 }
 
-#app.dark .v-theme--dark.v-pagination .v-pagination__item--active {
+#app .v-application.dark .v-theme--dark.v-pagination .v-pagination__item--active {
     color: rgb(var(--v-theme-textDark));
 }
 
 // v-card
-#app.dark .v-theme--dark.v-card,
-#app.dark .v-theme--dark.v-card > .v-card__subtitle,
-#app.dark .v-theme--dark.v-card > .v-card__text {
+#app .v-application.dark .v-theme--dark.v-card,
+#app .v-application.dark .v-theme--dark.v-card > .v-card__subtitle,
+#app .v-application.dark .v-theme--dark.v-card > .v-card__text {
     color: rgb(var(--v-theme-text));
     background: rgb(var(--v-theme-foreground));
 }
 
 // v-stepper
-#app.dark .v-theme--dark.v-stepper {
+#app .v-application.dark .v-theme--dark.v-stepper {
     background: rgb(var(--v-theme-foreground));
 }
 
 // alert
-#app.dark .v-alert.primary,
-#app.dark .v-alert.success,
-#app.dark .v-alert.error,
-#app.dark .v-alert.warning {
+#app .v-application.dark .v-alert.primary,
+#app .v-application.dark .v-alert.success,
+#app .v-application.dark .v-alert.error,
+#app .v-application.dark .v-alert.warning {
     color: rgb(var(--v-theme-textDark));
 
     i.v-icon {
@@ -77,19 +77,19 @@
 }
 
 // table
-#app.dark .v-theme--dark.v-data-table.v-data-table--fixed-header thead th,
-#app.dark .v-theme--dark.v-data-table {
+#app .v-application.dark .v-theme--dark.v-data-table.v-data-table--fixed-header thead th,
+#app .v-application.dark .v-theme--dark.v-data-table {
     background: rgb(var(--v-theme-foreground));
     color: rgb(var(--v-theme-text));
 }
 
 // v-menu
-#app.dark .v-overlay__content.v-theme--dark {
+#app .v-application.dark .v-overlay__content.v-theme--dark {
     border: 1px solid rgb(var(--v-theme-customBorder)) !important;
 }
 
 // vocabulary page search bar
-#app.dark #vocabulary #vocabulary-search-field {
+#app .v-application.dark #vocabulary #vocabulary-search-field {
     .v-field {
         background: rgb(var(--v-theme-gray));
         border-right: 0px solid rgba(0, 0, 0, 0) !important;
@@ -101,7 +101,7 @@
 }
 
 // vocabulary page
-#app.dark #vocabulary {
+#app .v-application.dark #vocabulary {
     #search-result-info i,
     #search-result-info {
         color: rgb(var(--v-theme-text)) !important;
@@ -114,7 +114,7 @@
 }
 
 // vocabulary edit stage buttons
-#app.dark #vocabulary-edit-stage-buttons {
+#app .v-application.dark #vocabulary-edit-stage-buttons {
     button.v-btn {
         &.v-btn--active{
             background-color: rgb(var(--v-theme-primary));
@@ -127,91 +127,91 @@
 }
 
 // v-menu in vocabulary
-#app.dark .v-overlay__content .v-theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+#app .v-application.dark .v-overlay__content .v-theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
     background-color: rgb(var(--v-theme-foreground));
     color: rgb(var(--v-theme-text));
 }
 
 // date picker
-#app.dark .v-theme--dark.v-picker__body {
+#app .v-application.dark .v-theme--dark.v-picker__body {
     background: rgb(var(--v-theme-foreground));
 }
 
-#app.dark .v-theme--dark.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
+#app .v-application.dark .v-theme--dark.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
     color: rgb(var(--v-theme-text));
 }
 
-#app.dark .v-date-picker-title {
+#app .v-application.dark .v-date-picker-title {
     color: rgb(var(--v-theme-textDark));
 }
 
 // v-list
-#app.dark .v-theme--dark.v-list {
+#app .v-application.dark .v-theme--dark.v-list {
     background: rgb(var(--v-theme-foreground));
 }
 
 // navigation text
-#app.dark .v-theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+#app .v-application.dark .v-theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
     color: rgb(var(--v-theme-text));
 }
 
 // navigation bottom text
-#app.dark .v-navigation-drawer .v-btn__content span {
+#app .v-application.dark .v-navigation-drawer .v-btn__content span {
     color: rgb(var(--v-theme-text));
 }
 
 // tab bar
-#app.dark .v-slide-group__wrapper {
+#app .v-application.dark .v-slide-group__wrapper {
     background-color: rgb(var(--v-theme-foreground));
 }
 
 // navigation button
-#app.dark .v-theme--dark.v-list-item--active:before,
-#app.dark .v-theme--dark.v-list-item--active:hover:before,
-#app.dark .v-theme--dark.v-list-item:focus:before {
+#app .v-application.dark .v-theme--dark.v-list-item--active:before,
+#app .v-application.dark .v-theme--dark.v-list-item--active:hover:before,
+#app .v-application.dark .v-theme--dark.v-list-item:focus:before {
     opacity: 0;
 }
 
 // bottom navbar color
-#app.dark .v-theme--dark.v-bottom-navigation .v-spacer{
+#app .v-application.dark .v-theme--dark.v-bottom-navigation .v-spacer{
     background-color: rgb(var(--v-theme-foreground));
 }
 
 // v-icon
-#app.dark .v-theme--dark.v-icon,
-#app.dark .v-btn.icon > .v-btn__content .v-icon {
+#app .v-application.dark .v-theme--dark.v-icon,
+#app .v-application.dark .v-btn.icon > .v-btn__content .v-icon {
     color: rgb(var(--v-theme-text));
 }
 
 // white button icon
-#app.dark .v-btn .v-theme--dark.v-icon.text-white {
+#app .v-application.dark .v-btn .v-theme--dark.v-icon.text-white {
     color: rgb(var(--v-theme-textDark)) !important;
 }
 
 // error v-icon button
-#app.dark .v-btn.text-error .v-theme--dark.v-icon {
+#app .v-application.dark .v-btn.text-error .v-theme--dark.v-icon {
     color: rgb(var(--v-theme-error));
 }
 
 // success v-icon button
-#app.dark .v-btn.text-success .v-theme--dark.v-icon {
+#app .v-application.dark .v-btn.text-success .v-theme--dark.v-icon {
     color: rgb(var(--v-theme-success));
 }
 
 // button
-#app.dark .v-btn.primary .v-btn__content i.v-icon,
-#app.dark .v-btn.success .v-btn__content i.v-icon {
+#app .v-application.dark .v-btn.primary .v-btn__content i.v-icon,
+#app .v-application.dark .v-btn.success .v-btn__content i.v-icon {
     color: rgb(var(--v-theme-textDark));
 }
 
 //  button
-#app.dark .v-theme--dark.v-btn.v-btn--has-bg {
+#app .v-application.dark .v-theme--dark.v-btn.v-btn--has-bg {
     background-color: rgb(var(--v-theme-foreground));
 }
 
-#app.dark .v-btn.primary .v-btn__content,
-#app.dark .v-btn.error .v-btn__content,
-#app.dark .v-btn.success .v-btn__content {
+#app .v-application.dark .v-btn.primary .v-btn__content,
+#app .v-application.dark .v-btn.error .v-btn__content,
+#app .v-application.dark .v-btn.success .v-btn__content {
     color: rgb(var(--v-theme-textDark));
 
     span, i {
@@ -219,7 +219,7 @@
     }
 }
 // password change alert
-#app.dark #password-change-alert {
+#app .v-application.dark #password-change-alert {
     color: rgb(var(--v-theme-text));
 
     .v-btn i {
@@ -228,7 +228,7 @@
 }
 
 // calendar
-#app.dark .v-btn.calendar-button .v-btn__content {
+#app .v-application.dark .v-btn.calendar-button .v-btn__content {
     color: rgb(var(--v-theme-text));
 
     span {
@@ -236,7 +236,7 @@
     }
 }
 
-#app.dark #calendar-popup-date {
+#app .v-application.dark #calendar-popup-date {
     color: rgb(var(--v-theme-textDark));
 
     i.v-icon {
@@ -245,31 +245,31 @@
 }
 
 // v-btn plain
-#app.dark .v-btn--plain .v-btn__content {
+#app .v-application.dark .v-btn--plain .v-btn__content {
     color: rgb(var(--v-theme-text));
 }
 
 // subheader
-#app.dark .subheader{
+#app .v-application.dark .subheader{
     color: rgb(var(--v-theme-text));
 }
 
 // border
-#app.dark .border {
-    border-color: #393939 !important;
+#app .v-application.dark .border {
+    border-color: rgb(var(--v-theme-border)) !important;
 }
 
 // calendar text
-#app.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day.full-achievement .calendar-day-text {
+#app .v-application.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day.full-achievement .calendar-day-text {
     color: rgb(var(--v-theme-textDark));
 }
 // calendar border
-#app.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day {
+#app .v-application.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day {
     border-color: #404040;
 }
 
 // navigation text
-#app.dark #navigation-drawer a.navigation-button.v-list-item--active {
+#app .v-application.dark #navigation-drawer a.navigation-button.v-list-item--active {
     color: rgb(var(--v-theme-textDark)) !important;
 
     i {
@@ -278,14 +278,14 @@
 }
 
 // book list text color
-#app.dark #books .info-table-value.highlighted-words,
-#app.dark #books .info-table-value.new-words {
+#app .v-application.dark #books .info-table-value.highlighted-words,
+#app .v-application.dark #books .info-table-value.new-words {
     color: rgb(var(--v-theme-textDark)) !important;
 }
 
 // chapter list text color
-#app.dark .book-chapters .info-table-value.highlighted-words,
-#app.dark .book-chapters .info-table-value.new-words {
+#app .v-application.dark .book-chapters .info-table-value.highlighted-words,
+#app .v-application.dark .book-chapters .info-table-value.new-words {
     color: rgb(var(--v-theme-textDark)) !important;
 }
 
@@ -298,7 +298,7 @@
 }
 
 // text reader chapter list
-#app.dark #text-reader-chapter-list {
+#app .v-application.dark #text-reader-chapter-list {
     span.highlighted{
         color: rgb(var(--v-theme-textDark));
     }
@@ -309,7 +309,7 @@
 }
 
 // text reader glossary
-#app.dark #text-reader-chapter-list {
+#app .v-application.dark #text-reader-chapter-list {
     span.highlighted{
         color: rgb(var(--v-theme-textDark));
     }
@@ -320,9 +320,9 @@
 }
 
 // vocab box active stage button
-#app.dark #vocab-box #vocab-box-stage-buttons .v-btn.v-btn--active,
-#app.dark #vocab-side-box #vocab-box-stage-buttons .v-btn.v-btn--active,
-#app.dark #vocabulary-bottom-sheet-stage-buttons .v-btn.v-btn--active {
+#app .v-application.dark #vocab-box #vocab-box-stage-buttons .v-btn.v-btn--active,
+#app .v-application.dark #vocab-side-box #vocab-box-stage-buttons .v-btn.v-btn--active,
+#app .v-application.dark #vocabulary-bottom-sheet-stage-buttons .v-btn.v-btn--active {
     background-color: rgb(var(--v-theme-primary)) !important;
     border-color: rgb(var(--v-theme-primary)) !important;
     color: rgb(var(--v-theme-textDark)) !important;
@@ -337,16 +337,16 @@
 }
 
 // vocab box stage buttons border
-#app.dark #vocab-box #vocab-box-stage-buttons .v-btn,
-#app.dark #vocab-side-box #vocab-box-stage-buttons .v-btn,
-#app.dark #vocabulary-bottom-sheet-stage-buttons .v-btn {
+#app .v-application.dark #vocab-box #vocab-box-stage-buttons .v-btn,
+#app .v-application.dark #vocab-side-box #vocab-box-stage-buttons .v-btn,
+#app .v-application.dark #vocabulary-bottom-sheet-stage-buttons .v-btn {
     background-color: rgb(var(--v-theme-gray));
 
     color: rgb(var(--v-theme-text)) !important;
 }
 
 // search result color
-#app.dark .search-result .search-result-definition:hover {
+#app .v-application.dark .search-result .search-result-definition:hover {
     color: rgb(var(--v-theme-text));
     background-color: rgb(var(--v-theme-gray2));
 
@@ -356,8 +356,8 @@
 }
 
 
-#app.dark .search-result.disabled .search-result-definition:hover,
-#app.dark .search-result.disabled .search-result-definition:hover {
+#app .v-application.dark .search-result.disabled .search-result-definition:hover,
+#app .v-application.dark .search-result.disabled .search-result-definition:hover {
     &:hover {
         background-color: rgb(var(--v-theme-foreground));
         color: rgb(var(--v-theme-text));
@@ -410,7 +410,7 @@
 }
 
 // admin api settings
-#app.dark #admin-api-settings {
+#app .v-application.dark #admin-api-settings {
     #deepl-api-card,
     #deepl-api-card > .v-card__text {
         background-color: rgb(var(--v-theme-gray)) !important;
@@ -418,7 +418,7 @@
 }
 
 // kanji list
-#app.dark #kanji-list {
+#app .v-application.dark #kanji-list {
     .kanji {
         &:not(.learned) {
             color: rgb(var(--v-theme-gray2));
@@ -427,14 +427,14 @@
 }
 
 // admin dictionary settings
-#app.dark #supported-dictionaries {
+#app .v-application.dark #supported-dictionaries {
     .dictionary {
         border: 1px dashed rgb(var(--v-theme-gray3));
     }
 }
 
 // kanji details
-#app.dark #kanji #kanji-radicals {
+#app .v-application.dark #kanji #kanji-radicals {
     .kanji-radical {
         &:hover {
             background-color: rgb(var(--v-theme-gray));
@@ -443,15 +443,15 @@
 }
 
 // color picker actions
-#app.dark .color-picker-actions,
-#app.dark .v-color-picker__controls {
+#app .v-application.dark .color-picker-actions,
+#app .v-application.dark .v-color-picker__controls {
     background-color: rgb(var(--v-theme-foreground)) !important;
 }
 
 // library import dialog
-#app.dark #import-dialog .youtube-subtitle-source #selected-youtube-subtitle,
-#app.dark #import-dialog .jellyfin-subtitle-source #selected-jellyfin-subtitle,
-#app.dark #import-dialog #website-text {
+#app .v-application.dark #import-dialog .youtube-subtitle-source #selected-youtube-subtitle,
+#app .v-application.dark #import-dialog .jellyfin-subtitle-source #selected-jellyfin-subtitle,
+#app .v-application.dark #import-dialog #website-text {
     background-color: rgb(var(--v-theme-gray));
 }
 
@@ -459,5 +459,275 @@
 #user-manual {
     pre, pre * {
         color: rgb(var(--v-theme-text));
+    }
+}
+
+
+// shared dark theme component contrast baseline
+#app .v-application.dark {
+    color: rgb(var(--v-theme-text));
+    background: rgb(var(--v-theme-background));
+
+    .text-text,
+    .v-card-title,
+    .v-card-text,
+    .v-card-subtitle,
+    .v-label,
+    .v-list-item-title,
+    .v-list-item-subtitle,
+    .v-table,
+    .v-data-table,
+    .v-data-table-footer,
+    .v-field__input,
+    .v-select__selection-text,
+    .v-pagination {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .text-caption,
+    .text-medium-emphasis,
+    .v-card-subtitle,
+    .v-messages,
+    .v-counter,
+    .v-data-table-footer,
+    .v-list-item-subtitle {
+        color: rgb(var(--v-theme-textMuted)) !important;
+    }
+
+    .v-icon,
+    .v-btn--icon .v-icon,
+    .v-list-item .v-icon,
+    .v-data-table .v-icon,
+    .v-pagination .v-icon {
+        color: rgb(var(--v-theme-icon));
+    }
+
+    .v-btn--disabled,
+    .v-btn--disabled .v-icon,
+    .v-field--disabled,
+    .v-field--disabled input,
+    .v-field--disabled textarea,
+    .v-list-item--disabled,
+    .v-pagination .v-btn--disabled {
+        color: rgb(var(--v-theme-textDisabled)) !important;
+        opacity: 1;
+    }
+
+    .v-btn--disabled .v-icon,
+    .v-pagination .v-btn--disabled .v-icon {
+        color: rgb(var(--v-theme-iconDisabled)) !important;
+    }
+
+    .v-card,
+    .v-dialog .v-card,
+    .v-menu .v-list,
+    .v-overlay__content .v-list,
+    .v-expansion-panels,
+    .v-expansion-panel,
+    .v-bottom-navigation {
+        background: rgb(var(--v-theme-surface));
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-overlay__content,
+    .v-tooltip > .v-overlay__content,
+    .v-dialog > .v-overlay__content {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-tooltip > .v-overlay__content {
+        background: rgb(var(--v-theme-surfaceElevated));
+        border: 1px solid rgb(var(--v-theme-border));
+    }
+
+    .v-table,
+    .v-data-table {
+        background: rgb(var(--v-theme-surface));
+        border-color: rgb(var(--v-theme-border));
+    }
+
+    .v-table .v-table__wrapper > table > thead > tr > th,
+    .v-data-table .v-table__wrapper > table > thead > tr > th {
+        background: rgb(var(--v-theme-surfaceElevated));
+        color: rgb(var(--v-theme-textSecondary));
+        border-bottom: 1px solid rgb(var(--v-theme-border));
+    }
+
+    .v-table .v-table__wrapper > table > tbody > tr > td,
+    .v-data-table .v-table__wrapper > table > tbody > tr > td {
+        color: rgb(var(--v-theme-text));
+        border-bottom: 1px solid rgb(var(--v-theme-divider));
+    }
+
+    .v-table .v-table__wrapper > table > tbody > tr:hover > td,
+    .v-data-table .v-table__wrapper > table > tbody > tr:hover > td {
+        background: rgb(var(--v-theme-hoverSurface));
+    }
+
+    .v-data-table-footer {
+        background: rgb(var(--v-theme-surface));
+        border-top: 1px solid rgb(var(--v-theme-border));
+    }
+
+    .v-data-table-footer .v-field,
+    .v-data-table-footer .v-btn {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-field {
+        background: rgb(var(--v-theme-inputSurface));
+        color: rgb(var(--v-theme-text));
+        border-color: rgb(var(--v-theme-border));
+    }
+
+    .v-field__outline,
+    .v-field__outline__start,
+    .v-field__outline__notch,
+    .v-field__outline__end {
+        color: rgb(var(--v-theme-border));
+        border-color: rgb(var(--v-theme-border));
+    }
+
+    .v-field:hover,
+    .v-field--focused {
+        background: rgb(var(--v-theme-hoverSurface));
+    }
+
+    .v-field--focused .v-field__outline,
+    .v-field--focused .v-field__outline__start,
+    .v-field--focused .v-field__outline__notch,
+    .v-field--focused .v-field__outline__end {
+        color: rgb(var(--v-theme-focusIndicator));
+        border-color: rgb(var(--v-theme-focusIndicator));
+    }
+
+    .v-field--error,
+    .v-field--error .v-label,
+    .v-field--error .v-field__input,
+    .v-messages__message {
+        color: rgb(var(--v-theme-error));
+    }
+
+    .v-tabs,
+    .v-slide-group__container {
+        background: rgb(var(--v-theme-surface));
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-tab {
+        color: rgb(var(--v-theme-textSecondary));
+    }
+
+    .v-tab:hover {
+        background: rgb(var(--v-theme-hoverSurface));
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-tab.v-tab--selected,
+    .v-tab[aria-selected="true"] {
+        background: rgb(var(--v-theme-selectedSurface));
+        color: rgb(var(--v-theme-text));
+        font-weight: 600;
+    }
+
+    .v-tab__slider {
+        background: rgb(var(--v-theme-focusIndicator));
+        opacity: 1;
+    }
+
+    .v-pagination .v-btn {
+        background: rgb(var(--v-theme-surfaceElevated));
+        color: rgb(var(--v-theme-text));
+        border: 1px solid rgb(var(--v-theme-border));
+    }
+
+    .v-pagination .v-btn:hover {
+        background: rgb(var(--v-theme-hoverSurface));
+    }
+
+    .v-pagination .v-pagination__item--is-active .v-btn,
+    .v-pagination .v-pagination__item--active,
+    .v-pagination .v-btn[aria-current="page"] {
+        background: rgb(var(--v-theme-primary));
+        color: rgb(var(--v-theme-on-primary));
+        border-color: rgb(var(--v-theme-primary));
+    }
+
+    .v-pagination .v-pagination__item--is-active .v-icon,
+    .v-pagination .v-pagination__item--active .v-icon,
+    .v-pagination .v-btn[aria-current="page"] .v-icon {
+        color: rgb(var(--v-theme-on-primary));
+    }
+
+    .v-btn:not(.v-btn--disabled):focus-visible,
+    .v-list-item:focus-visible,
+    .v-tab:focus-visible,
+    .v-field:focus-within {
+        outline: 2px solid rgb(var(--v-theme-focusIndicator));
+        outline-offset: 2px;
+    }
+
+    .v-btn:not(.v-btn--disabled):not(.bg-primary):not(.bg-error):not(.bg-success):not(.bg-warning):not(.bg-info) {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-btn:not(.v-btn--disabled):not(.bg-primary):not(.bg-error):not(.bg-success):not(.bg-warning):not(.bg-info) .v-icon {
+        color: rgb(var(--v-theme-icon));
+    }
+
+    .bg-primary,
+    .v-btn.bg-primary,
+    .v-btn.primary {
+        color: rgb(var(--v-theme-on-primary));
+    }
+
+    .bg-primary .v-icon,
+    .v-btn.bg-primary .v-icon,
+    .v-btn.primary .v-icon {
+        color: rgb(var(--v-theme-on-primary));
+    }
+
+    #navigation-drawer,
+    .v-navigation-drawer {
+        background: rgb(var(--v-theme-navigation));
+        color: rgb(var(--v-theme-text));
+        border-color: rgb(var(--v-theme-border));
+    }
+
+    #navigation-drawer .v-list-item,
+    .v-navigation-drawer .v-list-item,
+    .v-navigation-drawer .v-btn {
+        color: rgb(var(--v-theme-text));
+    }
+
+    #navigation-drawer .v-list-item--active,
+    .v-navigation-drawer .v-list-item--active {
+        background: rgb(var(--v-theme-selectedSurface));
+        color: rgb(var(--v-theme-text));
+    }
+
+    #navigation-drawer .v-list-item:hover,
+    .v-navigation-drawer .v-list-item:hover,
+    .v-navigation-drawer .v-btn:hover {
+        background: rgb(var(--v-theme-hoverSurface));
+    }
+
+    #reader-box #toolbar button.toolbar-button.v-btn {
+        background: rgb(var(--v-theme-surfaceElevated));
+        color: rgb(var(--v-theme-icon));
+        border: 1px solid rgb(var(--v-theme-border));
+    }
+
+    #reader-box #toolbar button.toolbar-button.v-btn:hover {
+        background: rgb(var(--v-theme-hoverSurface));
+    }
+
+    #reader-box #toolbar button.toolbar-button.v-btn .v-icon {
+        color: rgb(var(--v-theme-icon));
+    }
+
+    #reader-box #toolbar button.toolbar-button.v-btn.v-btn--disabled,
+    #reader-box #toolbar button.toolbar-button.v-btn.v-btn--disabled .v-icon {
+        color: rgb(var(--v-theme-iconDisabled)) !important;
     }
 }

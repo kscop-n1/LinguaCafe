@@ -8,12 +8,13 @@
         <!-- Toolbar -->
         <div id="reader-box" :style="{'max-width': maximumTextWidthData[settings.maximumTextWidth]}" v-if="chapterId !== null">
             <div
+                v-if="!finished && !saving"
                 id="toolbar-box"
                 :class="{
                     'vocabulary-sidebar-toolbar-offset': settings.vocabularySidebar && vocabularySidebarFits,
                 }"
             >
-                <div v-if="!finished && !saving" id="toolbar" :class="{'d-flex': true}" :style="{'top': toolbarTop + 'px'}">
+                <div id="toolbar" :class="{'d-flex': true}" :style="{'top': toolbarTop + 'px'}">
                     <v-btn title="Fullscreen" class="toolbar-button" icon @click="fullscreen" v-if="!fullscreenMode"><v-icon>mdi-arrow-expand-all</v-icon></v-btn>
                     <v-btn title="Exit fullscreen" class="toolbar-button" icon @click="exitFullscreen" v-if="fullscreenMode"><v-icon>mdi-arrow-collapse-all</v-icon></v-btn>
                     <v-btn title="Text reader settings" class="toolbar-button" icon @click="openDialog('settings')"><v-icon>mdi-cog</v-icon></v-btn>
@@ -59,7 +60,6 @@
                     'plain-text-mode': settings.plainTextMode,
                     'vertical-text': settings.verticalText,
                     'rounded-lg': true,
-                    'ml-2': true,
                     'vocabulary-sidebar': settings.vocabularySidebar,
                     'vocabulary-sidebar-fits': settings.vocabularySidebar && vocabularySidebarFits,
                 }"
@@ -118,7 +118,7 @@
                         <v-btn rounded color="primary" @click="finish()"><v-icon>mdi-text-box-check</v-icon> Finish reading</v-btn>
                     </div>
                 </v-card-text>
-            </v-card>&nbsp;
+            </v-card>
 
             <!-- Finish box -->
             <v-card

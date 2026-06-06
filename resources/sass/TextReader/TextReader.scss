@@ -108,8 +108,13 @@
 }
 
 #reader-box {
+    --reader-toolbar-width: 52px;
+    --reader-toolbar-gap: 8px;
     position: relative;
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--reader-toolbar-width);
+    column-gap: var(--reader-toolbar-gap);
+    align-items: start;
     box-sizing: border-box;
     height: 100%;
     margin: 0px auto;
@@ -122,10 +127,15 @@
         margin-top: 244px;
     }
 
+    .finished-box {
+        grid-column: 1 / -1;
+    }
+
     #toolbar-box {
-        display: inline-block;
-        float: right;
-        width: 44px;
+        grid-column: 2;
+        grid-row: 1;
+        width: var(--reader-toolbar-width);
+        min-width: var(--reader-toolbar-width);
         z-index: 20;
         background-color: rgb(var(--v-theme-background));
         border-radius: 8px;
@@ -133,12 +143,12 @@
     }
 
     #toolbar {
-        position: fixed;
+        position: sticky;
         flex-wrap: wrap;
         box-sizing: border-box;
-        width: 44px;
+        width: var(--reader-toolbar-width);
         z-index: 21;
-        padding-left: 4px;
+        padding-left: 0px;
         transition: .2s;
     }
 
@@ -163,8 +173,10 @@
 
     #reader {
         box-sizing: border-box;
+        grid-column: 1;
+        grid-row: 1;
         display: block;
-        width: calc(100% - 52px);
+        width: 100%;
         min-width: 0;
         height: calc(100% - 52px);
         margin-top: 24px;
@@ -188,7 +200,7 @@
         }
 
         &.vocabulary-sidebar.vocabulary-sidebar-fits {
-            padding-right: 464px;
+            padding-right: 408px;
         }
 
         &.vocabulary-sidebar.vocabulary-sidebar-fits #reader-content,
@@ -264,6 +276,7 @@
 @media (max-width: 620px) {
     
     #reader-box {
+        display: block;
         padding: 0px 6px;
 
         #reader {
@@ -382,7 +395,7 @@
     }
 
     #toolbar-box.vocabulary-sidebar-toolbar-offset {
-        margin-left: 4px;
+        margin-left: 0px;
     }
 
     #toolbar {

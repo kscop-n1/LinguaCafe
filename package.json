@@ -12,7 +12,8 @@
         "check:legacy": "node scripts/check-legacy.js",
         "check:legacy:hard": "sh scripts/check-legacy-hard.sh",
         "audit:migration:review": "sh scripts/audit-migration-review.sh",
-        "check:css": "node scripts/check-css-legacy.js",
+        "check:css": "node scripts/check-css-legacy.js && node scripts/check-dark-theme-contrast.js",
+        "check:dark-theme": "node scripts/check-dark-theme-contrast.js",
         "check:migration": "npm run check:deps && npm run check:legacy:hard && npm run production"
     },
     "devDependencies": {
