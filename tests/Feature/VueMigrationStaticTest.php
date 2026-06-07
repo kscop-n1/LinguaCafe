@@ -136,6 +136,30 @@ class VueMigrationStaticTest extends TestCase
         $this->assertSame([], $failures);
     }
 
+    public function test_vuetify_3_server_tables_use_current_pagination_props(): void
+    {
+        $failures = [];
+
+        foreach ($this->sourceFiles([base_path('resources/js/components')]) as $file) {
+            if (pathinfo($file, PATHINFO_EXTENSION) !== 'vue') {
+                continue;
+            }
+
+            $contents = file_get_contents($file);
+            $relativePath = str_replace(base_path() . '/', '', $file);
+
+            if (strpos($contents, 'server-items-length') !== false) {
+                $failures[] = 'legacy server-items-length prop in ' . $relativePath;
+            }
+
+            if (strpos($contents, 'footer-props') !== false && strpos($contents, 'v-data-table') !== false) {
+                $failures[] = 'legacy data-table footer-props in ' . $relativePath;
+            }
+        }
+
+        $this->assertSame([], $failures);
+    }
+
     /**
      * @param array<int, string> $directories
      * @return array<int, string>

@@ -27,6 +27,7 @@ class GetChaptersForBookRequest extends FormRequest
             'bookId' => 'required|numeric|gte:0|exists:books,id',
             'page' => 'nullable|numeric|gte:1',
             'perPage' => 'nullable|numeric|gte:1|lte:100',
+            'all' => 'nullable|boolean',
         ];
     }
 }

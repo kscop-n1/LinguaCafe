@@ -22,7 +22,7 @@ class ChapterService {
         $this->bookService = new BookService();
     }
 
-    public function getChaptersForBook($userId, $bookId, $page = 1, $perPage = 50) {
+    public function getChaptersForBook($userId, $bookId, $page = 1, $perPage = 50, $all = false) {
         $page = max(1, intval($page));
         $perPage = min(100, max(1, intval($perPage)));
 
@@ -30,29 +30,59 @@ class ChapterService {
             ::where('id', $bookId)
             ->where('user_id', $userId)
             ->first();
-        
+
         if (!$book) {
             throw new \Exception('Book does not exist, or it belongs to a different user.');
         }
 
-        $chapters = Chapter
-            ::select(['id', 'name', 'read_count', 'word_count', 'processing_status'])
+        $chapterQuery = Chapter
+            ::select(['id', 'name', 'read_count', 'word_count', 'unique_word_ids', 'processing_status'])
             ->where('book_id', $bookId)
             ->where('user_id', $userId)
-            ->orderBy('id')
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->orderBy('id');
 
-        foreach ($chapters->items() as $chapter) {
+        if ($all) {
+            $total = (clone $chapterQuery)->count();
+            $chapters = $chapterQuery->get();
+            $currentPage = 1;
+            $lastPage = 1;
+            $responsePerPage = $total;
+        } else {
+            $paginator = $chapterQuery->paginate($perPage, ['*'], 'page', $page);
+            $chapters = collect($paginator->items());
+            $total = $paginator->total();
+            $currentPage = $paginator->currentPage();
+            $lastPage = $paginator->lastPage();
+            $responsePerPage = $paginator->perPage();
+        }
+
+        foreach ($chapters as $chapter) {
             $chapter->wordCount = $this->emptyWordCount($chapter);
+            $chapter->wordCountsLoaded = false;
+        }
+
+        foreach ($this->getChapterWordCountUpdates($userId, $book, $chapters) as $chapterId => $chapterUpdate) {
+            $chapter = $chapters->firstWhere('id', $chapterId);
+
+            if (!$chapter) {
+                continue;
+            }
+
+            $chapter->wordCount = $chapterUpdate->wordCount;
+            $chapter->wordCountsLoaded = true;
+        }
+
+        foreach ($chapters as $chapter) {
+            unset($chapter->unique_word_ids);
         }
 
         $data = new \stdClass();
         $data->book = $book;
-        $data->chapters = $chapters->items();
-        $data->currentPage = $chapters->currentPage();
-        $data->lastPage = $chapters->lastPage();
-        $data->perPage = $chapters->perPage();
-        $data->total = $chapters->total();
+        $data->chapters = $chapters->values();
+        $data->currentPage = $currentPage;
+        $data->lastPage = $lastPage;
+        $data->perPage = $responsePerPage;
+        $data->total = $total;
 
         return $data;
     }
@@ -62,7 +92,7 @@ class ChapterService {
             ::where('id', $bookId)
             ->where('user_id', $userId)
             ->first();
-        
+
         if (!$book) {
             throw new \Exception('Book does not exist, or it belongs to a different user.');
         }
@@ -75,18 +105,34 @@ class ChapterService {
             return [];
         }
 
-        $chapterQuery = Chapter
+        $chapters = Chapter
             ::where('book_id', $bookId)
-            ->where('user_id', $userId);
-
-        $chapterQuery->whereIn('id', $chapterIds);
-
-        $chapters = $chapterQuery
+            ->where('user_id', $userId)
+            ->whereIn('id', $chapterIds)
             ->select(['id', 'word_count', 'unique_word_ids', 'processing_status'])
             ->orderBy('id')
             ->get();
 
+        $chaptersWithWordCounts = $this->getChapterWordCountUpdates($userId, $book, $chapters);
+        $chapterCount = count($chaptersWithWordCounts);
+        $chunkedChapterUpdates = [];
+        $chapterIndex = 0;
+
+        foreach ($chaptersWithWordCounts as $chapterId => $chapterUpdate) {
+            $chunkedChapterUpdates[$chapterId] = $chapterUpdate;
+            $chapterIndex++;
+
+            if ($chapterIndex % 50 === 0 || $chapterIndex === $chapterCount) {
+                event(new \App\Events\ChapterStateUpdatedEvent($userUuid, $chunkedChapterUpdates));
+            }
+        }
+
+        return $chaptersWithWordCounts;
+    }
+
+    private function getChapterWordCountUpdates($userId, $book, $chapters) {
         $wordIds = [];
+
         foreach ($chapters as $chapter) {
             if ($chapter->processing_status !== ChapterProcessingStatusEnum::PROCESSED->value) {
                 continue;
@@ -98,7 +144,7 @@ class ChapterService {
             }
         }
 
-        $wordIds = array_values(array_unique($wordIds));
+        $wordIds = array_values(array_unique(array_map('intval', $wordIds)));
         $words = EncounteredWord
             ::select(['id', 'word', 'stage'])
             ->validVocabularyToken()
@@ -110,25 +156,20 @@ class ChapterService {
             ->toArray();
 
         $chaptersWithWordCounts = [];
-        for ($i = 0; $i < count($chapters); $i++) {
-            if ($chapters[$i]->processing_status !== ChapterProcessingStatusEnum::PROCESSED->value) {
+        foreach ($chapters as $chapter) {
+            if ($chapter->processing_status !== ChapterProcessingStatusEnum::PROCESSED->value) {
                 continue;
             }
 
             $currentChapterWordCounts = new \stdClass();
-            $currentChapterWordCounts->wordCount = $chapters[$i]->getWordCounts($words);
+            $currentChapterWordCounts->wordCount = $chapter->getWordCounts($words);
 
-            $chaptersWithWordCounts[$chapters[$i]->id] = $currentChapterWordCounts;
-
-            // Push data in chunks so existing realtime UI still receives updates.
-            if (($i + 1) % 50 === 0 || $i === count($chapters) - 1) {
-                event(new \App\Events\ChapterStateUpdatedEvent($userUuid, $chaptersWithWordCounts));
-            }
+            $chaptersWithWordCounts[$chapter->id] = $currentChapterWordCounts;
         }
-        
+
         return $chaptersWithWordCounts;
     }
-    
+
     public function getChapterForEditor($userId, $chapterId) {
         $chapter = Chapter::
             select(['name', 'raw_text', 'type'])
@@ -141,7 +182,7 @@ class ChapterService {
         }
 
         $chapter->raw_text = str_replace(" NEWLINE \r\n", "\r\n", $chapter->raw_text);
-        
+
         return $chapter;
     }
 
@@ -151,7 +192,7 @@ class ChapterService {
             ->where('user_id', $userId)
             ->where('processing_status', ChapterProcessingStatusEnum::PROCESSED->value)
             ->first();
-        
+
         if (!$chapter) {
             throw new \Exception('Chapter could not be found.');
         }
@@ -191,7 +232,7 @@ class ChapterService {
         $data->languageSpaces = !in_array($chapter->language, $languagesWithoutSpaces, true);
         $data->nextChapter = $nextChapter ?: -1;
         $data->wordCount = $chapter->word_count;
-        
+
         return $data;
     }
 
@@ -214,7 +255,7 @@ class ChapterService {
             foreach ($uniqueWords as $uniqueWordData) {
                 $saveData = [];
                 $saveData['read_count'] = $uniqueWordData->read_count;
-                
+
                 if ($uniqueWordData->stage == 2) {
                     $saveData['stage'] = 0;
                 }
@@ -277,7 +318,7 @@ class ChapterService {
             }
 
             $word->setStage($word->stage + 1);
-            $word->save();  
+            $word->save();
         }
 
         return true;
@@ -309,14 +350,14 @@ class ChapterService {
         $chapter->save();
 
         $this->updateChapter($userId, $userUuid, $chapter->id, $chapter->name, $chapterText);
-        
+
         return true;
     }
 
     // updates the name and text of a chapter
     public function updateChapter($userId, $userUuid, $chapterId, $chapterName, $chapterText) {
         DB::disableQueryLog();
-        
+
         // retrieve chapter
         $chapter = Chapter
             ::where('id', $chapterId)
@@ -326,15 +367,15 @@ class ChapterService {
         if (!$chapter) {
             throw new \Exception('Chapter does not exist, or it belongs to a different user.');
         }
-        
+
         // update chapter data
         $chapter->raw_text = $chapterText;
         $chapter->name = $chapterName;
         $chapter->processing_status = ChapterProcessingStatusEnum::UNPROCESSED->value;
         $chapter->save();
-        
+
         \App\Jobs\ProcessChapter::dispatch($userId, $userUuid, $chapter->id, $chapter->language);
-        
+
         return true;
     }
 
@@ -354,10 +395,10 @@ class ChapterService {
             if (!$chapter) {
                 throw new \Exception('Chapter does not exist, or it belongs to a different user.');
             }
-            
+
             // process text
-            $textBlock = new TextBlockService($userId, $chapter->language);        
-            
+            $textBlock = new TextBlockService($userId, $chapter->language);
+
             if ($chapter->type == 'text') {
                 $textBlock->rawText = $chapter->raw_text;
                 $textBlock->tokenizeRawText();
@@ -366,7 +407,7 @@ class ChapterService {
                 $textBlock->rawText = $chapter->raw_text;
                 $timeStamps = $textBlock->tokenizeRawSubtitles();
             }
-            
+
             $textBlock->processTokenizedWords();
             $textBlock->collectUniqueWords();
             $textBlock->updateAllPhraseIds();
@@ -391,15 +432,15 @@ class ChapterService {
             $chapter->subtitle_timestamps = json_encode($timeStamps);
             $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
             $chapter->save();
-            
-            $bookId = $chapter->book_id;    
+
+            $bookId = $chapter->book_id;
         });
-        
+
         $this->bookService->updateBookWordCount($userId, $bookId);
     }
 
     public function deleteChapter($userId, $chapterId) {
-        
+
         // retrieve chapter
         $chapter = Chapter
             ::where('user_id', $userId)
@@ -421,7 +462,7 @@ class ChapterService {
     }
 
     public function retryFailedChapters($userId, $userUuid, $bookId) {
-        
+
         $chapters = Chapter
             ::where('user_id', $userId)
             ->where('book_id', $bookId)

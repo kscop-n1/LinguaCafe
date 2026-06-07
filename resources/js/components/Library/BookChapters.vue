@@ -35,10 +35,31 @@
             :chapter-id="startReviewDialog.chapterId" 
             :chapter-name="startReviewDialog.chapterName">
         </start-review-dialog>
+        <v-alert
+            v-if="chaptersError"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="my-3"
+        >
+            {{ chaptersError }}
+        </v-alert>
+
+        <v-alert
+            v-if="chapterStatisticsError"
+            type="warning"
+            variant="tonal"
+            density="compact"
+            class="my-3"
+        >
+            {{ chapterStatisticsError }}
+        </v-alert>
+
         
 
         <!-- Chapter list -->
-        <v-data-table
+        <v-defaults-provider :defaults="tableFooterDefaults">
+        <v-data-table-server
             class="book-chapters-table my-4 mb-0 no-hover"
             :headers="[
                 { title: 'Chapter', key: 'name'},
@@ -53,11 +74,13 @@
             :items="chapters"
             :loading="chaptersLoading"
             v-model:options="tableOptions"
-            :server-items-length="totalChapters"
-            :footer-props="{
-                'items-per-page-options': [25, 50, 100],
-            }"
+            :items-length="totalChapters"
+            :items-per-page-options="itemsPerPageOptions"
         >
+            <template v-slot:no-data>
+                <span>{{ chaptersError ? 'Unable to load chapters.' : 'No data available' }}</span>
+            </template>
+
 
             <!-- Read status -->
             <template v-slot:item.read_count="{ item }">
@@ -88,11 +111,15 @@
             <!-- Total words -->
             <template v-slot:item.wordCount.total="{ item }">
                 <!-- Count -->
-                <template v-if="item.processing_status === 'processed' && item.wordCountsLoaded">
+                <template v-if="hasLoadedWordCount(item)">
                     {{ formatNumber(item.wordCount.total) }}
                 </template>
 
                 <!-- Skeleton -->
+                <template v-else-if="wordCountUnavailable(item)">
+                    <span class="text-error">Unavailable</span>
+                </template>
+
                 <v-skeleton-loader
                         v-else
                         class="chapter-word-count-skeleton rounded-pill"
@@ -103,11 +130,15 @@
             <!-- Unique words -->
             <template v-slot:item.wordCount.unique="{ item }">
                 <!-- Count -->
-                <template v-if="item.processing_status === 'processed' && item.wordCountsLoaded">
+                <template v-if="hasLoadedWordCount(item)">
                     {{ formatNumber(item.wordCount.unique) }}
                 </template>
 
                 <!-- Skeleton -->
+                <template v-else-if="wordCountUnavailable(item)">
+                    <span class="text-error">Unavailable</span>
+                </template>
+
                 <v-skeleton-loader
                         v-else
                         class="chapter-word-count-skeleton rounded-pill"
@@ -118,7 +149,7 @@
             <!-- Known words -->
             <template v-slot:item.wordCount.known="{ item }">
                 <!-- Count -->
-                <template v-if="item.processing_status === 'processed' && item.wordCountsLoaded">
+                <template v-if="hasLoadedWordCount(item)">
                     <template v-if="$props.wordCountDisplayType == 0">
                         {{ formatNumber(item.wordCount.known) }}
                     </template>
@@ -131,6 +162,10 @@
                 </template>
 
                 <!-- Skeleton -->
+                <template v-else-if="wordCountUnavailable(item)">
+                    <span class="text-error">Unavailable</span>
+                </template>
+
                 <v-skeleton-loader
                         v-else
                         class="chapter-word-count-skeleton rounded-pill"
@@ -141,7 +176,7 @@
             <!-- Highlighted words -->
             <template v-slot:item.wordCount.highlighted="{ item }">
                 <!-- Count -->
-                <template v-if="item.processing_status === 'processed' && item.wordCountsLoaded">
+                <template v-if="hasLoadedWordCount(item)">
                     <div class="highlighted-words px-2 rounded-xl mx-auto">
                         <template v-if="$props.wordCountDisplayType < 2">
                             {{ formatNumber(item.wordCount.highlighted) }}
@@ -156,6 +191,10 @@
                 </template>
 
                 <!-- Skeleton -->
+                <template v-else-if="wordCountUnavailable(item)">
+                    <span class="text-error">Unavailable</span>
+                </template>
+
                 <v-skeleton-loader
                         v-else
                         class="chapter-word-count-skeleton rounded-pill"
@@ -167,7 +206,7 @@
             <!-- New words -->
             <template v-slot:item.wordCount.new="{ item }">
                 <!-- Count -->
-                <template v-if="item.processing_status === 'processed' && item.wordCountsLoaded">
+                <template v-if="hasLoadedWordCount(item)">
                     <div class="new-words px-2 rounded-xl mx-auto">
                         <template v-if="$props.wordCountDisplayType < 2">
                             {{ formatNumber(item.wordCount.new) }}
@@ -182,6 +221,10 @@
                 </template>
 
                 <!-- Skeleton -->
+                <template v-else-if="wordCountUnavailable(item)">
+                    <span class="text-error">Unavailable</span>
+                </template>
+
                 <v-skeleton-loader
                         v-else
                         class="chapter-word-count-skeleton rounded-pill"
@@ -218,7 +261,8 @@
                     </template>
                 </div>
             </template>
-        </v-data-table>
+        </v-data-table-server>
+        </v-defaults-provider>
     </v-container>
 </template>
 
@@ -231,11 +275,23 @@
                 bookWordCount: null,
                 chapters: [],
                 chaptersLoading: false,
+                chaptersError: '',
+                chapterStatisticsError: '',
+                chapterRequestSequence: 0,
                 tableOptions: {
                     page: 1,
                     itemsPerPage: 50,
                     sortBy: [],
                     sortDesc: [],
+                },
+                itemsPerPageOptions: [10, 25, 50, { value: -1, title: 'All' }],
+                tableFooterDefaults: {
+                    VSelect: {
+                        menuProps: {
+                            location: 'bottom',
+                            scrollStrategy: 'reposition',
+                        },
+                    },
                 },
                 totalChapters: 0,
                 errorDialog: {
@@ -263,6 +319,10 @@
             wordCountDisplayType: Number,
         },
         watch: {
+            bookId() {
+                this.resetTableState();
+                this.loadChapters();
+            },
             tableOptions: {
                 handler() {
                     this.loadChapters();
@@ -322,32 +382,71 @@
                     }
                 });
             },
+            resetTableState() {
+                this.chapters = [];
+                this.totalChapters = 0;
+                this.chaptersError = '';
+                this.chapterStatisticsError = '';
+                this.tableOptions = {
+                    ...this.tableOptions,
+                    page: 1,
+                };
+            },
             loadChapters() {
                 if (!this.$props.bookId) {
                     return;
                 }
 
+                const requestSequence = ++this.chapterRequestSequence;
                 const page = this.tableOptions.page || 1;
-                const perPage = this.tableOptions.itemsPerPage || 50;
+                const itemsPerPage = Number(this.tableOptions.itemsPerPage || 50);
+                const requestData = {
+                    bookId: this.$props.bookId,
+                    page: page,
+                };
+
+                if (itemsPerPage === -1) {
+                    requestData.all = true;
+                } else {
+                    requestData.perPage = itemsPerPage;
+                }
 
                 this.chaptersLoading = true;
-                this.chapters = [];
+                this.chaptersError = '';
+                this.chapterStatisticsError = '';
 
-                axios.post('/chapters', {
-                    'bookId': this.$props.bookId,
-                    'page': page,
-                    'perPage': perPage,
-                }).then((response) => {
-                    for (let chapterIndex = 0; chapterIndex < response.data.chapters.length; chapterIndex++) {
-                        response.data.chapters[chapterIndex].wordCountsLoaded = false;
+                axios.post('/chapters', requestData).then((response) => {
+                    if (requestSequence !== this.chapterRequestSequence) {
+                        return;
                     }
+
+                    const responseChapters = Array.isArray(response.data.chapters) ? response.data.chapters : [];
+
+                    responseChapters.forEach((chapter) => {
+                        if (chapter.wordCountsLoaded === undefined) {
+                            chapter.wordCountsLoaded = chapter.processing_status === 'processed' && !!chapter.wordCount;
+                        }
+                    });
                     
                     this.book = response.data.book;
-                    this.chapters = response.data.chapters;
-                    this.totalChapters = response.data.total;
-                    this.loadVisibleWordCounts();
-                }).catch(() => {
+                    this.chapters = responseChapters;
+                    this.totalChapters = Number(response.data.total || 0);
                     this.chaptersLoading = false;
+                }).catch((error) => {
+                    if (requestSequence !== this.chapterRequestSequence) {
+                        return;
+                    }
+
+                    this.chaptersLoading = false;
+                    this.chaptersError = this.chapterRequestErrorMessage(error);
+
+                    console.error('Failed to load book chapters.', {
+                        bookId: this.$props.bookId,
+                        page: page,
+                        itemsPerPage: itemsPerPage,
+                        status: error.response?.status,
+                        errors: error.response?.data?.errors,
+                    });
                 });
             },
             loadVisibleWordCounts() {
@@ -367,6 +466,19 @@
                 }).finally(() => {
                     this.chaptersLoading = false;
                 });
+            },
+            chapterRequestErrorMessage(error) {
+                if (error.response?.status === 422) {
+                    return 'The chapter request was rejected. Check the page size and try again.';
+                }
+
+                return 'Unable to load chapters right now. The previous chapter data is still shown.';
+            },
+            hasLoadedWordCount(chapter) {
+                return chapter.processing_status === 'processed' && chapter.wordCountsLoaded && !!chapter.wordCount;
+            },
+            wordCountUnavailable(chapter) {
+                return chapter.processing_status === 'processed' && !this.chaptersLoading && (!chapter.wordCountsLoaded || !chapter.wordCount);
             },
             showStartReviewDialog(bookId, bookName, chapterId, chapterName) {
                 this.startReviewDialog.bookName = bookName;

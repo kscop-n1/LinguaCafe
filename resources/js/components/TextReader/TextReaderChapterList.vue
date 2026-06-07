@@ -13,17 +13,29 @@
                 </v-btn>
             </v-card-title>
             <v-card-text class="pt-6 px-0">
-                    <v-data-table
+                    <v-alert
+                        v-if="loadError"
+                        type="error"
+                        variant="tonal"
+                        density="compact"
+                        class="mx-4 mb-3"
+                    >
+                        {{ loadError }}
+                    </v-alert>
+                    <v-defaults-provider :defaults="tableFooterDefaults">
+                    <v-data-table-server
                         class="book-info-table no-hover pb-4 mx-auto"
                         :headers="headers"
                         :items="localChapters"
                         :loading="loading"
                         v-model:options="tableOptions"
-                        :server-items-length="totalChapters"
-                        :footer-props="{
-                            'items-per-page-options': [25, 50, 100],
-                        }"
+                        :items-length="totalChapters"
+                        :items-per-page-options="itemsPerPageOptions"
                     >
+                        <template v-slot:no-data>
+                            <span>{{ loadError ? 'Unable to load chapters.' : 'No data available' }}</span>
+                        </template>
+
                         <template v-slot:item.name="{ item }">
                             <span class="default-font">{{ item.name }}</span>
                         </template>
@@ -47,7 +59,8 @@
                                 :to="'/chapters/read/' + item.id"
                             >Read</v-btn>
                         </template>
-                    </v-data-table>
+                    </v-data-table-server>
+                    </v-defaults-provider>
             </v-card-text>
 
             <v-card-actions>
@@ -74,6 +87,17 @@
                 localChapters: [],
                 loading: false,
                 totalChapters: 0,
+                requestSequence: 0,
+                loadError: '',
+                itemsPerPageOptions: [10, 25, 50, { value: -1, title: 'All' }],
+                tableFooterDefaults: {
+                    VSelect: {
+                        menuProps: {
+                            location: 'bottom',
+                            scrollStrategy: 'reposition',
+                        },
+                    },
+                },
                 tableOptions: {
                     page: 1,
                     itemsPerPage: 50,
@@ -109,18 +133,45 @@
                     return;
                 }
 
-                this.loading = true;
-
-                axios.post('/chapters', {
+                const requestSequence = ++this.requestSequence;
+                const itemsPerPage = Number(this.tableOptions.itemsPerPage || 50);
+                const requestData = {
                     bookId: this.bookId,
                     page: this.tableOptions.page || 1,
-                    perPage: this.tableOptions.itemsPerPage || 50,
-                }).then((response) => {
+                };
+
+                if (itemsPerPage === -1) {
+                    requestData.all = true;
+                } else {
+                    requestData.perPage = itemsPerPage;
+                }
+
+                this.loading = true;
+                this.loadError = '';
+
+                axios.post('/chapters', requestData).then((response) => {
+                    if (requestSequence !== this.requestSequence) {
+                        return;
+                    }
+
                     this.localChapters = response.data.chapters;
-                    this.totalChapters = response.data.total;
-                    this.loadVisibleWordCounts();
-                }).catch(() => {
+                    this.totalChapters = Number(response.data.total || 0);
                     this.loading = false;
+                }).catch((error) => {
+                    if (requestSequence !== this.requestSequence) {
+                        return;
+                    }
+
+                    this.loading = false;
+                    this.loadError = error.response?.status === 422
+                        ? 'The chapter request was rejected. Check the page size and try again.'
+                        : 'Unable to load chapters right now.';
+                    console.error('Failed to load reader chapter list.', {
+                        bookId: this.bookId,
+                        itemsPerPage: itemsPerPage,
+                        status: error.response?.status,
+                        errors: error.response?.data?.errors,
+                    });
                 });
             },
             loadVisibleWordCounts() {

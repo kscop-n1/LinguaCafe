@@ -29,9 +29,10 @@ class ChapterController extends Controller {
         $bookId = intval($request->bookId);
         $page = intval($request->post('page', 1));
         $perPage = intval($request->post('perPage', 50));
+        $all = $request->boolean('all');
         
         try {
-            $chapters = $this->chapterService->getChaptersForBook($userId, $bookId, $page, $perPage);
+            $chapters = $this->chapterService->getChaptersForBook($userId, $bookId, $page, $perPage, $all);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }

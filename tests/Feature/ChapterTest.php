@@ -185,10 +185,107 @@ class ChapterTest extends TestCase
 
         $wordCount = $chaptersData[0]['wordCount'];
         $this->assertEquals(100, $wordCount['total']);
-        $this->assertEquals(-1, $wordCount['unique']);
-        $this->assertEquals(-1, $wordCount['highlighted']);
-        $this->assertEquals(-1, $wordCount['known']);
-        $this->assertEquals(-1, $wordCount['new']);
+        $this->assertEquals(3, $wordCount['unique']);
+        $this->assertEquals(1, $wordCount['highlighted']);
+        $this->assertEquals(1, $wordCount['known']);
+        $this->assertEquals(1, $wordCount['new']);
+    }
+
+    public function test_chapters_endpoint_keeps_total_and_statistics_stable_for_large_books(): void
+    {
+        $user = User::factory()->create(['selected_language' => 'japanese']);
+        $book = Book::create([
+            'user_id' => $user->id,
+            'name' => 'Large Test Book',
+            'language' => 'japanese',
+        ]);
+
+        $chapters = [];
+
+        for ($i = 1; $i <= 83; $i++) {
+            $stage = $i % 3 === 0 ? -1 : ($i % 3 === 1 ? 0 : 2);
+            $word = EncounteredWord::forceCreate([
+                'user_id' => $user->id,
+                'language' => 'japanese',
+                'stage' => $stage,
+                'word' => 'word_' . $i,
+                'kanji' => '',
+                'reading' => '',
+                'base_word' => 'word_' . $i,
+                'base_word_reading' => '',
+                'lemma' => '',
+                'translation' => '',
+            ]);
+
+            $chapter = new Chapter();
+            $chapter->user_id = $user->id;
+            $chapter->book_id = $book->id;
+            $chapter->name = sprintf('Chapter %02d', $i);
+            $chapter->read_count = 0;
+            $chapter->word_count = $i === 83 ? 0 : 10;
+            $chapter->language = 'japanese';
+            $chapter->raw_text = 'raw text';
+            $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
+            $chapter->unique_words = json_encode([$word->word]);
+            $chapter->subtitle_timestamps = json_encode([]);
+            $chapter->unique_word_ids = json_encode([$word->id]);
+            $chapter->save();
+
+            $chapters[] = $chapter;
+        }
+
+        foreach ([10, 25, 50] as $perPage) {
+            $response = $this->actingAs($user)->postJson('/chapters', [
+                'bookId' => $book->id,
+                'page' => 1,
+                'perPage' => $perPage,
+            ]);
+
+            $response->assertOk()
+                ->assertJsonPath('currentPage', 1)
+                ->assertJsonPath('perPage', $perPage)
+                ->assertJsonPath('total', 83);
+            $this->assertCount($perPage, $response->json('chapters'));
+        }
+
+        $pageTwoResponse = $this->actingAs($user)->postJson('/chapters', [
+            'bookId' => $book->id,
+            'page' => 2,
+            'perPage' => 50,
+        ]);
+
+        $pageTwoResponse->assertOk()
+            ->assertJsonPath('currentPage', 2)
+            ->assertJsonPath('total', 83);
+        $this->assertCount(33, $pageTwoResponse->json('chapters'));
+        $this->assertSame($chapters[50]->id, $pageTwoResponse->json('chapters.0.id'));
+        $this->assertSame(10, $pageTwoResponse->json('chapters.9.wordCount.total'));
+        $this->assertSame(1, $pageTwoResponse->json('chapters.9.wordCount.unique'));
+        $this->assertIsInt($pageTwoResponse->json('chapters.9.wordCount.known'));
+        $this->assertIsInt($pageTwoResponse->json('chapters.9.wordCount.highlighted'));
+        $this->assertIsInt($pageTwoResponse->json('chapters.9.wordCount.new'));
+
+        $allResponse = $this->actingAs($user)->postJson('/chapters', [
+            'bookId' => $book->id,
+            'page' => 1,
+            'all' => true,
+        ]);
+
+        $allResponse->assertOk()
+            ->assertJsonPath('currentPage', 1)
+            ->assertJsonPath('lastPage', 1)
+            ->assertJsonPath('perPage', 83)
+            ->assertJsonPath('total', 83)
+            ->assertJsonPath('chapters.82.wordCount.total', 0)
+            ->assertJsonPath('chapters.82.wordCount.unique', 1);
+        $this->assertCount(83, $allResponse->json('chapters'));
+
+        $invalidResponse = $this->actingAs($user)->postJson('/chapters', [
+            'bookId' => $book->id,
+            'perPage' => -1,
+        ]);
+
+        $invalidResponse->assertStatus(422);
     }
 
     public function test_reader_endpoint_resolves_next_chapter_id(): void
