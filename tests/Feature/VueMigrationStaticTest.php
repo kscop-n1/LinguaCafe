@@ -160,6 +160,27 @@ class VueMigrationStaticTest extends TestCase
         $this->assertSame([], $failures);
     }
 
+    public function test_chapter_table_footer_menus_use_custom_activator_positioning(): void
+    {
+        $files = [
+            'resources/js/components/Library/BookChapters.vue',
+            'resources/js/components/TextReader/TextReaderChapterList.vue',
+        ];
+
+        foreach ($files as $file) {
+            $contents = file_get_contents(base_path($file));
+
+            $this->assertMatchesRegularExpression(
+                '/tableFooterDefaults:\s*\{.*?VSelect:\s*\{.*?menuProps:\s*\{.*?locationStrategy:\s*this\.positionFooterSelectMenu,.*?scrollStrategy:\s*["\']reposition["\']/s',
+                $contents,
+                $file . ' must position footer select menus from the current activator rect so Vuetify overlays do not drift after document scroll.'
+            );
+            $this->assertStringContainsString('target.getBoundingClientRect()', $contents);
+            $this->assertStringContainsString('position: "fixed"', $contents);
+            $this->assertStringContainsString('document.addEventListener("scroll", updateLocation, true)', $contents);
+        }
+    }
+
     /**
      * @param array<int, string> $directories
      * @return array<int, string>

@@ -267,6 +267,7 @@
 </template>
 
 <script>
+    import { onScopeDispose } from 'vue';
     import {formatNumber} from './../../helper.js';
     export default {
         data: function() {
@@ -289,6 +290,7 @@
                     VSelect: {
                         menuProps: {
                             location: 'bottom',
+                            locationStrategy: this.positionFooterSelectMenu,
                             scrollStrategy: 'reposition',
                         },
                     },
@@ -341,6 +343,57 @@
             this.$store.getters['shared/echo'].private('chapter-status-update.' + this.$store.getters['shared/userUuid']).stopListening('ChapterStateUpdatedEvent');
         },
         methods: {
+            positionFooterSelectMenu(data, props, contentStyles) {
+                const viewportMargin = 12;
+
+                const updateLocation = () => {
+                    const target = Array.isArray(data.target.value) ? null : data.target.value;
+                    const content = data.contentEl.value;
+
+                    if (!target || !content) {
+                        return;
+                    }
+
+                    const targetBox = target.getBoundingClientRect();
+                    const contentHeight = content.offsetHeight || content.scrollHeight;
+                    const contentWidth = Math.max(content.offsetWidth || targetBox.width, targetBox.width);
+                    const spaceBelow = window.innerHeight - targetBox.bottom - viewportMargin;
+                    const spaceAbove = targetBox.top - viewportMargin;
+                    const openBelow = spaceBelow >= contentHeight || spaceBelow >= spaceAbove;
+                    const availableHeight = Math.max(80, openBelow ? spaceBelow : spaceAbove);
+                    const unclampedTop = openBelow
+                        ? targetBox.bottom
+                        : targetBox.top - contentHeight;
+                    const maxTop = window.innerHeight - Math.min(contentHeight, availableHeight) - viewportMargin;
+                    const top = Math.max(viewportMargin, Math.min(unclampedTop, maxTop));
+                    const left = Math.max(
+                        viewportMargin,
+                        Math.min(targetBox.left, window.innerWidth - contentWidth - viewportMargin)
+                    );
+
+                    Object.assign(contentStyles.value, {
+                        "--v-overlay-anchor-origin": openBelow ? "bottom left" : "top left",
+                        transformOrigin: openBelow ? "left top" : "left bottom",
+                        position: "fixed",
+                        top: `${Math.round(top)}px`,
+                        left: `${Math.round(left)}px`,
+                        minWidth: `${Math.round(targetBox.width)}px`,
+                        maxWidth: `${Math.max(Math.round(contentWidth), Math.round(targetBox.width))}px`,
+                        maxHeight: `${Math.round(availableHeight)}px`,
+                    });
+                };
+
+                window.addEventListener("resize", updateLocation, { passive: true });
+                document.addEventListener("scroll", updateLocation, true);
+                requestAnimationFrame(updateLocation);
+
+                onScopeDispose(() => {
+                    window.removeEventListener("resize", updateLocation);
+                    document.removeEventListener("scroll", updateLocation, true);
+                });
+
+                return { updateLocation };
+            },
             chapterStatusUpdate(chapters) {
                 this.chapters.forEach((currentChapter) => {
                     if (!chapters[currentChapter.id]) {
