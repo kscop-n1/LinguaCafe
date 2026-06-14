@@ -135,7 +135,44 @@ class TextBlockService
             return false;
         }
 
-        return preg_match("~^[\p{L}\p{M}]+(?:[\x27’\-][\p{L}\p{M}]+)*$~u", $token) === 1;
+        return preg_match("~^[\p{L}\p{M}]+(?:[\x27’\-\x{2010}\x{2011}][\p{L}\p{M}]+)*$~u", $token) === 1;
+    }
+
+    private static function isHyphenToken($token) {
+        return preg_match("~^[\-\x{2010}\x{2011}]$~u", (string) $token) === 1;
+    }
+
+    private function collectHyphenatedToken($wordIndex) {
+        $wordCount = count($this->tokenizedWords);
+        $currentToken = clone $this->tokenizedWords[$wordIndex];
+
+        if (!self::isVocabularyToken($currentToken->w, $this->language)) {
+            return [$currentToken, $wordIndex];
+        }
+
+        while (
+            $wordIndex + 2 < $wordCount &&
+            self::isHyphenToken($this->tokenizedWords[$wordIndex + 1]->w) &&
+            self::isVocabularyToken($this->tokenizedWords[$wordIndex + 2]->w, $this->language)
+        ) {
+            $hyphenToken = $this->tokenizedWords[$wordIndex + 1];
+            $nextToken = $this->tokenizedWords[$wordIndex + 2];
+
+            $currentToken->w .= $hyphenToken->w . $nextToken->w;
+            $currentToken->l .= $hyphenToken->w . $nextToken->l;
+
+            if (isset($currentToken->r) && isset($nextToken->r)) {
+                $currentToken->r .= $hyphenToken->w . $nextToken->r;
+            }
+
+            if (isset($currentToken->lr) && isset($nextToken->lr)) {
+                $currentToken->lr .= $hyphenToken->w . $nextToken->lr;
+            }
+
+            $wordIndex += 2;
+        }
+
+        return [$currentToken, $wordIndex];
     }
 
     public function tokenizeRawText() {
@@ -176,21 +213,23 @@ class TextBlockService
         $wordsToSkip = config('linguacafe.words_to_skip');
 
         for ($wordIndex = 0; $wordIndex < $wordCount; $wordIndex++) {
+            [$tokenizedWord, $wordIndex] = $this->collectHyphenatedToken($wordIndex);
+
             $word = new \stdClass();
             $word->user_id = $this->userId;
             $word->word_index = $wordIndex;
-            $word->sentence_index = $this->tokenizedWords[$wordIndex]->si;
-            $word->word = $this->tokenizedWords[$wordIndex]->w;
-            $word->lemma = $this->tokenizedWords[$wordIndex]->l;
+            $word->sentence_index = $tokenizedWord->si;
+            $word->word = $tokenizedWord->w;
+            $word->lemma = $tokenizedWord->l;
             if ($this->language == 'japanese' || $this->language == 'chinese') {
-                $word->reading = $this->tokenizedWords[$wordIndex]->r;
-                $word->lemma_reading = $this->tokenizedWords[$wordIndex]->lr;
+                $word->reading = $tokenizedWord->r;
+                $word->lemma_reading = $tokenizedWord->lr;
             } else {
                 $word->reading = '';
                 $word->lemma_reading = '';
             }
             
-            $word->pos = $this->tokenizedWords[$wordIndex]->pos;
+            $word->pos = $tokenizedWord->pos;
             $word->phrase_ids = [];
 
             // japanese post processing

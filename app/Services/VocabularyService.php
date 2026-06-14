@@ -98,6 +98,12 @@ class VocabularyService {
             throw new \Exception('Words parameter must not be empty!');
         }
 
+        foreach ($words as $word) {
+            if (!TextBlockService::isVocabularyToken($word, $language)) {
+                throw new \Exception('Phrase contains an invalid word.');
+            }
+        }
+
         if (in_array($language, $languagesWithoutSpaces, true)) {
             $phrase->words_searchable = implode('', $words);
         } else {

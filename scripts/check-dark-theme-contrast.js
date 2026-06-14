@@ -121,6 +121,11 @@ if (chipBlock && chipBlock[0].includes('textDark')) {
     failures.push('Dark chips must not use textDark on dark surfaces.');
 }
 
+const primaryChipBlock = css.match(/#app \.v-application\.dark \.v-chip\.bg-primary,[\s\S]*?\n}\n/);
+if (!primaryChipBlock || !primaryChipBlock[0].includes('--v-theme-on-primary')) {
+    failures.push('Dark primary chips must use the on-primary text token.');
+}
+
 if (failures.length > 0) {
     console.error('Dark theme contrast check failed:');
     for (const failure of failures) {

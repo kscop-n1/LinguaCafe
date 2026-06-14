@@ -7,6 +7,16 @@
     }
 }
 
+#app .v-application.dark .v-chip.bg-primary,
+#app .v-application.dark .v-theme--dark.v-chip.bg-primary {
+    color: rgb(var(--v-theme-on-primary));
+
+    .v-chip__content,
+    i {
+        color: rgb(var(--v-theme-on-primary));
+    }
+}
+
 #app .v-application.dark kbd {
     background-color: rgb(var(--v-theme-primary));
     color: rgb(var(--v-theme-textDark));

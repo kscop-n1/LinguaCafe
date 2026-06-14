@@ -121,6 +121,38 @@ class VocabularyTest extends TestCase
         $this->assertEquals('new translation', $phrase->translation);
     }
 
+
+
+    public function test_phrase_create_accepts_hyphenated_words_and_rejects_invalid_tokens(): void
+    {
+        $user = User::factory()->create();
+        $user->selected_language = 'english';
+        $user->save();
+
+        $validResponse = $this->actingAs($user)->postJson('/vocabulary/phrases/create', [
+            'words' => json_encode(['go', 'stir-crazy']),
+            'stage' => 2,
+            'reading' => '',
+            'translation' => '',
+        ]);
+
+        $validResponse->assertStatus(200);
+        $this->assertDatabaseHas('phrases', [
+            'user_id' => $user->id,
+            'words_searchable' => 'go stir-crazy',
+        ]);
+
+        foreach ([['#'], ['+1'], ['+10d6'], ['+2/+4'], ['):' ], ["'s"]] as $words) {
+            $response = $this->actingAs($user)->postJson('/vocabulary/phrases/create', [
+                'words' => json_encode($words),
+                'stage' => 2,
+                'reading' => '',
+                'translation' => '',
+            ]);
+
+            $response->assertStatus(500);
+        }
+    }
     public function test_phrase_update_ignores_words_payload(): void
     {
         $user = User::factory()->create();

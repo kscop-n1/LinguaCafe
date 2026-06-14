@@ -69,6 +69,8 @@ jobs:
           tags: ${{ steps.meta_php.outputs.tags }}
           labels: ${{ steps.meta_php.outputs.labels }}
           push: true
+          cache-from: type=gha,scope=linguacafe-webserver
+          cache-to: type=gha,mode=max,scope=linguacafe-webserver
 
       - name: PHP Image digest
         run: echo ${{ steps.docker_build_php.outputs.digest }}
@@ -85,6 +87,8 @@ jobs:
           tags: ${{ steps.meta_python.outputs.tags }}
           labels: ${{ steps.meta_python.outputs.labels }}
           push: true
+          cache-from: type=gha,scope=linguacafe-python-service
+          cache-to: type=gha,mode=max,scope=linguacafe-python-service
 
       - name: Python Image digest
         run: echo ${{ steps.docker_build_python.outputs.digest }}

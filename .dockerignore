@@ -14,3 +14,30 @@ storage/framework/views
 
 docker/mysql
 docker/**/*.log
+
+# Local-only project metadata and reports
+.agents
+.codex
+.phpunit.result.cache
+supervisord.pid
+GithubImages
+release-notes
+tests
+
+# Runtime images do not need local compose files or documentation
+docker-compose*.yml
+*.md
+UPGRADE_*
+VISUAL_TEST_PLAN.md
+DOCKER_UPDATE_CHECKLIST.md
+Feedback_about_migration.md
+migration.md
+JmdictImport.md
+
+# Build leftovers and local caches
+coverage
+test-results
+playwright-report
+*.log
+*.tmp
+*.bak
