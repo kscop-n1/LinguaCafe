@@ -189,6 +189,70 @@
     font-size: 14px;
 }
 
+// compact table actions
+.table-action-cell,
+.v-data-table td.table-action-cell {
+    width: 96px;
+    min-width: 96px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.table-action-button.v-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 0px !important;
+    margin: 0px 2px !important;
+    border-radius: 50% !important;
+}
+
+.table-action-button .v-btn__content {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-action-button .v-icon {
+    font-size: 18px;
+}
+
+.app-dialog-card {
+    max-height: calc(100vh - 48px);
+    display: flex !important;
+    flex-direction: column;
+}
+
+.app-dialog-card > .v-card__text {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+.app-dialog-card > .v-card__actions {
+    flex: 0 0 auto;
+}
+
+.vertical-toolbar-button.v-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    min-height: 40px !important;
+    padding: 0px !important;
+    border-radius: 50% !important;
+}
+
+.vertical-toolbar-button .v-btn__content {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 // custom expansion card
 .expansion-card {
     .v-card__title {
@@ -458,6 +522,35 @@
     .navigation-bottom-list {
         padding-top: 8px;
         padding-bottom: 8px;
+    }
+
+    .navigation-bottom-list .navigation-button {
+        min-height: 40px;
+        align-items: center;
+    }
+
+    .navigation-bottom-list .navigation-button .v-list-item__prepend {
+        width: 40px;
+        min-width: 40px;
+        max-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+        margin-inline-end: 0px;
+    }
+
+    .navigation-bottom-list .navigation-button .v-list-item__content {
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+    }
+
+    .navigation-bottom-list .navigation-button .v-icon,
+    .navigation-bottom-list .navigation-button .v-img {
+        margin: 0px;
+        align-self: center;
     }
 
     .navigation-language-button .v-list-item__prepend,

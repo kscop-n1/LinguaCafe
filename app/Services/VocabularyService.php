@@ -491,7 +491,12 @@ class VocabularyService {
 
             $lowerCaseWord = mb_strtolower($record[0], 'UTF-8');
 
-            if (str_contains($lowerCaseWord, ' ') || mb_strlen($lowerCaseWord) >= 255 || mb_strlen($lowerCaseWord) === 0) {
+            if (
+                str_contains($lowerCaseWord, ' ') ||
+                mb_strlen($lowerCaseWord) >= 255 ||
+                mb_strlen($lowerCaseWord) === 0 ||
+                !TextBlockService::isVocabularyToken($lowerCaseWord, $language)
+            ) {
                 $rejectedWords ++;
                 continue;
             }

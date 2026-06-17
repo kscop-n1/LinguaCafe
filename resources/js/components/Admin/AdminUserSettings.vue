@@ -43,7 +43,7 @@
                     { title: 'E-mail', key: 'email' },
                     { title: 'Created', key: 'created_at_text', align: 'center' },
                     { title: 'Admin', key: 'is_admin', align: 'center' },
-                    { title: 'Actions', key: 'actions', align: 'center', sortable: false },
+                    { title: 'Actions', key: 'actions', align: 'center', sortable: false, width: '96px' },
                 ]"
                 :items="users"
                 :loading="loading"
@@ -58,6 +58,7 @@
                 <template v-slot:item.actions="{ item }">
                     <v-btn
                         icon
+                        class="table-action-button"
                         title="Edit"
                         @click="editUser(item)"
                     >

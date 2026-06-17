@@ -1,9 +1,9 @@
 <template>
-    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent scrollable max-width="1000">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="1000">
         <v-card
             id="text-reader-settings"
             variant="outlined"
-            class="rounded-lg"
+            class="rounded-lg app-dialog-card"
         >
             <v-card-title>
                 <span class="text-h5">Settings</span>
@@ -12,7 +12,7 @@
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-card-title>
-            <v-card-text class="pb-12" v-if="settingsLoaded" style="height: 800px;">
+            <v-card-text class="pb-12" v-if="settingsLoaded">
                 <v-tabs :show-arrows="false" v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden">
                     <v-tab>Text</v-tab>
                     <v-tab>Vocabulary box</v-tab>

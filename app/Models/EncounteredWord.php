@@ -17,6 +17,12 @@ class EncounteredWord extends Model
 {
     use HasFactory;
     public const INVALID_VOCABULARY_SQL_PATTERNS = [
+        "^[^[:alpha:]]",
+        "[^[:alpha:]]$",
+        "[0-9]",
+        "[+*/=]",
+        "--",
+        "[_[:space:].,:;?!()\[\]{}<>|]",
         "^[+\\-]?[0-9]+([.,][0-9]+)?$",
         "^[+\\-]?[0-9]+d[0-9]*$",
         "^[+\\-]?[0-9]+(d[0-9]*)?(\\/[+\\-]?[0-9]+(d[0-9]*)?)+$",

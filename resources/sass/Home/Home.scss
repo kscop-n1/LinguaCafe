@@ -27,6 +27,21 @@
         justify-content: flex-start;
         font-size: 18px;
 
+        .calendar-popup-icon-button.v-btn {
+            width: 30px !important;
+            height: 30px !important;
+            min-width: 30px !important;
+            min-height: 30px !important;
+            padding: 0px !important;
+            background-color: rgba(255, 255, 255, .18);
+            color: white;
+        }
+
+        .calendar-popup-icon-button .v-icon {
+            color: white;
+            font-size: 18px;
+        }
+
         #calendar-popup-date-text {
             margin-top: 6px;
         }

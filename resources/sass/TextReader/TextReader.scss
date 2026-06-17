@@ -70,6 +70,34 @@
         margin-top: 8px;
     }
 
+    .v-slider-thumb__surface {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .v-slider__thumb-label {
+        transform: translateY(-16px) translateX(-50%) !important;
+        min-width: 28px !important;
+        max-width: 96px;
+        white-space: nowrap;
+    }
+
+    .switch-container.justify-end {
+        gap: 10px;
+    }
+
+    .settings-label-with-help {
+        display: grid !important;
+        grid-template-columns: minmax(0, auto) 24px;
+        justify-content: start;
+        align-items: center;
+        column-gap: 6px;
+    }
+
+    .settings-label-with-help .v-icon {
+        margin-left: 0px !important;
+    }
+
     .v-switch {
         flex: 0 0 auto;
     }

@@ -14,7 +14,7 @@ class TextBlockServiceTest extends TestCase
 
     public function test_vocabulary_token_classifier_rejects_reported_non_word_tokens(): void
     {
-        foreach (["#", "'s", "):", "+1", "+10", "+10d6", "+1d", "+1d10", "+1d20", "+1d3", "+1d4", "+1d6", "+1d8", "+2", "+2/+4", "+20", "+2d", "+2d10", "+2d6", "+3", "+30", "+3d6", "+4", "+4/+8", "+40", "+4d6", "+5", "+50", "+5d6", "+6", "1d6", "2d10", "2020", "---", "-", "well-", "-known"] as $token) {
+        foreach (["#", "'s", "):", "+1", "+10", "+10d6", "+1d", "+1d10", "+1d20", "+1d3", "+1d4", "+1d6", "+1d8", "+2", "+2/+4", "+20", "+2d", "+2d10", "+2d6", "+3", "+30", "+3d6", "+4", "+4/+8", "+40", "+4d6", "+5", "+50", "+5d6", "+6", "1d6", "2d10", "2020", "---", "-", "well-", "-known", "-fis", "-m", "/12*mp", "1+db", "1b", "1d10+db", "1d3+db", "1d3-1", "1d4+db", "1d4+poison", "1d6+db", "1d6/", "1d8+db"] as $token) {
             $this->assertFalse(TextBlockService::isVocabularyToken($token, "english"), $token);
         }
     }
@@ -100,6 +100,8 @@ class TextBlockServiceTest extends TestCase
         $service = new TextBlockService($user->id, "english");
         $service->setProcessedWords([
             $this->processedWord("Hello"),
+            $this->processedWord("1d6+db"),
+            $this->processedWord("-fis"),
             $this->processedWord("+1d20"),
             $this->processedWord("+1d"),
             $this->processedWord("#"),
@@ -112,6 +114,8 @@ class TextBlockServiceTest extends TestCase
         $this->assertSame(["hello", "don't"], $service->uniqueWords);
         $this->assertDatabaseHas("encountered_words", ["user_id" => $user->id, "word" => "hello", "stage" => 2]);
         $this->assertDatabaseHas("encountered_words", ["user_id" => $user->id, "word" => "don't", "stage" => 2]);
+        $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "1d6+db"]);
+        $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "-fis"]);
         $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "+1d20"]);
         $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "+1d"]);
         $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "#"]);

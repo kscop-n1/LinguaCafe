@@ -1,6 +1,6 @@
 <template>
-    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="600px" height="300px">
-        <v-card class="rounded-lg">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="600px">
+        <v-card class="rounded-lg app-dialog-card">
             <v-card-title>
                 <!-- Add user title-->
                 <template v-if="userId == -1">

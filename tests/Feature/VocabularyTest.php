@@ -329,6 +329,9 @@ class VocabularyTest extends TestCase
         $this->createVocabularyWord($user, "+1d", ["stage" => 2]);
         $this->createVocabularyWord($user, "+2/+4", ["stage" => -1]);
         $this->createVocabularyWord($user, "#", ["stage" => 0]);
+        foreach (["-fis", "-m", "/12*mp", "1+db", "1b", "1d10+db", "1d3+db", "1d3-1", "1d4+poison", "1d6/"] as $token) {
+            $this->createVocabularyWord($user, $token, ["stage" => 2]);
+        }
 
         $response = $this->searchVocabularyWords($user, -1, -1);
 
@@ -338,6 +341,39 @@ class VocabularyTest extends TestCase
             [$valid->id, $hyphenated->id, $unicode->id],
             $this->responseWordIds($response)
         );
+    }
+
+    public function test_vocabulary_csv_import_rejects_invalid_tokens_and_keeps_valid_words(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $fileName = "vocabulary-import-test.csv";
+        $path = storage_path("app/temp/" . $fileName);
+
+        if (!is_dir(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
+        }
+
+        file_put_contents($path, implode("\n", [
+            "word|translation",
+            "stir-crazy|valid",
+            "1d6+db|invalid",
+            "-fis|invalid",
+        ]));
+
+        try {
+            $service = app(\App\Services\VocabularyService::class);
+            $result = $service->importFromCsv($user->id, "english", $fileName, "|", false, true);
+        } finally {
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        $this->assertSame(1, $result->createdWords);
+        $this->assertSame(2, $result->rejectedWords);
+        $this->assertDatabaseHas("encountered_words", ["user_id" => $user->id, "word" => "stir-crazy"]);
+        $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "1d6+db"]);
+        $this->assertDatabaseMissing("encountered_words", ["user_id" => $user->id, "word" => "-fis"]);
     }
 
     private function createVocabularyUser(string $language): User

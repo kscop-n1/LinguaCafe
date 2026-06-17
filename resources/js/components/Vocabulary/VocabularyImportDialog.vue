@@ -1,8 +1,8 @@
 <template>
-    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent scrollable width="800px">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent width="800px">
         <v-card 
             id="vocabulary-export-dialog" 
-            class="rounded-lg"
+            class="rounded-lg app-dialog-card"
             :loading="loading"
             min-height="400px"
         >
@@ -23,7 +23,7 @@
                 <template v-if="importResult === null || importResult.error">
                     <!-- Import information -->
                     <v-alert border="left" type="info" color="primary" v-if="!loading">
-                        Please read the <a href="/user-manual/vocabulary-import"><v-icon small class="mr-0.5">mdi-file</v-icon>user manual</a> before importing.
+                        Please read the <a href="/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe"><v-icon small class="mr-0.5">mdi-file</v-icon>user manual</a> before importing.
                     </v-alert>
 
                     <!-- Csv file -->

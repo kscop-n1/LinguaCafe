@@ -43,7 +43,7 @@
                     title: 'Actions',
                     key: 'actions',
                     sortable: false,
-                    width: '120px',
+                    width: '96px',
                     align: 'center',
                 }
             ]"
@@ -58,6 +58,7 @@
                     rounded 
                     variant="flat" 
                     icon
+                    class="table-action-button"
                     @click="editFont(item.index)"
                 >
                     <v-icon>mdi-pencil</v-icon>
@@ -69,6 +70,7 @@
                     rounded 
                     variant="flat" 
                     icon
+                    class="table-action-button"
                     color="error"
                     @click="deleteFont(item.index)"
                 >

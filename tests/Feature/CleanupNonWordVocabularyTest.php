@@ -37,7 +37,7 @@ class CleanupNonWordVocabularyTest extends TestCase
     public function test_apply_marks_invalid_stage_two_tokens_ignored_without_deleting(): void
     {
         $user = User::factory()->create();
-        $invalid = $this->word($user, "+2/+4", 2);
+        $invalid = $this->word($user, "1d6+db", 2);
         $valid = $this->word($user, "valid", 2);
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
@@ -50,7 +50,7 @@ class CleanupNonWordVocabularyTest extends TestCase
 
         $this->assertSame(1, $invalid->stage);
         $this->assertSame(2, $valid->stage);
-        $this->assertDatabaseHas("encountered_words", ["id" => $invalid->id, "word" => "+2/+4"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $invalid->id, "word" => "1d6+db"]);
     }
 
     public function test_user_id_filter_only_affects_that_user(): void

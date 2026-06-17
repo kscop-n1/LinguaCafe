@@ -5,6 +5,25 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.5.48<v-spacer /> 2026.06.17.</v-card-title>
+            <v-card-text>
+                <b>Bug fixes:</b>
+                <ul>
+                    <li>Fixed remaining vocabulary cleanup regressions so punctuation fragments, dice/stat notation, arithmetic-like tokens, and numeric symbol mixtures are rejected while valid contractions, Unicode words, and lexical hyphenated words still work.</li>
+                    <li>Restored compact table action buttons, circular Reader/Review toolbar buttons, readable edit-modal chips, visible calendar popover icons, aligned sidebar bottom controls, and cleaner Reader Settings control alignment.</li>
+                    <li>Improved shared dialog sizing so admin, vocabulary, import, and reader settings modals use available desktop height before showing internal scrollbars.</li>
+                    <li>Fixed the Vocabulary sort menu labels and updated the Vocabulary import user manual link to the current import documentation route.</li>
+                </ul>
+
+                <b>Other changes:</b>
+                <ul>
+                    <li>Added release notes with GHCR Docker image update instructions for v0.5.48.</li>
+                    <li>Added regression coverage for the parser/import cleanup path and the affected shared UI components.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.41<v-spacer /> 2026.06.05.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

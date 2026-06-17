@@ -106,11 +106,11 @@
 
             <!-- Toolbar -->
             <div id="toolbar">
-                <v-btn title="Fullscreen" icon class="my-2" @click="openFullscreen" v-if="!fullscreen"><v-icon>mdi-arrow-expand-all</v-icon></v-btn>
-                <v-btn title="Exit fullscreen" icon class="my-2" @click="exitFullscreen" v-if="fullscreen"><v-icon>mdi-arrow-collapse-all</v-icon></v-btn>
-                <v-btn title="Review settings" icon @click="settingsDialog = true;"><v-icon>mdi-cog</v-icon></v-btn>
+                <v-btn title="Fullscreen" icon class="my-2 vertical-toolbar-button" @click="openFullscreen" v-if="!fullscreen"><v-icon>mdi-arrow-expand-all</v-icon></v-btn>
+                <v-btn title="Exit fullscreen" icon class="my-2 vertical-toolbar-button" @click="exitFullscreen" v-if="fullscreen"><v-icon>mdi-arrow-collapse-all</v-icon></v-btn>
+                <v-btn title="Review settings" icon class="vertical-toolbar-button" @click="settingsDialog = true;"><v-icon>mdi-cog</v-icon></v-btn>
                 <v-btn
-                    class="my-2"
+                    class="my-2 vertical-toolbar-button"
                     icon
                     title="Text to speech"
                     :disabled="!textToSpeechAvailable"
@@ -124,7 +124,7 @@
                         <v-btn
                             icon
                             title="Example sentence mode"
-                            class="my-2"
+                            class="my-2 vertical-toolbar-button"
                             v-bind="props"
                         >
                             <v-icon>mdi-text-long</v-icon>
@@ -143,9 +143,9 @@
                     </v-list>
                 </v-menu>
 
-                <v-btn title="Increase font size" icon class="my-2" @click="increaseFontSize"><v-icon>mdi-magnify-plus</v-icon></v-btn>
-                <v-btn title="Decrease font size" icon class="my-2" @click="decreaseFontSize"><v-icon>mdi-magnify-minus</v-icon></v-btn>
-                <v-btn title="Show hotkey information" icon class="my-2" @click="hotkeyDialog = !hotkeyDialog;"><v-icon>mdi-keyboard-outline</v-icon></v-btn>
+                <v-btn title="Increase font size" icon class="my-2 vertical-toolbar-button" @click="increaseFontSize"><v-icon>mdi-magnify-plus</v-icon></v-btn>
+                <v-btn title="Decrease font size" icon class="my-2 vertical-toolbar-button" @click="decreaseFontSize"><v-icon>mdi-magnify-minus</v-icon></v-btn>
+                <v-btn title="Show hotkey information" icon class="my-2 vertical-toolbar-button" @click="hotkeyDialog = !hotkeyDialog;"><v-icon>mdi-keyboard-outline</v-icon></v-btn>
             </div>
 
             <!-- Card -->

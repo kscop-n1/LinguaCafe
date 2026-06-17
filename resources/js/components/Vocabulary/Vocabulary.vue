@@ -160,10 +160,10 @@
                             </v-btn>
                         </template>
                         <v-list class="filter-popup pa-0" density="compact">
-                                <v-list-item prepend-icon="mdi-sort-alphabetical-ascending" :class="{'v-list-item--active': filters.orderBy == 'words'}" @click="applyFilter('orderBy', 'words')">Word</v-list-item>
-                                <v-list-item prepend-icon="mdi-sort-alphabetical-descending" :class="{'v-list-item--active': filters.orderBy == 'words desc'}" @click="applyFilter('orderBy', 'words desc')">Word</v-list-item>
-                                <v-list-item prepend-icon="mdi-sort-numeric-ascending" :class="{'v-list-item--active': filters.orderBy == 'stage'}" @click="applyFilter('orderBy', 'stage')">Level</v-list-item>
-                                <v-list-item prepend-icon="mdi-sort-numeric-descending" :class="{'v-list-item--active': filters.orderBy == 'stage desc'}" @click="applyFilter('orderBy', 'stage desc')">Level</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-alphabetical-ascending" :class="{'v-list-item--active': filters.orderBy == 'words'}" @click="applyFilter('orderBy', 'words')">Word ascending</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-alphabetical-descending" :class="{'v-list-item--active': filters.orderBy == 'words desc'}" @click="applyFilter('orderBy', 'words desc')">Word descending</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-numeric-ascending" :class="{'v-list-item--active': filters.orderBy == 'stage'}" @click="applyFilter('orderBy', 'stage')">Level ascending</v-list-item>
+                                <v-list-item prepend-icon="mdi-sort-numeric-descending" :class="{'v-list-item--active': filters.orderBy == 'stage desc'}" @click="applyFilter('orderBy', 'stage desc')">Level descending</v-list-item>
                         </v-list>
                     </v-menu>
 
@@ -250,7 +250,8 @@
                     <td class="actions">
                         <v-btn 
                             v-if="word.type == 'word'"
-                            icon 
+                            icon
+                            class="table-action-button"
                             title="Edit"
                             @click="editItem(word.id, 'Word')"
                         >
@@ -258,7 +259,8 @@
                         </v-btn>
                         <v-btn 
                             v-else
-                            icon 
+                            icon
+                            class="table-action-button"
                             title="Edit"
                             @click="editItem(word.id, 'Phrase')"
                         >

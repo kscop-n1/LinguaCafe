@@ -85,7 +85,9 @@ div.v-list.filter-popup {
         }
 
         .actions {
-            width: 120px;
+            width: 96px;
+            min-width: 96px;
+            white-space: nowrap;
         }
 
         .word-with-reading {

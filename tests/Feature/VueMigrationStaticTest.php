@@ -185,6 +185,56 @@ class VueMigrationStaticTest extends TestCase
      * @param array<int, string> $directories
      * @return array<int, string>
      */
+    public function test_regression_ui_patterns_are_preserved(): void
+    {
+        foreach ([
+            "resources/js/components/Admin/AdminUserSettings.vue",
+            "resources/js/components/Admin/AdminDictionarySettings.vue",
+            "resources/js/components/Admin/AdminFontTypeSettings.vue",
+            "resources/js/components/Vocabulary/Vocabulary.vue",
+        ] as $file) {
+            $contents = file_get_contents(base_path($file));
+
+            $this->assertStringContainsString("table-action-button", $contents, $file . " must use compact table action buttons.");
+        }
+
+        $appScss = file_get_contents(base_path("resources/sass/app.scss"));
+        $this->assertStringContainsString(".table-action-button.v-btn", $appScss);
+        $this->assertStringContainsString(".app-dialog-card", $appScss);
+        $this->assertStringContainsString(".vertical-toolbar-button.v-btn", $appScss);
+
+        $this->assertStringContainsString("vertical-toolbar-button", file_get_contents(base_path("resources/js/components/Review/Review.vue")));
+        $this->assertStringContainsString("vertical-toolbar-button", file_get_contents(base_path("resources/js/components/TextReader/TextReader.vue")));
+    }
+
+    public function test_vocabulary_import_manual_link_targets_existing_markdown_section(): void
+    {
+        $dialog = file_get_contents(base_path("resources/js/components/Vocabulary/VocabularyImportDialog.vue"));
+        $manual = file_get_contents(base_path("manual/Setup.md"));
+
+        $this->assertStringContainsString("/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe", $dialog);
+        $this->assertStringContainsString("# Importing Vocabulary into LinguaCafe", $manual);
+    }
+
+    public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void
+    {
+        foreach ([
+            "resources/js/components/Admin/AdminEditUserDialog.vue",
+            "resources/js/components/Admin/AdminEditFontTypeDialog.vue",
+            "resources/js/components/TextReader/TextReaderSettings.vue",
+        ] as $file) {
+            $contents = file_get_contents(base_path($file));
+
+            $this->assertStringContainsString("app-dialog-card", $contents, $file . " must use viewport-aware dialog card sizing.");
+            $this->assertStringNotContainsString("height=\"300px\"", $contents);
+            $this->assertStringNotContainsString("style=\"height: 800px;\"", $contents);
+        }
+    }
+
+    /**
+     *  array<int, string> $directories
+     *  array<int, string>
+     */
     private function sourceFiles(array $directories): array
     {
         $files = [];

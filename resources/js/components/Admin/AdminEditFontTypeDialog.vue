@@ -1,6 +1,6 @@
 <template>
-    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="800px" height="300px" scrollable>
-        <v-card class="rounded-lg" :loading="saving">
+    <v-dialog :model-value="dialogValue" @update:model-value="updateValue" persistent max-width="800px">
+        <v-card class="rounded-lg app-dialog-card" :loading="saving">
             <!-- Card title -->
             <v-card-title>
                 <!-- Upload font title -->

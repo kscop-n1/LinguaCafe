@@ -15,15 +15,15 @@
                 }"
             >
                 <div id="toolbar" :class="{'d-flex': true}" :style="{'top': toolbarTop + 'px'}">
-                    <v-btn title="Fullscreen" class="toolbar-button" icon @click="fullscreen" v-if="!fullscreenMode"><v-icon>mdi-arrow-expand-all</v-icon></v-btn>
-                    <v-btn title="Exit fullscreen" class="toolbar-button" icon @click="exitFullscreen" v-if="fullscreenMode"><v-icon>mdi-arrow-collapse-all</v-icon></v-btn>
-                    <v-btn title="Text reader settings" class="toolbar-button" icon @click="openDialog('settings')"><v-icon>mdi-cog</v-icon></v-btn>
-                    <v-btn title="Chapters" class="toolbar-button" icon @click="openDialog('chapters')"><v-icon>mdi-book-alphabet</v-icon></v-btn>
-                    <v-btn title="Glossary" class="toolbar-button" icon @click="openDialog('glossary')"><v-icon>mdi-translate</v-icon></v-btn>
-                    <v-btn title="Increase font size" class="toolbar-button" icon @click="increaseFontSize"><v-icon>mdi-magnify-plus</v-icon></v-btn>
-                    <v-btn title="Decrease font size" class="toolbar-button" icon @click="decreaseFontSize"><v-icon>mdi-magnify-minus</v-icon></v-btn>
-                    <v-btn title="Toggle plain mode" class="toolbar-button" icon @click="settings.plainTextMode = !settings.plainTextMode; toolbarSettingChanged();" variant="text"><v-icon :color="settings.plainTextMode ? 'primary' : ''">mdi-marker</v-icon></v-btn>
-                    <v-btn title="Show hotkey information" class="toolbar-button" icon @click="hotkeyDialog = !hotkeyDialog;"><v-icon>mdi-keyboard-outline</v-icon></v-btn>
+                    <v-btn title="Fullscreen" class="toolbar-button vertical-toolbar-button" icon @click="fullscreen" v-if="!fullscreenMode"><v-icon>mdi-arrow-expand-all</v-icon></v-btn>
+                    <v-btn title="Exit fullscreen" class="toolbar-button vertical-toolbar-button" icon @click="exitFullscreen" v-if="fullscreenMode"><v-icon>mdi-arrow-collapse-all</v-icon></v-btn>
+                    <v-btn title="Text reader settings" class="toolbar-button vertical-toolbar-button" icon @click="openDialog('settings')"><v-icon>mdi-cog</v-icon></v-btn>
+                    <v-btn title="Chapters" class="toolbar-button vertical-toolbar-button" icon @click="openDialog('chapters')"><v-icon>mdi-book-alphabet</v-icon></v-btn>
+                    <v-btn title="Glossary" class="toolbar-button vertical-toolbar-button" icon @click="openDialog('glossary')"><v-icon>mdi-translate</v-icon></v-btn>
+                    <v-btn title="Increase font size" class="toolbar-button vertical-toolbar-button" icon @click="increaseFontSize"><v-icon>mdi-magnify-plus</v-icon></v-btn>
+                    <v-btn title="Decrease font size" class="toolbar-button vertical-toolbar-button" icon @click="decreaseFontSize"><v-icon>mdi-magnify-minus</v-icon></v-btn>
+                    <v-btn title="Toggle plain mode" class="toolbar-button vertical-toolbar-button" icon @click="settings.plainTextMode = !settings.plainTextMode; toolbarSettingChanged();" variant="text"><v-icon :color="settings.plainTextMode ? 'primary' : ''">mdi-marker</v-icon></v-btn>
+                    <v-btn title="Show hotkey information" class="toolbar-button vertical-toolbar-button" icon @click="hotkeyDialog = !hotkeyDialog;"><v-icon>mdi-keyboard-outline</v-icon></v-btn>
                 </div>
             </div>
 

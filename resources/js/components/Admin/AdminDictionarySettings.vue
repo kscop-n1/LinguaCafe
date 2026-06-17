@@ -90,7 +90,8 @@
                 <!-- Actions -->
                 <template v-slot:item.actions="{ item }">
                     <v-btn 
-                        icon 
+                        icon
+                        class="table-action-button"
                         title="Edit"
                         @click="editDictionary(item.id)"
                     >
@@ -98,7 +99,8 @@
                     </v-btn>
                     <v-btn 
                         v-if="item.name !== 'JMDict'"
-                        icon 
+                        icon
+                        class="table-action-button"
                         title="Delete"
                         color="error"
                         @click="deleteDictionary(item.id, item.name, item.database_table_name)"
@@ -168,7 +170,7 @@
                         title: 'Actions',
                         key: 'actions',
                         align: 'center',
-                        width: '110px',
+                        width: '96px',
                         sortable: false,
                     },
                 ]
