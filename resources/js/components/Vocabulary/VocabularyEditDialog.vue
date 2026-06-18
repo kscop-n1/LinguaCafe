@@ -25,41 +25,48 @@
                     <v-chip 
                         v-if="item.added_to_srs"
                         :size="$vuetify.display.smAndDown ? 'small' : 'default'"
-                        class="ma-1 pr-4" 
+                        class="vocabulary-meta-chip ma-1"
                         color="primary"
+                        variant="flat"
+                        append-icon="mdi-cards"
                         title="First time added to srs."
                     > 
-                        Added on {{ item.added_to_srs }}<v-icon :size="$vuetify.display.smAndDown ? 'small' : 'default'" class="ml-1">mdi-cards</v-icon>
+                        Added on {{ item.added_to_srs }}
                     </v-chip>
 
                     <v-chip 
                         v-if="!item.next_review || item.stage >= 0 || !item.added_to_srs"
                         :size="$vuetify.display.smAndDown ? 'small' : 'default'"
-                        class="ma-1" 
+                        class="vocabulary-meta-chip ma-1"
                         color="primary" 
+                        variant="flat"
+                        append-icon="mdi-timer-off-outline"
                         title="This word or phrase was in review and has been learned."
                     >
                         Finished review
-                        <v-icon :size="$vuetify.display.smAndDown ? 'small' : 'default'" class="ml-1">mdi-timer-off-outline</v-icon>
                     </v-chip>
 
                     <v-chip 
                         v-else
                         :size="$vuetify.display.smAndDown ? 'small' : 'default'"
-                        class="ma-1 pr-3" 
+                        class="vocabulary-meta-chip ma-1"
                         color="primary" 
+                        variant="flat"
+                        append-icon="mdi-timer-outline"
                         title="Next review."
                     >
-                        Due on {{ item.next_review }}<v-icon :size="$vuetify.display.smAndDown ? 'small' : 'default'" class="ml-1">mdi-timer-outline</v-icon>
+                        Due on {{ item.next_review }}
                     </v-chip>
                     
                     <v-chip
                         :size="$vuetify.display.smAndDown ? 'small' : 'default'"
-                        class="ma-1 pr-3" 
+                        class="vocabulary-meta-chip ma-1"
                         color="primary"
+                        variant="flat"
+                        append-icon="mdi-magnify"
                         title="Number of lookups for this word or phrase."
                     >
-                        {{ item.lookup_count }} lookups<v-icon :size="$vuetify.display.smAndDown ? 'small' : 'default'" class="ml-1">mdi-magnify</v-icon>
+                        {{ item.lookup_count }} lookups
                     </v-chip>
                     
                     <!-- <v-chip 

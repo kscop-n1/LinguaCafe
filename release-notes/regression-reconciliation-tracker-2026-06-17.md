@@ -190,8 +190,17 @@ Evidence: Static regression checks require `table-action-button` in Admin Users/
 Recommended action: Port old approach correctly to current framework
 Risk: Medium
 Tests needed: Component, Visual regression, Static regression
-Fix status: Already applied before this reconciliation; static verified
-Notes: Book chapter row actions currently use compact `density="compact" size="small"` directly because they include a read button and menu activator rather than edit/delete pairs.
+Fix status: Applied and verified on 2026-06-18
+Notes: The shared 32px icon-button contract now covers Admin Users, Dictionaries, Fonts, Vocabulary, Book Chapters, and Book List.
+
+Follow-up investigation on 2026-06-18:
+
+- Confirmed shared root cause: the later global `div/button/a.v-btn` padding rule excludes only `.toolbar-button` and `.stage-button`. Its more-specific `padding-left/right: 18px !important` can override `.table-action-button` compact padding, so the shared class is not actually authoritative.
+- Book Chapters and Book List still use local `size`/`density` or bare icon-button configuration instead of the shared dense-table action contract.
+- Applied fix: exempted `.table-action-button` and `.vertical-toolbar-button` from the global text-button padding rule, made the 32px geometry non-shrinking, and migrated Book Chapters and Book List actions to the shared class and 96px column.
+- Changed files: `resources/sass/app.scss`, `resources/js/components/Library/BookChapters.vue`, `resources/sass/Library/BookChapters.scss`, `resources/js/components/Library/BookListLayout/BookListTable.vue`, and `tests/Feature/VueMigrationStaticTest.php`.
+- Automated coverage now requires the shared class on all representative tables, 32x32 fixed geometry, global-padding exclusions, and 96px action columns.
+- Isolated browser verification in light and dark themes measured every representative action at 32x32 with zero padding. Verified Admin Users, Dictionaries, Fonts, Vocabulary, Book List, and Book Chapters; icons remained visible in both themes.
 
 ## REG-006: Reader and Review toolbar buttons oval/overlapping/low contrast
 
@@ -205,8 +214,16 @@ Evidence: Static checks require `vertical-toolbar-button` in Reader and Review p
 Recommended action: Port old approach correctly to current framework
 Risk: Medium
 Tests needed: Component, Visual regression, Static regression
-Fix status: Already applied before this reconciliation; static verified
-Notes: Browser verification in light/dark remains the best guard for overlap and contrast because static tests only prove dimensions/classes exist.
+Fix status: Applied and verified on 2026-06-18
+Notes: Browser verification remains part of the acceptance evidence because static tests cannot prove computed geometry or panel separation.
+
+Follow-up investigation on 2026-06-18:
+
+- Confirmed shared root cause: Reader buttons carry both `.toolbar-button` and `.vertical-toolbar-button`, while Review buttons carry only `.vertical-toolbar-button`. The global text-button padding rule therefore overrides Review's zero padding and can stretch the rendered icon button.
+- Applied fix: treated `.vertical-toolbar-button` as a shared icon-button exemption and fixed width, height, flex basis, aspect ratio, padding, and border radius in `resources/sass/app.scss`.
+- Automated coverage requires the shared class in Reader and Review and asserts the 40x40 circular contract.
+- Isolated browser verification measured all eight Reader and seven Review controls at 40x40, zero padding, and 50% radius at 1440px desktop and 900px tablet widths.
+- Reader verification with the details panel open showed an 8px separation between the panel and toolbar rail; no overlap or viewport overflow was observed. Dark-theme toolbar background/icon colors computed as `rgb(40, 39, 44)` and `rgb(226, 225, 232)`.
 
 ## REG-007: Dialog height, internal scroll, and edit chip text
 
@@ -220,8 +237,20 @@ Evidence: Static checks prevent fixed-height dialog regressions and require app-
 Recommended action: Port old approach correctly to current framework
 Risk: Medium
 Tests needed: Component, Visual regression, Static regression
-Fix status: Already applied before this reconciliation; static verified
-Notes: Old fixed heights are not a behavior to restore. Correct migration is viewport-aware sizing with scroll only when content exceeds viewport.
+Fix status: Applied and verified on 2026-06-18 for shared dialog sizing and Vocabulary edit chips
+Notes: Old fixed heights are not a behavior to restore. Reader Settings row/slider alignment remains outside this cluster and is still a separate REG-007 follow-up.
+
+Follow-up investigation on 2026-06-18:
+
+- Current `app-dialog-card` is directionally correct, but the test only checks that the class name exists. It does not assert dynamic viewport sizing, `min-height: 0` on the flex body, or footer separation.
+- Vocabulary edit chips render literal default-slot labels and use the semantic `on-primary` token, but tests do not verify those labels or the contrast contract.
+- Runtime inspection found an additional migration defect: the shared card body/footer rules targeted Vuetify 2 internals `.v-card__text` and `.v-card__actions`, but Vuetify 3 renders `.v-card-text` and `.v-card-actions`.
+- Applied dialog fix in `resources/sass/app.scss`: `100dvh`-aware card bounds, non-shrinking title/actions, a `min-height: 0` scrollable Vuetify 3 card body, and a separated footer. Mobile uses a smaller viewport inset while preserving body-only scrolling.
+- Applied chip fix in `resources/js/components/Vocabulary/VocabularyEditDialog.vue` and `resources/sass/Vocabulary/VocabularyEditDialog.scss`: explicit flat primary chips, literal default-slot labels, Vuetify 3 append icons, and semantic `primary`/`on-primary` colors for content and icons.
+- Automated coverage in `tests/Feature/VueMigrationStaticTest.php` rejects the obsolete Vuetify 2 card selectors, asserts the dialog flex/overflow contract, and requires all four metadata labels plus the semantic chip contrast contract.
+- Isolated browser verification at 1440x1000 showed no body overflow for Edit Font (734/734px) or Upload Font (796/796px, 28 language checkboxes); Edit User also fit without overflow at desktop size. At 390x844, Upload Font scrolled only its body (673/796px) and kept footer actions visible.
+- Phrase edit rendered `Added on`, `Due on`, and `0 lookups`; Word edit rendered `Finished review` and `1 lookups`. Labels and icons were visible in light theme (white on `rgb(171, 136, 117)`) and dark theme (`rgb(20, 17, 16)` on `rgb(197, 148, 125)`).
+- Verification: full PHPUnit suite `69 tests, 869 assertions`; `npm run check:migration`; `npm run check:css` with zero errors and existing warnings only; production build; and `git diff --check`.
 
 ## REG-008: Dark theme contrast regressions
 

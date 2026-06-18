@@ -40,7 +40,7 @@
                         title: 'Actions',
                         key: 'actions',
                         align: 'center',
-                        width: '140px',
+                        width: '96px',
                         sortable: false,
                     },
                 ]"
@@ -66,10 +66,10 @@
                 
                 <!-- Actions -->
                 <template v-slot:item.actions="{ item }">
-                    <v-btn icon title="Open book" @click="openBook(item.id)"><v-icon>mdi-book-open</v-icon></v-btn>
+                    <v-btn icon class="table-action-button" title="Open book" @click="openBook(item.id)"><v-icon>mdi-book-open</v-icon></v-btn>
                     <v-menu content-class="book-menu" rounded location="bottom end" :offset="[0, -5]">
                         <template v-slot:activator="{ props }">
-                            <v-btn icon v-bind="props"  title="Actions">
+                            <v-btn icon class="table-action-button" v-bind="props" title="Actions">
                                 <v-icon>mdi-dots-horizontal</v-icon>
                             </v-btn>
                         </template>

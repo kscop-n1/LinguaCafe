@@ -203,6 +203,10 @@
     height: 32px !important;
     min-width: 32px !important;
     min-height: 32px !important;
+    max-width: 32px !important;
+    flex: 0 0 32px;
+    aspect-ratio: 1;
+    box-sizing: border-box;
     padding: 0px !important;
     margin: 0px 2px !important;
     border-radius: 50% !important;
@@ -221,18 +225,27 @@
 }
 
 .app-dialog-card {
-    max-height: calc(100vh - 48px);
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
     display: flex !important;
     flex-direction: column;
+    overflow: hidden;
 }
 
-.app-dialog-card > .v-card__text {
-    flex: 1 1 auto;
-    overflow-y: auto;
-}
-
-.app-dialog-card > .v-card__actions {
+.app-dialog-card > .v-card-title,
+.app-dialog-card > .v-card-actions {
     flex: 0 0 auto;
+}
+
+.app-dialog-card > .v-card-text {
+    flex: 0 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.app-dialog-card > .v-card-actions {
+    border-top: 1px solid rgb(var(--v-theme-divider));
 }
 
 .vertical-toolbar-button.v-btn {
@@ -241,6 +254,10 @@
     min-width: 40px !important;
     max-width: 40px !important;
     min-height: 40px !important;
+    max-height: 40px !important;
+    flex: 0 0 40px;
+    aspect-ratio: 1;
+    box-sizing: border-box;
     padding: 0px !important;
     border-radius: 50% !important;
 }
@@ -704,20 +721,19 @@ div.v-bottom-navigation{
 div.v-btn,
 button.v-btn,
 a.v-btn {
-    &:not(.toolbar-button):not(.stage-button) {
+    &:not(.toolbar-button):not(.stage-button):not(.table-action-button):not(.vertical-toolbar-button) {
         text-decoration: none !important;
         text-transform: unset !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
     }
-
-    padding-left: 18px !important;
-    padding-right: 18px !important;
 }
 
 .v-bottom-navigation .v-btn,
 div.v-btn.primary, div.v-btn.success, div.v-btn.error, div.v-btn.info, div.v-btn.purple,
 button.v-btn.primary, button.v-btn.success, button.v-btn.error, button.v-btn.info, button.v-btn.purple,
 a.v-btn.primary, a.v-btn.success, a.v-btn.error , a.v-btn.info, a.v-btn.purple {
-&:not(.toolbar-button):not(.stage-button):not(.v-btn--router){
+&:not(.toolbar-button):not(.stage-button):not(.table-action-button):not(.vertical-toolbar-button):not(.v-btn--router){
         color: #ffffff;
 
         span {
@@ -784,11 +800,18 @@ div.v-data-table {
     div.v-btn.primary, div.v-btn.success, div.v-btn.error, div.v-btn.info, div.v-btn.purple,
     button.v-btn.primary, button.v-btn.success, button.v-btn.error, button.v-btn.info, button.v-btn.purple,
     a.v-btn.primary, a.v-btn.success, a.v-btn.error , a.v-btn.info, a.v-btn.purple {
-        &:not(.toolbar-button):not(.stage-button) {
+        &:not(.toolbar-button):not(.stage-button):not(.table-action-button):not(.vertical-toolbar-button) {
             i {
                 margin-top: 0px;
             }
         }
+    }
+}
+
+@media (max-width: 600px) {
+    .app-dialog-card {
+        max-height: calc(100vh - 16px);
+        max-height: calc(100dvh - 16px);
     }
 }
 

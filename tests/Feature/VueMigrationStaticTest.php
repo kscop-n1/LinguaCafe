@@ -220,6 +220,8 @@ class VueMigrationStaticTest extends TestCase
             "resources/js/components/Admin/AdminDictionarySettings.vue",
             "resources/js/components/Admin/AdminFontTypeSettings.vue",
             "resources/js/components/Vocabulary/Vocabulary.vue",
+            "resources/js/components/Library/BookChapters.vue",
+            "resources/js/components/Library/BookListLayout/BookListTable.vue",
         ] as $file) {
             $contents = file_get_contents(base_path($file));
 
@@ -227,12 +229,36 @@ class VueMigrationStaticTest extends TestCase
         }
 
         $appScss = file_get_contents(base_path("resources/sass/app.scss"));
-        $this->assertStringContainsString(".table-action-button.v-btn", $appScss);
-        $this->assertStringContainsString(".app-dialog-card", $appScss);
-        $this->assertStringContainsString(".vertical-toolbar-button.v-btn", $appScss);
+        $this->assertMatchesRegularExpression(
+            '/\.table-action-button\.v-btn\s*\{[^}]*width:\s*32px\s*!important;[^}]*height:\s*32px\s*!important;[^}]*flex:\s*0 0 32px;[^}]*aspect-ratio:\s*1;/s',
+            $appScss
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.vertical-toolbar-button\.v-btn\s*\{[^}]*width:\s*40px\s*!important;[^}]*height:\s*40px\s*!important;[^}]*flex:\s*0 0 40px;[^}]*aspect-ratio:\s*1;/s',
+            $appScss
+        );
+        $this->assertGreaterThanOrEqual(
+            2,
+            substr_count($appScss, ':not(.table-action-button):not(.vertical-toolbar-button)'),
+            'Global desktop and mobile text-button rules must not override shared icon-button geometry.'
+        );
 
         $this->assertStringContainsString("vertical-toolbar-button", file_get_contents(base_path("resources/js/components/Review/Review.vue")));
         $this->assertStringContainsString("vertical-toolbar-button", file_get_contents(base_path("resources/js/components/TextReader/TextReader.vue")));
+
+        foreach ([
+            "resources/js/components/Admin/AdminUserSettings.vue",
+            "resources/js/components/Admin/AdminDictionarySettings.vue",
+            "resources/js/components/Admin/AdminFontTypeSettings.vue",
+            "resources/js/components/Library/BookChapters.vue",
+            "resources/js/components/Library/BookListLayout/BookListTable.vue",
+        ] as $file) {
+            $this->assertMatchesRegularExpression(
+                '/title:\s*[\'"]Actions[\'"].*?width:\s*[\'"]96px[\'"]/s',
+                file_get_contents(base_path($file)),
+                $file . ' must reserve the shared compact action-column width.'
+            );
+        }
     }
 
     public function test_vocabulary_import_manual_link_targets_existing_markdown_section(): void
@@ -257,6 +283,45 @@ class VueMigrationStaticTest extends TestCase
             $this->assertStringNotContainsString("height=\"300px\"", $contents);
             $this->assertStringNotContainsString("style=\"height: 800px;\"", $contents);
         }
+
+        $appScss = file_get_contents(base_path("resources/sass/app.scss"));
+        $this->assertMatchesRegularExpression(
+            '/\.app-dialog-card\s*\{[^}]*max-height:\s*calc\(100dvh - 32px\);[^}]*display:\s*flex\s*!important;[^}]*flex-direction:\s*column;/s',
+            $appScss
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.app-dialog-card\s*>\s*\.v-card-text\s*\{[^}]*flex:\s*0 1 auto;[^}]*min-height:\s*0;[^}]*overflow-y:\s*auto;/s',
+            $appScss
+        );
+        $this->assertStringContainsString(
+            ".app-dialog-card > .v-card-title",
+            $appScss,
+            "Dialog titles and actions must remain outside the scrollable body."
+        );
+        $this->assertStringContainsString(".app-dialog-card > .v-card-actions", $appScss);
+        $this->assertStringNotContainsString(".app-dialog-card > .v-card__text", $appScss);
+        $this->assertStringNotContainsString(".app-dialog-card > .v-card__actions", $appScss);
+    }
+
+    public function test_vocabulary_edit_metadata_chips_keep_visible_labels_and_semantic_contrast(): void
+    {
+        $dialog = file_get_contents(base_path("resources/js/components/Vocabulary/VocabularyEditDialog.vue"));
+        $styles = file_get_contents(base_path("resources/sass/Vocabulary/VocabularyEditDialog.scss"));
+
+        foreach ([
+            "Added on {{ item.added_to_srs }}",
+            "Finished review",
+            "Due on {{ item.next_review }}",
+            "{{ item.lookup_count }} lookups",
+        ] as $label) {
+            $this->assertStringContainsString($label, $dialog);
+        }
+
+        $this->assertGreaterThanOrEqual(4, substr_count($dialog, 'class="vocabulary-meta-chip'));
+        $this->assertGreaterThanOrEqual(4, substr_count($dialog, 'variant="flat"'));
+        $this->assertStringContainsString(".vocabulary-meta-chip.v-chip", $styles);
+        $this->assertStringContainsString("rgb(var(--v-theme-on-primary))", $styles);
+        $this->assertStringContainsString("rgb(var(--v-theme-primary))", $styles);
     }
 
     /**

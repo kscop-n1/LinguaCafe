@@ -69,7 +69,7 @@
                 { title: 'Known', key: 'wordCount.known', align: 'center' },
                 { title: 'Highlighted', key: 'wordCount.highlighted', align: 'center' },
                 { title: 'New', key: 'wordCount.new', align: 'center' },
-                { title: 'Actions', key: 'actions', sortable: false },
+                { title: 'Actions', key: 'actions', sortable: false, align: 'center', width: '96px' },
             ]"
             :items="chapters"
             :loading="chaptersLoading"
@@ -237,10 +237,10 @@
                 <div class="chapter-actions d-flex justify-center">
                     <!-- Action buttons -->
                     <template v-if="item.processing_status == 'processed'">
-                        <v-btn icon density="compact" size="small" :to="'/chapters/read/' + item.id" title="Read"><v-icon>mdi-book-open-variant</v-icon></v-btn>
+                        <v-btn icon class="table-action-button" :to="'/chapters/read/' + item.id" title="Read"><v-icon>mdi-book-open-variant</v-icon></v-btn>
                         <v-menu rounded location="bottom end" :offset="[0, -5]">
                             <template v-slot:activator="{ props }">
-                                <v-btn icon density="compact" size="small" v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
+                                <v-btn icon class="table-action-button" title="Actions" v-bind="props"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                             </template>
                             <v-list class="pa-0" density="compact" width="100">
                                 <v-list-item @click="showEditChapterDialog(item.id)"><v-list-item-title>Edit</v-list-item-title></v-list-item>

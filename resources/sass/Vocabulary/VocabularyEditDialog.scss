@@ -2,17 +2,23 @@
     width: 100%;
 }
 
-#vocabulary-edit-chips .v-chip.bg-primary,
-#vocabulary-edit-chips .v-chip.bg-primary .v-chip__content,
-#vocabulary-edit-chips .v-chip.bg-primary .v-icon {
+.vocabulary-meta-chip.v-chip {
+    background-color: rgb(var(--v-theme-primary)) !important;
     color: rgb(var(--v-theme-on-primary)) !important;
 }
 
-#vocabulary-edit-chips .v-chip {
+.vocabulary-meta-chip.v-chip .v-chip__content,
+.vocabulary-meta-chip.v-chip .v-chip__append,
+.vocabulary-meta-chip.v-chip .v-icon {
+    color: rgb(var(--v-theme-on-primary)) !important;
+    opacity: 1;
+}
+
+.vocabulary-meta-chip.v-chip {
     min-height: 28px;
 }
 
-#vocabulary-edit-chips .v-chip__content {
+.vocabulary-meta-chip.v-chip .v-chip__content {
     display: inline-flex;
     align-items: center;
     gap: 4px;
