@@ -324,6 +324,57 @@ class VueMigrationStaticTest extends TestCase
         $this->assertStringContainsString("rgb(var(--v-theme-primary))", $styles);
     }
 
+    public function test_reader_settings_use_a_shared_responsive_control_row_contract(): void
+    {
+        $dialog = file_get_contents(base_path("resources/js/components/TextReader/TextReaderSettings.vue"));
+        $styles = file_get_contents(base_path("resources/sass/TextReader/TextReader.scss"));
+
+        $this->assertGreaterThanOrEqual(20, substr_count($dialog, 'class="settings-row'));
+        $this->assertGreaterThanOrEqual(6, substr_count($dialog, 'settings-row--slider'));
+        $this->assertGreaterThanOrEqual(12, substr_count($dialog, 'settings-row--toggle'));
+        $this->assertGreaterThanOrEqual(7, substr_count($dialog, 'settings-row__label'));
+        $this->assertGreaterThanOrEqual(20, substr_count($dialog, 'settings-row__control'));
+        $this->assertGreaterThanOrEqual(5, substr_count($dialog, 'settings-row__help'));
+        $this->assertGreaterThanOrEqual(5, substr_count($dialog, '<v-btn icon variant="text" size="small" class="settings-row__help"'));
+        $this->assertGreaterThanOrEqual(19, substr_count($dialog, 'hide-details'));
+        $this->assertStringContainsString(':show-arrows="$vuetify.display.smAndDown"', $dialog);
+
+        $this->assertStringContainsString('v-slot:activator="{ props }"', $dialog);
+        $this->assertStringNotContainsString('v-slot:activator="{ on, attrs }"', $dialog);
+        $this->assertGreaterThanOrEqual(20, substr_count($dialog, '@update:model-value="saveSettings'));
+
+        $this->assertMatchesRegularExpression(
+            '/#text-reader-settings\s*\{.*?\.settings-row\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:\s*minmax\(180px,\s*260px\)\s+minmax\(0,\s*1fr\);/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.settings-row__control\s*\{[^}]*min-width:\s*0;[^}]*max-width:\s*560px\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.settings-row__label\s*\{[^}]*min-width:\s*0;[^}]*max-width:\s*none\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.settings-row--toggle\s+\.settings-row__control\s*\{[^}]*justify-self:\s*start;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.settings-row--slider\s+\.settings-row__control\s*\{[^}]*padding-top:\s*24px;/s',
+            $styles
+        );
+        $this->assertStringContainsString(".settings-row--slider .v-slider-thumb__label", $styles);
+        $this->assertStringNotContainsString(".settings-row--slider .v-slider__thumb-label", $styles);
+        $this->assertStringNotContainsString("translateY(", strstr($styles, "#text-reader-settings"));
+        $this->assertMatchesRegularExpression(
+            '/@media\s*\(max-width:\s*600px\)\s*\{.*?\.settings-row\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\);/s',
+            $styles
+        );
+        $this->assertStringContainsString("> .v-card-text", $styles);
+        $this->assertStringNotContainsString("#text-reader-settings {\n    .v-card__text", $styles);
+        $this->assertStringNotContainsString(":has(.v-switch)", $styles);
+    }
+
     /**
      *  array<int, string> $directories
      *  array<int, string>

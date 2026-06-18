@@ -13,7 +13,7 @@
                 </v-btn>
             </v-card-title>
             <v-card-text class="pb-12" v-if="settingsLoaded">
-                <v-tabs :show-arrows="false" v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden">
+                <v-tabs :show-arrows="$vuetify.display.smAndDown" v-model="tab" bg-color="foreground" class="rounded-lg border overflow-hidden">
                     <v-tab>Text</v-tab>
                     <v-tab>Vocabulary box</v-tab>
                     <v-tab>Vocabulary hover box</v-tab>
@@ -22,9 +22,9 @@
                     <!-- Text section -->
                     <v-window-item :value="0">
                         <!-- Font type -->
-                        <v-row v-if="fontTypes.length">
-                            <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Font type:</v-col>
-                            <v-col cols="12" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row v-if="fontTypes.length" class="settings-row settings-row--select">
+                            <v-col cols="12" md="4" class="settings-row__label">Font type:</v-col>
+                            <v-col cols="12" md="8" class="settings-row__control">
                                 <v-select
                                     v-model="selectedFontType"
                                     :items="fontTypes"
@@ -40,16 +40,17 @@
                         </v-row>
 
                         <!-- Line spacing -->
-                        <v-row>
-                            <v-col cols="12" sm="3" class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3">Space between lines:</v-col>
-                            <v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
+                        <v-row class="settings-row settings-row--slider">
+                            <v-col cols="12" sm="3" class="settings-row__label">Space between lines:</v-col>
+                            <v-col class="settings-row__control">
                                 <v-slider
                                     v-model="settings.lineSpacing"
                                     :tick-labels="['Small', '', '', '', '', '', '', '', '', '', 'Large']"
                                     :tick-size="0"
                                     :max="10"
                                     thumb-label="always"
-                                    thumb-size="32"
+                                    thumb-size="20"
+                                    hide-details
                                     step="1"
                                     track-color="#c5c5c5"
                                     @update:model-value="saveSettings"
@@ -59,16 +60,17 @@
                         </v-row>
 
                         <!-- Maximum text width -->
-                        <v-row>
-                            <v-col cols="12" sm="3" class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3">Maximum text width:</v-col>
-                            <v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
+                        <v-row class="settings-row settings-row--slider">
+                            <v-col cols="12" sm="3" class="settings-row__label">Maximum text width:</v-col>
+                            <v-col class="settings-row__control">
                                 <v-slider
                                     v-model="settings.maximumTextWidth"
                                     :tick-labels="['Small', '', '', '', '', '', 'Full']"
                                     :tick-size="0"
                                     :max="6"
                                     thumb-label="always"
-                                    thumb-size="32"
+                                    thumb-size="20"
+                                    hide-details
                                     step="1"
                                     track-color="#c5c5c5"
                                     @update:model-value="saveSettings"
@@ -79,9 +81,9 @@
                         </v-row>
 
                         <!-- Font size -->
-                        <v-row>
-                            <v-col cols="12" sm="3" class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3">Font size:</v-col>
-                            <v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
+                        <v-row class="settings-row settings-row--slider">
+                            <v-col cols="12" sm="3" class="settings-row__label">Font size:</v-col>
+                            <v-col class="settings-row__control">
                                 <v-slider
                                     v-model="settings.fontSize"
                                     :tick-labels="['Small', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'Large']"
@@ -90,7 +92,8 @@
                                     :max="30"
                                     step="1"
                                     thumb-label="always"
-                                    thumb-size="32"
+                                    thumb-size="20"
+                                    hide-details
                                     track-color="#c5c5c5"
                                     @update:model-value="saveSettings"
                                 ></v-slider>
@@ -98,36 +101,39 @@
                         </v-row>
 
                         <!-- Hide all highlighting -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5 ">Hide all highlighting:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Hide all highlighting:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.hideAllHighlights"
+                                    hide-details
                                     @update:model-value="saveSettings('hideAllHighlights')"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Hide new word highlighting -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5 ">Hide new word highlighting:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Hide new word highlighting:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.hideNewWordHighlights"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Vertical text -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Vertical text:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Vertical text:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.verticalText"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                     disabled
                                 ></v-switch>
@@ -135,108 +141,120 @@
                         </v-row>
 
                         <!-- Furigana on highlighted words -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Furigana on highlighted words:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Furigana on highlighted words:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.furiganaOnHighlightedWords"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Furigana on new words -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Furigana on new words:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Furigana on new words:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.furiganaOnNewWords"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Auto move words to known -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Auto move words to known:
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label settings-label-with-help">Auto move words to known:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-btn icon variant="text" size="small" class="settings-row__help" v-bind="props" aria-label="About auto move words to known">
+                                            <v-icon size="small">mdi-help-circle-outline</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         Clicking the <b>Finish reading</b> button moves new words to known.
                                     </v-card>
                                 </v-menu>
                             </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoMoveWordsToKnown"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Auto highlight words -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Auto highlight words:
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label settings-label-with-help">Auto highlight words:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-btn icon variant="text" size="small" class="settings-row__help" v-bind="props" aria-label="About auto highlight words">
+                                            <v-icon size="small">mdi-help-circle-outline</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         Auto highlight words when you add a translation to them.
                                     </v-card>
                                 </v-menu>
                             </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoHighlightWords"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Auto level up words -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Auto level up words:
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label settings-label-with-help">Auto level up words:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-btn icon variant="text" size="small" class="settings-row__help" v-bind="props" aria-label="About auto level up words">
+                                            <v-icon size="small">mdi-help-circle-outline</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         Clicking the 'Finished reading' button will automatically level up any words and phrases for which you haven't opened the vocabulary box.
                                     </v-card>
                                 </v-menu>
                             </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.autoLevelUpWords"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Show subtitle timestamps -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Show subtitle timestamps:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Show subtitle timestamps:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.showSubtitleTimestamps"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Space between subtitles -->
-                        <v-row>
-                            <v-col cols="12" sm="3" class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3">Space between subtitles:</v-col>
-                            <v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
+                        <v-row class="settings-row settings-row--slider">
+                            <v-col cols="12" sm="3" class="settings-row__label">Space between subtitles:</v-col>
+                            <v-col class="settings-row__control">
                                 <v-slider
                                     v-model="settings.spaceBetweenSubtitles"
                                     :tick-labels="['Small', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'Large']"
@@ -245,7 +263,8 @@
                                     :max="40"
                                     step="2"
                                     thumb-label="always"
-                                    thumb-size="32"
+                                    thumb-size="20"
+                                    hide-details
                                     track-color="#c5c5c5"
                                     @update:model-value="saveSettings"
                                 ></v-slider>
@@ -258,9 +277,9 @@
                         </div>
 
                         <!-- Text to speech -->
-                        <v-row v-if="textToSpeechVoices.length">
-                            <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">TTS voice:</v-col>
-                            <v-col cols="12" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row v-if="textToSpeechVoices.length" class="settings-row settings-row--select">
+                            <v-col cols="12" md="4" class="settings-row__label">TTS voice:</v-col>
+                            <v-col cols="12" md="8" class="settings-row__control">
                                 <v-select
                                     v-model="textToSpeechSelectedVoice"
                                     :items="textToSpeechVoices"
@@ -276,9 +295,9 @@
                         </v-row>
 
                         <!-- Text to speech speed -->
-                        <v-row v-if="textToSpeechVoices.length">
-                            <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">TTS speed:</v-col>
-                            <v-col cols="12" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row v-if="textToSpeechVoices.length" class="settings-row settings-row--slider">
+                            <v-col cols="12" md="4" class="settings-row__label">TTS speed:</v-col>
+                            <v-col cols="12" md="8" class="settings-row__control">
                                 <v-slider
                                     v-model="settings.textToSpeechSpeed"
                                     :tick-labels="['0.3', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2']"
@@ -286,7 +305,8 @@
                                     :max="2"
                                     :min="0.3"
                                     thumb-label="always"
-                                    thumb-size="32"
+                                    thumb-size="20"
+                                    hide-details
                                     step="0.1"
                                     track-color="#c5c5c5"
                                     class="align-center"
@@ -299,9 +319,9 @@
                     <!-- Vocabulary box section-->
                     <v-window-item :value="1">
                         <!-- Vocab box scroll into view -->
-                        <v-row>
-                            <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Scroll to vocabulary method:</v-col>
-                            <v-col cols="12" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--select">
+                            <v-col cols="12" md="4" class="settings-row__label">Scroll to vocabulary method:</v-col>
+                            <v-col cols="12" md="8" class="settings-row__control">
                                 <v-select
                                     v-model="settings.vocabBoxScrollIntoView"
                                     :items="vocabBoxScrollIntoViewData"
@@ -317,12 +337,14 @@
                         </v-row>
 
                         <!-- Vocabulary sidebar -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5 ">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label settings-label-with-help">
                                 Vocabulary sidebar:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-btn icon variant="text" size="small" class="settings-row__help" v-bind="props" aria-label="About vocabulary sidebar">
+                                            <v-icon size="small">mdi-help-circle-outline</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         An always visible sidebar vocabulary in a fixed position, that replaces the popup vocabulary. <br><br>
@@ -330,22 +352,25 @@
                                     </v-card>
                                 </v-menu>
                             </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularySidebar"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Vocabulary bottom sheet -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5 ">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label settings-label-with-help">
                                 Vocabulary bottom sheet:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-btn icon variant="text" size="small" class="settings-row__help" v-bind="props" aria-label="About vocabulary bottom sheet">
+                                            <v-icon size="small">mdi-help-circle-outline</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         A bottom sheet vocabulary designed for mobile screens, that replaces the popup vocabulary. <br><br>
@@ -353,10 +378,11 @@
                                     </v-card>
                                 </v-menu>
                             </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularyBottomSheet"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
@@ -366,42 +392,46 @@
                     <!-- Vocabulary hover box section-->
                     <v-window-item :value="2">
                         <!-- Vocabulary hover box -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="settings-label-with-help switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary box:
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label settings-label-with-help">Hover vocabulary box:
                                 <v-menu location="bottom end" :offset="[0, -12]">
                                     <template v-slot:activator="{ props }">
-                                        <v-icon class="ml-2" v-bind="props">mdi-help-circle-outline</v-icon>
+                                        <v-btn icon variant="text" size="small" class="settings-row__help" v-bind="props" aria-label="About hover vocabulary box">
+                                            <v-icon size="small">mdi-help-circle-outline</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card variant="outlined" class="rounded-lg pa-4" width="320px">
                                         A minimalistic vocabulary box that appears when you move the mouse over a word or phrase.
                                     </v-card>
                                 </v-menu>
                             </v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     color="primary"
                                     v-model="settings.vocabularyHoverBox"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Hover vocabulary box dictionary search -->
-                        <v-row>
-                            <v-col cols="8" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Hover vocabulary dictionary search:</v-col>
-                            <v-col cols="4" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--toggle">
+                            <v-col cols="8" md="4" class="settings-row__label">Hover vocabulary dictionary search:</v-col>
+                            <v-col cols="4" md="8" class="settings-row__control">
                                 <v-switch
                                     v-model="settings.vocabularyHoverBoxSearch"
                                     color="primary"
+                                    hide-details
                                     @update:model-value="saveSettings"
                                 ></v-switch>
                             </v-col>
                         </v-row>
 
                         <!-- Hover vocabulary delay -->
-                        <v-row>
-                            <v-col cols="12" sm="3" class="d-flex align-center mt-0 mt-md-0 mb-md-5 pb-0 pb-sm-0 pb-md-3">Hover vocabulary delay:</v-col>
-                            <v-col class="slider-container d-flex pt-xs-0 pt-sm-0 pt-md-3 align-center">
+                        <v-row class="settings-row settings-row--slider">
+                            <v-col cols="12" sm="3" class="settings-row__label">Hover vocabulary delay:</v-col>
+                            <v-col class="settings-row__control">
                                 <v-slider
                                     v-model="settings.vocabularyHoverBoxDelay"
                                     :tick-labels="['200ms', '', '', '', '', '', '', '', '1000ms']"
@@ -409,7 +439,8 @@
                                     :min="200"
                                     :max="1000"
                                     thumb-label="always"
-                                    thumb-size="32"
+                                    thumb-size="20"
+                                    hide-details
                                     step="100"
                                     track-color="#c5c5c5"
                                     @update:model-value="saveSettings"
@@ -419,9 +450,9 @@
                         </v-row>
 
                         <!-- Hover vocabulary preferred position -->
-                        <v-row>
-                            <v-col cols="12" md="4" class="switch-container d-flex align-center mt-0 mb-md-5">Preferred position:</v-col>
-                            <v-col cols="12" md="8" class="switch-container d-flex align-center mt-0 pt-3 justify-end">
+                        <v-row class="settings-row settings-row--select">
+                            <v-col cols="12" md="4" class="settings-row__label">Preferred position:</v-col>
+                            <v-col cols="12" md="8" class="settings-row__control">
                                 <v-select
                                     v-model="settings.vocabularyHoverBoxPreferredPosition"
                                     :items="vocabularyHoverBoxPreferredPositionData"

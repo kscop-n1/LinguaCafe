@@ -237,8 +237,8 @@ Evidence: Static checks prevent fixed-height dialog regressions and require app-
 Recommended action: Port old approach correctly to current framework
 Risk: Medium
 Tests needed: Component, Visual regression, Static regression
-Fix status: Applied and verified on 2026-06-18 for shared dialog sizing and Vocabulary edit chips
-Notes: Old fixed heights are not a behavior to restore. Reader Settings row/slider alignment remains outside this cluster and is still a separate REG-007 follow-up.
+Fix status: Applied and verified on 2026-06-18
+Notes: Old fixed heights are not a behavior to restore. Shared dialog sizing, Vocabulary edit chips, and the deferred Reader Settings alignment follow-up are now verified.
 
 Follow-up investigation on 2026-06-18:
 
@@ -251,6 +251,35 @@ Follow-up investigation on 2026-06-18:
 - Isolated browser verification at 1440x1000 showed no body overflow for Edit Font (734/734px) or Upload Font (796/796px, 28 language checkboxes); Edit User also fit without overflow at desktop size. At 390x844, Upload Font scrolled only its body (673/796px) and kept footer actions visible.
 - Phrase edit rendered `Added on`, `Due on`, and `0 lookups`; Word edit rendered `Finished review` and `1 lookups`. Labels and icons were visible in light theme (white on `rgb(171, 136, 117)`) and dark theme (`rgb(20, 17, 16)` on `rgb(197, 148, 125)`).
 - Verification: full PHPUnit suite `69 tests, 869 assertions`; `npm run check:migration`; `npm run check:css` with zero errors and existing warnings only; production build; and `git diff --check`.
+
+Reader Settings alignment investigation on 2026-06-18:
+
+- Old implementation reference: `/data/git/old_LinguaCafe/LinguaCafe/resources/js/components/TextReader/TextReaderSettings.vue` used Vuetify 2 `v-row`/`v-col`, fixed 50px switch rows and 60px slider rows, 38px slider thumbs, `@change`, and menu activators using `{ on, attrs }`. Help icons were placed in the wide control column immediately before the switch. Old `resources/sass/TextReader/TextReader.scss` supplied only fixed row heights; old global `resources/sass/app.scss` positioned slider labels with a Vuetify 2-specific transform.
+- Current implementation reference: `resources/js/components/TextReader/TextReaderSettings.vue` correctly migrated model events and activator bindings, and moved help icons next to their labels. It retained mixed Bootstrap-like column proportions (`8/4`, `md=4/8`, slider labels at `sm=3`), per-row padding/justify utilities, and no common semantic row/control contract. The result is an excessively wide control column, switches pinned to its far edge, and inconsistent label/control boundaries across tabs.
+- Current Reader-specific styles in `resources/sass/TextReader/TextReader.scss` partially compensate with minimum heights, `:has(.v-switch)` mobile rules, and slider offsets, but still target obsolete Vuetify 2 `.v-card__text`. They also layer a Reader-specific thumb-label transform over the global Vuetify 3 slider transform in `resources/sass/app.scss`.
+- Classification: combination of incorrect Vuetify 2 -> Vuetify 3 migration, lost shared row structure, invalid/inconsistent flex-grid layout, and slider-label positioning overrides.
+- Affected Text tab controls: font type, line spacing, maximum text width, font size, all highlight/furigana switches, auto move/highlight/level-up help rows, subtitle timestamp/spacing, TTS voice, and TTS speed.
+- Affected Vocabulary box controls: scroll method, vocabulary sidebar help/switch, and vocabulary bottom-sheet help/switch.
+- Affected Vocabulary hover box controls: hover-box help/switch, dictionary-search switch, hover delay slider, and preferred-position select.
+- Existing coverage only checks generic dialog sizing and absence of fixed heights in `tests/Feature/VueMigrationStaticTest.php`; it does not assert semantic Reader Settings rows, Vuetify 3 card selectors, slider/thumb containment, help activator placement, aligned control columns, model bindings, or responsive overflow.
+- Planned fix: introduce one Reader Settings row/label/control class contract across all three tabs, keep help activators inside the label group, contain sliders and their labels in the control column, align switches at the start of a bounded control column, and stack rows below the mobile breakpoint without absolute positioning.
+
+Reader Settings alignment fix and verification on 2026-06-18:
+
+- Changed `resources/js/components/TextReader/TextReaderSettings.vue` to use 23 semantic `settings-row` instances with select, slider, and toggle variants. Every row now has a logical label group and bounded control group; six help controls remain beside their labels.
+- Changed `resources/sass/TextReader/TextReader.scss` to use a component-scoped two-column grid (`180-260px` label plus a control column capped at 560px), a compact mobile toggle grid, stacked mobile select/slider rows, and Vuetify 3 `.v-card-text` and `.v-slider-thumb__label` selectors.
+- Root cause confirmed at runtime: Vuetify 3 renders `.v-slider-thumb__label`, while the migrated Reader override still targeted Vuetify 2 `.v-slider__thumb-label`. The obsolete transform shifted no real Vuetify 3 value element; the later attempted vertical transform moved the actual value outside its row. The final contract uses Vuetify's native vertical placement and only centers the label horizontally.
+- Slider thumbs are intentionally 20x20. Sliders and switches use `hide-details` so Vuetify 3 does not reserve empty message space. Stored setting names, values, `v-model` bindings, and `@update:model-value="saveSettings"` behavior are unchanged.
+- Help activators are Vuetify 3 icon buttons with explicit accessible names. Browser verification confirmed Enter opens the explanatory popover; the hover-box help card measured 320x106 and remained inside the 390px viewport.
+- Mobile tabs enable Vuetify arrows at `smAndDown`; the 390px viewport displayed Text and Vocabulary box plus a visible next arrow to reach Vocabulary hover box without document-level horizontal overflow.
+- Static coverage in `tests/Feature/VueMigrationStaticTest.php::test_reader_settings_use_a_shared_responsive_control_row_contract` asserts row variants, labels/controls/help buttons, responsive grid rules, current Vuetify selectors, `hide-details`, update bindings, mobile tab arrows, and absence of `:has(.v-switch)` and obsolete Reader slider/card selectors.
+- Isolated browser verification:
+  - 1440x1000 light: all visible slider value boxes were contained by their own rows; slider tracks were 560px; all Text-tab switches shared x=525; no horizontal overflow.
+  - 900x768 light: slider value remained contained, track width was 514px, switch x positions remained aligned, and the active tab body required no unnecessary internal scrolling.
+  - 390x844 light/dark: document scroll width remained 390px on Text, Vocabulary box, and Vocabulary hover box; rows reported no horizontal overflow; slider value boxes remained inside their rows; footer actions remained visible while only the modal body scrolled.
+  - Dark theme computed card colors were `rgb(40, 39, 44)` / `rgb(236, 236, 241)`; help, switch, and slider-value text remained readable.
+  - Keyboard/update behavior: hover-delay slider changed from 300 to 400 with ArrowRight; the hover-box switch changed through its native checkbox control; help opened with Enter.
+- Verification: full PHPUnit suite `70 tests, 902 assertions`; focused `VueMigrationStaticTest` `12 tests, 105 assertions`; `npm run check:migration`; production build; `npm run check:css` with zero errors and existing warnings only; and `git diff --check`.
 
 ## REG-008: Dark theme contrast regressions
 
