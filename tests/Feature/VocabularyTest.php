@@ -302,6 +302,108 @@ class VocabularyTest extends TestCase
         $this->assertSame([$expectedWord->id], $this->responseWordIds($response));
     }
 
+    public function test_book_filter_returns_distinct_words_and_phrases_for_each_book_and_any(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $firstBook = $this->createVocabularyBook($user, "Silo");
+        $secondBook = $this->createVocabularyBook($user, "Candela Obscure");
+        $firstWord = $this->createVocabularyWord($user, "silo");
+        $secondWord = $this->createVocabularyWord($user, "candela");
+        $firstPhrase = Phrase::forceCreate([
+            "user_id" => $user->id,
+            "language" => "english",
+            "words" => json_encode(["underground", "silo"]),
+            "words_searchable" => "underground silo",
+            "reading" => "",
+            "translation" => "",
+            "stage" => 2,
+        ]);
+        $secondPhrase = Phrase::forceCreate([
+            "user_id" => $user->id,
+            "language" => "english",
+            "words" => json_encode(["candela", "obscura"]),
+            "words_searchable" => "candela obscura",
+            "reading" => "",
+            "translation" => "",
+            "stage" => 2,
+        ]);
+
+        $firstChapter = $this->createVocabularyChapter($user, $firstBook, [$firstWord->word], [$firstWord->id]);
+        $firstChapter->unique_phrase_ids = json_encode([$firstPhrase->id]);
+        $firstChapter->save();
+        $secondChapter = $this->createVocabularyChapter($user, $secondBook, [$secondWord->word], [$secondWord->id]);
+        $secondChapter->unique_phrase_ids = json_encode([$secondPhrase->id]);
+        $secondChapter->save();
+
+        $firstResponse = $this->searchVocabulary($user, $firstBook->id, -1, "words and phrases");
+        $secondResponse = $this->searchVocabulary($user, $secondBook->id, -1, "words and phrases");
+        $anyResponse = $this->searchVocabulary($user, -1, -1, "words and phrases");
+
+        $firstResponse->assertOk();
+        $secondResponse->assertOk();
+        $anyResponse->assertOk();
+        $this->assertEqualsCanonicalizing(
+            [["id" => $firstWord->id, "type" => "word"], ["id" => $firstPhrase->id, "type" => "phrase"]],
+            $this->responseVocabularyKeys($firstResponse)
+        );
+        $this->assertEqualsCanonicalizing(
+            [["id" => $secondWord->id, "type" => "word"], ["id" => $secondPhrase->id, "type" => "phrase"]],
+            $this->responseVocabularyKeys($secondResponse)
+        );
+        $this->assertEqualsCanonicalizing(
+            [
+                ["id" => $firstWord->id, "type" => "word"],
+                ["id" => $secondWord->id, "type" => "word"],
+                ["id" => $firstPhrase->id, "type" => "phrase"],
+                ["id" => $secondPhrase->id, "type" => "phrase"],
+            ],
+            $this->responseVocabularyKeys($anyResponse)
+        );
+    }
+
+    public function test_book_filter_includes_words_from_partially_migrated_chapters(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $book = $this->createVocabularyBook($user, "Partially Migrated Book");
+        $idBackedWord = $this->createVocabularyWord($user, "modern");
+        $legacyWord = $this->createVocabularyWord($user, "legacy");
+        $this->createVocabularyWord($user, "outside");
+
+        $this->createVocabularyChapter($user, $book, [$idBackedWord->word], [$idBackedWord->id]);
+        $this->createVocabularyChapter($user, $book, [$legacyWord->word], null);
+
+        $response = $this->searchVocabularyWords($user, $book->id, -1);
+
+        $response->assertOk();
+        $this->assertSame(2, $response->json("wordCount"));
+        $this->assertEqualsCanonicalizing([$idBackedWord->id, $legacyWord->id], $this->responseWordIds($response));
+    }
+
+    public function test_book_filter_falls_back_to_processed_text_when_phrase_ids_are_missing(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $book = $this->createVocabularyBook($user, "Legacy Phrase Book");
+        $phrase = Phrase::forceCreate([
+            "user_id" => $user->id,
+            "language" => "english",
+            "words" => json_encode(["legacy", "phrase"]),
+            "words_searchable" => "legacy phrase",
+            "reading" => "",
+            "translation" => "",
+            "stage" => 2,
+        ]);
+        $chapter = $this->createVocabularyChapter($user, $book, [], []);
+        $chapter->unique_phrase_ids = null;
+        $chapter->setProcessedText([(object) ["w" => "legacy", "phrase_ids" => [$phrase->id]]]);
+        $chapter->save();
+
+        $response = $this->searchVocabulary($user, $book->id, -1, "only phrases");
+
+        $response->assertOk();
+        $this->assertSame(1, $response->json("wordCount"));
+        $this->assertSame([["id" => $phrase->id, "type" => "phrase"]], $this->responseVocabularyKeys($response));
+    }
+
     public function test_chapter_filter_matches_book_filter_for_migrated_unique_words_fallback(): void
     {
         $user = $this->createVocabularyUser("english");
@@ -432,12 +534,17 @@ class VocabularyTest extends TestCase
 
     private function searchVocabularyWords(User $user, int $bookId, int $chapterId)
     {
+        return $this->searchVocabulary($user, $bookId, $chapterId, "only words");
+    }
+
+    private function searchVocabulary(User $user, int $bookId, int $chapterId, string $phrases)
+    {
         return $this->actingAs($user)->postJson("/vocabulary/search", [
             "text" => "anytext",
             "book" => $bookId,
             "chapter" => $chapterId,
             "stage" => -999,
-            "phrases" => "only words",
+            "phrases" => $phrases,
             "orderBy" => "words",
             "translation" => "any",
             "page" => 1,
@@ -447,6 +554,16 @@ class VocabularyTest extends TestCase
     private function responseWordIds($response): array
     {
         return array_column($response->json("words"), "id");
+    }
+
+    private function responseVocabularyKeys($response): array
+    {
+        return array_map(function(array $item) {
+            return [
+                "id" => $item["id"],
+                "type" => $item["type"],
+            ];
+        }, $response->json("words"));
     }
 
 }

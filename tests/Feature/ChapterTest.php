@@ -124,7 +124,7 @@ class ChapterTest extends TestCase
         $chapter->language = 'japanese';
         $chapter->raw_text = 'raw text';
         $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
-        $chapter->unique_words = json_encode(["highlighted_word", "known_word", "new_word"]);
+        $chapter->unique_words = json_encode(["highlightedword", "knownword", "newword"]);
         $chapter->subtitle_timestamps = json_encode([]);
         $chapter->unique_word_ids = json_encode([10, 20, 30]);
         $chapter->save();
@@ -138,10 +138,10 @@ class ChapterTest extends TestCase
             'user_id' => $user->id,
             'language' => 'japanese',
             'stage' => -1,
-            'word' => 'highlighted_word',
+            'word' => 'highlightedword',
             'kanji' => '',
             'reading' => '',
-            'base_word' => 'highlighted_word',
+            'base_word' => 'highlightedword',
             'base_word_reading' => '',
             'lemma' => '',
             'translation' => ''
@@ -151,10 +151,10 @@ class ChapterTest extends TestCase
             'user_id' => $user->id,
             'language' => 'japanese',
             'stage' => 0,
-            'word' => 'known_word',
+            'word' => 'knownword',
             'kanji' => '',
             'reading' => '',
-            'base_word' => 'known_word',
+            'base_word' => 'knownword',
             'base_word_reading' => '',
             'lemma' => '',
             'translation' => ''
@@ -164,10 +164,10 @@ class ChapterTest extends TestCase
             'user_id' => $user->id,
             'language' => 'japanese',
             'stage' => 2,
-            'word' => 'new_word',
+            'word' => 'newword',
             'kanji' => '',
             'reading' => '',
-            'base_word' => 'new_word',
+            'base_word' => 'newword',
             'base_word_reading' => '',
             'lemma' => '',
             'translation' => ''
@@ -204,14 +204,15 @@ class ChapterTest extends TestCase
 
         for ($i = 1; $i <= 83; $i++) {
             $stage = $i % 3 === 0 ? -1 : ($i % 3 === 1 ? 0 : 2);
+            $wordText = 'word' . str_repeat('a', $i);
             $word = EncounteredWord::forceCreate([
                 'user_id' => $user->id,
                 'language' => 'japanese',
                 'stage' => $stage,
-                'word' => 'word_' . $i,
+                'word' => $wordText,
                 'kanji' => '',
                 'reading' => '',
-                'base_word' => 'word_' . $i,
+                'base_word' => $wordText,
                 'base_word_reading' => '',
                 'lemma' => '',
                 'translation' => '',
@@ -264,6 +265,13 @@ class ChapterTest extends TestCase
         $this->assertIsInt($pageTwoResponse->json('chapters.9.wordCount.known'));
         $this->assertIsInt($pageTwoResponse->json('chapters.9.wordCount.highlighted'));
         $this->assertIsInt($pageTwoResponse->json('chapters.9.wordCount.new'));
+        foreach ($pageTwoResponse->json('chapters') as $chapterData) {
+            $this->assertTrue($chapterData['wordCountsLoaded']);
+            foreach (['total', 'unique', 'known', 'highlighted', 'new'] as $statistic) {
+                $this->assertArrayHasKey($statistic, $chapterData['wordCount']);
+                $this->assertIsInt($chapterData['wordCount'][$statistic]);
+            }
+        }
 
         $allResponse = $this->actingAs($user)->postJson('/chapters', [
             'bookId' => $book->id,
@@ -277,7 +285,11 @@ class ChapterTest extends TestCase
             ->assertJsonPath('perPage', 83)
             ->assertJsonPath('total', 83)
             ->assertJsonPath('chapters.82.wordCount.total', 0)
-            ->assertJsonPath('chapters.82.wordCount.unique', 1);
+            ->assertJsonPath('chapters.82.wordCount.unique', 1)
+            ->assertJsonPath('chapters.82.wordCount.known', 0)
+            ->assertJsonPath('chapters.82.wordCount.highlighted', 0)
+            ->assertJsonPath('chapters.82.wordCount.new', 1)
+            ->assertJsonPath('chapters.82.wordCountsLoaded', true);
         $this->assertCount(83, $allResponse->json('chapters'));
 
         $invalidResponse = $this->actingAs($user)->postJson('/chapters', [

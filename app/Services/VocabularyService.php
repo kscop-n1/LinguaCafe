@@ -616,7 +616,23 @@ class VocabularyService {
 
         if ($hasChapterVocabularyFilter) {
             foreach ($filteredChapters as $filteredChapter) {
-                foreach ($filteredChapter->getUniquePhraseIds() as $phraseId) {
+                $chapterPhraseIds = $filteredChapter->getUniquePhraseIds();
+
+                if ($filteredChapter->unique_phrase_ids === null) {
+                    $legacyChapter = Chapter
+                        ::select(['id', 'processed_text'])
+                        ->where('user_id', $userId)
+                        ->where('id', $filteredChapter->id)
+                        ->first();
+
+                    foreach ($legacyChapter?->getProcessedText() ?: [] as $processedWord) {
+                        foreach (($processedWord->phrase_ids ?? []) as $phraseId) {
+                            $chapterPhraseIds[] = intval($phraseId);
+                        }
+                    }
+                }
+
+                foreach ($chapterPhraseIds as $phraseId) {
                     $filteredPhraseIds[intval($phraseId)] = true;
                 }
 
@@ -646,14 +662,21 @@ class VocabularyService {
                     $validWordIdSearch->whereIn('word', $filteredWords);
                 }
 
-                $validFilteredWordIds = $validWordIdSearch
+                $validFilteredWordsById = $validWordIdSearch->get(['id', 'word']);
+                $validFilteredWordIds = $validFilteredWordsById
                     ->pluck('id')
                     ->map(function($wordId) {
                         return intval($wordId);
                     })
                     ->toArray();
+                $wordsCoveredByIds = $validFilteredWordsById
+                    ->pluck('word')
+                    ->unique()
+                    ->values()
+                    ->toArray();
 
-                $useFilteredWordIds = count($validFilteredWordIds) === count($filteredWordIds);
+                $useFilteredWordIds = count($validFilteredWordIds) === count($filteredWordIds)
+                    && count(array_diff($filteredWords, $wordsCoveredByIds)) === 0;
                 $filteredWordIds = $validFilteredWordIds;
             }
         }

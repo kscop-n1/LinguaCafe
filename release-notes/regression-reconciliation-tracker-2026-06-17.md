@@ -1,0 +1,265 @@
+# Regression Reconciliation Tracker - 2026-06-17
+
+Objective: compare the old LinguaCafe implementation with the current migrated codebase before applying additional fixes. The old repository is a behavioral reference, not a source to copy blindly.
+
+Old reference root used for this tracker: `/data/git/old_LinguaCafe/LinguaCafe`
+Current root: `/data/git/LinguaCafe`
+
+## Workflow Rules
+
+- Tracker was created before new reconciliation fixes.
+- Every future fix must reference an entry below.
+- Prefer shared components/styles where old behavior was shared.
+- Do not reintroduce obsolete Vue 2 / Vuetify 2 APIs into the migrated code.
+- If old behavior is also wrong, classify it as a normal bug rather than a migration regression.
+
+## File Map
+
+| Area | Old implementation | Current implementation | Notes |
+| --- | --- | --- | --- |
+| Vocabulary tokenizer/parser | `app/Services/TextBlockService.php`; `app/Services/VocabularyService.php`; `app/Models/EncounteredWord.php` | Same files plus `app/Console/Commands/CleanupNonWordVocabulary.php` | Current adds central `TextBlockService::isVocabularyToken`, query scope, cleanup command, and hyphen coalescing. |
+| Vocabulary filtering | `app/Services/VocabularyService.php`; `app/Http/Controllers/VocabularyController.php`; `resources/js/components/Vocabulary/Vocabulary.vue` | Same files | Current optimizes book/chapter lookup and can use `unique_word_ids` with text fallback. |
+| Chapter pagination/statistics | `app/Services/ChapterService.php`; `app/Http/Controllers/ChapterController.php`; `resources/js/components/Library/BookChapters.vue` | Same files plus `tests/Feature/ChapterTest.php` | Current moved to server pagination and explicit pagination metadata. |
+| Table/list action buttons | Admin table components; `resources/js/components/Vocabulary/Vocabulary.vue`; `resources/js/components/Library/BookChapters.vue`; Vuetify 2 icon buttons | Same components plus shared `.table-action-button` in `resources/sass/app.scss` | Current should keep compact shared dimensions instead of page patches. |
+| Reader/Review toolbars | `resources/js/components/TextReader/TextReader.vue`; `resources/js/components/Review/Review.vue`; `resources/sass/TextReader/TextReader.scss` | Same files plus shared `.vertical-toolbar-button` in `resources/sass/app.scss` | Current ports Vuetify 2 circular icon-button behavior explicitly. |
+| Modals/dialogs | Admin edit dialogs, Vocabulary edit/import, Reader settings; old `v-model`, `height`, `scrollable`, `dark`, `small`, `right` props | Same components with `model-value`, `update:model-value`, `size`, and `.app-dialog-card` | Old dialog sizing was not always ideal; do not blindly restore fixed heights. |
+| Dark theme | `resources/sass/DarkMode.scss`; `resources/js/services/ThemeService.js`; CSS using `var(--v-*-base)` | `resources/js/themes.js`; `resources/sass/DarkMode.scss`; CSS using `rgb(var(--v-theme-*));` | Current correctly needs Vuetify 3 variables, but broad contrast needs visual audit. |
+| Sidebar/mobile bottom controls | `resources/js/components/Layout.vue`; inline icon/span/flag layout in bottom `v-list` | `resources/js/components/Layout.vue`; shared bottom-list classes in `resources/sass/app.scss` | Current uses Vuetify 3 prepend slots to recreate old list item alignment. |
+| Manual/documentation links | `resources/js/components/Vocabulary/VocabularyImportDialog.vue`; `/user-manual/vocabulary-import`; `resources/js/components/UserManual/Pages/UserManualVocabularyImport.vue`; `manual/Setup.md` | `resources/js/components/Vocabulary/VocabularyImportDialog.vue`; `/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe`; `manual/Setup.md`; router route `/user-manual/{currentPage?}` | Current manual structure differs; deep link must target existing markdown route/anchor. |
+
+## REG-001: Vocabulary tokenizer accepts non-word tokens
+
+Status: Verified
+Area: Vocabulary
+Observed current behavior: Reported invalid tokens such as `#`, `'s`, `):`, `+1`, `+10d6`, `+2/+4`, `1d10+db`, `1d4+poison`, `1d6/`, `-fis`, `-m`, `/12*mp` appeared in Vocabulary.
+Old behavior: Old `TextBlockService::createNewEncounteredWords` inserted every processed word except existing words and `NEWLINE`; old `collectUniqueWords` also collected every lowercased processed token. CSV import only rejected spaces, length, empty word, and invalid stage. See old `app/Services/TextBlockService.php:286-330`, `:355-360`, and old `app/Services/VocabularyService.php:431-520`.
+Current implementation: Current `TextBlockService::isVocabularyToken` rejects numeric, dice, slash-stat, apostrophe fragment, symbol/number mixtures, and requires Unicode letters with internal apostrophe/hyphen only. Creation, unique collection, CSV import, search queries, and cleanup use this classifier/scope. See current `app/Services/TextBlockService.php:96-139`, `:355-392`, `:430-442`; current `app/Services/VocabularyService.php:463-535`, `:661-666`; current `app/Console/Commands/CleanupNonWordVocabulary.php`.
+Difference classification: Old code also had the issue
+Evidence: Tests cover reported invalid tokens in `tests/Feature/TextBlockServiceTest.php:15-19`, search filtering in `tests/Feature/VocabularyTest.php:323-343`, CSV import rejection in `tests/Feature/VocabularyTest.php:346-377`, and cleanup repair in `tests/Feature/CleanupNonWordVocabularyTest.php:18-142`.
+Recommended action: Keep current approach but fix regression
+Risk: High
+Tests needed: Unit, Backend feature
+Fix status: Already applied before this reconciliation; verified by evidence and tests
+Notes: This was not purely a migration regression. Old behavior was permissive. The remaining risk is over-filtering language-specific tokens; keep future examples in `TextBlockServiceTest`.
+
+## REG-002: Valid hyphenated words and phrases
+
+Status: Verified
+Area: Vocabulary
+Observed current behavior: Valid examples such as `stir-crazy` and phrase `go stir-crazy` were suspicious after stricter token filtering.
+Old behavior: Old code did not have central token validation or explicit hyphen-token coalescing in the PHP processing path; it relied on tokenizer output. See old `app/Services/TextBlockService.php:142-170` and `:355-360`.
+Current implementation: Current code validates internal hyphens and coalesces `word - word` token sequences before processing. See current `app/Services/TextBlockService.php:138-170` and unique-word filtering at `:430-442`.
+Difference classification: New unrelated bug
+Evidence: `tests/Feature/TextBlockServiceTest.php:22-27` preserves valid hyphenated words and Unicode words; `:30-66` verifies hyphenated reader words and unique words; phrase coverage starts at `:68`.
+Recommended action: Keep current approach but fix regression
+Risk: High
+Tests needed: Unit, Backend feature
+Fix status: Already applied before this reconciliation; verified by evidence and tests
+Notes: Correct behavior is stricter than old code and better specified. Do not restore old permissive behavior.
+
+## REG-003: Vocabulary book filter returns stale/incorrect results
+
+Status: Verified
+Area: Vocabulary
+Observed current behavior: Selecting different books reportedly returned the same words, likely around duplicate word text or stale chapter metadata.
+Old behavior: Old `buildSearchRequest` filtered chapters by `book_id`, loaded processed text for phrase ids, and filtered words by `unique_words` text. Duplicate encountered-word rows with the same `word` text across books could not be disambiguated. See old `app/Services/VocabularyService.php:566-656`.
+Current implementation: Current `buildSearchRequest` filters processed chapters by book/chapter, collects `unique_words`, `unique_word_ids`, and `unique_phrase_ids`, validates word ids against text, uses ids when valid, and falls back to text when migrated chapter ids are missing/stale. See current `app/Services/VocabularyService.php:592-706`.
+Difference classification: Intentional performance refactor with regression
+Evidence: Current optimized chapter list loading in `app/Services/VocabularyService.php:386-418`. Regression tests cover duplicate text by id in `tests/Feature/VocabularyTest.php:191-266`, missing/empty ids in `:268-285`, stale/mismatched ids in `:287-303`, and chapter filter fallback in `:305-321`.
+Recommended action: Keep current approach but fix regression
+Risk: High
+Tests needed: Backend feature, Component/E2E
+Fix status: Applied and verified on 2026-06-18.
+Notes: Current frontend sends `book` and resets `chapter` on book change in `resources/js/components/Vocabulary/Vocabulary.vue:376-390` and `:451-478`. Follow-up investigation on 2026-06-18 identified two remaining risks: `loadVocabularySearchPage` has no latest-request guard, so an older response can overwrite a newer book selection; and `buildSearchRequest` chooses ID filtering when all collected IDs validate, which can omit words from partially migrated books where some chapters have IDs and other chapters only have `unique_words`.
+
+Planned failing tests before the follow-up fix:
+
+- Backend feature: two books with distinct words and phrases; Book A, Book B, and Any must return distinct expected sets.
+- Backend feature: a partially migrated book containing one chapter with valid `unique_word_ids` and one chapter with only `unique_words` must return both chapters vocabulary.
+- Frontend/static contract: Vocabulary requests must use a monotonically increasing request sequence and ignore stale success/error callbacks.
+
+Follow-up result on 2026-06-18:
+
+- Root cause confirmed: ID filtering was enabled when collected IDs were valid even if they did not cover words from partially migrated chapters.
+- Root cause confirmed: Vocabulary had no latest-request guard, allowing an older response to overwrite a newer book selection.
+- Phrase compatibility: chapters with `unique_phrase_ids = null` now fall back to processed-text phrase IDs; normally migrated chapters keep the indexed fast path.
+- Phrase fallback contract: the fallback reads the phrase IDs already embedded in that filtered chapter's compressed `processed_text`; it does not match phrases by text. Phrase lookup remains scoped by user and language, so equal phrase text in different books cannot collide through this path. A wrong association would require already-corrupt/stale phrase IDs inside the chapter's own processed text.
+- Phrase fallback lifecycle: this is a temporary legacy-data compatibility layer for chapters missed by or predating the `unique_phrase_ids` backfill. Current chapter processing calls `refreshUniquePhraseIds()`, so newly processed chapters should not use it. The null-only fallback can issue one extra query per legacy chapter; retain it until production data is backfilled/verified, then remove it with a dedicated migration or repair command.
+- Changed files: `app/Services/VocabularyService.php`, `resources/js/components/Vocabulary/Vocabulary.vue`, `tests/Feature/VocabularyTest.php`, and `tests/Feature/VueMigrationStaticTest.php`.
+- Verified tests: distinct Book A/Book B/Any words and phrases; partial word-ID migration; missing phrase-ID fallback; stale frontend success/error guards.
+- Remaining risks: the stale-response guard has a static source-contract test and manual browser verification, but no mounted Vue component test that resolves two mocked requests out of order. Text fallback for partially migrated word metadata preserves old compatibility behavior and can still be ambiguous when duplicate `encountered_words.word` rows exist; complete ID backfill remains the durable resolution.
+
+## REG-004: Chapter pagination, items-per-page, and statistics
+
+Status: Verified
+Area: Library / Chapters
+Observed current behavior: Total chapter count was wrong/equal to selected page size; `All` could send invalid `perPage`; items-per-page menu positioning was wrong; chapter statistics after later pages or beyond 50 chapters could be missing.
+Old behavior: Old `BookChapters.vue` fetched all chapters, used `:items-per-page="-1"`, hid the footer, and then called `/chapters/word-counts/{bookId}` after load. Old backend returned all chapters and no pagination metadata. See old `resources/js/components/Library/BookChapters.vue:41-55`, `:304-327`; old `app/Services/ChapterService.php:25-62`.
+Current implementation: Current `BookChapters.vue` uses `v-data-table-server`, `:items-length="totalChapters"`, explicit `itemsPerPageOptions` with `{ value: -1, title: 'All' }`, sends `all=true` instead of invalid `perPage=-1`, and uses a custom footer select `locationStrategy`. Backend returns `currentPage`, `lastPage`, `perPage`, and `total`, and computes counts only for visible/all returned chapters. See current `resources/js/components/Library/BookChapters.vue:62-79`, `:275-295`, `:346-395`, `:449-487`; current `app/Services/ChapterService.php:25-88`, `:133-170`.
+Difference classification: Intentional performance refactor with regression
+Evidence: Backend tests validate invalid `perPage`, pagination totals, all-mode, and large book statistics in `tests/Feature/ChapterTest.php:26-110` and `:194-288`. Static overlay tests validate footer menu positioning in `tests/Feature/VueMigrationStaticTest.php:163-181`.
+Recommended action: Keep current approach but fix regression
+Risk: High
+Tests needed: Backend feature, Component/E2E, Visual regression
+Fix status: Verified on 2026-06-18; no additional production backend change was required.
+Notes: Correctness-preserving performance approach is current server pagination plus explicit all-mode; do not revert to loading every chapter by default. Follow-up verification on 2026-06-18 strengthened the contract tests for page sizes 10/25/50, stable totals on page 2, complete numeric statistics beyond chapter 50, numeric zero values, explicit `all=true` without `perPage=-1`, controlled validation errors, API-total mapping, stale-response protection, and a distinct error empty-state.
+
+Planned failing tests before the follow-up fix:
+
+- Backend feature: all five statistics fields must exist with numeric values on chapters beyond 50, including an all-zero processed chapter.
+- Frontend/static contract: chapter requests must map `response.data.total`, use `all=true` without invalid `perPage`, ignore stale responses, and render request errors as an error state rather than `No data available`.
+
+Follow-up result on 2026-06-18:
+
+- Changed files: `tests/Feature/ChapterTest.php` and `tests/Feature/VueMigrationStaticTest.php`.
+- Backend feature coverage now asserts page sizes 10/25/50, stable total 83, page 2 rows and total, all five numeric statistics on every returned chapter beyond 50, legitimate zero values, `all=true`, and controlled rejection of `perPage=-1`.
+- Frontend contract coverage asserts API `total` mapping, latest-request protection, explicit All request behavior, and a distinct request-error empty state.
+- Browser verification on isolated data confirmed 1-10, 1-25, 1-50, page 2 as 51-83, and All as 1-83 of 83. Chapter 83 displayed Total 0, Unique 1, Known 0, Highlighted 0, New 1. No API error or false No data state appeared.
+
+## REG-005: Table/list action buttons oversized or inconsistent
+
+Status: Verified
+Area: Admin / Vocabulary / Library
+Observed current behavior: Edit/delete buttons became huge in multiple tables and action columns became too wide.
+Old behavior: Old components used bare Vuetify 2 `<v-btn icon>` and compact action column widths, for example old Admin Dictionaries action buttons and `width: '110px'` at `resources/js/components/Admin/AdminDictionarySettings.vue:90-108` and `:168-172`.
+Current implementation: Current components add shared `table-action-button`, with a 96px action column in Admin Dictionaries and 32px circular button dimensions in `resources/sass/app.scss`. See current `resources/js/components/Admin/AdminDictionarySettings.vue:90-110`, `:169-174`; `resources/js/components/Vocabulary/Vocabulary.vue:249-269`; `resources/sass/app.scss:201-221`.
+Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
+Evidence: Static regression checks require `table-action-button` in Admin Users/Dictionaries/Fonts and Vocabulary, and require the shared CSS in `tests/Feature/VueMigrationStaticTest.php:188-204`.
+Recommended action: Port old approach correctly to current framework
+Risk: Medium
+Tests needed: Component, Visual regression, Static regression
+Fix status: Already applied before this reconciliation; static verified
+Notes: Book chapter row actions currently use compact `density="compact" size="small"` directly because they include a read button and menu activator rather than edit/delete pairs.
+
+## REG-006: Reader and Review toolbar buttons oval/overlapping/low contrast
+
+Status: Verified
+Area: Reader / Review
+Observed current behavior: Vertical toolbar buttons became oval, spacing inconsistent, possible overlap/contrast issues.
+Old behavior: Old Reader toolbar used bare Vuetify 2 icon buttons in a 44px rail; Review similarly used bare icon buttons. See old `resources/js/components/TextReader/TextReader.vue:10-20`, old `resources/sass/TextReader/TextReader.scss:49-69`, and old `resources/js/components/Review/Review.vue:107-145`.
+Current implementation: Current Reader and Review toolbar buttons use shared `vertical-toolbar-button`; Reader CSS reserves a 52px rail and applies explicit 40x40 circular toolbar-button dimensions and theme colors. See current `resources/js/components/TextReader/TextReader.vue:17-26`, `resources/js/components/Review/Review.vue:107-149`, `resources/sass/app.scss:238-254`, and `resources/sass/TextReader/TextReader.scss:420-464`.
+Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
+Evidence: Static checks require `vertical-toolbar-button` in Reader and Review plus shared CSS in `tests/Feature/VueMigrationStaticTest.php:201-208`.
+Recommended action: Port old approach correctly to current framework
+Risk: Medium
+Tests needed: Component, Visual regression, Static regression
+Fix status: Already applied before this reconciliation; static verified
+Notes: Browser verification in light/dark remains the best guard for overlap and contrast because static tests only prove dimensions/classes exist.
+
+## REG-007: Dialog height, internal scroll, and edit chip text
+
+Status: Verified
+Area: Modal / Admin / Vocabulary / Reader settings
+Observed current behavior: Some dialogs showed unnecessary internal scroll; Word/Phrase edit modals had unreadable brown chips; Reader settings controls could overlap.
+Old behavior: Old dialogs often used fixed `height="300px"` or `scrollable`, and chips used Vuetify 2-only props such as `dark`, `small`, and icon `right`. See old Admin edit user at `resources/js/components/Admin/AdminEditUserDialog.vue:1-25`; old Vocabulary edit chips at `resources/js/components/Vocabulary/VocabularyEditDialog.vue:24-67`; old Vocabulary import scrollable dialog at `resources/js/components/Vocabulary/VocabularyImportDialog.vue:1-27`.
+Current implementation: Current dialogs use `model-value`/`update:model-value`, `app-dialog-card`, viewport max height, and flex card text/actions; Vocabulary edit chips use Vuetify 3 `:size` and normal icon spacing. See current `resources/js/components/Admin/AdminEditUserDialog.vue:1-25`, current `resources/js/components/Vocabulary/VocabularyEditDialog.vue:1-63`, current `resources/js/components/Vocabulary/VocabularyImportDialog.vue:1-27`, and shared `.app-dialog-card` in `resources/sass/app.scss:223-236`.
+Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
+Evidence: Static checks prevent fixed-height dialog regressions and require app-dialog-card in `tests/Feature/VueMigrationStaticTest.php:219-231`; shared UI pattern checks at `:188-208` also cover dialog/toolbar/action classes.
+Recommended action: Port old approach correctly to current framework
+Risk: Medium
+Tests needed: Component, Visual regression, Static regression
+Fix status: Already applied before this reconciliation; static verified
+Notes: Old fixed heights are not a behavior to restore. Correct migration is viewport-aware sizing with scroll only when content exceeds viewport.
+
+## REG-008: Dark theme contrast regressions
+
+Status: Classified
+Area: Theme
+Observed current behavior: Dark-on-dark text/icons appear in several places, including fonts/admin pages and toolbars/action icons.
+Old behavior: Old global CSS targeted Vuetify 2 theme classes and variables such as `.theme--light`, `.v-menu__content`, `var(--v-foreground-base)`, `var(--v-text-base)`, and active list item icon colors. See old `resources/sass/app.scss:123-152`, `:171-205`.
+Current implementation: Current theme tokens live in `resources/js/themes.js` and migrated CSS uses `rgb(var(--v-theme-*));`, with broad overlay/list/form overrides in `resources/sass/app.scss`. Current dark palette defines explicit `text`, `textSecondary`, `icon`, `foreground`, `background`, and `primary` colors in `resources/js/themes.js:41-70`.
+Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
+Evidence: Search still finds hardcoded colors and many theme token overrides in current `resources/sass/app.scss`; some are intentional white-on-primary or light input fixes, so this needs contrast-focused review rather than blind replacement.
+Recommended action: Create separate performance/product decision
+Risk: Medium
+Tests needed: Component, Visual regression, Static/CSS contrast audit
+Fix status: Deferred
+Notes: The broad dark-theme category is not fully closed by old/current source comparison. Need browser screenshots/light-dark contrast checks for concrete screens before editing.
+
+## REG-009: Sidebar/mobile bottom icon alignment
+
+Status: Verified
+Area: Sidebar / Mobile drawer
+Observed current behavior: Hide, Theme, and Language bottom-control icons did not align with labels; mobile bottom area could be cramped.
+Old behavior: Old large drawer bottom controls used inline `<v-icon>`/`<v-img>` followed by manual padding spans. Mini drawer used standalone rounded text buttons. See old `resources/js/components/Layout.vue:44-76`.
+Current implementation: Current large drawer uses Vuetify 3 `#prepend` slots and `v-list-item-title` for consistent icon/title layout; mini drawer wraps controls and uses `navigation-flag` classes. See current `resources/js/components/Layout.vue:50-88`; supporting CSS is in `resources/sass/app.scss` bottom-navigation rules.
+Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
+Evidence: Current markup uses the same structural pattern as main list items rather than manual span padding. Static UI regression coverage indirectly requires current shared UI patterns in `tests/Feature/VueMigrationStaticTest.php:188-208`; visual/mobile verification remains needed for cramped drawer state.
+Recommended action: Port old approach correctly to current framework
+Risk: Medium
+Tests needed: Component, Visual regression, Static regression
+Fix status: Already applied before this reconciliation; visual verification still recommended
+Notes: Do not restore manual padding spans; use Vuetify 3 prepend/title layout.
+
+## REG-010: Vocabulary import user manual link
+
+Status: Verified
+Area: Documentation / Routing
+Observed current behavior: Vocabulary import modal `user manual` link opened an empty or incorrect page.
+Old behavior: Old import dialog linked to `/user-manual/vocabulary-import`, and old app registered a `UserManualVocabularyImport` Vue component; old routes accepted `/user-manual/{currentPage?}`. See old `resources/js/components/Vocabulary/VocabularyImportDialog.vue:1-27`, old `resources/js/app.js:202-214`, old `routes/web.php:101-122`.
+Current implementation: Current manual route still accepts `/user-manual/{currentPage?}`, but current link targets the existing markdown manual page and anchor: `/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe`. See current `resources/js/components/Vocabulary/VocabularyImportDialog.vue:1-27`, current `routes/web.php:97-118`, and `manual/Setup.md`.
+Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
+Evidence: Static test verifies both the link and the target markdown heading in `tests/Feature/VueMigrationStaticTest.php:210-217`.
+Recommended action: Port old approach correctly to current framework
+Risk: Low
+Tests needed: Component, Static route/manual regression
+Fix status: Already applied before this reconciliation; static verified
+Notes: This is a route/content migration, not a UI styling issue.
+
+## Fixed / Already Reconciled
+
+- REG-001 invalid vocabulary tokens: fixed by central classifier, valid-token query scope, CSV import validation, and cleanup command.
+- REG-002 hyphenated words/phrases: fixed by internal-hyphen validation and tokenizer token coalescing.
+- REG-003 Vocabulary book/chapter filter: fixed by id-based filter with migrated-data fallback.
+- REG-004 chapter pagination/statistics: fixed by server pagination metadata, all-mode, per-page validation, and visible/all count calculation.
+- REG-005 shared table action buttons: fixed by `.table-action-button` and compact action columns.
+- REG-006 Reader/Review toolbar circles: fixed by `.vertical-toolbar-button` and Reader toolbar rail sizing.
+- REG-007 dialogs/edit chips: fixed by `.app-dialog-card`, current dialog model bindings, and Vuetify 3 chip sizing/icons.
+- REG-009 sidebar bottom controls: fixed structurally with Vuetify 3 prepend/title layout; needs visual pass on mobile drawer.
+- REG-010 manual link: fixed by linking to existing Setup markdown anchor.
+
+## Deferred / Decision Needed
+
+- REG-008 dark theme: source reconciliation shows the migration direction, but broad contrast issues need a focused light/dark visual audit before additional CSS edits.
+- REG-003 frontend stale-state E2E: backend is tested; a browser/component test should still cover selecting Book A, Book B, and Any in the UI.
+- REG-004 footer overlay visual positioning: static tests cover custom positioning code; browser visual verification should remain part of release validation.
+- REG-009 mobile drawer cramped state: requires visual verification across mobile viewport sizes.
+
+## Tests Added Or Updated During This Reconciliation
+
+- `tests/Feature/ChapterTest.php`: updated chapter-statistics fixtures to use valid letter-only vocabulary tokens after the central valid-token scope correctly rejected underscore/digit fixture words. This keeps REG-004 tests aligned with REG-001 token rules.
+
+## Tests Added Or Updated Before This Reconciliation
+
+- `tests/Feature/TextBlockServiceTest.php`: invalid tokens, valid hyphenated/Unicode words, hyphenated reader words, phrase selection.
+- `tests/Feature/VocabularyTest.php`: duplicate word text by book id, missing/stale chapter ids fallback, existing invalid token filtering, CSV import rejection.
+- `tests/Feature/CleanupNonWordVocabularyTest.php`: dry-run/apply behavior, review cleanup, chapter/book metadata repair.
+- `tests/Feature/ChapterTest.php`: pagination validation, totals, all-mode, large book statistics.
+- `tests/Feature/VueMigrationStaticTest.php`: table action classes, toolbar classes, dialog sizing guards, footer select positioning, manual link target.
+
+## Verification Log
+
+Source evidence was collected from the old and current files listed above. The 2026-06-18 follow-up applied the remaining REG-003 backend and frontend correctness fixes and strengthened REG-004 verification without changing its production backend implementation.
+
+Targeted verification run after tracker update:
+
+Follow-up verification on 2026-06-18:
+
+- Red state: mixed chapter metadata returned 1 word instead of 2; missing phrase metadata returned 0 phrases instead of 1; Vocabulary static contract lacked a request sequence.
+- Green state: focused suite passed 30 tests and 523 assertions.
+- `npm run check:migration` passed, including production Vite build.
+- `node --check scripts/check-legacy.js` passed.
+- `npm run check:css` passed with 0 errors and 359 existing warnings.
+- Browser: Silo 85 results, Candela Obscure 2 results; chapter totals remained 83 for 10, 25, 50, page 2, and All.
+
+Original reconciliation verification:
+
+```bash
+node --check scripts/check-legacy.js # passed
+npm run check:migration # passed, including production Vite build
+npm run check:css # passed critical check; existing warning-only CSS debt remains
+git diff --check # passed
+docker run ... vendor/bin/phpunit tests/Feature/TextBlockServiceTest.php tests/Feature/VocabularyTest.php tests/Feature/CleanupNonWordVocabularyTest.php tests/Feature/ChapterTest.php tests/Feature/VueMigrationStaticTest.php # passed: 37 tests, 231 assertions
+```
+
+A first PHPUnit run failed because `ChapterTest` used invalid underscore/digit fixture tokens such as `word_51`, which are correctly filtered by the current valid-token scope. The fixture was updated to valid letter-only tokens and the suite passed on rerun.

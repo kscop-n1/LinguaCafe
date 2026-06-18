@@ -298,6 +298,7 @@
                 wordCount: 0,
                 books: [],
                 pageCount: 1,
+                vocabularyRequestSequence: 0,
                 currentPage: 1,
                 vocabularyExportDialog: {
                     active: false,
@@ -373,6 +374,12 @@
                 this.currentPage = parseInt(this.$route.params.page);
             },
             loadVocabularySearchPage() {
+                const requestSequence = ++this.vocabularyRequestSequence;
+
+                this.loading = true;
+                this.words = [];
+                this.wordCount = 0;
+
                 axios.post('/vocabulary/search', {
                     text: (this.filters.text == '') ? 'anytext' : this.filters.text,
                     book: parseInt(this.filters.book),
@@ -383,6 +390,10 @@
                     orderBy: this.filters.orderBy,
                     page: this.currentPage,
                 }).then((response) => {
+                    if (requestSequence !== this.vocabularyRequestSequence) {
+                        return;
+                    }
+
                     this.loading = false;
                     var data = response.data;
                     this.filters.bookIndex = data.bookIndex;
@@ -404,6 +415,19 @@
                     if (this.filters.text == 'anytext') {
                         this.filters.text = '';
                     }
+                }).catch((error) => {
+                    if (requestSequence !== this.vocabularyRequestSequence) {
+                        return;
+                    }
+
+                    this.loading = false;
+
+                    console.error('Failed to load vocabulary.', {
+                        bookId: this.filters.book,
+                        chapterId: this.filters.chapter,
+                        status: error.response?.status,
+                        errors: error.response?.data?.errors,
+                    });
                 });
             },
             openExportDialog() {

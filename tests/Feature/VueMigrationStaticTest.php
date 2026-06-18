@@ -181,6 +181,34 @@ class VueMigrationStaticTest extends TestCase
         }
     }
 
+    public function test_vocabulary_and_chapter_requests_preserve_latest_server_state(): void
+    {
+        $vocabulary = file_get_contents(base_path('resources/js/components/Vocabulary/Vocabulary.vue'));
+        $chapters = file_get_contents(base_path('resources/js/components/Library/BookChapters.vue'));
+
+        $this->assertStringContainsString('vocabularyRequestSequence: 0', $vocabulary);
+        $this->assertStringContainsString('const requestSequence = ++this.vocabularyRequestSequence', $vocabulary);
+        $this->assertGreaterThanOrEqual(
+            2,
+            substr_count($vocabulary, 'requestSequence !== this.vocabularyRequestSequence'),
+            'Vocabulary success and error callbacks must both ignore stale requests.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/loadVocabularySearchPage\\(\\)\\s*\\{.*?this\\.loading = true;.*?axios\\.post/s',
+            $vocabulary
+        );
+
+        $this->assertStringContainsString('const requestSequence = ++this.chapterRequestSequence', $chapters);
+        $this->assertGreaterThanOrEqual(2, substr_count($chapters, 'requestSequence !== this.chapterRequestSequence'));
+        $this->assertStringContainsString('requestData.all = true', $chapters);
+        $this->assertStringContainsString('requestData.perPage = itemsPerPage', $chapters);
+        $this->assertStringContainsString('this.totalChapters = Number(response.data.total', $chapters);
+        $this->assertStringContainsString(
+            "{{ chaptersError ? 'Unable to load chapters.' : 'No data available' }}",
+            $chapters
+        );
+    }
+
     /**
      * @param array<int, string> $directories
      * @return array<int, string>
