@@ -39,7 +39,7 @@ class MigrationSmokeTest extends TestCase
 
         $response = $this->actingAs($user)->post('/vocabulary/word/update', [
             'id' => $word->id,
-            'word' => 'hola editada',
+            'word' => 'hola-editada',
             'translation' => 'edited translation',
             'reading' => 'edited reading',
             'base_word' => 'hola base',
@@ -52,7 +52,7 @@ class MigrationSmokeTest extends TestCase
         $this->assertDatabaseHas('encountered_words', [
             'id' => $word->id,
             'user_id' => $user->id,
-            'word' => 'hola editada',
+            'word' => 'hola-editada',
             'translation' => 'edited translation',
             'reading' => 'edited reading',
             'base_word' => 'hola base',

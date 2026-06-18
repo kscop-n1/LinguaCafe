@@ -16,18 +16,8 @@ use App\Services\GoalService;
 class EncounteredWord extends Model
 {
     use HasFactory;
-    public const INVALID_VOCABULARY_SQL_PATTERNS = [
-        "^[^[:alpha:]]",
-        "[^[:alpha:]]$",
-        "[0-9]",
-        "[+*/=]",
-        "--",
-        "[_[:space:].,:;?!()\[\]{}<>|]",
-        "^[+\\-]?[0-9]+([.,][0-9]+)?$",
-        "^[+\\-]?[0-9]+d[0-9]*$",
-        "^[+\\-]?[0-9]+(d[0-9]*)?(\\/[+\\-]?[0-9]+(d[0-9]*)?)+$",
-        "^['’]s$",
-    ];
+    public const VALID_VOCABULARY_SQL_PATTERN =
+        "^\\p{L}(?:\\p{L}|\\p{M})*(?:['’\\-‐‑]\\p{L}(?:\\p{L}|\\p{M})*)*$";
 
     protected $fillable = [
         'user_id',
@@ -47,13 +37,9 @@ class EncounteredWord extends Model
     ];
 
     public function scopeValidVocabularyToken(Builder $query): Builder {
-        $query->whereRaw("word REGEXP ?", ["[[:alpha:]]"]);
-
-        foreach (self::INVALID_VOCABULARY_SQL_PATTERNS as $pattern) {
-            $query->whereRaw("word NOT REGEXP ?", [$pattern]);
-        }
-
-        return $query;
+        return $query
+            ->whereRaw("word REGEXP ?", ["[[:alpha:]]"])
+            ->whereRaw("REGEXP_LIKE(word, ?)", [self::VALID_VOCABULARY_SQL_PATTERN]);
     }
 
     public function setStage($stage, $ignoreAchivement = false) {

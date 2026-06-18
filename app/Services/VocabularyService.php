@@ -58,6 +58,13 @@ class VocabularyService {
             throw new \Exception('Word must not be empty.');
         }
 
+        if (
+            array_key_exists('word', $wordData) &&
+            !TextBlockService::isVocabularyToken($wordData['word'], $word->language)
+        ) {
+            throw new \InvalidArgumentException('Word must be a valid vocabulary token.');
+        }
+
         if (isset($wordData['word']) && $wordData['word'] !== $word->word) {
             $duplicateWord = EncounteredWord
                 ::where('user_id', $userId)

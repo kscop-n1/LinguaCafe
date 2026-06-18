@@ -91,6 +91,27 @@ class VocabularyTest extends TestCase
         $this->assertEquals('banana', $word2->word);
     }
 
+    public function test_word_update_rejects_invalid_spelling_without_persisting_it(): void
+    {
+        $user = $this->createVocabularyUser("english");
+        $word = $this->createVocabularyWord($user, "valid");
+        $response = $this->actingAs($user)->postJson("/vocabulary/word/update", [
+            "id" => $word->id,
+            "word" => "1d6+db",
+        ]);
+
+        $response->assertUnprocessable()
+            ->assertJsonPath("errors.word.0", "Word must be a valid vocabulary token.");
+        $this->assertDatabaseHas("encountered_words", [
+            "id" => $word->id,
+            "word" => "valid",
+        ]);
+        $this->assertDatabaseMissing("encountered_words", [
+            "id" => $word->id,
+            "word" => "1d6+db",
+        ]);
+    }
+
     public function test_phrase_update_spelling_and_properties_success(): void
     {
         $user = User::factory()->create();

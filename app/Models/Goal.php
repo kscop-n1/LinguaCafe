@@ -46,7 +46,10 @@ class Goal extends Model
 
     public function getTodaysReviewGoalQuantity() {
         $selectedLanguage = Auth::user()->selected_language;
-        $reviewWords = EncounteredWord::where('user_id', Auth::user()->id)->where('language', $selectedLanguage)->where('stage', '<', '0');
+        $reviewWords = EncounteredWord::where('user_id', Auth::user()->id)
+            ->validVocabularyToken()
+            ->where('language', $selectedLanguage)
+            ->where('stage', '<', '0');
         $reviewPhrases = Phrase::where('user_id', Auth::user()->id)->where('language', $selectedLanguage)->where('stage', '<', '0');
         $reviewWords = $reviewWords->where(function($query) {
             $query->whereDate('next_review', '<=', Carbon::today()->toDateString());

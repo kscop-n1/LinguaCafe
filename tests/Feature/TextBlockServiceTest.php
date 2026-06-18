@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Phrase;
+use App\Models\EncounteredWord;
 use App\Models\User;
 use App\Services\TextBlockService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,9 @@ class TextBlockServiceTest extends TestCase
     public function test_vocabulary_token_classifier_rejects_reported_non_word_tokens(): void
     {
         foreach (["#", "'s", "):", "+1", "+10", "+10d6", "+1d", "+1d10", "+1d20", "+1d3", "+1d4", "+1d6", "+1d8", "+2", "+2/+4", "+20", "+2d", "+2d10", "+2d6", "+3", "+30", "+3d6", "+4", "+4/+8", "+40", "+4d6", "+5", "+50", "+5d6", "+6", "1d6", "2d10", "2020", "---", "-", "well-", "-known", "-fis", "-m", "/12*mp", "1+db", "1b", "1d10+db", "1d3+db", "1d3-1", "1d4+db", "1d4+poison", "1d6+db", "1d6/", "1d8+db"] as $token) {
-            $this->assertFalse(TextBlockService::isVocabularyToken($token, "english"), $token);
+            $decision = TextBlockService::classifyVocabularyToken($token, "english");
+            $this->assertFalse($decision["valid"], $token);
+            $this->assertNotSame("unknown_suspicious_token", $decision["reason"], $token);
         }
     }
 
@@ -24,6 +27,93 @@ class TextBlockServiceTest extends TestCase
         foreach (["hello", "don't", "it's", "mother-in-law", "stir-crazy", "well-known", "state-of-the-art", "rock’n’roll", "привіт", "café", "日本語"] as $token) {
             $this->assertTrue(TextBlockService::isVocabularyToken($token, "english"), $token);
         }
+    }
+
+    public function test_vocabulary_token_classifier_returns_structured_rejection_reasons(): void
+    {
+        $examples = [
+            "#" => "punctuation_only",
+            "'s" => "standalone_apostrophe_suffix",
+            "+1" => "signed_number",
+            "2020" => "number_only",
+            "+10d6" => "dice_notation",
+            "1d4+poison" => "dice_stat_arithmetic",
+            "1d6/" => "trailing_punctuation_fragment",
+            "+2/+4" => "slash_star_math_expression",
+            "-fis" => "leading_punctuation_fragment",
+            "/12*mp" => "slash_star_math_expression",
+            "1b" => "number_letter_mixture",
+            "abc_def" => "unknown_suspicious_token",
+            "́word" => "unknown_suspicious_token",
+            "́" => "unknown_suspicious_token",
+        ];
+
+        foreach ($examples as $token => $reason) {
+            $decision = TextBlockService::classifyVocabularyToken($token, "english");
+
+            $this->assertFalse($decision["valid"], $token);
+            $this->assertSame($reason, $decision["reason"], $token);
+            $this->assertArrayHasKey("ambiguous", $decision, $token);
+        }
+
+        foreach (["hello", "don't", "mother-in-law", "привіт", "café", "日本語"] as $token) {
+            $decision = TextBlockService::classifyVocabularyToken($token, "english");
+
+            $this->assertTrue($decision["valid"], $token);
+            $this->assertSame("valid_lexical_token", $decision["reason"], $token);
+            $this->assertFalse($decision["ambiguous"], $token);
+        }
+    }
+
+    public function test_valid_vocabulary_scope_matches_classifier_for_unicode_and_reported_tokens(): void
+    {
+        $user = User::factory()->create();
+        $validTokens = [
+            "hello",
+            "don't",
+            "mother-in-law",
+            "привіт",
+            "café",
+            "café",
+            "日本語",
+        ];
+        $invalidTokens = [
+            "#",
+            "'s",
+            "):",
+            "+1",
+            "+10d6",
+            "+2/+4",
+            "1d10+db",
+            "1d4+poison",
+            "1d6/",
+            "-fis",
+            "-m",
+            "/12*mp",
+        ];
+
+        foreach (array_merge($validTokens, $invalidTokens) as $token) {
+            EncounteredWord::forceCreate([
+                "user_id" => $user->id,
+                "language" => "english",
+                "stage" => 2,
+                "word" => $token,
+                "base_word" => "",
+                "base_word_reading" => "",
+                "kanji" => "",
+                "reading" => "",
+                "lemma" => "",
+                "translation" => "",
+            ]);
+        }
+
+        $scopeTokens = EncounteredWord::query()
+            ->where("user_id", $user->id)
+            ->validVocabularyToken()
+            ->pluck("word")
+            ->toArray();
+
+        $this->assertEqualsCanonicalizing($validTokens, $scopeTokens);
     }
 
 

@@ -33,14 +33,76 @@ Status: Verified
 Area: Vocabulary
 Observed current behavior: Reported invalid tokens such as `#`, `'s`, `):`, `+1`, `+10d6`, `+2/+4`, `1d10+db`, `1d4+poison`, `1d6/`, `-fis`, `-m`, `/12*mp` appeared in Vocabulary.
 Old behavior: Old `TextBlockService::createNewEncounteredWords` inserted every processed word except existing words and `NEWLINE`; old `collectUniqueWords` also collected every lowercased processed token. CSV import only rejected spaces, length, empty word, and invalid stage. See old `app/Services/TextBlockService.php:286-330`, `:355-360`, and old `app/Services/VocabularyService.php:431-520`.
-Current implementation: Current `TextBlockService::isVocabularyToken` rejects numeric, dice, slash-stat, apostrophe fragment, symbol/number mixtures, and requires Unicode letters with internal apostrophe/hyphen only. Creation, unique collection, CSV import, search queries, and cleanup use this classifier/scope. See current `app/Services/TextBlockService.php:96-139`, `:355-392`, `:430-442`; current `app/Services/VocabularyService.php:463-535`, `:661-666`; current `app/Console/Commands/CleanupNonWordVocabulary.php`.
+Current implementation: Current `TextBlockService::classifyVocabularyToken` returns structured validity/reason/ambiguity data; `isVocabularyToken` is its boolean wrapper. The lexical grammar requires each segment to start with a Unicode letter, permits following combining marks, and permits internal apostrophe/hyphen separators. Creation, unique collection, CSV import, search queries, review queries, statistics, and chapter/book counts use this classifier or the matching SQL valid-token scope in `EncounteredWord`. See current `app/Services/TextBlockService.php`, `app/Models/EncounteredWord.php`, `app/Services/VocabularyService.php`, and `app/Console/Commands/CleanupNonWordVocabulary.php`.
 Difference classification: Old code also had the issue
 Evidence: Tests cover reported invalid tokens in `tests/Feature/TextBlockServiceTest.php:15-19`, search filtering in `tests/Feature/VocabularyTest.php:323-343`, CSV import rejection in `tests/Feature/VocabularyTest.php:346-377`, and cleanup repair in `tests/Feature/CleanupNonWordVocabularyTest.php:18-142`.
 Recommended action: Keep current approach but fix regression
 Risk: High
 Tests needed: Unit, Backend feature
-Fix status: Already applied before this reconciliation; verified by evidence and tests
+Fix status: Applied and verified on 2026-06-18.
 Notes: This was not purely a migration regression. Old behavior was permissive. The remaining risk is over-filtering language-specific tokens; keep future examples in `TextBlockServiceTest`.
+
+Follow-up analysis on 2026-06-18:
+
+- The current boolean classifier covers the reported examples but cannot explain why a token was rejected. Cleanup therefore cannot group candidates by reason or distinguish safe automatic cleanup from unknown suspicious data.
+- Pipeline enforcement is broad: `TextBlockService` word counting/collection/insertion, phrase creation, CSV import, Vocabulary search, Review search, Book/Chapter counts, and Statistics use the classifier or SQL valid-token scope.
+- Pipeline gap found during analysis: `Goal::getTodaysReviewGoalQuantity()` counted legacy invalid review rows because it did not apply `validVocabularyToken()`; this was closed by the follow-up implementation below.
+- The cleanup command is dry-run by default and apply mode currently quarantines every invalid row by setting stage `1`, clearing `next_review`, repairing chapter `unique_words`/`unique_word_ids`, and recalculating book totals. It does not report rejection reasons, related chapter/book counts, review/highlight state, deletion safety, ambiguity, or idempotent backfill decisions.
+- Flashcard tables were removed by migration `2024_05_29_232455_delete_flashcard_tables.php`; review/highlight state is stored on `encountered_words` itself through stage/SRS fields rather than separate related records.
+- Word metadata backfill exists only in old migration `2022_09_22_110938_modify_lessons_table_4.php`. It matched by language without user scope and did not detect duplicate word text, so it is not a safe durable repair mechanism.
+- Phrase metadata backfill exists in migration `2026_05_22_000002_add_unique_phrase_ids_to_chapters.php`, and current chapter processing calls `refreshUniquePhraseIds()`. Null legacy rows can still remain and currently require the REG-003 processed-text fallback.
+
+Planned failing tests before production changes:
+
+- Structured classifier returns stable rejection reasons for every reported invalid category while preserving Unicode, diacritics, contractions, and lexical hyphens.
+- Cleanup dry-run groups candidate rows by reason and reports scope, related IDs/counts, review/highlight state, safety, and ambiguity without mutation.
+- Apply deletes only safe unambiguous unused rows, quarantines rows with user/review history, leaves unknown suspicious rows for manual review, repairs chapter metadata, and is idempotent.
+- Review-goal counts exclude invalid legacy rows.
+- Metadata backfill fills missing unambiguous word/phrase IDs, preserves valid current IDs, reports duplicate-text ambiguity without mutation, and supports mixed legacy/current chapters.
+
+Follow-up result on 2026-06-18:
+
+- Classifier design: `TextBlockService::classifyVocabularyToken()` now returns `valid`, `reason`, and `ambiguous`; `isVocabularyToken()` remains the shared boolean wrapper. Stable reasons include punctuation-only, signed/number-only, dice notation, dice/stat arithmetic, arithmetic, leading/trailing fragments, standalone apostrophe suffixes, slash/star expressions, number-letter mixtures, configured skips, valid lexical tokens, and unknown suspicious tokens.
+- Valid lexical behavior remains Unicode-letter based with combining marks and internal apostrophes/hyphens. Tests preserve Cyrillic, diacritics, CJK words, contractions, `stir-crazy`, `well-known`, `mother-in-law`, and `state-of-the-art`.
+- Persistence hardening: manual word spelling updates now use the shared classifier and return a controlled `422` for invalid single-token spelling. Multi-word content remains supported by phrase flows, not by single-word spelling.
+- Pipeline closure: `Goal::getTodaysReviewGoalQuantity()` now applies `validVocabularyToken()`, matching Vocabulary, Review, Statistics, Book, and Chapter count queries.
+- Review finding: the original SQL valid-token scope used a separate ASCII/POSIX approximation that rejected decomposed Unicode diacritics accepted by the PHP classifier. It now uses the same ICU letter/combining-mark plus internal apostrophe/hyphen grammar, with a database-backed parity test for composed/decomposed diacritics, Cyrillic, CJK, contractions, hyphenated words, and reported invalid tokens.
+- Cleanup policy: dry-run groups all candidates by reason and user/language/token scope, reports encountered-word IDs/counts, review/highlight state, removed flashcard count (`0`, because those tables no longer exist), example-sentence references, chapter/book associations, deletion safety, and manual-review status.
+- Apply policy: pristine, unambiguous invalid rows are deleted after chapter metadata repair; rows carrying stage/SRS/user-entered lexical metadata or example-sentence references are quarantined at stage `1` with review scheduling cleared; unknown suspicious tokens are never mutated automatically. Chapter `unique_words`, `unique_word_ids`, chapter word totals, and affected book totals are repaired transactionally. Repeated apply runs make no further automatic changes.
+- Destructive-operation safety: both maintenance commands default to dry-run. Cleanup apply is permitted only after candidate review and never deletes rows with user/SRS/example-sentence history; backfill apply writes only unambiguous scoped metadata. Unknown tokens, unresolved words, and duplicate-text candidates are reported but not guessed or mutated.
+- Metadata backfill: new `linguacafe:backfill-vocabulary-metadata` command is dry-run by default, scopes reconstruction by user and language, preserves valid existing IDs, reconstructs phrase IDs from the chapter's own processed text, fills word IDs only when each uncovered text has exactly one candidate, and reports unresolved or duplicate candidates instead of guessing. Apply mode is idempotent.
+- Residual risk: duplicate `encountered_words.word` rows remain intentionally ambiguous unless an existing chapter ID already disambiguates them. Those chapters continue using the REG-003 text fallback for words. The fallback remains temporary for unambiguous legacy data but permanent removal requires a product/data decision for duplicate rows.
+
+Changed files:
+
+- `app/Services/TextBlockService.php`
+- `app/Services/VocabularyService.php`
+- `app/Http/Controllers/VocabularyController.php`
+- `app/Models/Goal.php`
+- `app/Models/EncounteredWord.php`
+- `app/Console/Commands/CleanupNonWordVocabulary.php`
+- `app/Console/Commands/BackfillVocabularyMetadata.php`
+- `tests/Feature/TextBlockServiceTest.php`
+- `tests/Feature/VocabularyTest.php`
+- `tests/Feature/CleanupNonWordVocabularyTest.php`
+- `tests/Feature/BackfillVocabularyMetadataTest.php`
+- `tests/Feature/MigrationSmokeTest.php`
+
+Isolated dry-run/apply evidence:
+
+- Cleanup dry-run scanned 6 rows and classified 3 invalid candidates: one dice/stat row safe to delete, one reviewed dice row requiring quarantine, and one unknown suspicious row requiring manual review.
+- Cleanup apply deleted 1 row, quarantined 1 row while preserving its user note, skipped 1 ambiguous row, repaired 1 chapter, and recalculated 1 book. Chapter/book word totals changed from 4 to 2. A second dry-run proposed no further delete/quarantine actions.
+- Metadata dry-run detected duplicate text `shared` with 2 candidate word IDs and refused to guess. It identified 1 safe phrase-ID repair. Apply changed the phrase metadata only; the second dry-run reported `chapters_would_change: 0` while retaining the explicit duplicate ambiguity.
+- No cleanup or backfill apply was run against the production database.
+
+Verification:
+
+- Full PHPUnit suite after review: 68 tests, 844 assertions passed.
+- Focused REG-001/REG-003/REG-004 suite after review: 54 tests, 799 assertions passed.
+- `npm run check:migration` passed, including the production Vite build.
+- `node --check scripts/check-legacy.js` passed.
+- `npm run check:css` passed with 0 errors and 359 existing warnings.
+- PHP syntax checks passed for all changed production PHP files.
 
 ## REG-002: Valid hyphenated words and phrases
 
@@ -228,6 +290,11 @@ Notes: This is a route/content migration, not a UI styling issue.
 ## Tests Added Or Updated During This Reconciliation
 
 - `tests/Feature/ChapterTest.php`: updated chapter-statistics fixtures to use valid letter-only vocabulary tokens after the central valid-token scope correctly rejected underscore/digit fixture words. This keeps REG-004 tests aligned with REG-001 token rules.
+- `tests/Feature/TextBlockServiceTest.php`: structured reason codes, all reported invalid tokens, valid composed/decomposed Unicode, Cyrillic, CJK, contractions, internal apostrophes/hyphens, tokenizer persistence, and SQL/PHP classifier parity.
+- `tests/Feature/VocabularyTest.php`: invalid spelling update returns `422`, legacy invalid rows are filtered from search, CSV rejects invalid tokens, and valid hyphenated words remain importable.
+- `tests/Feature/CleanupNonWordVocabularyTest.php`: dry-run reporting, user scoping, safe delete, quarantine, ambiguity skip, association reporting, metadata/counter repair, idempotency, and daily review-goal filtering.
+- `tests/Feature/BackfillVocabularyMetadataTest.php`: dry-run/apply word and phrase ID repair, preservation of current IDs, idempotency, and duplicate-text ambiguity without mutation.
+- `tests/Feature/MigrationSmokeTest.php`: valid lexical word editing and Review filtering of invalid legacy rows.
 
 ## Tests Added Or Updated Before This Reconciliation
 

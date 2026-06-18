@@ -89,6 +89,13 @@ class VocabularyController extends Controller {
 
         try {
             $this->vocabularyService->updateWord($userId, $wordId, $wordData, $wordStage);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'errors' => [
+                    'word' => [$e->getMessage()],
+                ],
+            ], 422);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }

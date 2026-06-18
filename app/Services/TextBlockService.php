@@ -105,37 +105,84 @@ class TextBlockService
     }
 
     public static function isVocabularyToken($token, $language) {
+        return self::classifyVocabularyToken($token, $language)["valid"];
+    }
+
+    public static function classifyVocabularyToken($token, $language): array {
         if ($token === null) {
-            return false;
+            return self::tokenDecision(false, "empty_token");
         }
 
         $token = trim((string) $token);
         if ($token === "") {
-            return false;
+            return self::tokenDecision(false, "empty_token");
         }
 
         $wordsToSkip = config("linguacafe.words_to_skip");
         if (in_array($token, $wordsToSkip, true) || in_array(mb_strtolower($token, "UTF-8"), $wordsToSkip, true)) {
-            return false;
-        }
-
-        if (preg_match("~^[+\-]?\d+(?:[.,]\d+)?$~u", $token)) {
-            return false;
-        }
-
-        if (preg_match("~^[+\-]?\d+d\d*$~iu", $token)) {
-            return false;
-        }
-
-        if (preg_match("~^[+\-]?\d+(?:d\d*)?(?:\/[+\-]?\d+(?:d\d*)?)+$~iu", $token)) {
-            return false;
+            return self::tokenDecision(false, "configured_skip_token");
         }
 
         if (preg_match("~^[\x27’]s$~iu", $token)) {
-            return false;
+            return self::tokenDecision(false, "standalone_apostrophe_suffix");
         }
 
-        return preg_match("~^[\p{L}\p{M}]+(?:[\x27’\-\x{2010}\x{2011}][\p{L}\p{M}]+)*$~u", $token) === 1;
+        if (preg_match("~^[+\-]?\d+d\d*$~iu", $token)) {
+            return self::tokenDecision(false, "dice_notation");
+        }
+
+        if (preg_match("~^[+\-]?\d+d\d+(?:[+\-*\/].+)$~iu", $token)) {
+            return self::tokenDecision(false, "dice_stat_arithmetic");
+        }
+
+        if (preg_match("~^[+\-]\d+(?:[.,]\d+)?$~u", $token)) {
+            return self::tokenDecision(false, "signed_number");
+        }
+
+        if (preg_match("~^\d+(?:[.,]\d+)?$~u", $token)) {
+            return self::tokenDecision(false, "number_only");
+        }
+
+        if (preg_match("~[\p{L}\p{M}\d]+[^\p{L}\p{M}\d]+$~u", $token)) {
+            return self::tokenDecision(false, "trailing_punctuation_fragment");
+        }
+
+        if (
+            preg_match("~[\/\*]~u", $token) &&
+            preg_match("~[\d+\-*\/=]~u", $token)
+        ) {
+            return self::tokenDecision(false, "slash_star_math_expression");
+        }
+
+        if (preg_match("~^[+\-]?\d+[+\-*\/=].+$~u", $token)) {
+            return self::tokenDecision(false, "arithmetic_expression");
+        }
+
+        if (preg_match("~^\d+\p{L}+$~u", $token)) {
+            return self::tokenDecision(false, "number_letter_mixture");
+        }
+
+        if (preg_match("~^[^\p{L}\p{M}\d]+[\p{L}\p{M}]+~u", $token)) {
+            return self::tokenDecision(false, "leading_punctuation_fragment");
+        }
+
+        if (preg_match("~^[^\p{L}\p{M}\d]+$~u", $token)) {
+            return self::tokenDecision(false, "punctuation_only");
+        }
+
+        if (preg_match("~^\p{L}[\p{L}\p{M}]*(?:[\x27’\-\x{2010}\x{2011}]\p{L}[\p{L}\p{M}]*)*$~u", $token)) {
+            return self::tokenDecision(true, "valid_lexical_token");
+        }
+
+        return self::tokenDecision(false, "unknown_suspicious_token", true);
+    }
+
+    private static function tokenDecision(bool $valid, string $reason, bool $ambiguous = false): array {
+        return [
+            "valid" => $valid,
+            "reason" => $reason,
+            "ambiguous" => $ambiguous,
+        ];
     }
 
     private static function isHyphenToken($token) {
