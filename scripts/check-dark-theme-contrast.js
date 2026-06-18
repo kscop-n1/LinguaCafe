@@ -65,6 +65,7 @@ for (const token of [
     'focusIndicator',
     'primary',
     'on-primary',
+    'on-error',
     'text',
     'textSecondary',
     'textMuted',
@@ -92,6 +93,7 @@ if (failures.length === 0) {
     assertContrast(dark, 'customBorder', 'foreground', 3, failures);
     assertContrast(dark, 'focusIndicator', 'foreground', 3, failures);
     assertContrast(dark, 'on-primary', 'primary', 4.5, failures);
+    assertContrast(dark, 'on-error', 'error', 4.5, failures);
 }
 
 const requiredSelectors = [
@@ -100,6 +102,8 @@ const requiredSelectors = [
     '.v-table .v-table__wrapper',
     '.v-data-table-footer',
     '.v-pagination .v-btn',
+    '.v-pagination .v-btn[aria-current="true"]',
+    '.table-action-button.bg-error .v-icon',
     '.v-tab.v-tab--selected',
     '.v-field',
     '.v-btn--icon .v-icon',
@@ -124,6 +128,11 @@ if (chipBlock && chipBlock[0].includes('textDark')) {
 const primaryChipBlock = css.match(/#app \.v-application\.dark \.v-chip\.bg-primary,[\s\S]*?\n}\n/);
 if (!primaryChipBlock || !primaryChipBlock[0].includes('--v-theme-on-primary')) {
     failures.push('Dark primary chips must use the on-primary text token.');
+}
+
+const tableCellBlock = css.match(/\.v-data-table \.v-table__wrapper > table > tbody > tr > td\s*\{[\s\S]*?\n    }/);
+if (!tableCellBlock || !tableCellBlock[0].includes('--v-theme-border')) {
+    failures.push('Dark data-table row boundaries must use the shared border token.');
 }
 
 if (failures.length > 0) {

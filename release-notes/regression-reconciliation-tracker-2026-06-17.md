@@ -283,7 +283,7 @@ Reader Settings alignment fix and verification on 2026-06-18:
 
 ## REG-008: Dark theme contrast regressions
 
-Status: Classified
+Status: Fixed for first shared cluster; remaining families deferred
 Area: Theme
 Observed current behavior: Dark-on-dark text/icons appear in several places, including fonts/admin pages and toolbars/action icons.
 Old behavior: Old global CSS targeted Vuetify 2 theme classes and variables such as `.theme--light`, `.v-menu__content`, `var(--v-foreground-base)`, `var(--v-text-base)`, and active list item icon colors. See old `resources/sass/app.scss:123-152`, `:171-205`.
@@ -293,8 +293,69 @@ Evidence: Search still finds hardcoded colors and many theme token overrides in 
 Recommended action: Create separate performance/product decision
 Risk: Medium
 Tests needed: Component, Visual regression, Static/CSS contrast audit
-Fix status: Deferred
-Notes: The broad dark-theme category is not fully closed by old/current source comparison. Need browser screenshots/light-dark contrast checks for concrete screens before editing.
+Fix status: First shared table/heading/pagination cluster applied and verified on 2026-06-18
+Notes: This does not close the full dark-theme audit. Forms, general cards/menus, tabs/navigation, calendar-specific overrides, and non-table feature components remain separate focused batches.
+
+Structured dark-theme audit on 2026-06-18:
+
+- Theme/config comparison:
+  - Old Vuetify 2 used flat theme objects in `resources/js/themes.js`, exposed colors as `--v-*-base`, and switched `vuetifyHandler.theme.dark`. Old `resources/sass/DarkMode.scss` explicitly targeted `.theme--dark`, `.v-data-table__wrapper`, `.v-pagination__item`, `.v-pagination__navigation`, `.v-card__text`, and `.v-menu__content`.
+  - Current Vuetify 3 uses `createVuetify()` in `resources/js/vuetify.js`, nested `{ dark, colors, variables }` theme definitions through `ThemeService`, and `rgb(var(--v-theme-*));` tokens. The dark palette now includes semantic `surface`, `surfaceElevated`, `inputSurface`, `border`, `divider`, `hoverSurface`, `selectedSurface`, `focusIndicator`, text, icon, disabled, and `on-primary` tokens.
+  - Token contrast is not the primary defect. Current dark ratios include text/surface 12.59:1, secondary/elevated surface 8.92:1, disabled/foreground 4.54:1, icon/foreground 11.41:1, border/foreground 3.16:1, and on-primary/primary 7.08:1. `divider` is intentionally subtle at 1.59:1 and must not be used as the only boundary for essential controls.
+- Typography/headings inventory:
+  - Shared `.subheader` has a hardcoded `#2d2d2d` in `resources/sass/app.scss`, classified as a hardcoded component override. A later dark selector attempts to replace it with the semantic text token.
+  - Vuetify heading classes and dialog titles mostly inherit the theme correctly, but current shared dark coverage does not explicitly group `.subheader`, `.text-h1` through `.text-h6`, and table-page titles under one current-framework contract. Classification: hardcoded override plus incomplete migration; safe to include in the first shared cluster.
+- Tables and pagination inventory:
+  - Old table/pagination rules target Vuetify 2 DOM and cannot match Vuetify 3 reliably. Current `DarkMode.scss` still retains those obsolete rules near the top, then adds a newer Vuetify 3 baseline later.
+  - The newer table baseline uses semantic tokens for surfaces, headings, row text, borders, hover, footer, and pagination. However, active/disabled pagination selectors and focus behavior need DOM verification, and table-action icon inheritance can be overridden by competing generic icon rules.
+  - `resources/sass/app.scss` also retains obsolete `.v-data-table__wrapper` selectors for font size, hover, and row-line behavior. Classification: incomplete Vuetify 2 -> Vuetify 3 migration.
+- Icon-button inventory:
+  - Shared dark rules map ordinary icons to `icon` and disabled icons to `iconDisabled`; primary buttons use `on-primary`. This is directionally correct.
+  - Error/success icon exceptions and generic `.v-data-table .v-icon` rules compete by specificity/order. Classification: shared token usage with unclear cascade; table action icons require representative browser confirmation before any change.
+- Form controls inventory:
+  - Current shared `.v-field` rules use semantic input, border, focus, error, and disabled tokens. Several older `.v-select__selections`, `.v-card__text`, and autofill overrides remain. Classification: incomplete migration, but deferred because this first batch is tables/headings/pagination only.
+- Cards/dialogs/menus inventory:
+  - Current shared surfaces and tooltip tokens are semantic, while older rules still target `.v-card__text`, `.v-card__actions`, and `.v-menu__content`. Classification: incomplete migration. Dialog sizing is protected; only contrast will be observed in this task, not broadly rewritten.
+- Tabs/navigation inventory:
+  - Current shared tab tokens are semantic, but `resources/sass/app.scss` still contains hardcoded white selected-tab/navigation text. Classification: hardcoded override; deferred to a later focused batch unless runtime proves it directly affects the selected table cluster.
+- Reader/Review inventory:
+  - Toolbar controls already use semantic surface/icon/border tokens in the current shared baseline. Geometry is protected. Classification: current shared token implementation; verify for regression only and do not modify in this batch.
+- First safe implementation cluster selected: shared page headings plus Vuetify 3 tables/data tables, table action icons, table borders/dividers, and pagination states. Representative screens are Admin Fonts, Admin Users or Dictionaries, and Vocabulary. Forms, general cards/menus, tabs/navigation, calendar, and Reader/Review remain deferred.
+- Planned safeguards: use only semantic theme tokens, avoid page-specific colors, preserve 32x32 table-action geometry, add static checks for current Vuetify 3 table/pagination selectors and forbidden hardcoded shared-cluster colors, then verify computed colors and state distinctions in an isolated runtime before finalizing the batch.
+
+First-cluster pre-fix browser evidence:
+
+- Admin Fonts dark theme: heading text was 12.59:1 or better, table header text 8.92:1, row text 12.59:1, ordinary edit icon 11.41:1, and the outer table/header border used the 3.16:1 `border` token. These parts need regression coverage, not recoloring.
+- Admin Dictionaries dark theme exposed the shared action-icon cascade defect: a delete button used the error background `rgb(255, 79, 85)`, but generic `.v-data-table .v-icon` styling forced the normal icon token `rgb(226, 225, 232)`, yielding only 2.49:1. The button's default white foreground was 3.23:1. A semantic `on-error` foreground is required for this palette.
+- Vocabulary pagination exposed the current Vuetify 3 state mismatch: the active button is identified by `aria-current="true"` inside `.v-pagination__item--is-active`. The shared rule set its primary background, but a later generic button rule restored normal text color. Computed active-page contrast was 2.26:1, while inactive pages were 11.26:1 and the disabled previous control was 4.06:1.
+- Table row dividers currently use `divider` at 1.59:1 against the dark surface. This is acceptable for decorative separation but too weak when it is the only row boundary in dense data tables. The first cluster will use the existing 3.16:1 `border` token for table row boundaries without changing geometry.
+- Root cause classification for this batch: shared semantic tokens exist, but incomplete Vuetify 3 state selectors and competing generic icon/button rules apply the wrong foreground tokens to primary pagination and error actions.
+
+First shared dark-theme cluster fix and verification:
+
+- Changed `resources/js/themes.js`: added semantic `on-error` values for light, dark, and eink palettes. Dark error foreground `#141110` on `#FF4F55` is 5.82:1; light uses the same semantic foreground and remains readable.
+- Changed `resources/sass/DarkMode.scss`:
+  - grouped shared headings (`.subheader`, `.text-h1` through `.text-h6`) under the dark text token;
+  - changed dense table row boundaries from decorative `divider` to the 3.16:1 `border` token;
+  - forced error table actions and icons to use `on-error`;
+  - added current Vuetify 3 active pagination selectors for `.v-pagination__item--is-active` and `aria-current="true"`, including button content and icons, after competing generic button rules.
+- Changed `scripts/check-dark-theme-contrast.js`: requires `on-error`, validates `on-error`/`error` at 4.5:1, requires current active-pagination and error-action selectors, and verifies data-table rows use the shared border token.
+- Browser verification in an isolated runtime:
+  - Admin Fonts, 1440x1000 dark: heading 12.59:1 or better, table header 8.92:1, row text 12.59:1, edit icon 11.41:1, table/header borders 3.16:1. Footer labels/arrows and disabled controls remained distinguishable.
+  - Admin Dictionaries dark: edit icon remained 11.41:1; delete button and icon improved from 3.23:1/2.49:1 to 5.82:1. Both remained 32x32.
+  - Vocabulary dark: table header 8.92:1, row text 12.59:1, edit action 11.41:1, row boundary 3.16:1. Active pagination improved from 2.26:1 to 7.08:1; inactive page was 11.26:1; disabled previous control was 4.06:1.
+  - Pagination hover used the Vuetify overlay state, and keyboard focus produced a 2px `focusIndicator` outline with 2px offset. A focused table action retained its 32x32 geometry.
+  - Edit Font dialog dark: card, title, body, actions, and button text used semantic dark text/surface colors; body remained 734/734px with no unnecessary scrolling, preserving REG-007.
+  - Vocabulary at 390x844 dark: table text, row boundaries, badges, and actions remained readable and 32x32. Existing document-width overflow from the compact mobile navigation/pagination composition was observed but not changed because it is a layout issue outside this contrast-only batch.
+  - Light theme recheck: headings, table text, pagination, and actions remained readable; table actions stayed 32x32. The semantic light error foreground rendered dark text/icon on the red action background.
+- Automated verification: full PHPUnit suite `70 tests, 902 assertions`; `npm run check:migration`; production build; `npm run check:css` with zero errors and existing warnings only; `node scripts/check-dark-theme-contrast.js`; `node --check scripts/check-dark-theme-contrast.js`; and `git diff --check`.
+- Deferred dark-theme clusters:
+  - form controls and legacy select/autofill selectors;
+  - cards, menus, overlays, and obsolete `.v-card__*`/`.v-menu__content` rules outside verified dialogs;
+  - tabs and navigation hardcoded white active states;
+  - calendar and date-picker component-specific colors;
+  - Review animation/state colors and other feature-specific overrides;
+  - broad removal of obsolete Vuetify 2 selectors, which requires separate visual batches rather than blind deletion.
 
 ## REG-009: Sidebar/mobile bottom icon alignment
 

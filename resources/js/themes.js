@@ -20,6 +20,7 @@ export default {
         focusIndicator: '#AB8875',
 
         error: '#F24B4F',
+        'on-error': '#141110',
         info: '#057CBC',
         success: '#3DCF59',
         warning: '#FFA73C',
@@ -56,6 +57,7 @@ export default {
         selectedSurface: '#493C35',
         focusIndicator: '#D9AC94',
         error: '#FF4F55',
+        'on-error': '#141110',
         info: '#057CBC',
         success: '#3DCF59',
         warning: '#FFB448',
@@ -93,6 +95,7 @@ export default {
         focusIndicator: '#000000',
 
         error: '#000000',
+        'on-error': '#FFFFFF',
         info: '#057CBC',
         success: '#000000',
         warning: '#000000',
