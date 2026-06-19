@@ -301,9 +301,22 @@ class VueMigrationStaticTest extends TestCase
     {
         $dialog = file_get_contents(base_path("resources/js/components/Vocabulary/VocabularyImportDialog.vue"));
         $manual = file_get_contents(base_path("manual/Setup.md"));
+        $manualComponent = file_get_contents(base_path("resources/js/components/UserManual/UserManual.vue"));
+        $webRoutes = file_get_contents(base_path("routes/web.php"));
 
-        $this->assertStringContainsString("/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe", $dialog);
+        $this->assertStringContainsString(
+            'href="/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe"',
+            $dialog
+        );
+        $this->assertStringContainsString(
+            "Route::get('/user-manual/{currentPage?}'",
+            $webRoutes
+        );
         $this->assertStringContainsString("# Importing Vocabulary into LinguaCafe", $manual);
+        $this->assertStringContainsString("The CSV file can have these columns", $manual);
+        $this->assertStringContainsString('id="\' + this.headingId(text) + \'"', $manualComponent);
+        $this->assertStringContainsString("normalizedFileName.split('#')[0]", $manualComponent);
+        $this->assertStringNotContainsString('href="/user-manual/vocabulary-import"', $dialog);
     }
 
     public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void

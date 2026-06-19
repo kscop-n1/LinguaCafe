@@ -402,13 +402,20 @@ Area: Documentation / Routing
 Observed current behavior: Vocabulary import modal `user manual` link opened an empty or incorrect page.
 Old behavior: Old import dialog linked to `/user-manual/vocabulary-import`, and old app registered a `UserManualVocabularyImport` Vue component; old routes accepted `/user-manual/{currentPage?}`. See old `resources/js/components/Vocabulary/VocabularyImportDialog.vue:1-27`, old `resources/js/app.js:202-214`, old `routes/web.php:101-122`.
 Current implementation: Current manual route still accepts `/user-manual/{currentPage?}`, but current link targets the existing markdown manual page and anchor: `/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe`. See current `resources/js/components/Vocabulary/VocabularyImportDialog.vue:1-27`, current `routes/web.php:97-118`, and `manual/Setup.md`.
-Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
-Evidence: Static test verifies both the link and the target markdown heading in `tests/Feature/VueMigrationStaticTest.php:210-217`.
-Recommended action: Port old approach correctly to current framework
+Difference classification: Stale route after manual-content migration
+Evidence: The old dedicated `UserManualVocabularyImport` component remains in the source tree, but the current `UserManual.vue` renders Markdown files selected by the `currentPage` route parameter. The old `/user-manual/vocabulary-import` target therefore requested a nonexistent `manual/vocabulary-import.md`. The current Setup target exists, renders the heading ID `importing-vocabulary-into-linguacafe`, and contains the CSV import instructions.
+Recommended action: Keep current Markdown target and protect its complete route/content/anchor contract
 Risk: Low
 Tests needed: Component, Static route/manual regression
-Fix status: Already applied before this reconciliation; static verified
-Notes: This is a route/content migration, not a UI styling issue.
+Fix status: Applied before this task; browser and static verified on 2026-06-19
+Notes:
+
+- No production-code change was required in this task because the current modal target was already correct.
+- Strengthened `tests/Feature/VueMigrationStaticTest.php::test_vocabulary_import_manual_link_targets_existing_markdown_section` to require the exact current href, the Laravel manual route, the target heading and CSV instructions, the manual renderer's heading-ID and page-name normalization contracts, and absence of the old stale href.
+- Isolated browser verification at `http://127.0.0.1:8082`: opening Vocabulary > Data > Import and clicking `user manual` navigated to `/user-manual/Setup#Importing%20Vocabulary%20into%20LinguaCafe`. The rendered manual contained 22,083 text characters, the expected heading, and the CSV column instructions; the heading was positioned approximately 39px below the viewport top after navigation.
+- Direct refresh of the same URL returned the same non-empty content and positioned the target heading approximately 1px from the viewport top. No browser console route or navigation errors were reported.
+- The link preserves the old same-tab behavior. A raw internal anchor is acceptable here because the Laravel fallback route serves the Vue app on direct navigation, and the current manual component resolves both the route parameter and hash after loading Markdown.
+- Automated verification: focused REG-010 test `1 test, 7 assertions`; full PHPUnit suite `71 tests, 917 assertions`; `npm run check:migration` including the production build; and `git diff --check`.
 
 ## Fixed / Already Reconciled
 
