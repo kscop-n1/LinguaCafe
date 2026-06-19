@@ -41,11 +41,6 @@
     color: rgb(var(--v-theme-text));
 }
 
-// select text color
-#app .v-application.dark .v-theme--dark.v-select .v-select__selections {
-    color: rgb(var(--v-theme-text));
-}
-
 // pagination
 // pagination
 #app .v-application.dark .v-theme--dark.v-pagination .v-pagination__item,
@@ -55,14 +50,6 @@
 
 #app .v-application.dark .v-theme--dark.v-pagination .v-pagination__item--active {
     color: rgb(var(--v-theme-textDark));
-}
-
-// v-card
-#app .v-application.dark .v-theme--dark.v-card,
-#app .v-application.dark .v-theme--dark.v-card > .v-card__subtitle,
-#app .v-application.dark .v-theme--dark.v-card > .v-card__text {
-    color: rgb(var(--v-theme-text));
-    background: rgb(var(--v-theme-foreground));
 }
 
 // v-stepper
@@ -134,12 +121,6 @@
             color: rgb(var(--v-theme-textDark));
         }
     }
-}
-
-// v-menu in vocabulary
-#app .v-application.dark .v-overlay__content .v-theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-    background-color: rgb(var(--v-theme-foreground));
-    color: rgb(var(--v-theme-text));
 }
 
 // date picker
@@ -474,7 +455,8 @@
 
 
 // shared dark theme component contrast baseline
-#app .v-application.dark {
+#app .v-application.dark,
+.v-overlay-container .v-theme--dark {
     color: rgb(var(--v-theme-text));
     background: rgb(var(--v-theme-background));
 
@@ -552,6 +534,11 @@
         color: rgb(var(--v-theme-text));
     }
 
+    .v-alert a {
+        color: inherit !important;
+        text-decoration: underline;
+    }
+
     .v-tooltip > .v-overlay__content {
         background: rgb(var(--v-theme-surfaceElevated));
         border: 1px solid rgb(var(--v-theme-border));
@@ -597,12 +584,16 @@
         border-color: rgb(var(--v-theme-border));
     }
 
-    .v-field__outline,
+    .v-field__outline {
+        color: rgb(var(--v-theme-border)) !important;
+        border-color: rgb(var(--v-theme-border)) !important;
+    }
+
     .v-field__outline__start,
     .v-field__outline__notch,
     .v-field__outline__end {
-        color: rgb(var(--v-theme-border));
-        border-color: rgb(var(--v-theme-border));
+        color: rgb(var(--v-theme-border)) !important;
+        border-color: rgb(var(--v-theme-border)) !important;
     }
 
     .v-field:hover,
@@ -610,12 +601,46 @@
         background: rgb(var(--v-theme-hoverSurface));
     }
 
-    .v-field--focused .v-field__outline,
+    .v-field--focused .v-field__outline {
+        color: rgb(var(--v-theme-focusIndicator)) !important;
+        border-color: rgb(var(--v-theme-focusIndicator)) !important;
+    }
+
     .v-field--focused .v-field__outline__start,
     .v-field--focused .v-field__outline__notch,
     .v-field--focused .v-field__outline__end {
-        color: rgb(var(--v-theme-focusIndicator));
-        border-color: rgb(var(--v-theme-focusIndicator));
+        color: rgb(var(--v-theme-focusIndicator)) !important;
+        border-color: rgb(var(--v-theme-focusIndicator)) !important;
+    }
+
+    .v-input--disabled .v-field,
+    .v-input--disabled .v-field__input,
+    .v-input--disabled input,
+    .v-input--disabled textarea,
+    .v-input--disabled .v-select__selection-text,
+    .v-input--disabled .v-label,
+    .v-selection-control--disabled .v-label {
+        color: rgb(var(--v-theme-textDisabled)) !important;
+        -webkit-text-fill-color: rgb(var(--v-theme-textDisabled)) !important;
+        opacity: 1;
+    }
+
+    .v-input--disabled .v-icon,
+    .v-selection-control--disabled .v-icon {
+        color: rgb(var(--v-theme-iconDisabled)) !important;
+    }
+
+    .v-selection-control--disabled .v-switch__track {
+        background: rgb(var(--v-theme-textDisabled)) !important;
+        opacity: .45 !important;
+    }
+
+    .v-selection-control--disabled .v-switch__thumb {
+        background: rgb(var(--v-theme-iconDisabled)) !important;
+    }
+
+    .settings-row:has(.v-selection-control--disabled) .settings-row__label {
+        color: rgb(var(--v-theme-textDisabled)) !important;
     }
 
     .v-field--error,
@@ -650,6 +675,23 @@
     .v-tab__slider {
         background: rgb(var(--v-theme-focusIndicator));
         opacity: 1;
+    }
+
+    .v-overlay__content .v-list-item--active {
+        background: rgb(var(--v-theme-selectedSurface)) !important;
+        color: rgb(var(--v-theme-text)) !important;
+    }
+
+    .v-overlay__content .v-list-item--active .v-list-item-title,
+    .v-overlay__content .v-list-item--active .v-list-item__content,
+    .v-overlay__content .v-list-item--active .v-icon {
+        color: rgb(var(--v-theme-text)) !important;
+    }
+
+    .v-overlay__content .v-list-item:not(.v-list-item--active):hover,
+    .v-overlay__content .v-list-item:not(.v-list-item--active):focus-visible {
+        background: rgb(var(--v-theme-hoverSurface)) !important;
+        color: rgb(var(--v-theme-text)) !important;
     }
 
     .v-pagination .v-btn {

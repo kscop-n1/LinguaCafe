@@ -357,6 +357,85 @@ First shared dark-theme cluster fix and verification:
   - Review animation/state colors and other feature-specific overrides;
   - broad removal of obsolete Vuetify 2 selectors, which requires separate visual batches rather than blind deletion.
 
+Second REG-008 cluster audit on 2026-06-19: forms, selects, cards, menus, and help overlays
+
+- Old implementation reference:
+  - Vuetify 2 form/select contrast depended on `.theme--dark.v-select .v-select__selections`, `.v-input__control`, `.v-input__slot`, and WebKit autofill overrides in old `resources/sass/DarkMode.scss`.
+  - Cards and menus used `.theme--dark.v-card > .v-card__text`, `.v-card__actions`, `.v-menu__content.theme--dark`, and `.v-menu__content .theme--dark.v-list-item`. Old active menu items forced primary backgrounds and light icon/text.
+  - These selectors describe Vuetify 2 DOM and cannot be copied into the current app.
+- Current theme/token implementation:
+  - `resources/js/themes.js` already provides semantic `surface`, `surfaceElevated`, `inputSurface`, `border`, `hoverSurface`, `selectedSurface`, `focusIndicator`, `text`, `textSecondary`, `textMuted`, `textDisabled`, `icon`, and `iconDisabled` values.
+  - Current shared rules near the end of `resources/sass/DarkMode.scss` target Vuetify 3 `.v-field`, `.v-field__input`, `.v-select__selection-text`, `.v-card-title`, `.v-card-text`, `.v-card-actions`, `.v-overlay__content .v-list`, `.v-list-item`, and tooltip overlay content.
+  - Current `resources/sass/app.scss` also contains a framework-neutral surface/input normalization layer for `.v-card`, `.v-list`, `.v-field`, placeholders, autofill, overlay lists, hover, and active states.
+- Obsolete Vuetify 2 selectors still present:
+  - `resources/sass/DarkMode.scss`: `.v-select__selections`, `.v-card__subtitle`, `.v-card__text`, `.v-theme--dark.v-list-item` descendants used as if theme classes were attached to each old child, old picker body selectors, and old menu-item ancestry assumptions.
+  - `resources/sass/app.scss`: `.v-card__subtitle`, `.v-card__title`, `.v-card__actions`, `.v-card__text`, `.v-data-table__wrapper`, and old light-theme child selectors.
+  - Feature Sass includes old `.v-card__text` child selectors in Admin API settings. That page-specific debt is outside this representative cluster unless runtime evidence shows it is active.
+  - Classification: incomplete Vuetify 2 -> Vuetify 3 migration. Obsolete selectors are not sufficient evidence of a visible defect because later current-framework rules may already win.
+- Current selectors already correctly tokenized:
+  - field surfaces, input/textarea text, labels, placeholders, outline/focus colors, error text, disabled text, ordinary card/dialog surfaces, card title/body text, overlay list surfaces, menu text, hover/selected surfaces, and tooltip surface/border all reference semantic theme tokens.
+  - Classification: already correctly tokenized, pending computed-style verification.
+- Risky cascade points requiring runtime evidence:
+  - `.v-icon` and generic button rules may override field append/prepend icons and menu item icons;
+  - active menu rules in `app.scss` use `gray3` rather than the newer semantic `selectedSurface`;
+  - placeholder rules use the full text token plus opacity rather than `textMuted`;
+  - disabled field rules set text color on `.v-field--disabled` but may not cover selection text, labels, affixes, or icons in current Vuetify 3 DOM;
+  - tooltip styling assumes `.v-tooltip > .v-overlay__content`, while Vuetify teleports overlay content and may not preserve that ancestry.
+  - Classification: incomplete migration or unclear cascade; browser confirmation required before changes.
+- Representative runtime targets for this batch: Vocabulary search and filter menus, Vocabulary import dialog, Edit User or Edit Font dialog, Reader Settings selects and help menus, one open dropdown over a dark surface, and one help tooltip/popover. Protected dialog sizing, Reader Settings geometry, form bindings, and business logic will not be changed.
+- Planned test strategy: first capture computed foreground/background/border colors and contrast for normal, placeholder, focused, disabled, active, hover, dialog, menu, and help-overlay states. Add focused static checks only for selectors/tokens proven necessary by that evidence; do not remove all legacy selectors blindly.
+
+Second-cluster pre-fix browser evidence:
+
+- Vocabulary filters/search, dark:
+  - Search field effective filled surface used the current dark filled-field overlay, with text `rgb(236,236,241)` and border/outline visible against the dark surface.
+  - Level and Order by menus rendered on `rgb(40,39,44)` with `rgb(236,236,241)` text. The active item used generic `gray3` (`rgb(75,74,81)`) and remained readable at 7.44:1, but it did not use the dedicated `selectedSurface` token.
+  - Order-by icons matched menu text and were readable. No stale Vuetify 2 selector was required for the current menu DOM.
+- Vocabulary import dialog, dark:
+  - Card, title, body, actions, labels, file input text/icon, and delimiter text used `rgb(236,236,241)` on the dark surface and were readable.
+  - The primary information alert used `rgb(20,17,16)` on `rgb(197,148,125)`, but its ordinary anchor inherited the application link color `rgb(158,158,255)`. That link measured only 1.11:1 against the alert surface. Root cause: generic anchor color overrides the semantic foreground already selected by the alert.
+  - The disabled Import button retained its semantic primary/on-primary colors and Vuetify's disabled overlay; no geometry or behavior change is needed.
+- Edit User dialog, dark:
+  - Card, title, body, actions, text fields, labels, and switch label were readable. Dialog sizing remained unchanged.
+- Reader Settings, dark:
+  - Card and select value/icon text were readable; select menus used the same readable surface/text treatment as Vocabulary menus.
+  - The disabled Vertical text switch had the same track `rgb(65,64,70)`, thumb `rgb(40,39,44)`, opacity, and label color as an enabled unchecked switch. Root cause: current CSS targets obsolete/missing `.v-field--disabled` paths but does not style Vuetify 3 `.v-selection-control--disabled`.
+  - The help card rendered `rgb(236,236,241)` text on `rgb(40,39,44)` with a `rgb(118,114,125)` semantic border. The help activator icon was readable. This is a menu-backed help popover rather than a `v-tooltip`.
+- Shared field/menu migration gaps:
+  - Field outlines computed from the general text foreground instead of the dedicated `border`/`focusIndicator` tokens, despite the intended DarkMode rules. Current Vuetify field internals and later normalization rules require an explicit current-framework override.
+  - Menu selected/hover behavior is readable but still driven by generic `gray3`/overlay opacity. This batch will move current overlay list states to `selectedSurface` and `hoverSurface` without changing menu geometry or selection behavior.
+- Confirmed safe scope for implementation: semantic alert-link inheritance, current Vuetify 3 field border/focus selectors, disabled input/selection-control states, and current overlay list selected/hover states. Cards/dialog bodies and help-card surfaces already pass and need regression coverage rather than recoloring.
+
+Second REG-008 cluster implementation and verification:
+
+- Root cause: the newer semantic dark-theme baseline was scoped only under `#app .v-application.dark`. Vuetify 3 teleports dialogs, select menus, dropdowns, and help popovers into `.v-overlay-container`, outside that subtree. Current semantic rules therefore existed but did not reach the affected overlay content; older generic application/link/component rules won instead.
+- Changed `resources/sass/DarkMode.scss`:
+  - extended the shared dark baseline to `.v-overlay-container .v-theme--dark`, matching current Vuetify 3 teleported overlay roots;
+  - made alert links inherit the alert's semantic foreground and retain an underline;
+  - enforced semantic `border` and `focusIndicator` tokens on current `.v-field__outline` states;
+  - added current `.v-input--disabled` coverage for field text, select values, labels, and icons;
+  - added semantic disabled switch track/thumb styling and a disabled settings-row label state without changing Reader Settings geometry;
+  - moved overlay list active and hover/focus states to `selectedSurface` and `hoverSurface`;
+  - removed the overlapping obsolete global `.v-select__selections`, old card-child, and old overlay menu-item selectors.
+- Changed `tests/Feature/VueMigrationStaticTest.php`: added `test_dark_forms_cards_and_menus_use_current_semantic_state_selectors`. It requires app-root and teleported-overlay coverage, semantic alert/field/disabled/menu selectors, and rejects the three removed Vuetify 2 selectors. The test failed before production changes and passes with 12 assertions.
+- Changed `scripts/check-dark-theme-contrast.js`: requires teleported-overlay coverage and the second-cluster selectors, rejects the removed obsolete selectors, and verifies text on hover/selected surfaces plus focus indication on input surfaces.
+- Post-fix browser evidence:
+  - Vocabulary import alert link changed from 1.11:1 to 7.08:1 (`on-primary` on `primary`) while preserving same-tab navigation and underline.
+  - Filled field text measured 10.78:1 on `inputSurface`; normal outline used `border`; focused outline and 2px focus ring used `focusIndicator` at 5.59:1 against the focused field surface.
+  - Vocabulary Level menu active item used `selectedSurface` with 9.00:1 text contrast. Hover used `hoverSurface` with 9.70:1. Order-by icons remained readable and selection behavior was unchanged.
+  - Reader Settings disabled Vertical text switch now differs from enabled unchecked switches: label/track/thumb use `textDisabled`/`iconDisabled`, with the disabled label retaining 4.54:1 against the dialog surface. Existing row alignment and switch geometry were unchanged.
+  - Reader Settings select value and append icon remained readable. Its help popover retained `rgb(236,236,241)` text on `rgb(40,39,44)`, semantic border `rgb(118,114,125)`, and its existing 320x82 geometry.
+  - Edit User dialog retained semantic card/title/body text, `inputSurface` fields, `border` outlines, 409/409px client/scroll height, and no document overflow.
+  - Mobile 390x844 dark: Reader Settings dialog was 342px wide with zero document overflow; Vocabulary import dialog was 342px wide with zero document overflow. No safe-area, footer, or dialog-sizing rules changed.
+  - Light theme recheck: Reader Settings card, select value/icon, and disabled control retained their existing light colors and zero overflow. The new rules are dark-theme scoped.
+- Automated verification: focused static test `1 test, 12 assertions`; full PHPUnit suite `73 tests, 932 assertions`; `npm run check:migration` including production build; `npm run check:css` with zero errors and existing warnings only; direct dark contrast script and Node syntax checks; and `git diff --check`.
+- Remaining REG-008 work is still deferred:
+  - tabs/navigation hardcoded active-state white rules outside this cluster;
+  - calendar/date-picker component-specific colors;
+  - Review animation/state colors and broader Reader/Review feature verification;
+  - feature-local obsolete card selectors such as Admin API settings, which need their own runtime evidence;
+  - broad legacy selector cleanup outside the forms/selects/cards/menus families.
+
 ## REG-009: Sidebar/mobile bottom icon alignment
 
 Status: Verified

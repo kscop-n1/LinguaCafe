@@ -92,12 +92,16 @@ if (failures.length === 0) {
     assertContrast(dark, 'border', 'foreground', 3, failures);
     assertContrast(dark, 'customBorder', 'foreground', 3, failures);
     assertContrast(dark, 'focusIndicator', 'foreground', 3, failures);
+    assertContrast(dark, 'focusIndicator', 'inputSurface', 3, failures);
+    assertContrast(dark, 'text', 'hoverSurface', 4.5, failures);
+    assertContrast(dark, 'text', 'selectedSurface', 4.5, failures);
     assertContrast(dark, 'on-primary', 'primary', 4.5, failures);
     assertContrast(dark, 'on-error', 'error', 4.5, failures);
 }
 
 const requiredSelectors = [
-    '#app .v-application.dark {',
+    '#app .v-application.dark,',
+    '.v-overlay-container .v-theme--dark {',
     '.subheader',
     '.v-table .v-table__wrapper',
     '.v-data-table-footer',
@@ -106,6 +110,12 @@ const requiredSelectors = [
     '.table-action-button.bg-error .v-icon',
     '.v-tab.v-tab--selected',
     '.v-field',
+    '.v-field--focused .v-field__outline',
+    '.v-input--disabled .v-field',
+    '.v-selection-control--disabled .v-switch__track',
+    '.v-alert a',
+    '.v-overlay__content .v-list-item--active',
+    '.v-overlay__content .v-list-item:not(.v-list-item--active):hover',
     '.v-btn--icon .v-icon',
     '.v-btn--disabled',
     '#navigation-drawer',
@@ -117,6 +127,16 @@ const requiredSelectors = [
 for (const selector of requiredSelectors) {
     if (!css.includes(selector)) {
         failures.push(`DarkMode.scss is missing expected shared selector: ${selector}`);
+    }
+}
+
+for (const obsoleteSelector of [
+    '.v-select__selections',
+    '.v-theme--dark.v-card > .v-card__text',
+    '.v-overlay__content .v-theme--dark.v-list-item',
+]) {
+    if (css.includes(obsoleteSelector)) {
+        failures.push(`DarkMode.scss retains obsolete Vuetify 2 selector: ${obsoleteSelector}`);
     }
 }
 

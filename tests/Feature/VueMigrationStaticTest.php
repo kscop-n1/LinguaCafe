@@ -337,6 +337,52 @@ class VueMigrationStaticTest extends TestCase
         );
     }
 
+    public function test_dark_forms_cards_and_menus_use_current_semantic_state_selectors(): void
+    {
+        $styles = file_get_contents(base_path("resources/sass/DarkMode.scss"));
+
+        $this->assertStringContainsString(
+            "#app .v-application.dark,\n.v-overlay-container .v-theme--dark {",
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-alert a\s*\{[^}]*color:\s*inherit\s*!important;[^}]*text-decoration:\s*underline;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-field__outline\s*\{[^}]*color:\s*rgb\(var\(--v-theme-border\)\)\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-field--focused \.v-field__outline\s*\{[^}]*color:\s*rgb\(var\(--v-theme-focusIndicator\)\)\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-input--disabled \.v-field[\s\S]*?\.v-selection-control--disabled \.v-label\s*\{[^}]*color:\s*rgb\(var\(--v-theme-textDisabled\)\)\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-selection-control--disabled \.v-switch__track\s*\{[^}]*background:\s*rgb\(var\(--v-theme-textDisabled\)\)\s*!important;[^}]*opacity:\s*\.45\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.settings-row:has\(\.v-selection-control--disabled\) \.settings-row__label\s*\{[^}]*color:\s*rgb\(var\(--v-theme-textDisabled\)\)\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-overlay__content \.v-list-item--active\s*\{[^}]*background:\s*rgb\(var\(--v-theme-selectedSurface\)\)\s*!important;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-overlay__content \.v-list-item:not\(\.v-list-item--active\):hover[\s\S]*?background:\s*rgb\(var\(--v-theme-hoverSurface\)\)\s*!important;/s',
+            $styles
+        );
+
+        $this->assertStringNotContainsString('.v-select__selections', $styles);
+        $this->assertStringNotContainsString('.v-theme--dark.v-card > .v-card__text', $styles);
+        $this->assertStringNotContainsString('.v-overlay__content .v-theme--dark.v-list-item', $styles);
+    }
+
     public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void
     {
         foreach ([
