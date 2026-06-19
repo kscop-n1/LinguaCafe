@@ -319,6 +319,24 @@ class VueMigrationStaticTest extends TestCase
         $this->assertStringNotContainsString('href="/user-manual/vocabulary-import"', $dialog);
     }
 
+    public function test_home_mobile_goal_cards_shrink_to_the_available_grid_track(): void
+    {
+        $styles = file_get_contents(base_path("resources/sass/Home/Home.scss"));
+
+        $this->assertMatchesRegularExpression(
+            '/@media \(max-width: 575px\)[\s\S]*?#goals[\s\S]*?\.goal\s*\{[^}]*width:\s*100%;[^}]*max-width:\s*360px;[^}]*justify-self:\s*center;[^}]*margin-inline:\s*auto\s*!important;/s',
+            $styles
+        );
+        $this->assertStringNotContainsString(
+            ".goal {\n            width: 360px;",
+            $styles
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            '/\.goal\s*\{[^}]*margin-left:\s*8px\s*!important;[^}]*margin-right:\s*8px\s*!important;/s',
+            $styles
+        );
+    }
+
     public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void
     {
         foreach ([

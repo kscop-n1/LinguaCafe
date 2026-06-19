@@ -394,18 +394,15 @@
         justify-content: center;
 
         .goal {
-            width: 360px;
+            width: 100%;
             max-width: 360px;
+            justify-self: center;
+            margin-inline: auto !important;
+            min-width: 0;
             height: 410px;
-            margin-left: 8px !important;
-            margin-right: 8px !important;
 
             .v-progress-circular__info {
                 font-size: 20px;
-            }
-
-            &:nth-child(even) {
-                margin-right: 8px !important;
             }
         }
     }
@@ -488,26 +485,6 @@
 
         #calendar-date-button-text {
             display: none;
-        }
-    }
-
-    #goals {
-        justify-content: center;
-
-        .goal {
-            width: 360px;
-            max-width: 360px;
-            height: 410px;
-            margin-left: 8px !important;
-            margin-right: 8px !important;
-
-            .v-progress-circular__info {
-                font-size: 20px;
-            }
-
-            &:nth-child(even) {
-                margin-right: 8px !important;
-            }
         }
     }
 

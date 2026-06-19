@@ -417,6 +417,36 @@ Notes:
 - The link preserves the old same-tab behavior. A raw internal anchor is acceptable here because the Laravel fallback route serves the Vue app on direct navigation, and the current manual component resolves both the route parameter and hash after loading Markdown.
 - Automated verification: focused REG-010 test `1 test, 7 assertions`; full PHPUnit suite `71 tests, 917 assertions`; `npm run check:migration` including the production build; and `git diff --check`.
 
+## REG-011: Home mobile goal-card horizontal overflow
+
+Status: Verified
+Area: Home dashboard / Responsive layout
+Observed current behavior: At mobile widths, fixed goal-card sizing can make the Home document wider than its scrollbar-reduced client width.
+Current implementation: `resources/sass/Home/Home.scss` first gives `#goals` a single responsive grid track below 700px, but later mobile rules at 575px and 355px override each `.goal` to `width: 360px`, `max-width: 360px`, and 8px left/right margins.
+Difference classification: New unrelated responsive CSS regression
+Evidence:
+
+- Isolated browser at a 390x844 viewport: `document.documentElement.clientWidth` was 382px and `scrollWidth` was 384px. `#home` was 382px wide with 16px side padding, leaving `#goals` 350px wide. Each card was 360px wide with 8px left/right margins, positioned from x=24 to x=384.
+- At 320x844, client width was 312px and scroll width remained 384px, producing 72px overflow because the same 360px card and margins remained active inside a 280px goals column.
+- At 900x900 and 1440x1000, client width equaled scroll width. Cards were 360px wide with no mobile margins, so the defect is limited to the later mobile overrides rather than the base flex/grid layout.
+- The card itself uses `box-sizing: border-box`; its 1px outlined borders are included in the 360px computed width. The overflow is caused by the fixed width plus margins, not border-box arithmetic, grid gap, or the bottom navigation.
+
+Recommended action: Keep the 360px visual maximum, but allow each mobile card to shrink to its single grid track with `width: 100%`, center it using grid alignment/automatic margins, and remove fixed 8px side margins. Do not mask the issue with global overflow clipping.
+Risk: Low
+Tests needed: Static responsive-contract test and browser geometry verification
+Fix status: Applied and verified on 2026-06-19
+Notes:
+
+- Changed `resources/sass/Home/Home.scss`: the <=575px goal card keeps a 360px visual maximum but now uses `width: 100%`, `min-width: 0`, `justify-self: center`, and automatic inline margins. Removed the duplicate <=355px fixed 360px goal-card override. No global overflow rule was added.
+- Changed `tests/Feature/VueMigrationStaticTest.php`: `test_home_mobile_goal_cards_shrink_to_the_available_grid_track` requires the responsive goal-card contract and rejects reintroduction of fixed 360px goal widths or 8px goal-card side margins.
+- Post-fix browser verification:
+  - 390x844 light: client width 382px, scroll width 382px; `#goals` and each card were 350px wide from x=16 to x=366. Card title remained 64px high, body content 348px wide, and actions 53px high.
+  - 320x844 light: client width and scroll width were both 312px; `#goals` and cards shrank to 280px. Goal descriptions and action rows had no internal horizontal overflow.
+  - 900x900 and 1440x1000: client width equaled scroll width; cards retained their existing 360px desktop/tablet maximum and 400px height.
+  - 390x844 dark: client width and scroll width were both 382px; cards remained 350px wide. Card, description, and action text retained the verified dark semantic foreground.
+- Automated verification: focused responsive test `1 test, 3 assertions`; full PHPUnit suite `72 tests, 920 assertions`; `npm run check:migration` including the production build; `npm run check:css` with zero errors and existing warnings only; and `git diff --check`.
+- Bottom navigation and sidebar rules were untouched. Scope is limited to Home goal cards; similar fixed-width statistics/about rules were not implicated in the measured overflow and were not changed.
+
 ## Fixed / Already Reconciled
 
 - REG-001 invalid vocabulary tokens: fixed by central classifier, valid-token query scope, CSV import validation, and cleanup command.
