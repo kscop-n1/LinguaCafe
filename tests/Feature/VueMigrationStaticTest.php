@@ -261,6 +261,42 @@ class VueMigrationStaticTest extends TestCase
         }
     }
 
+    public function test_sidebar_bottom_controls_share_one_vuetify_3_alignment_contract(): void
+    {
+        $layout = file_get_contents(base_path("resources/js/components/Layout.vue"));
+        $styles = file_get_contents(base_path("resources/sass/app.scss"));
+
+        $this->assertSame(3, substr_count($layout, 'navigation-button navigation-bottom-item'));
+        $this->assertStringContainsString(
+            'class="navigation-button navigation-bottom-item navigation-language-button"',
+            $layout
+        );
+        $this->assertMatchesRegularExpression(
+            '/navigation-language-button[\s\S]*?<template #prepend>[\s\S]*?<v-img class="navigation-flag border"/',
+            $layout
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\.navigation-bottom-item\s*\{[^}]*height:\s*40px;[^}]*min-height:\s*40px;[^}]*padding-block:\s*0px;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.navigation-bottom-item \.v-list-item__prepend\s*\{[^}]*width:\s*40px;[^}]*align-items:\s*center;[^}]*justify-content:\s*flex-start;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.navigation-bottom-item \.v-list-item-title\s*\{[^}]*padding-left:\s*0px;[^}]*line-height:\s*20px;/s',
+            $styles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-navigation-drawer__append\s*\{[^}]*padding-bottom:\s*calc\(12px \+ env\(safe-area-inset-bottom,\s*0px\)\);/s',
+            $styles
+        );
+        $this->assertStringNotContainsString('margin-left: 1px', $styles);
+        $this->assertStringNotContainsString('margin-right: -1px', $styles);
+        $this->assertStringNotContainsString('.navigation-bottom-title', $styles);
+    }
+
     public function test_vocabulary_import_manual_link_targets_existing_markdown_section(): void
     {
         $dialog = file_get_contents(base_path("resources/js/components/Vocabulary/VocabularyImportDialog.vue"));

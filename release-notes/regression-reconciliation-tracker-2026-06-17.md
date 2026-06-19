@@ -363,14 +363,37 @@ Status: Verified
 Area: Sidebar / Mobile drawer
 Observed current behavior: Hide, Theme, and Language bottom-control icons did not align with labels; mobile bottom area could be cramped.
 Old behavior: Old large drawer bottom controls used inline `<v-icon>`/`<v-img>` followed by manual padding spans. Mini drawer used standalone rounded text buttons. See old `resources/js/components/Layout.vue:44-76`.
-Current implementation: Current large drawer uses Vuetify 3 `#prepend` slots and `v-list-item-title` for consistent icon/title layout; mini drawer wraps controls and uses `navigation-flag` classes. See current `resources/js/components/Layout.vue:50-88`; supporting CSS is in `resources/sass/app.scss` bottom-navigation rules.
+Current implementation: Current large drawer uses Vuetify 3 `#prepend` slots and `v-list-item-title`, with one `navigation-bottom-item` geometry contract shared by Hide, Theme, and Language. The mini drawer wraps controls and uses `navigation-flag` classes. See current `resources/js/components/Layout.vue:50-88`; supporting CSS is in `resources/sass/app.scss` bottom-navigation rules.
 Difference classification: Incorrect Vuetify 2 -> Vuetify 3 migration
-Evidence: Current markup uses the same structural pattern as main list items rather than manual span padding. Static UI regression coverage indirectly requires current shared UI patterns in `tests/Feature/VueMigrationStaticTest.php:188-208`; visual/mobile verification remains needed for cramped drawer state.
+Evidence: Current markup uses the same structural pattern as main list items rather than manual span padding. `tests/Feature/VueMigrationStaticTest.php::test_sidebar_bottom_controls_share_one_vuetify_3_alignment_contract` protects the shared structure, geometry, and safe-area rule; desktop and mobile browser measurements are recorded below.
 Recommended action: Port old approach correctly to current framework
 Risk: Medium
 Tests needed: Component, Visual regression, Static regression
-Fix status: Already applied before this reconciliation; visual verification still recommended
+Fix status: Applied and verified on 2026-06-19
 Notes: Do not restore manual padding spans; use Vuetify 3 prepend/title layout.
+
+Focused REG-009 investigation on 2026-06-19:
+
+- Old implementation: `/data/git/old_LinguaCafe/LinguaCafe/resources/js/components/Layout.vue` rendered bottom controls as loose Vuetify 2 children (`v-icon`/`v-img` plus manually padded `span`). Hide and Theme used `pl-6`; Language used a different `pl-5`. The mini drawer used standalone text-style buttons. Old `resources/sass/app.scss` only supplied drawer widths and button geometry, so alignment depended on Vuetify 2 inline layout and manual padding.
+- Current implementation: `resources/js/components/Layout.vue` correctly uses Vuetify 3 `#prepend` and `v-list-item-title`, but the three controls do not yet share one explicit component class. Hide/Theme rely on generic `.navigation-button`; Language adds `.navigation-language-button`, while bottom titles use a separate `.navigation-bottom-title`.
+- Current CSS is duplicated in two `#navigation-drawer` blocks in `resources/sass/app.scss`. The first block defines bottom-list geometry and includes a Language-only `margin-left: 1px; margin-right: -1px` correction. The later block redefines prepend width, title line-height, bottom-title padding, and flag dimensions. Classification: incomplete Vuetify 2 -> Vuetify 3 migration plus duplicated shared CSS and a screenshot-style flag offset.
+- The bottom title uses `padding-left: 24px`, while main sidebar titles use template utility class `pl-6`. These happen to be numerically similar but are owned by different contracts, so the bottom controls can drift from main navigation as Vuetify slot internals change.
+- Safe-area handling exists only on `.v-navigation-drawer__append` as `padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px))`. There is no explicit minimum inset for the bottom-control list, and the mini stack has its own fixed `padding-bottom: 10px`. Classification: partial safe-area implementation that needs one shared append/list contract.
+- Affected files: `resources/js/components/Layout.vue`, `resources/sass/app.scss`, `tests/Feature/VueMigrationStaticTest.php`, and this tracker.
+- Exact affected controls: expanded Hide, Theme, Language rows; collapsed Expand/Theme/Language icon buttons; mobile temporary drawer expanded rows. Navigation, theme selection, language selection, and collapse/expand behavior are not part of the fix.
+- Existing tests only reject the obsolete `.v-navigation-drawer--mini-variant` selector. They do not assert a shared bottom-item class, equal prepend/title geometry, flag use of the same prepend slot, removal of Language-only offsets, or safe-area padding.
+- Planned fix: add one shared `navigation-bottom-item` class to all expanded controls, consolidate their prepend/content/title/flag geometry into one CSS contract matching main navigation, remove Language-only offsets, and apply one safe-area-aware append/mini-stack spacing rule. Collapsed controls retain their existing button behavior and geometry.
+
+REG-009 implementation and verification:
+
+- Changed `resources/js/components/Layout.vue`: Hide, Theme, and Language now share `navigation-button navigation-bottom-item`; Language retains only its semantic `navigation-language-button` marker. All three labels use the same plain Vuetify 3 title slot, and the flag remains in the same `#prepend` slot as the icons.
+- Changed `resources/sass/app.scss`: one bottom-item contract now owns 40px row height, a stable 40px prepend column, flex-start icon/flag alignment, zero title padding, and centered 20px title line height. The Language-only positive/negative margins and the separate bottom-title rule were removed. The append owns `12px + env(safe-area-inset-bottom)` spacing; the mini stack no longer adds a competing fixed bottom inset.
+- Changed `tests/Feature/VueMigrationStaticTest.php`: `test_sidebar_bottom_controls_share_one_vuetify_3_alignment_contract` requires all three controls to use the shared class and Vuetify 3 prepend slot, verifies the shared geometry and safe-area rule, and rejects the removed Language-only offsets and title class. The test failed before the production change and passed afterward.
+- Desktop browser verification at 1440x1000: expanded rows were all 40px high; every icon/flag began at x=16 and every label at x=56; icon/flag-to-label vertical center delta was 0px. The collapsed stack retained three centered 46x46 buttons and 12px bottom spacing.
+- Mobile browser verification at 390x844: the temporary drawer remained 256px wide and ended above the fixed bottom navigation; all rows were 40px high with x=16 visual and x=56 label alignment, 0px center delta, and 28px between the last row and viewport bottom. The drawer itself introduced no horizontal overflow. A pre-existing 2px Home goal-card overflow relative to the scrollbar-reduced document client width was observed and left unchanged because it is outside REG-009.
+- Light and dark verification: light labels/icons computed as `rgb(51, 51, 51)` on white; dark labels computed as `rgb(236, 236, 241)` and icons as `rgb(226, 225, 232)` on `rgb(40, 39, 44)`. Keyboard focus plus Enter on Theme opened the theme dialog; navigation and switching behavior were unchanged.
+- Automated verification: focused test `1 test, 10 assertions`; full `VueMigrationStaticTest` `13 tests, 116 assertions`; full PHPUnit suite `71 tests, 912 assertions`; `npm run check:migration`; production build; `npm run check:css` with zero errors and existing warnings only; and `git diff --check`.
+- Remaining risk: `env(safe-area-inset-bottom)` was verified structurally and with the 12px fallback in Chromium. Hardware iOS inset injection was not available in the isolated runtime.
 
 ## REG-010: Vocabulary import user manual link
 
@@ -396,7 +419,7 @@ Notes: This is a route/content migration, not a UI styling issue.
 - REG-005 shared table action buttons: fixed by `.table-action-button` and compact action columns.
 - REG-006 Reader/Review toolbar circles: fixed by `.vertical-toolbar-button` and Reader toolbar rail sizing.
 - REG-007 dialogs/edit chips: fixed by `.app-dialog-card`, current dialog model bindings, and Vuetify 3 chip sizing/icons.
-- REG-009 sidebar bottom controls: fixed structurally with Vuetify 3 prepend/title layout; needs visual pass on mobile drawer.
+- REG-009 sidebar bottom controls: fixed with one Vuetify 3 prepend/title geometry contract and verified on desktop, collapsed rail, and mobile drawer in light and dark themes.
 - REG-010 manual link: fixed by linking to existing Setup markdown anchor.
 
 ## Deferred / Decision Needed

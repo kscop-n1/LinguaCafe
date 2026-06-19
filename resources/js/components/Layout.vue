@@ -51,23 +51,23 @@
                     <template v-if="!display.md && !navbarCollapsed">
                         <v-list nav shaped density="compact" class="navigation-bottom-list pl-0">
                             <!-- Navigation buttons -->
-                            <v-list-item class="navigation-button" @click="collapseNavbar">
+                            <v-list-item class="navigation-button navigation-bottom-item" @click="collapseNavbar">
                                 <template #prepend>
                                     <v-icon>mdi-arrow-collapse-left</v-icon>
                                 </template>
-                                <v-list-item-title class="navigation-bottom-title">Hide</v-list-item-title>
+                                <v-list-item-title>Hide</v-list-item-title>
                             </v-list-item>
-                            <v-list-item class="navigation-button" @click="themeSelectionDialog = true;">
+                            <v-list-item class="navigation-button navigation-bottom-item" @click="themeSelectionDialog = true;">
                                 <template #prepend>
                                     <v-icon>mdi-palette</v-icon>
                                 </template>
-                                <v-list-item-title class="navigation-bottom-title">Theme</v-list-item-title>
+                                <v-list-item-title>Theme</v-list-item-title>
                             </v-list-item>
-                            <v-list-item class="navigation-button navigation-language-button" @click="languageSelectionDialog = true;">
+                            <v-list-item class="navigation-button navigation-bottom-item navigation-language-button" @click="languageSelectionDialog = true;">
                                 <template #prepend>
                                     <v-img class="navigation-flag border" :src="selectedLanguageFlagSource" width="26" max-width="26" height="17" cover></v-img>
                                 </template>
-                                <v-list-item-title class="navigation-bottom-title">Language</v-list-item-title>
+                                <v-list-item-title>Language</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </template>
