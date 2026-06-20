@@ -127,7 +127,7 @@ Protected behavioral contracts include:
 - REG-008 feature-local obsolete selectors, including Admin API settings.
 - REG-008 broad legacy selector cleanup, performed only in evidence-backed component batches.
 - Separate light-palette `on-primary` contrast decision; the current primary/white ratio is 3.23:1.
-- Production cleanup/backfill application decision after reviewing real dry-run reports and backups.
+- Production cleanup/backfill apply remains blocked after the production-backup dry-run review in `release-notes/production-maintenance-dry-run-report-2026-06-20.md`. Cleanup needs an approved lexical allowlist/filter, and backfill needs wrong-owner phrase remapping before another dry run.
 - Physical iOS safe-area verification for sidebar/mobile drawer bottom controls.
 - Continued release-time browser verification for chapter footer overlay positioning.
 
@@ -135,8 +135,9 @@ Protected behavioral contracts include:
 
 | Risk | Severity | Why deferred | Recommended next action | Work type |
 | --- | --- | --- | --- | --- |
-| Production contains invalid or incomplete legacy vocabulary metadata | High | Maintenance commands were intentionally not applied without a reviewed production dry run and backup | Run read-only production dry runs, review candidates and duplicate ambiguity, approve a scoped apply plan | Manual verification, product/data decision |
-| Duplicate word text prevents deterministic metadata backfill | High | Automatic guessing could associate vocabulary with the wrong chapter/book | Define a duplicate-resolution policy or keep fallback for those rows | Product decision, code, tests |
+| Production contains invalid or incomplete legacy vocabulary metadata | High | The production-backup dry run found 2,398 invalid rows, but 449 mechanically safe candidates include debatable lexical forms and 440 require manual review | Define an approved lexical policy and add scoped allowlist/filter support before repeating dry-run | Product decision, code, tests |
+| Wrong-owner phrase metadata would be removed rather than remapped | High | The dry run found 16 user 3 chapter references to user 1 phrases with same-text user 3 replacements; current backfill only removes them | Add a tested unambiguous user/language phrase-text remap, then repeat the isolated dry run | Code, tests, manual verification |
+| Duplicate word text prevents deterministic metadata backfill | Medium | The reviewed snapshot has no duplicates within user/language scope, but future datasets may; automatic guessing remains unsafe | Keep duplicate detection and fallback; define a policy only if a future dry run reports scoped duplicates | Product decision, tests |
 | Calendar/date-picker dark states may retain incompatible selectors/colors | Medium | Not part of the three verified REG-008 clusters | Audit one date-picker/calendar cluster with computed contrast evidence | Code, tests, browser verification |
 | Review animation/state colors are not comprehensively audited | Medium | Toolbar geometry was protected; animation surfaces need separate runtime states | Capture each Review transition/state in light/dark and fix only proven shared rules | Browser verification, code, tests |
 | Admin API and other feature-local obsolete selectors may be dead or harmful | Medium | Blind removal could alter unverified pages | Audit one feature at a time and replace only selectors with runtime impact | Code, tests, browser verification |
@@ -147,29 +148,26 @@ Protected behavioral contracts include:
 
 ## Recommended Next Execution Order
 
-1. Run production cleanup and metadata-backfill dry runs only; produce a reviewed candidate report and explicit apply/no-apply decision.
-2. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
-3. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
-4. Audit Admin API settings as the first feature-local obsolete-selector cluster; defer broad cleanup until these small batches establish safe patterns.
-5. Verify sidebar/mobile drawer safe-area behavior on physical iOS hardware or a trusted device farm.
+1. Define the vocabulary cleanup policy for numeric lexical forms, abbreviations, URLs, and suspicious punctuation joins; add reason/token scoping before any apply.
+2. Implement and test unambiguous wrong-owner phrase remapping, then repeat both dry-runs against a fresh production backup.
+3. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
+4. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
+5. Audit Admin API settings as the first feature-local obsolete-selector cluster.
 
 ## Working Tree Report
 
-Current state after adding mounted stale-response coverage:
+Current state after the production-backup maintenance dry-runs:
 
 ```text
 git status --short
- M package-lock.json
- M package.json
  M release-notes/regression-reconciliation-tracker-2026-06-17.md
  M release-notes/regression-stabilization-summary-2026-06-20.md
-?? tests/frontend/Vocabulary.spec.js
-?? tests/frontend/setup.js
-?? vitest.config.mjs
+?? release-notes/production-maintenance-dry-run-report-2026-06-20.md
 ```
 
-- `package-lock.json`: intentionally updated for dev-only Vitest, Vue Test Utils, and jsdom dependencies; package name remains `LinguaCafe`.
-- Generated/runtime artifacts: none reported by Git; production build output is not present as an intentional tracked change.
+- `package-lock.json`: unchanged by the maintenance dry-run task.
+- Production application code: unchanged.
+- Generated/runtime artifacts: temporary JSON, checksum, stderr, and analysis files were removed.
 - Temporary data: isolated REG test users/books/chapters were removed after their verification runs.
-- Temporary containers: REG-specific audit containers were removed. A pre-existing exited `linguacafe-webserver-overlay-test` container from an older run remains and was not created or modified by this checkpoint.
-- Production application code: unchanged by the mounted stale-response test task.
+- Temporary maintenance database and Docker network: removed after pre/post checksum verification.
+- Live production database: no cleanup/backfill command was executed against it.

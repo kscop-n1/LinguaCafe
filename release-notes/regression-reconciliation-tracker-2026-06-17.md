@@ -94,6 +94,14 @@ Isolated dry-run/apply evidence:
 - Cleanup apply deleted 1 row, quarantined 1 row while preserving its user note, skipped 1 ambiguous row, repaired 1 chapter, and recalculated 1 book. Chapter/book word totals changed from 4 to 2. A second dry-run proposed no further delete/quarantine actions.
 - Metadata dry-run detected duplicate text `shared` with 2 candidate word IDs and refused to guess. It identified 1 safe phrase-ID repair. Apply changed the phrase metadata only; the second dry-run reported `chapters_would_change: 0` while retaining the explicit duplicate ambiguity.
 - No cleanup or backfill apply was run against the production database.
+- Production-like dry-run review on 2026-06-20 is documented in `release-notes/production-maintenance-dry-run-report-2026-06-20.md`.
+  - The June 19 production backup was restored into an isolated disposable database; live production data was not queried or mutated.
+  - Cleanup found 2,398 invalid records: 449 mechanically safe-delete candidates, 1,509 already ignored records, 440 manual-review candidates, and no pending quarantines.
+  - Blanket cleanup apply is not recommended because mechanically pristine candidates include debatable lexical forms such as `1930s`, `26-year`, ordinals, abbreviations, and URLs.
+  - Backfill would change all 1,972 processed chapters by removing 18,980 word IDs and 16 phrase IDs, with no additions.
+  - The 16 phrase removals are wrong-user references with same-text user-scoped replacements available; current backfill removes but does not remap them.
+  - No duplicate word text exists within user/language scope. The 440 cleanup ambiguities are suspicious-token classifications, not duplicate database rows.
+  - Pre/post row counts and checksums were identical for all affected tables. No apply mode was executed.
 
 Verification:
 
