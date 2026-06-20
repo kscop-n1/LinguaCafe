@@ -156,18 +156,6 @@
     background-color: rgb(var(--v-theme-foreground));
 }
 
-// navigation button
-#app .v-application.dark .v-theme--dark.v-list-item--active:before,
-#app .v-application.dark .v-theme--dark.v-list-item--active:hover:before,
-#app .v-application.dark .v-theme--dark.v-list-item:focus:before {
-    opacity: 0;
-}
-
-// bottom navbar color
-#app .v-application.dark .v-theme--dark.v-bottom-navigation .v-spacer{
-    background-color: rgb(var(--v-theme-foreground));
-}
-
 // v-icon
 #app .v-application.dark .v-theme--dark.v-icon,
 #app .v-application.dark .v-btn.icon > .v-btn__content .v-icon {
@@ -257,15 +245,6 @@
 // calendar border
 #app .v-application.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day {
     border-color: #404040;
-}
-
-// navigation text
-#app .v-application.dark #navigation-drawer a.navigation-button.v-list-item--active {
-    color: rgb(var(--v-theme-textDark)) !important;
-
-    i {
-        color: rgb(var(--v-theme-textDark)) !important;
-    }
 }
 
 // book list text color
@@ -677,6 +656,15 @@
         opacity: 1;
     }
 
+    .admin-settings-tabs .v-tab.v-tab--selected,
+    .admin-settings-tabs .v-tab.v-tab--selected .v-btn__content {
+        color: rgb(var(--v-theme-text)) !important;
+    }
+
+    .admin-settings-tabs .v-tab.v-tab--selected .v-tab__slider {
+        background: rgb(var(--v-theme-focusIndicator)) !important;
+    }
+
     .v-overlay__content .v-list-item--active {
         background: rgb(var(--v-theme-selectedSurface)) !important;
         color: rgb(var(--v-theme-text)) !important;
@@ -767,8 +755,15 @@
 
     #navigation-drawer .v-list-item--active,
     .v-navigation-drawer .v-list-item--active {
-        background: rgb(var(--v-theme-selectedSurface));
-        color: rgb(var(--v-theme-text));
+        background: rgb(var(--v-theme-primary)) !important;
+        color: rgb(var(--v-theme-on-primary)) !important;
+    }
+
+    #navigation-drawer .navigation-button.v-list-item--active,
+    #navigation-drawer .navigation-button.v-list-item--active .v-list-item-title,
+    #navigation-drawer .navigation-button.v-list-item--active .v-list-item__content,
+    #navigation-drawer .navigation-button.v-list-item--active .v-icon {
+        color: rgb(var(--v-theme-on-primary)) !important;
     }
 
     #navigation-drawer .v-list-item:hover,

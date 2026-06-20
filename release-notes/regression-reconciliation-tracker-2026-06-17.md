@@ -283,7 +283,7 @@ Reader Settings alignment fix and verification on 2026-06-18:
 
 ## REG-008: Dark theme contrast regressions
 
-Status: Fixed for first shared cluster; remaining families deferred
+Status: Verified for three shared clusters; remaining families deferred
 Area: Theme
 Observed current behavior: Dark-on-dark text/icons appear in several places, including fonts/admin pages and toolbars/action icons.
 Old behavior: Old global CSS targeted Vuetify 2 theme classes and variables such as `.theme--light`, `.v-menu__content`, `var(--v-foreground-base)`, `var(--v-text-base)`, and active list item icon colors. See old `resources/sass/app.scss:123-152`, `:171-205`.
@@ -435,6 +435,67 @@ Second REG-008 cluster implementation and verification:
   - Review animation/state colors and broader Reader/Review feature verification;
   - feature-local obsolete card selectors such as Admin API settings, which need their own runtime evidence;
   - broad legacy selector cleanup outside the forms/selects/cards/menus families.
+
+Third REG-008 cluster audit on 2026-06-20: tabs and navigation active states
+
+- Old implementation reference:
+  - Old Admin and Reader Settings tabs used Vuetify 2 `v-tabs`/`v-tab` markup, while old sidebar and bottom-navigation styles assumed white active text on the primary surface.
+  - Old dark overrides targeted child-level Vuetify 2 classes such as `.theme--dark.v-list-item--active:before`, `.theme--dark.v-bottom-navigation .v-spacer`, and active navigation anchors. Those selectors do not describe the current Vuetify 3 DOM and are behavioral reference only.
+- Current implementation:
+  - Admin tabs are rendered by `resources/js/components/Admin/AdminSettingsLayout.vue`; Reader Settings tabs are rendered by `resources/js/components/TextReader/TextReaderSettings.vue`.
+  - Main sidebar and mobile bottom navigation are rendered by `resources/js/components/Layout.vue`.
+  - `resources/sass/DarkMode.scss` already defines semantic current-framework states using `selectedSurface`, `hoverSurface`, `focusIndicator`, `text`, and `on-primary`.
+  - Later rules in `resources/sass/app.scss` override that semantic baseline: Admin selected tabs force `#ffffff` text/content/slider, active drawer items force `white`, and bottom navigation forces `#ffffff` text/icons/overlays on the primary surface.
+- Classification:
+  - Hardcoded color override: selected Admin tabs, active sidebar items, and mobile bottom navigation bypass the palette's semantic foreground.
+  - Obsolete Vuetify 2 selectors: old child-level `.v-theme--dark` active-list and bottom-navigation selectors remain in `DarkMode.scss`; they are not a valid current active-state contract.
+  - Already correct semantic token use: generic Reader Settings tabs and the newer shared dark hover/focus/selected rules already reference current Vuetify 3 classes and semantic tokens.
+  - Runtime confirmation is required before removing or changing any rule because the later cascade may affect only specific component families.
+- Expected root cause: the current dark primary is `#C5947D`, whose intended foreground is the configured `on-primary` `#141110`. Hardcoded white ignores that palette contract and is expected to produce insufficient selected-state contrast. Generic selected-surface tabs should remain `text` on `selectedSurface`.
+- Exact controls requiring pre-fix evidence:
+  - all seven Admin settings tabs;
+  - all three Reader Settings tabs;
+  - active, inactive, hovered, and keyboard-focused desktop sidebar items;
+  - active, inactive, hovered, and keyboard-focused mobile bottom-navigation items;
+  - mobile drawer navigation if it inherits the drawer active-item contract.
+- Planned safeguards:
+  - measure computed foreground/background/outline colors and contrast in dark and light themes before changing production Sass;
+  - add a focused static regression test that rejects hardcoded white in shared active-state rules and requires `on-primary`, `selectedSurface`, `hoverSurface`, and `focusIndicator` as appropriate;
+  - preserve routing, tab models, navigation geometry, and all previously verified component sizing.
+
+Third-cluster pre-fix browser evidence:
+
+- Admin Users at 1440x1000 dark: the selected tab background was the semantic `selectedSurface` `rgb(73,60,53)`, but later `app.scss` declarations forced its label/content/slider to white. Contrast remained readable at 10.60:1, so this was a hardcoded semantic-cascade defect rather than an immediate unreadable state. Inactive and hover states were already readable; keyboard focus used a 2px `focusIndicator` outline.
+- Reader Settings at 1440x1000 dark: all three tabs already used the intended current-framework contract: selected `text` on `selectedSurface` at 9.00:1 and a `focusIndicator` slider. This component required verification only.
+- Desktop Home sidebar dark: the active item background was `primary` `rgb(197,148,125)`. Parent and icon used `on-primary`, but the title was overridden to `text` `rgb(236,236,241)`, only 2.66:1 against primary. This confirmed a competing generic active-list child rule.
+- Mobile Home at 390x844 dark: bottom navigation used white labels/icons on primary, only 2.66:1. The generic `.v-btn--active .v-btn__overlay { opacity: 0 !important; }` also suppressed the component's intended active overlay, making active and inactive items visually identical.
+- Root cause classification: hardcoded foreground overrides plus an over-broad Vuetify 3 active-overlay reset. The generic semantic tokens and component markup were correct; the cascade applied the wrong foreground or erased the selected-state indicator.
+
+Third REG-008 cluster implementation and verification:
+
+- Changed `resources/sass/app.scss`:
+  - replaced hardcoded white in Admin selected tabs, active drawer items, and mobile bottom navigation with `on-primary`;
+  - explicitly applied `on-primary` to active drawer title/content/icon descendants so the generic active-list text rule cannot override them;
+  - excluded bottom-navigation buttons from the generic active-overlay suppression;
+  - restored semantic `on-primary` active/hover/focus overlays and added a 3px inset `on-primary` selection indicator plus 700 weight without changing navigation geometry.
+- Changed `resources/sass/DarkMode.scss`:
+  - made Admin selected tabs use `text` on `selectedSurface` and `focusIndicator` for the slider;
+  - made current Vuetify 3 active drawer items consistently use `primary`/`on-primary`;
+  - removed obsolete Vuetify 2 active-list pseudo-element, bottom-navigation spacer, and active-anchor icon selectors that no longer match the current DOM.
+- Changed `tests/Feature/VueMigrationStaticTest.php`: added `test_tabs_and_navigation_active_states_use_semantic_theme_tokens`. It failed before the Sass fix and now verifies drawer descendants, Admin tabs, bottom-navigation foreground/indicator/overlay behavior, and absence of hardcoded white in this shared cluster.
+- Changed `scripts/check-dark-theme-contrast.js`: now checks `app.scss` for the shared semantic tab/navigation contracts and rejects reintroduced hardcoded white active-state rules.
+- Post-fix browser evidence:
+  - all seven Admin tabs selected the correct route/model state. Dark selected tabs used `rgb(236,236,241)` on `rgb(73,60,53)` at 9.00:1 with `rgb(217,172,148)` slider; hover used `hoverSurface`; keyboard focus retained the 2px semantic outline.
+  - all three Reader Settings tabs retained the same 9.00:1 selected state and semantic slider; tab switching and settings content were unchanged.
+  - desktop and mobile-drawer active Home navigation used `rgb(20,17,16)` for label and icon on `rgb(197,148,125)`, improving the affected title from 2.66:1 to 7.08:1. Inactive text remained readable; hover used `hoverSurface`; keyboard focus used a 2px `focusIndicator` outline.
+  - mobile bottom navigation at 390x844 and 900x900 used `on-primary` at 7.08:1. The active item had a 14% semantic overlay, 3px inset indicator, and 700 weight; inactive items had no overlay/indicator. Keyboard focus showed a 2px `focusIndicator` outline. Document client/scroll widths matched at both widths.
+  - light theme retained its prior primary/white Admin tab, sidebar, and bottom-navigation appearance through the light `on-primary` token. No light-theme geometry or routing behavior changed. The existing light `on-primary`/primary text contrast is 3.23:1 and remains a palette-level follow-up outside this dark-only cluster.
+- Automated verification: focused test `1 test, 10 assertions`; full PHPUnit suite `74 tests, 942 assertions`; `npm run check:migration` including production build; `npm run check:css` with zero errors and existing warnings only; direct dark-contrast and Node syntax checks; and `git diff --check`.
+- Remaining REG-008 work stays deferred:
+  - calendar/date-picker component-specific colors;
+  - Review animation/state colors and broader Reader/Review feature verification;
+  - feature-local obsolete selectors such as Admin API settings;
+  - broad legacy selector cleanup and the separate light-palette `on-primary` contrast decision.
 
 ## REG-009: Sidebar/mobile bottom icon alignment
 

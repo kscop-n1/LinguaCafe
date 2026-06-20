@@ -383,6 +383,55 @@ class VueMigrationStaticTest extends TestCase
         $this->assertStringNotContainsString('.v-overlay__content .v-theme--dark.v-list-item', $styles);
     }
 
+    public function test_tabs_and_navigation_active_states_use_semantic_theme_tokens(): void
+    {
+        $appStyles = file_get_contents(base_path("resources/sass/app.scss"));
+        $darkStyles = file_get_contents(base_path("resources/sass/DarkMode.scss"));
+
+        $this->assertMatchesRegularExpression(
+            '/#navigation-drawer \.navigation-button\.v-list-item--active\s*\{[^}]*background-color:\s*rgb\(var\(--v-theme-primary\)\);[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\);/s',
+            $appStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#navigation-drawer \.navigation-button\.v-list-item--active \.v-list-item-title,[\s\S]*?color:\s*rgb\(var\(--v-theme-on-primary\)\)\s*!important;/s',
+            $appStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-bottom-navigation\s*\{[^}]*background:\s*rgb\(var\(--v-theme-primary\)\)\s*!important;[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\)\s*!important;/s',
+            $appStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-bottom-navigation \.v-btn--active \.v-btn__overlay,[\s\S]*?background:\s*rgb\(var\(--v-theme-on-primary\)\);[^}]*opacity:\s*\.14;/s',
+            $appStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-bottom-navigation \.v-btn--active\s*\{[^}]*box-shadow:\s*inset 0 3px 0 rgb\(var\(--v-theme-on-primary\)\);[^}]*font-weight:\s*700;/s',
+            $appStyles
+        );
+        $this->assertStringContainsString(
+            '.v-btn--active:not(.v-bottom-navigation .v-btn) .v-btn__overlay',
+            $appStyles
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\.admin-settings-tabs \.v-tab\.v-tab--selected,[\s\S]*?color:\s*rgb\(var\(--v-theme-text\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.admin-settings-tabs \.v-tab\.v-tab--selected \.v-tab__slider\s*\{[^}]*background:\s*rgb\(var\(--v-theme-focusIndicator\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#navigation-drawer \.v-list-item--active,[\s\S]*?background:\s*rgb\(var\(--v-theme-primary\)\)\s*!important;[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\)\s*!important;/s',
+            $darkStyles
+        );
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/(?:admin-settings-tabs|navigation-button\.v-list-item--active|v-bottom-navigation)[\s\S]{0,240}color:\s*(?:white|#fff(?:fff)?)/i',
+            $appStyles
+        );
+    }
+
     public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void
     {
         foreach ([

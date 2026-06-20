@@ -6,6 +6,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const themesPath = path.join(root, 'resources/js/themes.js');
 const darkModePath = path.join(root, 'resources/sass/DarkMode.scss');
+const appStylesPath = path.join(root, 'resources/sass/app.scss');
 
 function loadThemes() {
     const source = fs.readFileSync(themesPath, 'utf8').replace(/export\s+default/, 'module.exports =');
@@ -49,6 +50,7 @@ function assertContrast(theme, foregroundKey, backgroundKey, minimum, failures) 
 const themes = loadThemes();
 const dark = themes.dark;
 const css = fs.readFileSync(darkModePath, 'utf8');
+const appCss = fs.readFileSync(appStylesPath, 'utf8');
 const failures = [];
 
 for (const token of [
@@ -119,6 +121,7 @@ const requiredSelectors = [
     '.v-btn--icon .v-icon',
     '.v-btn--disabled',
     '#navigation-drawer',
+    '.admin-settings-tabs .v-tab.v-tab--selected',
     '.v-dialog .v-card',
     '.v-tooltip > .v-overlay__content',
     '#reader-box #toolbar button.toolbar-button.v-btn',
@@ -127,6 +130,29 @@ const requiredSelectors = [
 for (const selector of requiredSelectors) {
     if (!css.includes(selector)) {
         failures.push(`DarkMode.scss is missing expected shared selector: ${selector}`);
+    }
+}
+
+for (const semanticActiveState of [
+    '#navigation-drawer .navigation-button.v-list-item--active',
+    'rgb(var(--v-theme-on-primary))',
+    '.v-bottom-navigation .v-btn--active {',
+    'box-shadow: inset 0 3px 0 rgb(var(--v-theme-on-primary));',
+    '.v-bottom-navigation .v-btn--active .v-btn__overlay',
+    '.v-btn--active:not(.v-bottom-navigation .v-btn) .v-btn__overlay',
+]) {
+    if (!appCss.includes(semanticActiveState)) {
+        failures.push(`app.scss is missing semantic navigation state contract: ${semanticActiveState}`);
+    }
+}
+
+for (const hardcodedActiveState of [
+    /#navigation-drawer \.navigation-button\.v-list-item--active\s*\{[^}]*color:\s*(?:white|#fff(?:fff)?)/i,
+    /\.v-bottom-navigation\s*\{[^}]*color:\s*(?:white|#fff(?:fff)?)/i,
+    /\.admin-settings-tabs \.v-tab\.v-tab--selected[\s\S]{0,180}color:\s*(?:white|#fff(?:fff)?)/i,
+]) {
+    if (hardcodedActiveState.test(appCss)) {
+        failures.push(`app.scss retains a hardcoded tab/navigation active foreground: ${hardcodedActiveState}`);
     }
 }
 
