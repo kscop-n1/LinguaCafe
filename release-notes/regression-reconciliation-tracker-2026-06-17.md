@@ -149,7 +149,16 @@ Follow-up result on 2026-06-18:
 - Phrase fallback lifecycle: this is a temporary legacy-data compatibility layer for chapters missed by or predating the `unique_phrase_ids` backfill. Current chapter processing calls `refreshUniquePhraseIds()`, so newly processed chapters should not use it. The null-only fallback can issue one extra query per legacy chapter; retain it until production data is backfilled/verified, then remove it with a dedicated migration or repair command.
 - Changed files: `app/Services/VocabularyService.php`, `resources/js/components/Vocabulary/Vocabulary.vue`, `tests/Feature/VocabularyTest.php`, and `tests/Feature/VueMigrationStaticTest.php`.
 - Verified tests: distinct Book A/Book B/Any words and phrases; partial word-ID migration; missing phrase-ID fallback; stale frontend success/error guards.
-- Remaining risks: the stale-response guard has a static source-contract test and manual browser verification, but no mounted Vue component test that resolves two mocked requests out of order. Text fallback for partially migrated word metadata preserves old compatibility behavior and can still be ambiguous when duplicate `encountered_words.word` rows exist; complete ID backfill remains the durable resolution.
+- Mounted stale-response coverage added on 2026-06-20:
+  - `tests/frontend/Vocabulary.spec.js` mounts the real `Vocabulary.vue` component with lightweight Vuetify/dialog stubs and deferred Axios promises.
+  - The first request uses Book A (`101`, representing Silo); before it resolves, the component starts Book B (`202`, representing Candela Obscure).
+  - Resolving Book B first renders and stores only `candela-word`; resolving the older Book A success afterward cannot replace the words, active book filter, rendered text, or completed loading state.
+  - A second test resolves Book B successfully and rejects Book A afterward; the stale error does not log the current-request error, clear the valid words, change the active filter, or restart loading.
+  - Test command: `npm run test:frontend -- --reporter=verbose`; result: `1` file, `2` tests passed.
+  - Test harness files: `vitest.config.mjs`, `tests/frontend/setup.js`, and the `test:frontend` package script. Dev-only dependencies are Vitest, Vue Test Utils, and jsdom.
+  - Production code changed: no. The existing request-sequence implementation passed as written.
+  - Regression verification: focused Vocabulary/Chapter/static PHP suite `37 tests, 625 assertions`; full PHPUnit `74 tests, 942 assertions`; `npm run check:migration` including production build; `npm run check:css` with zero errors and existing warnings only; and `git diff --check`.
+- Remaining risk: text fallback for partially migrated word metadata preserves old compatibility behavior and can still be ambiguous when duplicate `encountered_words.word` rows exist; complete ID backfill remains the durable resolution.
 
 ## REG-004: Chapter pagination, items-per-page, and statistics
 

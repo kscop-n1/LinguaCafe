@@ -21,10 +21,11 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the thre
 
 - Status: Verified.
 - Root cause: the performance refactor enabled ID filtering before mixed legacy metadata had complete ID coverage; the frontend lacked latest-request protection. Chapter correctness depended on a stable server-pagination contract and explicit All mode.
-- Changed files: `app/Services/VocabularyService.php`, `resources/js/components/Vocabulary/Vocabulary.vue`, `tests/Feature/VocabularyTest.php`, `tests/Feature/ChapterTest.php`, and `tests/Feature/VueMigrationStaticTest.php`.
-- Tests: Book A/Book B/Any words and phrases; partial/missing/stale metadata; stale success/error guards; page sizes 10/25/50; stable total 83; page 2; All via `all=true`; controlled invalid pagination; all five statistics beyond chapter 50; valid numeric zero.
+- Changed files across the cluster: `app/Services/VocabularyService.php`, `resources/js/components/Vocabulary/Vocabulary.vue`, `tests/Feature/VocabularyTest.php`, `tests/Feature/ChapterTest.php`, `tests/Feature/VueMigrationStaticTest.php`, `tests/frontend/Vocabulary.spec.js`, `tests/frontend/setup.js`, `vitest.config.mjs`, `package.json`, and `package-lock.json`.
+- Tests: Book A/Book B/Any words and phrases; partial/missing/stale metadata; static and mounted stale success/error guards; page sizes 10/25/50; stable total 83; page 2; All via `all=true`; controlled invalid pagination; all five statistics beyond chapter 50; valid numeric zero.
 - Verification: isolated browser data showed Silo 85 results and Candela Obscure 2 results. Chapters displayed 1-10, 1-25, 1-50, 51-83, and All 1-83 while total remained 83. Chapter 83 correctly displayed Total 0.
-- Residual risk: stale-response protection has static and manual coverage but no mounted Vue test resolving requests out of order. Legacy text fallback remains for ambiguous or incomplete metadata.
+- Mounted async verification added on 2026-06-20: `tests/frontend/Vocabulary.spec.js` starts Book A and Book B requests with deferred promises, resolves Book B first, then proves a late Book A success or error cannot replace Book B state, rendered text, active filter, or completed loading state. `npm run test:frontend -- --reporter=verbose` passed `2` tests. Production behavior was unchanged.
+- Residual risk: legacy text fallback remains for ambiguous or incomplete metadata.
 
 ### REG-005: Shared compact table actions
 
@@ -96,6 +97,7 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the thre
 Latest known passing checkpoint:
 
 - PHPUnit: `74 tests, 942 assertions`.
+- Mounted frontend component tests: `1` file, `2` tests passed.
 - Focused current REG-008 tabs/navigation test: `1 test, 10 assertions`.
 - `npm run check:migration`: passed, including dependency checks, hard legacy blockers, and production Vite build.
 - Production build: passed with 749 modules transformed.
@@ -126,7 +128,6 @@ Protected behavioral contracts include:
 - REG-008 broad legacy selector cleanup, performed only in evidence-backed component batches.
 - Separate light-palette `on-primary` contrast decision; the current primary/white ratio is 3.23:1.
 - Production cleanup/backfill application decision after reviewing real dry-run reports and backups.
-- Mounted Vue out-of-order request test for Vocabulary stale-response protection.
 - Physical iOS safe-area verification for sidebar/mobile drawer bottom controls.
 - Continued release-time browser verification for chapter footer overlay positioning.
 
@@ -136,7 +137,6 @@ Protected behavioral contracts include:
 | --- | --- | --- | --- | --- |
 | Production contains invalid or incomplete legacy vocabulary metadata | High | Maintenance commands were intentionally not applied without a reviewed production dry run and backup | Run read-only production dry runs, review candidates and duplicate ambiguity, approve a scoped apply plan | Manual verification, product/data decision |
 | Duplicate word text prevents deterministic metadata backfill | High | Automatic guessing could associate vocabulary with the wrong chapter/book | Define a duplicate-resolution policy or keep fallback for those rows | Product decision, code, tests |
-| Vocabulary stale-response guard lacks mounted out-of-order coverage | Medium | Static tests prove the source contract but not Vue lifecycle behavior | Add a mounted component test with two deferred mocked requests | Tests |
 | Calendar/date-picker dark states may retain incompatible selectors/colors | Medium | Not part of the three verified REG-008 clusters | Audit one date-picker/calendar cluster with computed contrast evidence | Code, tests, browser verification |
 | Review animation/state colors are not comprehensively audited | Medium | Toolbar geometry was protected; animation surfaces need separate runtime states | Capture each Review transition/state in light/dark and fix only proven shared rules | Browser verification, code, tests |
 | Admin API and other feature-local obsolete selectors may be dead or harmful | Medium | Blind removal could alter unverified pages | Audit one feature at a time and replace only selectors with runtime impact | Code, tests, browser verification |
@@ -147,23 +147,29 @@ Protected behavioral contracts include:
 
 ## Recommended Next Execution Order
 
-1. Add the mounted Vue stale-response test. It is isolated, non-visual, and strengthens a high-value correctness guard without changing behavior.
-2. Run production cleanup and metadata-backfill dry runs only; produce a reviewed candidate report and explicit apply/no-apply decision.
-3. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
-4. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
-5. Audit Admin API settings as the first feature-local obsolete-selector cluster; defer broad cleanup until these small batches establish safe patterns.
+1. Run production cleanup and metadata-backfill dry runs only; produce a reviewed candidate report and explicit apply/no-apply decision.
+2. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
+3. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
+4. Audit Admin API settings as the first feature-local obsolete-selector cluster; defer broad cleanup until these small batches establish safe patterns.
+5. Verify sidebar/mobile drawer safe-area behavior on physical iOS hardware or a trusted device farm.
 
 ## Working Tree Report
 
-State before creating this summary:
+Current state after adding mounted stale-response coverage:
 
 ```text
 git status --short
-# clean
+ M package-lock.json
+ M package.json
+ M release-notes/regression-reconciliation-tracker-2026-06-17.md
+ M release-notes/regression-stabilization-summary-2026-06-20.md
+?? tests/frontend/Vocabulary.spec.js
+?? tests/frontend/setup.js
+?? vitest.config.mjs
 ```
 
-- `package-lock.json`: unchanged.
+- `package-lock.json`: intentionally updated for dev-only Vitest, Vue Test Utils, and jsdom dependencies; package name remains `LinguaCafe`.
 - Generated/runtime artifacts: none reported by Git; production build output is not present as an intentional tracked change.
 - Temporary data: isolated REG test users/books/chapters were removed after their verification runs.
 - Temporary containers: REG-specific audit containers were removed. A pre-existing exited `linguacafe-webserver-overlay-test` container from an older run remains and was not created or modified by this checkpoint.
-- This task changes documentation only by adding this summary file.
+- Production application code: unchanged by the mounted stale-response test task.
