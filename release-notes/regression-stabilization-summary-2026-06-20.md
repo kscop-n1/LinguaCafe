@@ -96,7 +96,7 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the thre
 
 Latest known passing checkpoint:
 
-- PHPUnit: `80 tests, 973 assertions`.
+- PHPUnit: `94 tests, 1,040 assertions`.
 - Mounted frontend component tests: `1` file, `2` tests passed.
 - Focused current REG-008 tabs/navigation test: `1 test, 10 assertions`.
 - `npm run check:migration`: passed, including dependency checks, hard legacy blockers, and production Vite build.
@@ -119,6 +119,7 @@ Protected behavioral contracts include:
 - aligned safe-area-aware sidebar controls;
 - valid import documentation routing;
 - no Home goal-card document overflow.
+- guarded cleanup reporting with independent reason/token selectors, exclusions and reviewed allow-tokens, book/chapter scope, mandatory user/language/count gates, and mutually exclusive delete-only/quarantine-only apply modes.
 
 ## Remaining Deferred Work
 
@@ -127,7 +128,7 @@ Protected behavioral contracts include:
 - REG-008 feature-local obsolete selectors, including Admin API settings.
 - REG-008 broad legacy selector cleanup, performed only in evidence-backed component batches.
 - Separate light-palette `on-primary` contrast decision; the current primary/white ratio is 3.23:1.
-- Production cleanup/backfill apply remains blocked after the production-backup dry-run review in `release-notes/production-maintenance-dry-run-report-2026-06-20.md`. Cleanup needs an approved lexical allowlist/filter, and backfill needs wrong-owner phrase remapping before another dry run.
+- Production cleanup/backfill apply remains blocked after the production-backup dry-run review in `release-notes/production-maintenance-dry-run-report-2026-06-20.md`. Cleanup now has tested reason/token/book/chapter selectors, explicit delete-only/quarantine-only modes, and mandatory scope/count guards, but still needs a fresh backup dry-run and approval of the exact lexical candidate set. Backfill needs a reviewed wrong-owner phrase-remap dry-run.
 - The follow-up policy and repair design is documented in `release-notes/vocabulary-cleanup-and-phrase-repair-plan-2026-06-21.md`. A dedicated dry-run-first wrong-owner phrase repair command now has isolated test coverage, but production apply remains blocked pending a fresh backup dry-run and pair-by-pair review.
 - Physical iOS safe-area verification for sidebar/mobile drawer bottom controls.
 - Continued release-time browser verification for chapter footer overlay positioning.
@@ -136,7 +137,7 @@ Protected behavioral contracts include:
 
 | Risk | Severity | Why deferred | Recommended next action | Work type |
 | --- | --- | --- | --- | --- |
-| Production contains invalid or incomplete legacy vocabulary metadata | High | The production-backup dry run found 2,398 invalid rows, but 449 mechanically safe candidates include debatable lexical forms and 440 require manual review | Define an approved lexical policy and add scoped allowlist/filter support before repeating dry-run | Product decision, code, tests |
+| Production contains invalid or incomplete legacy vocabulary metadata | High | The production-backup dry run found 2,398 invalid rows, but 449 mechanically safe candidates include debatable lexical forms and 440 require manual review | Repeat the report against a fresh backup using the implemented narrow selectors and ceiling, then approve an exact candidate list before any apply | Product decision, dry-run, manual verification |
 | Wrong-owner phrase metadata would be removed rather than remapped | High | The broad backfill still removes wrong-owner IDs; a dedicated remap command is now tested but has not been run against a fresh production backup | Run the dedicated command in dry-run mode against a fresh backup, review every pair, and require zero ambiguity/unresolved cases for any selected scope | Tests, manual verification |
 | Duplicate word text prevents deterministic metadata backfill | Medium | The reviewed snapshot has no duplicates within user/language scope, but future datasets may; automatic guessing remains unsafe | Keep duplicate detection and fallback; define a policy only if a future dry run reports scoped duplicates | Product decision, tests |
 | Calendar/date-picker dark states may retain incompatible selectors/colors | Medium | Not part of the three verified REG-008 clusters | Audit one date-picker/calendar cluster with computed contrast evidence | Code, tests, browser verification |
@@ -149,26 +150,27 @@ Protected behavioral contracts include:
 
 ## Recommended Next Execution Order
 
-1. Implement the documented cleanup reason/token/book/chapter scoping and mandatory apply guards; do not add new lexical actions in the same change.
-2. Run the dedicated wrong-owner phrase repair command in dry-run mode against a fresh production backup and review every proposed pair.
-3. Repeat cleanup reporting with the new policy scopes against that backup; keep apply blocked until candidate lists are explicitly approved.
+1. Run the guarded cleanup command in report-only dry-run mode against a fresh production backup using exact reason/token/book/chapter scopes; keep apply blocked.
+2. Run the dedicated wrong-owner phrase repair command in dry-run mode against the same fresh backup and review every proposed pair.
+3. Approve or reject exact cleanup candidate lists and phrase remap pairs; any future apply requires a separate explicit operation and backup/rollback checkpoint.
 4. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
 5. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
 
 ## Working Tree Report
 
-Current state after the production-backup maintenance dry-runs:
+Current state after the scoped cleanup-guard implementation:
 
 ```text
 git status --short
+ M app/Console/Commands/CleanupNonWordVocabulary.php
  M release-notes/regression-reconciliation-tracker-2026-06-17.md
  M release-notes/regression-stabilization-summary-2026-06-20.md
-?? release-notes/production-maintenance-dry-run-report-2026-06-20.md
+ M release-notes/vocabulary-cleanup-and-phrase-repair-plan-2026-06-21.md
+ M tests/Feature/CleanupNonWordVocabularyTest.php
 ```
 
-- `package-lock.json`: unchanged by the maintenance dry-run task.
-- Production application code: unchanged.
-- Generated/runtime artifacts: temporary JSON, checksum, stderr, and analysis files were removed.
-- Temporary data: isolated REG test users/books/chapters were removed after their verification runs.
-- Temporary maintenance database and Docker network: removed after pre/post checksum verification.
-- Live production database: no cleanup/backfill command was executed against it.
+- `package-lock.json`: unchanged.
+- Generated/runtime artifacts: none remain; the production build did not leave tracked build changes.
+- Test data: created only in isolated test databases and removed by test teardown.
+- Production data: no cleanup, backfill, or phrase-repair command was run.
+- Verification: focused cleanup `22 tests, 105 assertions`; focused REG-001 maintenance `56 tests, 414 assertions`; full PHPUnit `94 tests, 1,040 assertions`; mounted frontend `2 tests`; migration/production build, CSS audit, contrast guard, and `git diff --check` passed.

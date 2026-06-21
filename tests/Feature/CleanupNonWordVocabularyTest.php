@@ -46,8 +46,7 @@ class CleanupNonWordVocabularyTest extends TestCase
         $valid = $this->word($user, "valid", 2);
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
-            "--user-id" => $user->id,
-            "--apply" => true,
+            ...$this->safeDeleteOptions($user, "1d6+db"),
         ]);
 
         $valid->refresh();
@@ -56,8 +55,7 @@ class CleanupNonWordVocabularyTest extends TestCase
         $this->assertDatabaseMissing("encountered_words", ["id" => $invalid->id]);
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
-            "--user-id" => $user->id,
-            "--apply" => true,
+            ...$this->safeDeleteOptions($user, "1d6+db"),
         ]);
 
         $this->assertStringContainsString('"invalid": 0', Artisan::output());
@@ -72,8 +70,7 @@ class CleanupNonWordVocabularyTest extends TestCase
         $otherInvalid = $this->word($otherUser, "+1d20", 2);
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
-            "--user-id" => $targetUser->id,
-            "--apply" => true,
+            ...$this->safeDeleteOptions($targetUser, "+1d20"),
         ]);
 
         $otherInvalid->refresh();
@@ -92,16 +89,19 @@ class CleanupNonWordVocabularyTest extends TestCase
         $learningInvalid->save();
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
-            "--user-id" => $user->id,
-            "--apply" => true,
+            ...$this->quarantineOptions($user, ["#", "+5d6"]),
         ]);
-        $output = Artisan::output();
+        $quarantineOutput = Artisan::output();
+        Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            ...$this->safeDeleteOptions($user, "):"),
+        ]);
+        $deleteOutput = Artisan::output();
 
         $knownInvalid->refresh();
         $learningInvalid->refresh();
 
-        $this->assertStringContainsString('"quarantined": 2', $output);
-        $this->assertStringContainsString('"deleted": 1', $output);
+        $this->assertStringContainsString('"quarantined": 2', $quarantineOutput);
+        $this->assertStringContainsString('"deleted": 1', $deleteOutput);
         $this->assertSame(1, $knownInvalid->stage);
         $this->assertSame(1, $learningInvalid->stage);
         $this->assertDatabaseMissing("encountered_words", ["id" => $newInvalid->id]);
@@ -114,8 +114,7 @@ class CleanupNonWordVocabularyTest extends TestCase
         $ambiguous = $this->word($user, "abc_def", 2);
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
-            "--user-id" => $user->id,
-            "--apply" => true,
+            ...$this->safeDeleteOptions($user, "abc_def"),
         ]);
         $output = Artisan::output();
 
@@ -155,8 +154,7 @@ class CleanupNonWordVocabularyTest extends TestCase
         $chapter->save();
 
         Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
-            "--user-id" => $user->id,
-            "--apply" => true,
+            ...$this->safeDeleteOptions($user, "+1d"),
         ]);
 
         $chapter->refresh();
@@ -211,6 +209,329 @@ class CleanupNonWordVocabularyTest extends TestCase
         $this->assertStringContainsString('"flashcard_records": 0', $output);
     }
 
+    public function test_dry_run_filters_by_reason(): void
+    {
+        $user = User::factory()->create();
+        $dice = $this->word($user, "+10d6", 2);
+        $math = $this->word($user, "+2/+4", 2);
+
+        Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--reason" => ["dice_notation"],
+            "--report-only-json" => true,
+        ]);
+        $summary = $this->summary();
+
+        $this->assertSame(2, $summary["total_candidate_count"]);
+        $this->assertSame(1, $summary["selected_candidate_count"]);
+        $this->assertSame(1, $summary["excluded_candidate_count"]);
+        $this->assertSame("+10d6", $summary["candidates"][0]["token"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $dice->id]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $math->id]);
+    }
+
+    public function test_dry_run_filters_by_exact_token(): void
+    {
+        $user = User::factory()->create();
+        $selected = $this->word($user, "+10d6", 2);
+        $excluded = $this->word($user, "+2d20", 2);
+
+        Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => ["+10d6"],
+            "--report-only-json" => true,
+        ]);
+        $summary = $this->summary();
+
+        $this->assertSame(2, $summary["total_candidate_count"]);
+        $this->assertSame(1, $summary["selected_candidate_count"]);
+        $this->assertSame(1, $summary["excluded_candidate_count"]);
+        $this->assertSame("+10d6", $summary["candidates"][0]["token"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $selected->id]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $excluded->id]);
+    }
+
+    public function test_dry_run_excludes_token_and_marks_allowed_token_as_no_action(): void
+    {
+        $user = User::factory()->create();
+        $excluded = $this->word($user, "+1d20", 2);
+        $allowed = $this->word($user, "+2d20", 2);
+        $selected = $this->word($user, "+3d20", 2);
+
+        Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--reason" => ["dice_notation"],
+            "--exclude-token" => ["+1d20"],
+            "--allow-token" => ["+2d20"],
+            "--report-only-json" => true,
+        ]);
+        $summary = $this->summary();
+        $candidates = collect($summary["candidates"])->keyBy("token");
+
+        $this->assertSame(2, $summary["selected_candidate_count"]);
+        $this->assertSame(1, $summary["excluded_candidate_count"]);
+        $this->assertTrue($candidates["+2d20"]["allowed_no_action"]);
+        $this->assertSame("no_action", $candidates["+2d20"]["candidate_action"]);
+        $this->assertSame("safe_delete", $candidates["+3d20"]["candidate_action"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $excluded->id]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $allowed->id]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $selected->id]);
+    }
+
+    public function test_dry_run_filters_candidates_by_book_and_chapter_scope(): void
+    {
+        $user = User::factory()->create();
+        $bookA = $this->book($user, "Book A");
+        $bookB = $this->book($user, "Book B");
+        $wordA = $this->word($user, "+1d20", 2);
+        $wordB = $this->word($user, "+2d20", 2);
+        $chapterA = $this->chapter($user, $bookA, $wordA);
+        $this->chapter($user, $bookB, $wordB);
+
+        Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--book-id" => $bookA->id,
+            "--chapter-id" => $chapterA->id,
+            "--report-only-json" => true,
+        ]);
+        $summary = $this->summary();
+
+        $this->assertSame(1, $summary["selected_candidate_count"]);
+        $this->assertSame("+1d20", $summary["candidates"][0]["token"]);
+        $this->assertSame($bookA->id, $summary["selected_scope"]["book_id"]);
+        $this->assertSame($chapterA->id, $summary["selected_scope"]["chapter_id"]);
+    }
+
+    public function test_apply_fails_without_user_id(): void
+    {
+        $user = User::factory()->create();
+        $word = $this->word($user, "+1d20", 2);
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--language" => "english",
+            "--token" => ["+1d20"],
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $this->assertSame(1, $exitCode);
+        $this->assertContains("user_id_required", $this->summary()["apply_ineligible_reasons"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $word->id]);
+    }
+
+    public function test_apply_fails_without_language(): void
+    {
+        $user = User::factory()->create();
+        $word = $this->word($user, "+1d20", 2);
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--token" => ["+1d20"],
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $this->assertSame(1, $exitCode);
+        $this->assertContains("language_required", $this->summary()["apply_ineligible_reasons"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $word->id]);
+    }
+
+    public function test_apply_fails_without_positive_selector(): void
+    {
+        $user = User::factory()->create();
+        $word = $this->word($user, "+1d20", 2);
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $this->assertSame(1, $exitCode);
+        $this->assertContains("positive_selector_required", $this->summary()["apply_ineligible_reasons"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $word->id]);
+    }
+
+    public function test_apply_fails_without_max_candidates(): void
+    {
+        $user = User::factory()->create();
+        $word = $this->word($user, "+1d20", 2);
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => ["+1d20"],
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $this->assertSame(1, $exitCode);
+        $this->assertContains("max_candidates_required", $this->summary()["apply_ineligible_reasons"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $word->id]);
+    }
+
+    public function test_apply_fails_when_selected_count_exceeds_max_candidates(): void
+    {
+        $user = User::factory()->create();
+        $first = $this->word($user, "+1d20", 2);
+        $second = $this->word($user, "+1d20", 2);
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => ["+1d20"],
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $summary = $this->summary();
+        $this->assertSame(1, $exitCode);
+        $this->assertSame(2, $summary["selected_actionable_count"]);
+        $this->assertContains(
+            "selected_actionable_count_exceeds_max_candidates",
+            $summary["apply_ineligible_reasons"]
+        );
+        $this->assertDatabaseHas("encountered_words", ["id" => $first->id]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $second->id]);
+    }
+
+    public function test_apply_fails_with_both_or_plain_apply_modes(): void
+    {
+        $user = User::factory()->create();
+        $word = $this->word($user, "+1d20", 2);
+        $baseOptions = [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => ["+1d20"],
+            "--max-candidates" => 1,
+            "--report-only-json" => true,
+        ];
+
+        $bothExitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            ...$baseOptions,
+            "--apply-safe-delete-only" => true,
+            "--apply-quarantine-only" => true,
+        ]);
+        $this->assertSame(1, $bothExitCode);
+        $this->assertContains(
+            "exactly_one_apply_action_mode_required",
+            $this->summary()["apply_ineligible_reasons"]
+        );
+
+        $plainExitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            ...$baseOptions,
+            "--apply" => true,
+        ]);
+        $this->assertSame(1, $plainExitCode);
+        $this->assertContains(
+            "exactly_one_apply_action_mode_required",
+            $this->summary()["apply_ineligible_reasons"]
+        );
+        $this->assertDatabaseHas("encountered_words", ["id" => $word->id]);
+    }
+
+    public function test_apply_quarantine_only_does_not_delete_safe_candidates(): void
+    {
+        $user = User::factory()->create();
+        $history = $this->word($user, "+1d20", -1);
+        $history->translation = "reviewed";
+        $history->save();
+        $pristine = $this->word($user, "+2d20", 2);
+
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            ...$this->quarantineOptions($user, ["+1d20", "+2d20"]),
+            "--report-only-json" => true,
+        ]);
+
+        $history->refresh();
+        $summary = $this->summary();
+        $this->assertSame(0, $exitCode);
+        $this->assertSame(1, $history->stage);
+        $this->assertDatabaseHas("encountered_words", ["id" => $pristine->id, "stage" => 2]);
+        $this->assertSame(1, $summary["quarantined"]);
+        $this->assertSame(0, $summary["deleted"]);
+    }
+
+    public function test_apply_safe_delete_only_does_not_quarantine_history_candidates(): void
+    {
+        $user = User::factory()->create();
+        $pristine = $this->word($user, "+1d20", 2);
+        $history = $this->word($user, "+2d20", -1);
+        $history->translation = "reviewed";
+        $history->save();
+
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => ["+1d20", "+2d20"],
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $history->refresh();
+        $summary = $this->summary();
+        $this->assertSame(0, $exitCode);
+        $this->assertDatabaseMissing("encountered_words", ["id" => $pristine->id]);
+        $this->assertSame(-1, $history->stage);
+        $this->assertSame("reviewed", $history->translation);
+        $this->assertSame(1, $summary["deleted"]);
+        $this->assertSame(0, $summary["quarantined"]);
+    }
+
+    public function test_reviewed_allow_token_does_not_block_a_safe_scoped_apply(): void
+    {
+        $user = User::factory()->create();
+        $allowed = $this->word($user, "abc_def", 2);
+        $safe = $this->word($user, "+1d20", 2);
+
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => ["abc_def", "+1d20"],
+            "--allow-token" => ["abc_def"],
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+
+        $summary = $this->summary();
+        $this->assertSame(0, $exitCode);
+        $this->assertTrue($summary["apply_eligible"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $allowed->id, "stage" => 2]);
+        $this->assertDatabaseMissing("encountered_words", ["id" => $safe->id]);
+        $this->assertSame(1, $summary["deleted"]);
+        $this->assertSame(1, $summary["no_action_count"]);
+    }
+
+    public function test_manual_review_reason_is_never_mutated_automatically(): void
+    {
+        $user = User::factory()->create();
+        $ambiguous = $this->word($user, "abc_def", 2);
+
+        $exitCode = Artisan::call("linguacafe:cleanup-non-word-vocabulary", [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--reason" => ["unknown_suspicious_token"],
+            "--max-candidates" => 1,
+            "--apply-safe-delete-only" => true,
+            "--report-only-json" => true,
+        ]);
+        $summary = $this->summary();
+
+        $this->assertSame(1, $exitCode);
+        $this->assertContains(
+            "unsafe_reason_not_actionable:unknown_suspicious_token",
+            $summary["apply_ineligible_reasons"]
+        );
+        $this->assertSame(0, $summary["selected_actionable_count"]);
+        $this->assertDatabaseHas("encountered_words", ["id" => $ambiguous->id, "stage" => 2]);
+    }
+
     public function test_review_goal_quantity_excludes_invalid_legacy_rows(): void
     {
         $user = User::factory()->create(["selected_language" => "english"]);
@@ -240,5 +561,63 @@ class CleanupNonWordVocabularyTest extends TestCase
             "lemma" => "",
             "translation" => "",
         ]);
+    }
+
+    private function safeDeleteOptions(User $user, string $token): array
+    {
+        return [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => [$token],
+            "--max-candidates" => 10,
+            "--apply-safe-delete-only" => true,
+        ];
+    }
+
+    private function quarantineOptions(User $user, array $tokens): array
+    {
+        return [
+            "--user-id" => $user->id,
+            "--language" => "english",
+            "--token" => $tokens,
+            "--max-candidates" => 10,
+            "--apply-quarantine-only" => true,
+        ];
+    }
+
+    private function summary(): array
+    {
+        return json_decode(Artisan::output(), true, flags: JSON_THROW_ON_ERROR);
+    }
+
+    private function book(User $user, string $name): Book
+    {
+        return Book::create([
+            "user_id" => $user->id,
+            "name" => $name,
+            "language" => "english",
+            "word_count" => 1,
+        ]);
+    }
+
+    private function chapter(User $user, Book $book, EncounteredWord $word): Chapter
+    {
+        $chapter = new Chapter();
+        $chapter->user_id = $user->id;
+        $chapter->book_id = $book->id;
+        $chapter->name = "Scoped Chapter";
+        $chapter->read_count = 0;
+        $chapter->word_count = 1;
+        $chapter->language = "english";
+        $chapter->raw_text = $word->word;
+        $chapter->processing_status = ChapterProcessingStatusEnum::PROCESSED->value;
+        $chapter->unique_words = json_encode([$word->word]);
+        $chapter->unique_word_ids = json_encode([$word->id]);
+        $chapter->unique_phrase_ids = json_encode([]);
+        $chapter->subtitle_timestamps = json_encode([]);
+        $chapter->setProcessedText([(object) ["word" => $word->word, "phrase_ids" => []]]);
+        $chapter->save();
+
+        return $chapter;
     }
 }

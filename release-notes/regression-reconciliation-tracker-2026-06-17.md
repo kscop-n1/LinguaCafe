@@ -113,6 +113,18 @@ Isolated dry-run/apply evidence:
   - isolated feature coverage passes `8 tests, 47 assertions`, including dry-run non-mutation, apply behavior, processed-text-only consistency, correct-owner preservation, no-match, ambiguity, and user/language/book/chapter scope;
   - full PHPUnit passes `80 tests, 973 assertions`; frontend mounted tests, migration/production build, CSS/contrast checks, and `git diff --check` remain green;
   - no production command or apply mode was run. A fresh production-backup dry-run is still required before any future approval.
+- Scoped cleanup guard implementation on 2026-06-21:
+  - `linguacafe:cleanup-non-word-vocabulary` now supports repeatable `--reason`, `--token`, `--exclude-token`, and `--allow-token`, plus `--book-id`, `--chapter-id`, `--max-candidates`, `--report-only-json`, `--apply-safe-delete-only`, and `--apply-quarantine-only`;
+  - default dry-run remains non-mutating and, without selectors, retains its previous broad scoped report behavior;
+  - apply now fails before mutation unless user and language scopes, a positive reason/token/book/chapter selector, a non-negative candidate ceiling, and exactly one explicit action mode are present;
+  - plain `--apply`, simultaneous action modes, missing scope/ceiling, and actionable row counts above the ceiling are rejected with machine-readable `apply_ineligible_reasons`;
+  - broad unsafe reasons `unknown_suspicious_token`, `numeric_hyphen_compound`, `unknown_abbreviation`, and `date_or_historical_notation` are intrinsically manual-review/no-action, and selecting one through `--reason` blocks apply;
+  - delete-only mode mutates only pristine rows; quarantine-only mode mutates only non-ignored rows with history; reviewed `--allow-token` values remain reportable no-action candidates;
+  - JSON reports now record exact selection, grouped candidate counts, actionable encountered-word row counts, delete/quarantine/manual/no-action counts, and apply eligibility;
+  - focused cleanup coverage passes `22 tests, 105 assertions`, including a reviewed unsafe allow-token coexisting with a separate safe exact-token deletion;
+  - classifier categories and lexical validity behavior were not changed;
+  - no production cleanup, backfill, or phrase repair command was run. Cleanup apply remains blocked pending a fresh production-backup dry-run, exact candidate review, and explicit human approval.
+  - final verification: focused cleanup `22 tests, 105 assertions`; focused REG-001 maintenance `56 tests, 414 assertions`; full PHPUnit `94 tests, 1,040 assertions`; mounted frontend `2 tests`; migration/dependency/legacy checks and production build passed; CSS audit passed with zero errors and existing warnings; dark-theme contrast guard and `git diff --check` passed.
 
 Verification:
 

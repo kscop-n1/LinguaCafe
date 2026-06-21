@@ -43,9 +43,9 @@ The cleanup command currently distinguishes row safety from classifier validity.
 
 ## Safer Cleanup Command Interface
 
-The cleanup command should support narrow report and apply selection without changing the default dry-run behavior.
+The cleanup command now supports narrow report and guarded apply selection without changing the default dry-run behavior.
 
-### Proposed options
+### Implemented options
 
 ```text
 --reason=<reason>              Repeatable allowlist of classifier reasons.
@@ -60,20 +60,38 @@ The cleanup command should support narrow report and apply selection without cha
 --report-only-json             Emit JSON only and suppress the human warning/log side channel.
 --apply-safe-delete-only       Permit deletion only; never quarantine.
 --apply-quarantine-only        Permit quarantine only; never delete.
---apply                        Retain for compatibility, but reject broad unscoped use.
+--apply                        Deprecated compatibility flag; rejected without exactly one explicit action mode.
 ```
 
-### Required apply guards
+### Implemented apply guards
 
-Any future apply invocation should fail unless all conditions hold:
+Any apply invocation fails before opening a transaction unless all conditions hold:
 
 - `--user-id` and `--language` are present;
 - at least one positive selector is present: `--reason`, `--token`, `--book-id`, or `--chapter-id`;
-- `--max-candidates` is present and the selected count does not exceed it;
-- `unknown_suspicious_token`, `numeric_hyphen_compound`, `unknown_abbreviation`, and `date_or_historical_notation` are never actionable;
-- `--apply-safe-delete-only` or `--apply-quarantine-only` is selected explicitly;
-- the command prints the selected candidate count before opening a transaction;
-- report output includes selected/excluded counts and exact scope.
+- `--max-candidates` is present, non-negative, and the selected actionable encountered-word row count does not exceed it;
+- `unknown_suspicious_token`, `numeric_hyphen_compound`, `unknown_abbreviation`, and `date_or_historical_notation` are intrinsically manual-review/no-action categories, and selecting them through `--reason` blocks apply;
+- exactly one of `--apply-safe-delete-only` or `--apply-quarantine-only` is selected explicitly;
+- plain `--apply`, both action modes, and missing guard inputs return failure without mutation.
+
+Reports include selected user/language/book/chapter scope, positive and negative token selectors, grouped and actionable row counts, delete/quarantine/manual/no-action counts, apply eligibility, and exact ineligibility reasons. `--report-only-json` emits one JSON document without warning or log side-channel output. `--allow-token` keeps a reviewed selected token in the report as `no_action`; it does not make the token actionable.
+
+### Isolated test evidence
+
+`tests/Feature/CleanupNonWordVocabularyTest.php` covers:
+
+- unchanged non-mutating default dry-run;
+- reason, exact token, exclusion, reviewed allow-token, book, and chapter filtering;
+- rejection for missing user, language, positive selector, or candidate ceiling;
+- rejection when actionable rows exceed the ceiling;
+- rejection of plain apply and simultaneous action modes;
+- delete-only mutation of pristine rows without quarantining history rows;
+- quarantine-only mutation of history rows without deleting pristine rows;
+- reviewed unsafe `--allow-token` values can remain no-action while another explicitly selected safe token is processed;
+- automatic refusal of manual-review/unsafe reasons;
+- existing metadata repair and idempotency behavior under the guarded interface.
+
+Focused result: `22 tests, 105 assertions`.
 
 Recommended first cleanup batch after implementation:
 
@@ -146,8 +164,8 @@ Focused result: `8 tests, 47 assertions`.
 Cleanup apply: blocked.
 
 - The classifier reasons are still too broad for mixed lexical categories.
-- Command-level positive selectors and apply guards are not implemented yet.
-- A future task must implement and test the scoped interface before another production-backup dry-run.
+- Command-level positive selectors and apply guards are implemented and tested.
+- This code change does not approve a real apply. A fresh production-backup dry-run using the exact intended selectors is still required, followed by human review and explicit approval of the command and candidate count.
 
 Broad metadata backfill apply: blocked.
 
