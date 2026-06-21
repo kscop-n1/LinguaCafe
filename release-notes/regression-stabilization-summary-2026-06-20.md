@@ -96,7 +96,7 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the thre
 
 Latest known passing checkpoint:
 
-- PHPUnit: `74 tests, 942 assertions`.
+- PHPUnit: `80 tests, 973 assertions`.
 - Mounted frontend component tests: `1` file, `2` tests passed.
 - Focused current REG-008 tabs/navigation test: `1 test, 10 assertions`.
 - `npm run check:migration`: passed, including dependency checks, hard legacy blockers, and production Vite build.
@@ -128,6 +128,7 @@ Protected behavioral contracts include:
 - REG-008 broad legacy selector cleanup, performed only in evidence-backed component batches.
 - Separate light-palette `on-primary` contrast decision; the current primary/white ratio is 3.23:1.
 - Production cleanup/backfill apply remains blocked after the production-backup dry-run review in `release-notes/production-maintenance-dry-run-report-2026-06-20.md`. Cleanup needs an approved lexical allowlist/filter, and backfill needs wrong-owner phrase remapping before another dry run.
+- The follow-up policy and repair design is documented in `release-notes/vocabulary-cleanup-and-phrase-repair-plan-2026-06-21.md`. A dedicated dry-run-first wrong-owner phrase repair command now has isolated test coverage, but production apply remains blocked pending a fresh backup dry-run and pair-by-pair review.
 - Physical iOS safe-area verification for sidebar/mobile drawer bottom controls.
 - Continued release-time browser verification for chapter footer overlay positioning.
 
@@ -136,7 +137,7 @@ Protected behavioral contracts include:
 | Risk | Severity | Why deferred | Recommended next action | Work type |
 | --- | --- | --- | --- | --- |
 | Production contains invalid or incomplete legacy vocabulary metadata | High | The production-backup dry run found 2,398 invalid rows, but 449 mechanically safe candidates include debatable lexical forms and 440 require manual review | Define an approved lexical policy and add scoped allowlist/filter support before repeating dry-run | Product decision, code, tests |
-| Wrong-owner phrase metadata would be removed rather than remapped | High | The dry run found 16 user 3 chapter references to user 1 phrases with same-text user 3 replacements; current backfill only removes them | Add a tested unambiguous user/language phrase-text remap, then repeat the isolated dry run | Code, tests, manual verification |
+| Wrong-owner phrase metadata would be removed rather than remapped | High | The broad backfill still removes wrong-owner IDs; a dedicated remap command is now tested but has not been run against a fresh production backup | Run the dedicated command in dry-run mode against a fresh backup, review every pair, and require zero ambiguity/unresolved cases for any selected scope | Tests, manual verification |
 | Duplicate word text prevents deterministic metadata backfill | Medium | The reviewed snapshot has no duplicates within user/language scope, but future datasets may; automatic guessing remains unsafe | Keep duplicate detection and fallback; define a policy only if a future dry run reports scoped duplicates | Product decision, tests |
 | Calendar/date-picker dark states may retain incompatible selectors/colors | Medium | Not part of the three verified REG-008 clusters | Audit one date-picker/calendar cluster with computed contrast evidence | Code, tests, browser verification |
 | Review animation/state colors are not comprehensively audited | Medium | Toolbar geometry was protected; animation surfaces need separate runtime states | Capture each Review transition/state in light/dark and fix only proven shared rules | Browser verification, code, tests |
@@ -148,11 +149,11 @@ Protected behavioral contracts include:
 
 ## Recommended Next Execution Order
 
-1. Define the vocabulary cleanup policy for numeric lexical forms, abbreviations, URLs, and suspicious punctuation joins; add reason/token scoping before any apply.
-2. Implement and test unambiguous wrong-owner phrase remapping, then repeat both dry-runs against a fresh production backup.
-3. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
-4. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
-5. Audit Admin API settings as the first feature-local obsolete-selector cluster.
+1. Implement the documented cleanup reason/token/book/chapter scoping and mandatory apply guards; do not add new lexical actions in the same change.
+2. Run the dedicated wrong-owner phrase repair command in dry-run mode against a fresh production backup and review every proposed pair.
+3. Repeat cleanup reporting with the new policy scopes against that backup; keep apply blocked until candidate lists are explicitly approved.
+4. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
+5. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
 
 ## Working Tree Report
 

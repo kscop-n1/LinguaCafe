@@ -92,6 +92,233 @@ class BackfillVocabularyMetadataTest extends TestCase
         $this->assertStringContainsString('"candidate_count": 2', $output);
     }
 
+    public function test_wrong_owner_phrase_repair_dry_run_reports_unique_scoped_remap_without_mutation(): void
+    {
+        $sourceUser = User::factory()->create();
+        $chapterUser = User::factory()->create();
+        $book = $this->book($chapterUser);
+        $sourcePhrase = $this->phrase($sourceUser, ["seemed", "more", "apt"]);
+        $replacementPhrase = $this->phrase($chapterUser, ["Seemed", "More", "Apt"]);
+        $correctPhrase = $this->phrase($chapterUser, ["correct", "phrase"]);
+        $chapter = $this->chapter(
+            $chapterUser,
+            $book,
+            [],
+            [],
+            [$sourcePhrase->id, $correctPhrase->id],
+            [
+                (object) ["word" => "seemed", "phrase_ids" => [$sourcePhrase->id]],
+                (object) ["word" => "correct", "phrase_ids" => [$correctPhrase->id]],
+            ]
+        );
+
+        Artisan::call("linguacafe:repair-wrong-owner-phrase-metadata", [
+            "--user-id" => $chapterUser->id,
+        ]);
+        $output = Artisan::output();
+
+        $chapter->refresh();
+        $this->assertSame(
+            [$sourcePhrase->id, $correctPhrase->id],
+            json_decode($chapter->unique_phrase_ids)
+        );
+        $this->assertSame(
+            [$sourcePhrase->id],
+            $chapter->getProcessedText()[0]->phrase_ids
+        );
+        $this->assertStringContainsString('"mode": "dry-run"', $output);
+        $this->assertStringContainsString('"planned_remaps": 1', $output);
+        $this->assertStringContainsString(
+            '"replacement_phrase_id": ' . $replacementPhrase->id,
+            $output
+        );
+        $this->assertStringContainsString('"chapters_changed": 0', $output);
+        $this->assertStringNotContainsString(
+            '"source_phrase_id": ' . $correctPhrase->id,
+            $output
+        );
+    }
+
+    public function test_wrong_owner_phrase_repair_apply_remaps_unique_and_processed_metadata(): void
+    {
+        $sourceUser = User::factory()->create();
+        $chapterUser = User::factory()->create();
+        $book = $this->book($chapterUser);
+        $sourcePhrase = $this->phrase($sourceUser, ["go", "stir-crazy"]);
+        $replacementPhrase = $this->phrase($chapterUser, ["go", "stir-crazy"]);
+        $correctPhrase = $this->phrase($chapterUser, ["stay", "calm"]);
+        $chapter = $this->chapter(
+            $chapterUser,
+            $book,
+            [],
+            [],
+            [$sourcePhrase->id, $correctPhrase->id],
+            [
+                (object) ["word" => "go", "phrase_ids" => [$sourcePhrase->id, $correctPhrase->id]],
+            ]
+        );
+
+        Artisan::call("linguacafe:repair-wrong-owner-phrase-metadata", [
+            "--user-id" => $chapterUser->id,
+            "--language" => "english",
+            "--book-id" => $book->id,
+            "--chapter-id" => $chapter->id,
+            "--apply" => true,
+        ]);
+        $output = Artisan::output();
+
+        $chapter->refresh();
+        $this->assertEqualsCanonicalizing(
+            [$replacementPhrase->id, $correctPhrase->id],
+            json_decode($chapter->unique_phrase_ids)
+        );
+        $this->assertEqualsCanonicalizing(
+            [$replacementPhrase->id, $correctPhrase->id],
+            $chapter->getProcessedText()[0]->phrase_ids
+        );
+        $this->assertStringContainsString('"chapters_changed": 1', $output);
+        $this->assertStringContainsString('"unique_metadata_ids_would_remap": 1', $output);
+        $this->assertStringContainsString('"processed_text_ids_would_remap": 1', $output);
+    }
+
+    public function test_wrong_owner_phrase_repair_adds_processed_only_replacement_to_unique_metadata(): void
+    {
+        $sourceUser = User::factory()->create();
+        $chapterUser = User::factory()->create();
+        $book = $this->book($chapterUser);
+        $sourcePhrase = $this->phrase($sourceUser, ["processed", "only"]);
+        $replacementPhrase = $this->phrase($chapterUser, ["processed", "only"]);
+        $chapter = $this->chapter(
+            $chapterUser,
+            $book,
+            [],
+            [],
+            [],
+            [(object) ["word" => "processed", "phrase_ids" => [$sourcePhrase->id]]]
+        );
+
+        Artisan::call("linguacafe:repair-wrong-owner-phrase-metadata", [
+            "--user-id" => $chapterUser->id,
+            "--apply" => true,
+        ]);
+        $output = Artisan::output();
+
+        $chapter->refresh();
+        $this->assertSame([$replacementPhrase->id], json_decode($chapter->unique_phrase_ids));
+        $this->assertSame(
+            [$replacementPhrase->id],
+            $chapter->getProcessedText()[0]->phrase_ids
+        );
+        $this->assertStringContainsString('"unique_metadata_ids_would_add": 1', $output);
+        $this->assertStringContainsString('"processed_text_ids_would_remap": 1', $output);
+    }
+
+    public function test_wrong_owner_phrase_repair_reports_missing_replacement_without_mutation(): void
+    {
+        $sourceUser = User::factory()->create();
+        $chapterUser = User::factory()->create();
+        $book = $this->book($chapterUser);
+        $sourcePhrase = $this->phrase($sourceUser, ["no", "replacement"]);
+        $chapter = $this->chapter(
+            $chapterUser,
+            $book,
+            [],
+            [],
+            [$sourcePhrase->id],
+            [(object) ["word" => "no", "phrase_ids" => [$sourcePhrase->id]]]
+        );
+
+        Artisan::call("linguacafe:repair-wrong-owner-phrase-metadata", [
+            "--user-id" => $chapterUser->id,
+            "--apply" => true,
+        ]);
+        $output = Artisan::output();
+
+        $chapter->refresh();
+        $this->assertSame([$sourcePhrase->id], json_decode($chapter->unique_phrase_ids));
+        $this->assertSame([$sourcePhrase->id], $chapter->getProcessedText()[0]->phrase_ids);
+        $this->assertStringContainsString('"unresolved": 1', $output);
+        $this->assertStringContainsString('"reason": "no_scoped_replacement"', $output);
+        $this->assertStringContainsString('"chapters_changed": 0', $output);
+    }
+
+    public function test_wrong_owner_phrase_repair_reports_multiple_replacements_as_ambiguous(): void
+    {
+        $sourceUser = User::factory()->create();
+        $chapterUser = User::factory()->create();
+        $book = $this->book($chapterUser);
+        $sourcePhrase = $this->phrase($sourceUser, ["duplicate", "phrase"]);
+        $firstReplacement = $this->phrase($chapterUser, ["duplicate", "phrase"]);
+        $secondReplacement = $this->phrase($chapterUser, ["Duplicate", "Phrase"]);
+        $chapter = $this->chapter(
+            $chapterUser,
+            $book,
+            [],
+            [],
+            [$sourcePhrase->id],
+            []
+        );
+
+        Artisan::call("linguacafe:repair-wrong-owner-phrase-metadata", [
+            "--user-id" => $chapterUser->id,
+            "--apply" => true,
+        ]);
+        $output = Artisan::output();
+
+        $chapter->refresh();
+        $this->assertSame([$sourcePhrase->id], json_decode($chapter->unique_phrase_ids));
+        $summary = json_decode($output, true);
+        $this->assertSame(1, $summary["ambiguous"]);
+        $this->assertSame(0, $summary["chapters_changed"]);
+        $this->assertSame(
+            "multiple_scoped_phrase_matches",
+            $summary["candidates"][0]["reason"]
+        );
+        $this->assertEqualsCanonicalizing(
+            [$firstReplacement->id, $secondReplacement->id],
+            $summary["candidates"][0]["replacement_candidate_ids"]
+        );
+    }
+
+    public function test_wrong_owner_phrase_repair_enforces_user_and_language_scope(): void
+    {
+        $sourceUser = User::factory()->create();
+        $chapterUser = User::factory()->create();
+        $otherChapterUser = User::factory()->create();
+        $book = $this->book($chapterUser);
+        $otherBook = $this->book($otherChapterUser);
+        $sourcePhrase = $this->phrase($sourceUser, ["scoped", "phrase"]);
+        $this->phrase($chapterUser, ["scoped", "phrase"], "spanish");
+        $otherReplacement = $this->phrase($otherChapterUser, ["scoped", "phrase"]);
+        $chapter = $this->chapter($chapterUser, $book, [], [], [$sourcePhrase->id], []);
+        $otherChapter = $this->chapter(
+            $otherChapterUser,
+            $otherBook,
+            [],
+            [],
+            [$sourcePhrase->id],
+            []
+        );
+
+        Artisan::call("linguacafe:repair-wrong-owner-phrase-metadata", [
+            "--user-id" => $chapterUser->id,
+            "--language" => "english",
+            "--apply" => true,
+        ]);
+        $output = Artisan::output();
+
+        $chapter->refresh();
+        $otherChapter->refresh();
+        $this->assertSame([$sourcePhrase->id], json_decode($chapter->unique_phrase_ids));
+        $this->assertSame([$sourcePhrase->id], json_decode($otherChapter->unique_phrase_ids));
+        $this->assertStringContainsString('"chapters_scanned": 1', $output);
+        $this->assertStringContainsString('"unresolved": 1', $output);
+        $this->assertStringNotContainsString(
+            '"replacement_phrase_id": ' . $otherReplacement->id,
+            $output
+        );
+    }
+
     private function book(User $user): Book
     {
         return Book::create([
@@ -114,6 +341,19 @@ class BackfillVocabularyMetadataTest extends TestCase
             "reading" => "",
             "lemma" => "",
             "translation" => "",
+        ]);
+    }
+
+    private function phrase(User $user, array $words, string $language = "english"): Phrase
+    {
+        return Phrase::forceCreate([
+            "user_id" => $user->id,
+            "language" => $language,
+            "words" => json_encode($words),
+            "words_searchable" => implode(" ", $words),
+            "reading" => "",
+            "translation" => "",
+            "stage" => 2,
         ]);
     }
 

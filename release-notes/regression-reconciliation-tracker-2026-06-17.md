@@ -102,6 +102,17 @@ Isolated dry-run/apply evidence:
   - The 16 phrase removals are wrong-user references with same-text user-scoped replacements available; current backfill removes but does not remap them.
   - No duplicate word text exists within user/language scope. The 440 cleanup ambiguities are suspicious-token classifications, not duplicate database rows.
   - Pre/post row counts and checksums were identical for all affected tables. No apply mode was executed.
+- Safe follow-up design and isolated implementation on 2026-06-21:
+  - lexical policy and cleanup scoping design are documented in `release-notes/vocabulary-cleanup-and-phrase-repair-plan-2026-06-21.md`;
+  - cleanup apply remains blocked because broad reasons currently combine valid decades, ordinals, abbreviations, and numeric compounds with invalid parser artifacts;
+  - proposed cleanup guards require user/language scope, positive reason/token/book/chapter selection, an explicit delete-only or quarantine-only mode, and a hard candidate ceiling;
+  - added `linguacafe:repair-wrong-owner-phrase-metadata`, a separate dry-run-first command that does not invoke broad word-ID backfill;
+  - phrase matching uses ordered trimmed/lowercased/NFC-normalized word arrays and only the chapter owner's user/language scope;
+  - one exact replacement is planned, no match is unresolved, multiple matches are ambiguous, and unresolved/ambiguous IDs are preserved;
+  - explicit apply updates both `unique_phrase_ids` and embedded processed-text `phrase_ids` under a row lock;
+  - isolated feature coverage passes `8 tests, 47 assertions`, including dry-run non-mutation, apply behavior, processed-text-only consistency, correct-owner preservation, no-match, ambiguity, and user/language/book/chapter scope;
+  - full PHPUnit passes `80 tests, 973 assertions`; frontend mounted tests, migration/production build, CSS/contrast checks, and `git diff --check` remain green;
+  - no production command or apply mode was run. A fresh production-backup dry-run is still required before any future approval.
 
 Verification:
 
