@@ -7,6 +7,7 @@ const root = path.resolve(__dirname, '..');
 const themesPath = path.join(root, 'resources/js/themes.js');
 const darkModePath = path.join(root, 'resources/sass/DarkMode.scss');
 const appStylesPath = path.join(root, 'resources/sass/app.scss');
+const homeStylesPath = path.join(root, 'resources/sass/Home/Home.scss');
 
 function loadThemes() {
     const source = fs.readFileSync(themesPath, 'utf8').replace(/export\s+default/, 'module.exports =');
@@ -51,6 +52,7 @@ const themes = loadThemes();
 const dark = themes.dark;
 const css = fs.readFileSync(darkModePath, 'utf8');
 const appCss = fs.readFileSync(appStylesPath, 'utf8');
+const homeCss = fs.readFileSync(homeStylesPath, 'utf8');
 const failures = [];
 
 for (const token of [
@@ -125,6 +127,10 @@ const requiredSelectors = [
     '.v-dialog .v-card',
     '.v-tooltip > .v-overlay__content',
     '#reader-box #toolbar button.toolbar-button.v-btn',
+    '.v-theme--dark.v-date-picker',
+    '.v-date-picker-month__day--selected .v-date-picker-month__day-btn',
+    '.v-date-picker-month__day--today:not(.v-date-picker-month__day--selected)',
+    '.v-date-picker-month__day:not(.v-date-picker-month__day--selected) .v-date-picker-month__day-btn:hover',
 ];
 
 for (const selector of requiredSelectors) {
@@ -160,10 +166,40 @@ for (const obsoleteSelector of [
     '.v-select__selections',
     '.v-theme--dark.v-card > .v-card__text',
     '.v-overlay__content .v-theme--dark.v-list-item',
+    '.v-theme--dark.v-picker__body',
+    '.v-date-picker-title',
 ]) {
     if (css.includes(obsoleteSelector)) {
         failures.push(`DarkMode.scss retains obsolete Vuetify 2 selector: ${obsoleteSelector}`);
     }
+}
+
+for (const obsoleteSelector of [
+    '.v-picker.v-card.v-picker--date',
+    '.v-theme--light.v-picker__body',
+    '.v-date-picker-table--month',
+]) {
+    if (appCss.includes(obsoleteSelector)) {
+        failures.push(`app.scss retains obsolete Vuetify 2 date-picker selector: ${obsoleteSelector}`);
+    }
+}
+
+for (const semanticCalendarRule of [
+    'color: rgb(var(--v-theme-on-primary));',
+    'border: 1px solid rgb(var(--v-theme-border));',
+    '#calendar .calendar-day:focus-visible',
+]) {
+    if (!homeCss.includes(semanticCalendarRule)) {
+        failures.push(`Home calendar styles are missing semantic popup rule: ${semanticCalendarRule}`);
+    }
+}
+
+if (/#calendar-popup-date\s*\{[^}]*color:\s*white;/s.test(homeCss)) {
+    failures.push('Home calendar popup header must not hardcode white on the primary surface.');
+}
+
+if (css.includes('border-color: #404040')) {
+    failures.push('Dark custom calendar day borders must use the semantic border token.');
 }
 
 const chipBlock = css.match(/#app \.v-application\.dark \.v-theme--dark\.v-chip,[\s\S]*?\n}\n/);

@@ -396,19 +396,10 @@
     border-radius: 8px !important;
     overflow: hidden !important;
 
-    .v-picker.v-card.v-picker--date {
+    .v-date-picker {
         border-radius: 0px !important;
         overflow: hidden !important;
-        background: linear-gradient(180deg, rgb(var(--v-theme-primary)) 0%, rgb(var(--v-theme-foreground)) 50%) !important;
     }
-
-    .v-theme--light.v-picker__body, .v-picker__actions.v-card__actions {
-        background: rgb(var(--v-theme-foreground)) !important;
-    }
-}
-
-.v-date-picker-table--month td .v-btn {
-    border-radius: 18px !important;
 }
 
 .v-overlay {

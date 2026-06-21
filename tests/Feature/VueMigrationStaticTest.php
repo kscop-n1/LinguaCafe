@@ -432,6 +432,80 @@ class VueMigrationStaticTest extends TestCase
         );
     }
 
+    public function test_calendar_and_date_picker_use_current_semantic_dark_state_selectors(): void
+    {
+        $component = file_get_contents(base_path("resources/js/components/Home/Calendar.vue"));
+        $appStyles = file_get_contents(base_path("resources/sass/app.scss"));
+        $darkStyles = file_get_contents(base_path("resources/sass/DarkMode.scss"));
+        $homeStyles = file_get_contents(base_path("resources/sass/Home/Home.scss"));
+
+        $this->assertMatchesRegularExpression(
+            '/\.v-theme--dark\.v-date-picker\s*\{[^}]*background:\s*rgb\(var\(--v-theme-surfaceElevated\)\);[^}]*border:\s*1px solid rgb\(var\(--v-theme-border\)\);/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-date-picker-month__day--selected \.v-date-picker-month__day-btn\s*\{[^}]*background:\s*rgb\(var\(--v-theme-primary\)\)\s*!important;[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-date-picker-month__day--today:not\(\.v-date-picker-month__day--selected\) \.v-date-picker-month__day-btn\s*\{[^}]*color:\s*rgb\(var\(--v-theme-focusIndicator\)\)\s*!important;[^}]*box-shadow:\s*inset 0 0 0 1px rgb\(var\(--v-theme-focusIndicator\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-date-picker-month__day:not\(\.v-date-picker-month__day--selected\) \.v-date-picker-month__day-btn:hover,[\s\S]*?\{[^}]*background:\s*rgb\(var\(--v-theme-hoverSurface\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.v-theme--dark\.v-date-picker[\s\S]*?\.v-btn--disabled\s*\{[^}]*color:\s*rgb\(var\(--v-theme-textDisabled\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#calendar[\s\S]*?\.calendar-day\s*\{[^}]*border-color:\s*rgb\(var\(--v-theme-border\)\);/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.calendar-day:focus-visible\s*\{[^}]*outline:\s*2px solid rgb\(var\(--v-theme-focusIndicator\)\);[^}]*outline-offset:\s*2px;/s',
+            $homeStyles
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/\.date-picker-dialog\s*\{[\s\S]*?\.v-date-picker\s*\{[^}]*border-radius:\s*0px\s*!important;[^}]*overflow:\s*hidden\s*!important;/s',
+            $appStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#calendar-popup-date\s*\{[^}]*background-color:\s*rgb\(var\(--v-theme-primary\)\);[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\);/s',
+            $homeStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/\.calendar-popup-icon-button \.v-icon\s*\{[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\);/s',
+            $homeStyles
+        );
+        $this->assertStringContainsString(
+            'border: 1px solid rgb(var(--v-theme-border));',
+            $homeStyles
+        );
+
+        $this->assertStringContainsString('role="button"', $component);
+        $this->assertStringContainsString('tabindex="0"', $component);
+        $this->assertStringContainsString('@keydown.enter.prevent="openCalendarDayPopup($event, day)"', $component);
+        $this->assertStringContainsString('@keydown.space.prevent="openCalendarDayPopup($event, day)"', $component);
+
+        foreach ([
+            '.v-theme--dark.v-picker__body',
+            '.v-date-picker-title',
+            '.v-picker.v-card.v-picker--date',
+            '.v-theme--light.v-picker__body',
+            '.v-date-picker-table--month',
+        ] as $obsoleteSelector) {
+            $this->assertStringNotContainsString($obsoleteSelector, $darkStyles . $appStyles);
+        }
+        $this->assertStringNotContainsString('border-color: #404040', $darkStyles);
+        $this->assertDoesNotMatchRegularExpression(
+            '/#calendar-popup-date\s*\{[^}]*color:\s*white;/s',
+            $homeStyles
+        );
+    }
+
     public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void
     {
         foreach ([

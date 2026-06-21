@@ -543,6 +543,51 @@ Third REG-008 cluster implementation and verification:
   - feature-local obsolete selectors such as Admin API settings;
   - broad legacy selector cleanup and the separate light-palette `on-primary` contrast decision.
 
+Fourth REG-008 cluster audit on 2026-06-21: calendar and date-picker colors
+
+- Component inventory:
+  - `resources/js/components/Home/Calendar.vue` is the only application component rendering a Vuetify `v-date-picker`. It also owns the custom multi-month goal calendar and the teleported day-details/edit menu.
+  - `resources/js/PrimeVueAura/datepicker` is an unused preset definition; no application component renders it.
+  - Representative states are therefore Home's month/year date-picker overlay, custom calendar day cells, and the day-details/edit overlay. No other goal/dialog date control was found.
+- Old behavior/reference:
+  - Vuetify 2 used `.theme--dark.v-picker__body`, `.v-date-picker-header__value`, `.v-date-picker-title`, `.v-date-picker-table--month`, and `.v-picker.v-card.v-picker--date`.
+  - Old Home styles also hardcoded white popup header text/icons and `#404040` dark calendar borders. The old selectors were tied to Vuetify 2 DOM and theme ancestry.
+- Current implementation and migration residue:
+  - Runtime Vuetify 3 DOM uses `.v-date-picker`, `.v-picker-title`, `.v-date-picker-header__content`, `.v-date-picker-controls`, `.v-date-picker-month__weekday`, and `.v-date-picker-month__day-btn`.
+  - Current `resources/sass/DarkMode.scss` still targets the obsolete picker body/title/header selectors under `#app`; current `resources/sass/app.scss` still targets `.v-picker--date`, `.v-theme--light.v-picker__body`, and `.v-date-picker-table--month`.
+  - The picker and day-details menus are teleported to `.v-overlay-container`, so `#app`-only rules cannot style them. Classification: incomplete Vuetify 2 -> Vuetify 3 migration plus obsolete selectors.
+- Pre-fix browser evidence at 1280x720 dark:
+  - The current Vuetify 3 picker surface/text, title/header, controls, arrows, weekday labels, normal days, and selected day are already readable through Vuetify theme tokens: surface text 12.59:1, primary header/selected text 7.08:1, icons 11.41:1.
+  - Normal day hover uses the default Vuetify overlay and remains readable. Generic shared keyboard focus styling applies to date-picker buttons when reached with keyboard.
+  - The teleported custom day popup root is outside `#app`, so the migrated dark override does not apply. Its hardcoded white date text and action icons on dark primary measure only 2.66:1. Classification: hardcoded component override plus missing teleported-overlay scope.
+  - Custom calendar day borders remain hardcoded `#404040` against dark foreground, only 1.43:1. Classification: hardcoded component override; the existing semantic `border` token is 3.16:1.
+  - The date-picker has no disabled date/month/year state in its current Home configuration, so disabled runtime state is unavailable naturally; the shared semantic disabled token remains 4.06:1 and needs a current date-picker selector guard.
+- Planned focused fix:
+  - replace only the dead picker selectors with current Vuetify 3 selectors inside the existing app-root/teleported-overlay dark baseline;
+  - use `surfaceElevated`, `text`, `textMuted`, `icon`, `primary`, `on-primary`, `hoverSurface`, `focusIndicator`, `border`, and disabled tokens for picker and custom-calendar states;
+  - change the day popup header from hardcoded white to semantic `on-primary`;
+  - make custom calendar days keyboard-focusable and give them the same semantic hover/focus boundary contract without changing date calculations or mouse behavior;
+  - preserve picker/calendar geometry and light-theme values.
+
+Fourth REG-008 cluster implementation and verification:
+
+- Changed `resources/sass/DarkMode.scss`: removed the dead Vuetify 2 picker selectors and the ineffective `#app`-scoped popup override. The teleported Vuetify 3 date picker now uses current selectors and semantic surface, text, icon, border, selected, today, hover, focus, and disabled-state tokens. Custom dark calendar days now use semantic surface, border, hover, focus, and achieved-state colors.
+- Changed `resources/sass/app.scss`: retained the date-picker dialog geometry on the current `.v-date-picker` root and removed obsolete Vuetify 2 picker-body, action, and month-table selectors.
+- Changed `resources/sass/Home/Home.scss`: the day-details popup now uses `border` and `on-primary` tokens instead of hardcoded black/white values. Custom day cells have a semantic `:focus-visible` ring.
+- Changed `resources/js/components/Home/Calendar.vue`: custom day cells are keyboard focusable, expose a button role and date label, and open through Enter or Space using the existing popup action. Date calculation, selection, and persistence behavior are unchanged.
+- Changed `tests/Feature/VueMigrationStaticTest.php` and `scripts/check-dark-theme-contrast.js`: regression checks require current Vuetify 3 date-picker selectors, semantic state tokens, teleported-overlay scope, popup contrast, keyboard access, and rejection of the obsolete selectors and hardcoded colors.
+- Dark desktop browser evidence: picker text was `rgb(236, 236, 241)` on `rgb(48, 47, 53)` (11.26:1); primary header and selected-day text was `rgb(20, 17, 16)` on `rgb(197, 148, 125)` (7.08:1); the semantic border was 3.16:1; picker arrows were 10.21:1. Today had a visible focus-indicator inset ring, selected and hover states remained distinct, and keyboard focus showed a 2px semantic outline.
+- Teleported popup evidence: date text and action icons measured 7.08:1 on the primary surface, replacing the pre-fix 2.66:1 hardcoded-white result. The popup used the semantic border and remained inside the viewport.
+- Custom calendar evidence: normal days used the elevated surface and semantic border; hover used `hoverSurface` plus `focusIndicator`; keyboard focus was visible and Enter opened the focused date. The pre-fix hardcoded border result was 1.43:1.
+- Mobile browser evidence at 390x844: the date picker and day-details popup remained fully within the viewport; document `clientWidth` and `scrollWidth` were both 382px. Light-theme desktop/mobile values remained unchanged and readable. The separate existing light-palette `on-primary` ratio remains a deferred product/design decision.
+- The current Home configuration does not naturally render a disabled date/month/year control. Disabled-state token use is protected by static coverage and a synthetic runtime class check, but not claimed as a natural-state browser observation.
+- Automated verification: focused date-picker regression `1 test, 22 assertions`; full PHPUnit `95 tests, 1,062 assertions`; mounted frontend `2 tests`; migration checks; production build; CSS audit; contrast guard; and `git diff --check`.
+- Remaining REG-008 work stays deferred:
+  - Review animation/state colors and broader Reader/Review feature verification;
+  - feature-local obsolete selectors such as Admin API settings;
+  - broad legacy selector cleanup;
+  - the separate light-palette `on-primary` contrast decision.
+
 ## REG-009: Sidebar/mobile bottom icon alignment
 
 Status: Verified

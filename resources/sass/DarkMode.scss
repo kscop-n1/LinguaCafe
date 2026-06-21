@@ -123,19 +123,6 @@
     }
 }
 
-// date picker
-#app .v-application.dark .v-theme--dark.v-picker__body {
-    background: rgb(var(--v-theme-foreground));
-}
-
-#app .v-application.dark .v-theme--dark.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
-    color: rgb(var(--v-theme-text));
-}
-
-#app .v-application.dark .v-date-picker-title {
-    color: rgb(var(--v-theme-textDark));
-}
-
 // v-list
 #app .v-application.dark .v-theme--dark.v-list {
     background: rgb(var(--v-theme-foreground));
@@ -215,14 +202,6 @@
     }
 }
 
-#app .v-application.dark #calendar-popup-date {
-    color: rgb(var(--v-theme-textDark));
-
-    i.v-icon {
-        color: rgb(var(--v-theme-textDark));
-    }
-}
-
 // v-btn plain
 #app .v-application.dark .v-btn--plain .v-btn__content {
     color: rgb(var(--v-theme-text));
@@ -236,15 +215,6 @@
 // border
 #app .v-application.dark .border {
     border-color: rgb(var(--v-theme-border)) !important;
-}
-
-// calendar text
-#app .v-application.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day.full-achievement .calendar-day-text {
-    color: rgb(var(--v-theme-textDark));
-}
-// calendar border
-#app .v-application.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day {
-    border-color: #404040;
 }
 
 // book list text color
@@ -264,6 +234,69 @@
 .finished-box {
     .finished-stage-level {
         color: rgb(var(--v-theme-textDark));
+    }
+}
+
+// Vuetify 3 date picker overlays are teleported outside #app.
+.v-overlay-container .v-theme--dark.v-date-picker {
+    background: rgb(var(--v-theme-surfaceElevated));
+    color: rgb(var(--v-theme-text));
+    border: 1px solid rgb(var(--v-theme-border));
+
+    .v-picker-title,
+    .v-date-picker-header__content {
+        color: rgb(var(--v-theme-on-primary));
+    }
+
+    .v-date-picker-controls,
+    .v-date-picker-month__weekday,
+    .v-date-picker-month__day-btn,
+    .v-date-picker-months__content .v-btn,
+    .v-date-picker-years__content .v-btn {
+        color: rgb(var(--v-theme-text));
+    }
+
+    .v-date-picker-controls .v-icon {
+        color: rgb(var(--v-theme-icon));
+    }
+
+    .v-date-picker-month__day--selected .v-date-picker-month__day-btn {
+        background: rgb(var(--v-theme-primary)) !important;
+        color: rgb(var(--v-theme-on-primary)) !important;
+    }
+
+    .v-date-picker-month__day--today:not(.v-date-picker-month__day--selected) .v-date-picker-month__day-btn {
+        color: rgb(var(--v-theme-focusIndicator)) !important;
+        box-shadow: inset 0 0 0 1px rgb(var(--v-theme-focusIndicator)) !important;
+    }
+
+    .v-date-picker-month__day:not(.v-date-picker-month__day--selected) .v-date-picker-month__day-btn:hover,
+    .v-date-picker-months__content .v-btn:hover,
+    .v-date-picker-years__content .v-btn:hover {
+        background: rgb(var(--v-theme-hoverSurface)) !important;
+    }
+
+    .v-btn--disabled {
+        color: rgb(var(--v-theme-textDisabled)) !important;
+        opacity: 1;
+    }
+
+    .v-btn--disabled .v-icon {
+        color: rgb(var(--v-theme-iconDisabled)) !important;
+    }
+}
+
+#app .v-application.dark #calendar #calendar-months .calendar-month .calendar-month-days .calendar-day {
+    border-color: rgb(var(--v-theme-border));
+    background: rgb(var(--v-theme-surfaceElevated));
+
+    &:hover {
+        border-color: rgb(var(--v-theme-focusIndicator));
+        background: rgb(var(--v-theme-hoverSurface));
+    }
+
+    &.full-achievement .calendar-day-text {
+        color: rgb(var(--v-theme-on-primary));
     }
 }
 

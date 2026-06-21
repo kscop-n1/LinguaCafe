@@ -18,11 +18,11 @@
 .calendar-popup-menu {
     background-color: rgb(var(--v-theme-foreground));
     width: 240px;
-    border: 1px solid rgba(0, 0, 0, .2);
+    border: 1px solid rgb(var(--v-theme-border));
 
     #calendar-popup-date {
         background-color: rgb(var(--v-theme-primary));
-        color: white;
+        color: rgb(var(--v-theme-on-primary));
         display: flex;
         justify-content: flex-start;
         font-size: 18px;
@@ -33,12 +33,12 @@
             min-width: 30px !important;
             min-height: 30px !important;
             padding: 0px !important;
-            background-color: rgba(255, 255, 255, .18);
-            color: white;
+            background-color: rgba(var(--v-theme-on-primary), .14);
+            color: rgb(var(--v-theme-on-primary));
         }
 
         .calendar-popup-icon-button .v-icon {
-            color: white;
+            color: rgb(var(--v-theme-on-primary));
             font-size: 18px;
         }
 
@@ -185,6 +185,11 @@
             }
         }
     }
+}
+
+#calendar .calendar-day:focus-visible {
+    outline: 2px solid rgb(var(--v-theme-focusIndicator));
+    outline-offset: 2px;
 }
 
 #goals {

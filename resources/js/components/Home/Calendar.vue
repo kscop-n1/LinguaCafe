@@ -156,7 +156,12 @@
                                 'full-achievement': (selectedGoal == 'reviews_due' && day.reviewsDue) || (selectedGoal !== 'reviews_due' && day.achievement !== null && day.achievement.achievedQuantity >= day.achievement.goalQuantity && day.achievement.goalQuantity !== 0),
                             }"
                             transition="fade-transition"
+                            role="button"
+                            tabindex="0"
+                            :aria-label="day.fullDate"
                             @click.stop="openCalendarDayPopup($event, day)"
+                            @keydown.enter.prevent="openCalendarDayPopup($event, day)"
+                            @keydown.space.prevent="openCalendarDayPopup($event, day)"
                             v-for="(day, dayIndex) in month.days"
                             :key="index + '-' + dayIndex"
                         >
