@@ -125,6 +125,12 @@ Isolated dry-run/apply evidence:
   - classifier categories and lexical validity behavior were not changed;
   - no production cleanup, backfill, or phrase repair command was run. Cleanup apply remains blocked pending a fresh production-backup dry-run, exact candidate review, and explicit human approval.
   - final verification: focused cleanup `22 tests, 105 assertions`; focused REG-001 maintenance `56 tests, 414 assertions`; full PHPUnit `94 tests, 1,040 assertions`; mounted frontend `2 tests`; migration/dependency/legacy checks and production build passed; CSS audit passed with zero errors and existing warnings; dark-theme contrast guard and `git diff --check` passed.
+- Fresh production-backup phrase-repair evidence and approval preparation on 2026-06-21:
+  - `release-notes/production-maintenance-fresh-dry-run-report-2026-06-21.md` records the isolated fresh-backup dry-run: user `3`, language `english`, book `4`, 12 chapters, 16 unique metadata remaps, 38 embedded occurrences, and zero missing/unresolved/ambiguous matches;
+  - `release-notes/wrong-owner-phrase-repair-apply-approval-2026-06-21.md` now provides the exact proposed command, full independently reviewable 16-row candidate table, mandatory fresh-backup/final-dry-run checklist, post-apply verification, rollback criteria, and explicit exclusions;
+  - packet status is pending explicit human approval and is not authorization to execute;
+  - no `--apply` command was run and no production data was queried or mutated while preparing the packet;
+  - cleanup apply and broad metadata backfill apply remain blocked.
 
 Verification:
 

@@ -128,8 +128,9 @@ Protected behavioral contracts include:
 - REG-008 feature-local obsolete selectors, including Admin API settings.
 - REG-008 broad legacy selector cleanup, performed only in evidence-backed component batches.
 - Separate light-palette `on-primary` contrast decision; the current primary/white ratio is 3.23:1.
-- Production cleanup/backfill apply remains blocked after the production-backup dry-run review in `release-notes/production-maintenance-dry-run-report-2026-06-20.md`. Cleanup now has tested reason/token/book/chapter selectors, explicit delete-only/quarantine-only modes, and mandatory scope/count guards, but still needs a fresh backup dry-run and approval of the exact lexical candidate set. Backfill needs a reviewed wrong-owner phrase-remap dry-run.
-- The follow-up policy and repair design is documented in `release-notes/vocabulary-cleanup-and-phrase-repair-plan-2026-06-21.md`. A dedicated dry-run-first wrong-owner phrase repair command now has isolated test coverage, but production apply remains blocked pending a fresh backup dry-run and pair-by-pair review.
+- Production cleanup/backfill apply remains blocked after the production-backup reviews. Cleanup now has tested selectors and mandatory guards, but no cleanup apply scope is approved. Broad metadata backfill remains prohibited.
+- The fresh wrong-owner phrase-repair dry-run is documented in `release-notes/production-maintenance-fresh-dry-run-report-2026-06-21.md`: user `3`, language `english`, book `4`, 12 chapters, 16 unique remaps, 38 embedded occurrences, and zero unresolved/ambiguous/missing cases.
+- A pending approval packet exists at `release-notes/wrong-owner-phrase-repair-apply-approval-2026-06-21.md`. It documents the exact future command, all 16 candidates, pre/post checks, and rollback plan. It does not authorize execution; a fresh matching backup dry-run and separate explicit human approval are still mandatory.
 - Physical iOS safe-area verification for sidebar/mobile drawer bottom controls.
 - Continued release-time browser verification for chapter footer overlay positioning.
 
@@ -138,7 +139,7 @@ Protected behavioral contracts include:
 | Risk | Severity | Why deferred | Recommended next action | Work type |
 | --- | --- | --- | --- | --- |
 | Production contains invalid or incomplete legacy vocabulary metadata | High | The production-backup dry run found 2,398 invalid rows, but 449 mechanically safe candidates include debatable lexical forms and 440 require manual review | Repeat the report against a fresh backup using the implemented narrow selectors and ceiling, then approve an exact candidate list before any apply | Product decision, dry-run, manual verification |
-| Wrong-owner phrase metadata would be removed rather than remapped | High | The broad backfill still removes wrong-owner IDs; a dedicated remap command is now tested but has not been run against a fresh production backup | Run the dedicated command in dry-run mode against a fresh backup, review every pair, and require zero ambiguity/unresolved cases for any selected scope | Tests, manual verification |
+| Wrong-owner phrase metadata requires controlled production repair | High | A fresh backup dry-run produced one clean scope, but no production apply has been approved or executed | Follow the pending approval packet: make a new backup, repeat the scoped dry-run, require an exact 16-row match, and obtain explicit approval before apply | Approval decision, backup, dry-run, manual verification |
 | Duplicate word text prevents deterministic metadata backfill | Medium | The reviewed snapshot has no duplicates within user/language scope, but future datasets may; automatic guessing remains unsafe | Keep duplicate detection and fallback; define a policy only if a future dry run reports scoped duplicates | Product decision, tests |
 | Calendar/date-picker dark states may retain incompatible selectors/colors | Medium | Not part of the three verified REG-008 clusters | Audit one date-picker/calendar cluster with computed contrast evidence | Code, tests, browser verification |
 | Review animation/state colors are not comprehensively audited | Medium | Toolbar geometry was protected; animation surfaces need separate runtime states | Capture each Review transition/state in light/dark and fix only proven shared rules | Browser verification, code, tests |
@@ -150,11 +151,11 @@ Protected behavioral contracts include:
 
 ## Recommended Next Execution Order
 
-1. Run the guarded cleanup command in report-only dry-run mode against a fresh production backup using exact reason/token/book/chapter scopes; keep apply blocked.
-2. Run the dedicated wrong-owner phrase repair command in dry-run mode against the same fresh backup and review every proposed pair.
-3. Approve or reject exact cleanup candidate lists and phrase remap pairs; any future apply requires a separate explicit operation and backup/rollback checkpoint.
-4. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
-5. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
+1. Review and approve or reject the pending wrong-owner phrase-repair packet; execution remains a separate task with a new backup and matching final dry-run.
+2. Keep cleanup and broad metadata backfill apply blocked; prepare a separate exact-token cleanup packet only if product policy approves specific candidates.
+3. Audit and fix the narrow REG-008 calendar/date-picker dark-theme cluster.
+4. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
+5. Continue feature-local obsolete-selector cleanup in evidence-backed batches.
 
 ## Working Tree Report
 
