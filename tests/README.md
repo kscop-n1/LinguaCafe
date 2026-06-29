@@ -20,11 +20,21 @@ This directory houses the backend testing suite powered by PHPUnit.
 ## 2. Command Line Operations
 
 Tests are configured using the root `phpunit.xml` configuration which specifies array caching, in-memory sync queues, and testing database connections.
-* **Execute all tests**:
+* **Execute all backend tests**:
   ```bash
-  php artisan test
+  ./vendor/bin/phpunit
   ```
 * **Filter a specific test case**:
   ```bash
-  php artisan test --filter=AuthenticationTest
+  ./vendor/bin/phpunit --filter=AuthenticationTest
+  ```
+* **Execute frontend mounted tests**:
+  ```bash
+  npm run test:frontend
+  ```
+* **Execute migration/static, CSS, and dark-theme guards**:
+  ```bash
+  npm run check:migration
+  npm run check:css
+  node scripts/check-dark-theme-contrast.js
   ```

@@ -14,7 +14,7 @@ From a code and test perspective, the app is ready for a migration release-candi
 - UI migration stabilization: ready for release candidate. The protected migration regressions REG-001 through REG-011 are verified, and the completed REG-008 dark-theme clusters have focused static and browser evidence.
 - Data-maintenance status: not complete as a production maintenance program. Cleanup, wrong-owner phrase repair, and broad metadata backfill remain controlled maintenance topics.
 - Production apply status: no production cleanup, backfill, or phrase-repair apply has been run or approved by this checkpoint.
-- Known deferred work: feature-local obsolete selectors, broad legacy CSS cleanup, light `on-primary` contrast decision, physical iOS safe-area verification, and release-time browser smoke checks.
+- Known deferred work: feature-local obsolete selectors, broad legacy CSS cleanup, light `on-primary` contrast decision, physical iOS safe-area verification, release-time browser smoke checks, and first-run confirmation that the updated `Protected Baseline CI` GitHub Actions workflow passes after push.
 
 This is a release-candidate checkpoint, not a production data-repair signoff.
 
@@ -59,22 +59,27 @@ The latest full PHPUnit count is `1090` assertions. Older summary text that list
 | Invalid-token cleanup apply | Maintenance operation plus product policy | No for code RC | Cleanup apply remains blocked pending exact policy and candidate approval. |
 | Broad metadata backfill | Maintenance operation, prohibited currently | No for code RC | Broad apply remains prohibited; do not run it as part of release candidate. |
 | Release-time browser smoke checks | Release validation | Recommended before tagging | Review, Reader, Library chapters, Vocabulary, and Home should remain in the final smoke list. |
+| First `Protected Baseline CI` GitHub Actions run | CI validation | Yes before final release tagging | The local baseline is green, but RC readiness now depends on the updated workflow passing on GitHub after push. |
 
 ## 5. Recommended Next Execution Order
 
 1. Run the final release smoke checklist against the release-candidate build.
-2. Audit feature-local Admin API selectors as a scoped post-release or pre-tag polish task if time allows.
-3. Optionally verify physical iOS safe-area behavior for sidebar/mobile drawer bottom controls.
-4. Execute wrong-owner phrase repair only after explicit approval, fresh backup, matching final dry-run, and rollback readiness.
-5. Prepare any exact-token cleanup packet only after product policy approves specific candidates.
+2. Push and confirm the `Protected Baseline CI` GitHub Actions workflow passes.
+3. Audit feature-local Admin API selectors as a scoped post-release or pre-tag polish task if time allows.
+4. Optionally verify physical iOS safe-area behavior for sidebar/mobile drawer bottom controls.
+5. Execute wrong-owner phrase repair only after explicit approval, fresh backup, matching final dry-run, and rollback readiness.
+6. Prepare any exact-token cleanup packet only after product policy approves specific candidates.
 
 ## 6. Working Tree And Artifacts
 
-Current `git status --short` before creating this checkpoint was clean. This checkpoint adds this release note only.
+Current `git status --short` before creating the original checkpoint was clean. The follow-up CI stabilization adds the workflow and documentation files listed below.
 
-Current checkpoint-relevant changed file:
+Current checkpoint-relevant changed files:
 
 - `release-notes/migration-release-candidate-checkpoint-2026-06-29.md`
+- `.github/workflows/ci.yml`
+- `tests/README.md`
+- `release-notes/ci-workflow-stabilization-2026-06-29.md`
 
 Package and generated artifact status:
 
@@ -86,4 +91,4 @@ Package and generated artifact status:
 
 ## Release-Candidate Decision
 
-Proceed with a migration release-candidate build from the current code/test baseline, while keeping production data repair and deferred design/CSS cleanup explicitly outside the release-candidate readiness claim.
+Proceed with a migration release-candidate build from the current code/test baseline after the updated `Protected Baseline CI` GitHub Actions workflow passes, while keeping production data repair and deferred design/CSS cleanup explicitly outside the release-candidate readiness claim.
