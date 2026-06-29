@@ -328,10 +328,10 @@
 #app .v-application.dark #vocabulary-bottom-sheet-stage-buttons .v-btn.v-btn--active {
     background-color: rgb(var(--v-theme-primary)) !important;
     border-color: rgb(var(--v-theme-primary)) !important;
-    color: rgb(var(--v-theme-textDark)) !important;
+    color: rgb(var(--v-theme-on-primary)) !important;
 
     i {
-        color: rgb(var(--v-theme-textDark)) !important;
+        color: rgb(var(--v-theme-on-primary)) !important;
     }
 
     &::before {
@@ -399,7 +399,7 @@
         &.into-the-correct-deck-animation #review-card-content {
             #review-card-front,
             #review-card-back {
-                color: rgb(var(--v-theme-textDark)) !important;
+                color: rgb(var(--v-theme-text)) !important;
             }
         }
 
