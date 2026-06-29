@@ -506,6 +506,107 @@ class VueMigrationStaticTest extends TestCase
         );
     }
 
+    public function test_review_and_reader_dark_state_colors_use_semantic_tokens_without_changing_toolbar_geometry(): void
+    {
+        $reviewStyles = file_get_contents(base_path("resources/sass/Review/Review.scss"));
+        $darkStyles = file_get_contents(base_path("resources/sass/DarkMode.scss"));
+        $textReaderStyles = file_get_contents(base_path("resources/sass/TextReader/TextReader.scss"));
+        $interactiveTextStyles = file_get_contents(base_path("resources/sass/Text/InteractiveTextStyling.scss"));
+        $appStyles = file_get_contents(base_path("resources/sass/app.scss"));
+        $vocabularyBoxStyles = file_get_contents(base_path("resources/sass/Text/VocabularyBox.scss"));
+        $vocabularyBottomSheetStyles = file_get_contents(base_path("resources/sass/Text/VocabularyBottomSheet.scss"));
+        $vocabularySideBoxStyles = file_get_contents(base_path("resources/sass/Text/VocabularySideBox.scss"));
+
+        foreach ([
+            '&.back-to-deck-animation #review-card-content',
+            '&.into-the-correct-deck-animation #review-card-content',
+            '&.draw-new-card-animation #review-card-content',
+        ] as $animationSelector) {
+            $this->assertStringContainsString($animationSelector, $reviewStyles);
+        }
+
+        $this->assertMatchesRegularExpression(
+            '/&\.back-to-deck-animation #review-card-content\s*\{[\s\S]*?#review-card-front,[\s\S]*?#review-card-back\s*\{[^}]*color:\s*rgb\(var\(--v-theme-text\)\);/s',
+            $reviewStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/&\.into-the-correct-deck-animation #review-card-content\s*\{[\s\S]*?#review-card-front,[\s\S]*?#review-card-back\s*\{[^}]*color:\s*rgb\(var\(--v-theme-text\)\);/s',
+            $reviewStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/&\.draw-new-card-animation #review-card-content\s*\{[\s\S]*?#review-card-front,[\s\S]*?#review-card-back\s*\{[^}]*color:\s*rgb\(var\(--v-theme-text\)\);/s',
+            $reviewStyles
+        );
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/#review-card[\s\S]{0,1400}color:\s*white;/i',
+            $reviewStyles
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            '/#review-box[\s\S]{0,800}#review-card[\s\S]{0,800}textDark/i',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#review-box\s*\{[\s\S]*?#review-card\s*\{[\s\S]*?&\.back-to-deck-animation #review-card-content,[\s\S]*?color:\s*rgb\(var\(--v-theme-text\)\)\s*!important;/s',
+            $darkStyles
+        );
+
+        foreach ([
+            '#toolbar button.toolbar-button.v-btn',
+            'width: 40px !important;',
+            'height: 40px !important;',
+            'min-width: 40px !important;',
+            'min-height: 40px !important;',
+            'border-radius: 50% !important;',
+        ] as $toolbarGeometryRule) {
+            $this->assertStringContainsString($toolbarGeometryRule, $textReaderStyles);
+        }
+        $this->assertMatchesRegularExpression(
+            '/#app \.v-application\.dark,[\s\S]*?#reader-box #toolbar button\.toolbar-button\.v-btn\s*\{[^}]*background:\s*rgb\(var\(--v-theme-surfaceElevated\)\);[^}]*color:\s*rgb\(var\(--v-theme-icon\)\);[^}]*border:\s*1px solid rgb\(var\(--v-theme-border\)\);/s',
+            $darkStyles
+        );
+        $this->assertStringContainsString(
+            '#reader-box #toolbar button.toolbar-button.v-btn.v-btn--disabled',
+            $darkStyles
+        );
+
+        $this->assertMatchesRegularExpression(
+            '/#vocabulary-bottom-sheet-stage-buttons \.v-btn\.v-btn--active\s*\{[^}]*background-color:\s*rgb\(var\(--v-theme-primary\)\)\s*!important;[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\)\s*!important;/s',
+            $darkStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/&\.highlighted\s*\{[^}]*outline:\s*2px solid rgb\(var\(--v-theme-highlightedWordText\)\);[^}]*outline-offset:\s*1px;/s',
+            $interactiveTextStyles
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            '/&:hover\s*\{[^}]*outline:/s',
+            $interactiveTextStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#vocabulary-edit-stage-buttons,[\s\S]*?#vocabulary-bottom-sheet-stage-buttons[\s\S]*?&\.v-btn--active \.v-btn__content\s*\{[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\);/s',
+            $appStyles
+        );
+        $this->assertMatchesRegularExpression(
+            '/#vocab-box-stage-buttons \.v-btn\.v-btn--active,[\s\S]*?#vocabulary-bottom-sheet-stage-buttons \.v-btn\.v-btn--active \.v-btn__content\s*\{[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\)\s*!important;/s',
+            $appStyles
+        );
+
+        foreach ([
+            $vocabularyBoxStyles,
+            $vocabularyBottomSheetStyles,
+            $vocabularySideBoxStyles,
+        ] as $stageStyles) {
+            $this->assertMatchesRegularExpression(
+                '/&\.v-btn--active\s*\{[^}]*background-color:\s*rgb\(var\(--v-theme-primary\)\);[^}]*color:\s*rgb\(var\(--v-theme-on-primary\)\);/s',
+                $stageStyles
+            );
+            $this->assertDoesNotMatchRegularExpression(
+                '/&\.v-btn--active\s*\{[^}]*color:\s*white;/i',
+                $stageStyles
+            );
+        }
+    }
+
     public function test_fixed_height_dialog_regressions_are_not_reintroduced(): void
     {
         foreach ([

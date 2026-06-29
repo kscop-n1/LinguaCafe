@@ -54,6 +54,11 @@
                 color: rgb(var(--v-theme-highlightedWordText));
             }
 
+            &.highlighted {
+                outline: 2px solid rgb(var(--v-theme-highlightedWordText));
+                outline-offset: 1px;
+            }
+
             &.no-highlight:not([stage="0"]):not([stage="1"]):not(.highlighted):not(:hover) {
                 background-color: unset;
                 color: unset;
@@ -130,6 +135,11 @@
                 &.phrase {
                     border-radius: 0px;
                 }
+            }
+
+            &.highlighted {
+                outline: 2px solid rgb(var(--v-theme-highlightedWordText));
+                outline-offset: 1px;
             }
 
             // highlighted rounding

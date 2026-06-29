@@ -153,7 +153,7 @@
         }
 
         &.v-btn--active .v-btn__content {
-            color: white;
+            color: rgb(var(--v-theme-on-primary));
         }
     }
 }
@@ -984,6 +984,15 @@ div.v-data-table {
 .v-btn--active:not(.v-bottom-navigation .v-btn),
 .v-tab--selected {
     color: rgb(var(--v-theme-text)) !important;
+}
+
+#vocab-box-stage-buttons .v-btn.v-btn--active,
+#vocab-side-box #vocab-box-stage-buttons .v-btn.v-btn--active,
+#vocabulary-bottom-sheet-stage-buttons .v-btn.v-btn--active,
+#vocab-box-stage-buttons .v-btn.v-btn--active .v-btn__content,
+#vocab-side-box #vocab-box-stage-buttons .v-btn.v-btn--active .v-btn__content,
+#vocabulary-bottom-sheet-stage-buttons .v-btn.v-btn--active .v-btn__content {
+    color: rgb(var(--v-theme-on-primary)) !important;
 }
 
 .admin-settings-tabs {

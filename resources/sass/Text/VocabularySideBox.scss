@@ -82,7 +82,7 @@
                 &.v-btn--active {
                     background-color: rgb(var(--v-theme-primary));
                     border-color: rgb(var(--v-theme-primary));
-                    color: white;
+                    color: rgb(var(--v-theme-on-primary));
                 }
             }
         }

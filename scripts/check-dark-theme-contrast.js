@@ -8,6 +8,8 @@ const themesPath = path.join(root, 'resources/js/themes.js');
 const darkModePath = path.join(root, 'resources/sass/DarkMode.scss');
 const appStylesPath = path.join(root, 'resources/sass/app.scss');
 const homeStylesPath = path.join(root, 'resources/sass/Home/Home.scss');
+const reviewStylesPath = path.join(root, 'resources/sass/Review/Review.scss');
+const interactiveTextStylesPath = path.join(root, 'resources/sass/Text/InteractiveTextStyling.scss');
 
 function loadThemes() {
     const source = fs.readFileSync(themesPath, 'utf8').replace(/export\s+default/, 'module.exports =');
@@ -53,6 +55,8 @@ const dark = themes.dark;
 const css = fs.readFileSync(darkModePath, 'utf8');
 const appCss = fs.readFileSync(appStylesPath, 'utf8');
 const homeCss = fs.readFileSync(homeStylesPath, 'utf8');
+const reviewCss = fs.readFileSync(reviewStylesPath, 'utf8');
+const interactiveTextCss = fs.readFileSync(interactiveTextStylesPath, 'utf8');
 const failures = [];
 
 for (const token of [
@@ -127,6 +131,7 @@ const requiredSelectors = [
     '.v-dialog .v-card',
     '.v-tooltip > .v-overlay__content',
     '#reader-box #toolbar button.toolbar-button.v-btn',
+    '#review-box {',
     '.v-theme--dark.v-date-picker',
     '.v-date-picker-month__day--selected .v-date-picker-month__day-btn',
     '.v-date-picker-month__day--today:not(.v-date-picker-month__day--selected)',
@@ -200,6 +205,37 @@ if (/#calendar-popup-date\s*\{[^}]*color:\s*white;/s.test(homeCss)) {
 
 if (css.includes('border-color: #404040')) {
     failures.push('Dark custom calendar day borders must use the semantic border token.');
+}
+
+for (const reviewAnimationRule of [
+    '&.back-to-deck-animation #review-card-content',
+    '&.into-the-correct-deck-animation #review-card-content',
+    '&.draw-new-card-animation #review-card-content',
+    'color: rgb(var(--v-theme-text));',
+]) {
+    if (!reviewCss.includes(reviewAnimationRule)) {
+        failures.push(`Review animation styles are missing semantic card text rule: ${reviewAnimationRule}`);
+    }
+}
+
+if (/#review-card[\s\S]{0,1200}color:\s*white;/i.test(reviewCss)) {
+    failures.push('Review card animations must not hardcode white foreground text.');
+}
+
+if (/#review-box[\s\S]{0,500}#review-card[\s\S]{0,500}textDark/i.test(css)) {
+    failures.push('Dark Review card animation overrides must not use textDark on dark card faces.');
+}
+
+if (!css.includes('#vocabulary-bottom-sheet-stage-buttons .v-btn.v-btn--active') || !css.includes('color: rgb(var(--v-theme-on-primary)) !important;')) {
+    failures.push('Dark Reader vocabulary stage buttons must use on-primary on the primary active surface.');
+}
+
+if (/#vocab(?:ulary)?[\s\S]{0,220}stage-buttons[\s\S]{0,300}color:\s*white;/i.test(appCss)) {
+    failures.push('Shared Reader vocabulary stage buttons must not hardcode white active text.');
+}
+
+if (!/&\.highlighted\s*\{[^}]*outline:\s*2px solid rgb\(var\(--v-theme-highlightedWordText\)\);[^}]*outline-offset:\s*1px;/s.test(interactiveTextCss)) {
+    failures.push('Reader selected word state must keep a semantic outline so it is distinguishable from hover.');
 }
 
 const chipBlock = css.match(/#app \.v-application\.dark \.v-theme--dark\.v-chip,[\s\S]*?\n}\n/);

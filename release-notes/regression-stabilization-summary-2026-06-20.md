@@ -4,7 +4,7 @@ Date: 2026-06-20
 
 Source of record: `release-notes/regression-reconciliation-tracker-2026-06-17.md`
 
-This checkpoint records the stabilized REG-001 through REG-011 work and the four completed REG-008 dark-theme batches. It does not declare the migration or dark-theme audit complete.
+This checkpoint records the stabilized REG-001 through REG-011 work and the five completed REG-008 dark-theme batches. It does not declare the migration or dark-theme audit complete.
 
 ## Completed Clusters
 
@@ -43,7 +43,7 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the four
 - Changed files: `resources/sass/app.scss`, Reader/Review component class usage, and `tests/Feature/VueMigrationStaticTest.php`.
 - Tests: shared `vertical-toolbar-button` use and fixed 40x40 circular geometry.
 - Verification: eight Reader and seven Review controls measured 40x40 with zero padding and 50% radius at 1440px and 900px. Reader panel/toolbar separation was 8px with no overlap.
-- Residual risk: broader Reader/Review dark animation and state colors remain under REG-008.
+- Residual risk: none specific for toolbar geometry; broader feature-local obsolete selectors remain under REG-008.
 
 ### REG-007: Dialogs, metadata chips, and Reader Settings
 
@@ -56,15 +56,16 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the four
 
 ### REG-008: Dark-theme shared component batches
 
-- Status: Four shared clusters verified; REG-008 remains open for deferred families.
+- Status: Five shared clusters verified; REG-008 remains open for deferred families.
 - Root cause: semantic Vuetify 3 tokens existed, but obsolete selectors, teleported overlay scope, hardcoded foregrounds, and competing generic rules applied incorrect state colors.
-- Changed files across completed batches: `resources/js/themes.js`, `resources/js/components/Home/Calendar.vue`, `resources/sass/DarkMode.scss`, `resources/sass/app.scss`, `resources/sass/Home/Home.scss`, `scripts/check-dark-theme-contrast.js`, and `tests/Feature/VueMigrationStaticTest.php`.
-- Tests: semantic token contrast; active pagination and error actions; current field/focus/disabled/menu selectors; teleported overlay coverage; obsolete selector rejection; semantic tab/sidebar/bottom-navigation states; current Vuetify 3 date-picker selectors and semantic selected/today/hover/disabled/custom-calendar states.
+- Changed files across completed batches: `resources/js/themes.js`, `resources/js/components/Home/Calendar.vue`, `resources/sass/DarkMode.scss`, `resources/sass/app.scss`, `resources/sass/Home/Home.scss`, `resources/sass/Review/Review.scss`, `resources/sass/Text/InteractiveTextStyling.scss`, `resources/sass/Text/VocabularyBox.scss`, `resources/sass/Text/VocabularySideBox.scss`, `resources/sass/Text/VocabularyBottomSheet.scss`, `scripts/check-dark-theme-contrast.js`, and `tests/Feature/VueMigrationStaticTest.php`.
+- Tests: semantic token contrast; active pagination and error actions; current field/focus/disabled/menu selectors; teleported overlay coverage; obsolete selector rejection; semantic tab/sidebar/bottom-navigation states; current Vuetify 3 date-picker selectors and semantic selected/today/hover/disabled/custom-calendar states; Review transition text, Reader vocabulary-stage state colors, and selected Reader word distinction from hover.
 - Tables/pagination/headings verification: Admin Fonts, Dictionaries, and Vocabulary. Active pagination improved to 7.08:1; delete actions to 5.82:1; table borders to 3.16:1 while retaining 32x32 actions.
 - Forms/selects/cards/menus verification: Vocabulary filters/import, Edit User, Reader Settings, menus, and help popovers. Alert link improved from 1.11:1 to 7.08:1; selected menus were 9.00:1; focused fields used the semantic focus indicator.
 - Tabs/navigation verification: all Admin and Reader Settings tabs, desktop sidebar, mobile drawer, and bottom navigation at 1440px, 900px, and 390px. Active sidebar and mobile navigation reached 7.08:1 with visible hover/focus/selection states and no overflow.
 - Calendar/date-picker verification: Home's teleported picker, custom goal-calendar days, and day-details popup were checked at desktop and 390px mobile widths. Picker text reached 11.26:1, primary header/selected text and popup controls reached 7.08:1, semantic borders reached 3.16:1, keyboard focus was visible, and no mobile overflow occurred.
-- Residual risk: Review animation/state colors, feature-local obsolete selectors, broad legacy cleanup, and the light-palette `on-primary` contrast decision remain deferred.
+- Review/Reader verification: Review question/reveal/correct/missed/progress/toolbar states and Reader normal text, selected word, hover distinction, vocabulary panel, stage buttons, toolbar, and mobile bottom sheet were checked in dark theme. Review transition frames improved from 1.27:1 to 12.59:1; mobile Reader active stage improved from 2.26:1 to 7.08:1; selected Reader words keep 9.24:1 contrast plus a distinct 2px outline. Light Review and Reader selected-word smoke remained readable.
+- Residual risk: feature-local obsolete selectors, broad legacy cleanup, and the light-palette `on-primary` contrast decision remain deferred.
 
 ### REG-009: Sidebar and mobile drawer bottom controls
 
@@ -97,9 +98,10 @@ This checkpoint records the stabilized REG-001 through REG-011 work and the four
 
 Latest known passing checkpoint:
 
-- PHPUnit: `95 tests, 1,062 assertions`.
+- PHPUnit: `96 tests, 1,088 assertions`.
 - Mounted frontend component tests: `1` file, `2` tests passed.
 - Focused current REG-008 calendar/date-picker test: `1 test, 22 assertions`.
+- Focused current REG-008 Review/Reader test: `1 test, 25 assertions`.
 - `npm run check:migration`: passed, including dependency checks, hard legacy blockers, and production Vite build.
 - Production build: passed with 749 modules transformed.
 - `npm run check:css`: passed with zero errors; warning-only legacy CSS debt remains.
@@ -116,7 +118,7 @@ Protected behavioral contracts include:
 - 32x32 table actions and 40x40 toolbar controls;
 - viewport-aware dialogs and readable metadata chips;
 - shared responsive Reader Settings rows;
-- semantic dark-theme states for the four completed component clusters;
+- semantic dark-theme states for the five completed component clusters;
 - aligned safe-area-aware sidebar controls;
 - valid import documentation routing;
 - no Home goal-card document overflow.
@@ -124,7 +126,6 @@ Protected behavioral contracts include:
 
 ## Remaining Deferred Work
 
-- REG-008 Review animation/state colors and broader Reader/Review contrast verification.
 - REG-008 feature-local obsolete selectors, including Admin API settings.
 - REG-008 broad legacy selector cleanup, performed only in evidence-backed component batches.
 - Separate light-palette `on-primary` contrast decision; the current primary/white ratio is 3.23:1.
@@ -141,7 +142,6 @@ Protected behavioral contracts include:
 | Production contains invalid or incomplete legacy vocabulary metadata | High | The production-backup dry run found 2,398 invalid rows, but 449 mechanically safe candidates include debatable lexical forms and 440 require manual review | Repeat the report against a fresh backup using the implemented narrow selectors and ceiling, then approve an exact candidate list before any apply | Product decision, dry-run, manual verification |
 | Wrong-owner phrase metadata requires controlled production repair | High | A fresh backup dry-run produced one clean scope, but no production apply has been approved or executed | Follow the pending approval packet: make a new backup, repeat the scoped dry-run, require an exact 16-row match, and obtain explicit approval before apply | Approval decision, backup, dry-run, manual verification |
 | Duplicate word text prevents deterministic metadata backfill | Medium | The reviewed snapshot has no duplicates within user/language scope, but future datasets may; automatic guessing remains unsafe | Keep duplicate detection and fallback; define a policy only if a future dry run reports scoped duplicates | Product decision, tests |
-| Review animation/state colors are not comprehensively audited | Medium | Toolbar geometry was protected; animation surfaces need separate runtime states | Capture each Review transition/state in light/dark and fix only proven shared rules | Browser verification, code, tests |
 | Admin API and other feature-local obsolete selectors may be dead or harmful | Medium | Blind removal could alter unverified pages | Audit one feature at a time and replace only selectors with runtime impact | Code, tests, browser verification |
 | Broad legacy CSS debt remains | Medium | `check:css` warnings are numerous and not all represent defects | Convert warnings into small ownership-based batches, retaining the zero-error gate | Code, tests |
 | Light `on-primary` contrast is 3.23:1 | Medium | Changing the palette affects many components and needs design/product agreement | Decide whether primary, foreground, or usage should change; then run full light-theme visual checks | Product decision, code, visual verification |
@@ -152,21 +152,24 @@ Protected behavioral contracts include:
 
 1. Review and approve or reject the pending wrong-owner phrase-repair packet; execution remains a separate task with a new backup and matching final dry-run.
 2. Keep cleanup and broad metadata backfill apply blocked; prepare a separate exact-token cleanup packet only if product policy approves specific candidates.
-3. Audit Review animation/state colors and broader Reader/Review contrast without changing established toolbar geometry.
-4. Continue feature-local obsolete-selector cleanup in evidence-backed batches.
-5. Address the light-palette `on-primary` decision only after product/design approval.
+3. Continue feature-local obsolete-selector cleanup in evidence-backed batches, starting with Admin API settings.
+4. Address the light-palette `on-primary` decision only after product/design approval.
+5. Keep release-time browser smoke checks for Review, Reader, Library chapters, Vocabulary, and Home.
 
 ## Working Tree Report
 
-Current state after the calendar/date-picker dark-theme batch:
+Current state after the Review/Reader dark-theme batch:
 
 ```text
 git status --short
  M release-notes/regression-reconciliation-tracker-2026-06-17.md
  M release-notes/regression-stabilization-summary-2026-06-20.md
- M resources/js/components/Home/Calendar.vue
  M resources/sass/DarkMode.scss
- M resources/sass/Home/Home.scss
+ M resources/sass/Review/Review.scss
+ M resources/sass/Text/InteractiveTextStyling.scss
+ M resources/sass/Text/VocabularyBottomSheet.scss
+ M resources/sass/Text/VocabularyBox.scss
+ M resources/sass/Text/VocabularySideBox.scss
  M resources/sass/app.scss
  M scripts/check-dark-theme-contrast.js
  M tests/Feature/VueMigrationStaticTest.php
@@ -174,6 +177,6 @@ git status --short
 
 - `package-lock.json`: unchanged.
 - Generated/runtime artifacts: none remain; the production build did not leave tracked build changes.
-- Test data: one disposable audit user was created only in the development database and removed after browser verification.
+- Test data: disposable audit users/books/chapters were created only in the development database for browser verification and removed with the audit runtime cleanup.
 - Production data: no cleanup, backfill, or phrase-repair command was run.
-- Verification: focused calendar/date-picker `1 test, 22 assertions`; full PHPUnit `95 tests, 1,062 assertions`; mounted frontend `2 tests`; migration/production build, CSS audit, contrast guard, and `git diff --check` passed.
+- Verification: focused Review/Reader `1 test, 28 assertions`; full PHPUnit `96 tests, 1,088 assertions`; mounted frontend `2 tests`; migration/production build, CSS audit, contrast guard, and `git diff --check` passed.

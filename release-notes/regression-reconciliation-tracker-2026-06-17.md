@@ -588,6 +588,73 @@ Fourth REG-008 cluster implementation and verification:
   - broad legacy selector cleanup;
   - the separate light-palette `on-primary` contrast decision.
 
+Fifth REG-008 cluster audit on 2026-06-27: Review animation/state colors and broader Reader/Review contrast
+
+- Component inventory:
+  - Review runtime: `resources/js/components/Review/Review.vue`, `resources/js/components/Review/ReviewSettings.vue`, `resources/js/components/Review/ReviewHotkeyInformationDialog.vue`, and `resources/sass/Review/Review.scss`.
+  - Reader runtime: `resources/js/components/TextReader/TextReader.vue`, `TextReaderGlossary.vue`, `TextReaderChapterList.vue`, `TextReaderHotkeyInformationDialog.vue`, shared text components under `resources/js/components/Text`, and Sass in `resources/sass/TextReader/*`, `resources/sass/Text/*`, plus the shared Reader/Review toolbar contract in `resources/sass/app.scss` and `resources/sass/DarkMode.scss`.
+  - Representative states for this batch are Review question/reveal/action/transition/progress/toolbar states and Reader normal text, selected word, vocabulary panel, stage buttons, toolbar, and mobile/narrow layout.
+- Old behavior/reference:
+  - Old Review card faces used `var(--v-foreground-base)` and `var(--v-text-base)`, but animation classes forced `color: white` on both front and back card faces. See old `resources/sass/Review/Review.scss`.
+  - Old Reader toolbar and text surfaces used Vuetify 2 variables and layout assumptions. The current geometry was already migrated and protected by REG-006/REG-007, so it is behavioral reference only for contrast.
+- Current implementation and migration residue:
+  - Current Review port still contains the animation `color: white` rules in `resources/sass/Review/Review.scss`. Current `resources/sass/DarkMode.scss` partially overrides them to `textDark` for `back-to-deck-animation` and `into-the-correct-deck-animation`, but those card faces can still sit on the dark foreground during the 400ms movement.
+  - Classification: hardcoded color override plus incomplete semantic dark-state migration. This is not a geometry issue and does not require changing scoring, requests, model bindings, or animation timing.
+  - Current Reader/Review toolbar geometry and Reader panel layout use the protected 40x40 `.vertical-toolbar-button` contract. Classification: semantic and already correct for geometry; only color states were audited here.
+  - Current Review answer/action buttons use Vuetify semantic success/error surfaces and measured readable in both question and reveal states. Classification: semantic and already correct.
+  - Current Review progress/count text inherits the card text token and measured readable. Classification: semantic and already correct.
+  - Current Reader selected word and vocabulary details surfaces use `highlightedWordBackground`, foreground, text, custom border, and hover gray tokens; runtime contrast passed for selected, hover-adjacent, details, and no-results states. Runtime evidence showed selected and hover had the same foreground/background, so the selected state needed an additional non-layout indicator. Classification: incomplete semantic state migration.
+  - Current Reader vocabulary-stage active buttons used primary surfaces but mixed hardcoded `white`, `textDark`, and a global `.v-btn--active` text rule. Classification: hardcoded color override plus incomplete semantic dark-state migration.
+  - Current Reader fullscreen toolbar hover still contains the old black/white fallback used by the fullscreen overlay. Runtime evidence showed the toolbar icon/readability contract is satisfied and the 40x40 geometry is protected. Classification: obsolete-looking/hardcoded fallback, semantic enough at runtime; no change in this batch.
+  - Broader Vuetify 2 selector cleanup in shared `DarkMode.scss` remains outside this requested Reader/Review batch unless runtime evidence proves impact on these states. Classification: unclear, needs runtime evidence in separate feature batches.
+- Pre-fix browser evidence from isolated runtime `linguacafe-review-audit` with disposable user/book/chapter:
+  - Review question state at 1280px dark: card face text `rgb(236,236,241)` on `rgb(40,39,44)` was 12.59:1; progress counters were 12.59:1; reveal button text was black on success at 10.27:1; disabled toolbar icon was 4.54:1; toolbar remained 40x40 with no horizontal overflow.
+  - Review revealed state: card face text remained 12.59:1; correct button was 10.27:1 and wrong button was 5.82:1.
+  - Real correct-card transition sampling at 0/50/120/250/420ms showed `into-the-correct-deck-animation` card text as `rgb(20,17,16)` on `rgb(40,39,44)`, only 1.27:1 while the moving card was still visible. This is the confirmed defect.
+  - Synthetic transition checks produced the same 1.27:1 result for `back-to-deck-animation` and `into-the-correct-deck-animation`. `draw-new-card-animation` already used the normal text token.
+  - Reader dark at 1280px: normal word text measured 15.46:1; selected `stir-crazy` measured 9.24:1 on the selection background; stage active button measured 7.08:1; ordinary stage button measured 9.87:1; dictionary/no-results panel text measured 12.59:1; toolbar icon measured 10.21:1; document client and scroll widths were both 1280px.
+- Planned focused fix:
+  - replace Review animation hardcoded white/textDark transition foregrounds with the normal semantic text token for card faces;
+  - keep success/error action buttons and progress badge foregrounds unchanged because runtime contrast is already sufficient;
+  - preserve animation classes, timing, transforms, card geometry, toolbar geometry, Review behavior, and Reader behavior;
+  - add static/contrast guards for Review transition card text and retain Reader/Review toolbar checks.
+
+Fifth REG-008 cluster implementation and verification:
+
+- Changed `resources/sass/Review/Review.scss`: Review transition card faces now use `rgb(var(--v-theme-text))` instead of hardcoded white. This fixes light and dark transition readability without changing animation names, durations, transforms, dimensions, or Review scoring behavior.
+- Changed `resources/sass/DarkMode.scss`: the dark Review transition override now keeps moving card faces on the semantic text token instead of `textDark`; active Reader vocabulary stage buttons use `on-primary` on the primary active surface.
+- Changed `resources/sass/Text/VocabularyBox.scss`, `resources/sass/Text/VocabularySideBox.scss`, `resources/sass/Text/VocabularyBottomSheet.scss`, and `resources/sass/app.scss`: active Reader vocabulary-stage controls now use `on-primary` consistently, including the teleported mobile bottom sheet that was being overridden by the global `.v-btn--active` rule.
+- Changed `resources/sass/Text/InteractiveTextStyling.scss`: selected Reader words now keep the same readable selection foreground/background as hover, plus a 2px `highlightedWordText` outline that distinguishes selected from hover without changing layout.
+- Changed `tests/Feature/VueMigrationStaticTest.php` and `scripts/check-dark-theme-contrast.js`: regression coverage now rejects hardcoded Review transition white, rejects dark Review `textDark` transition overrides, requires semantic active Reader stage buttons, requires the selected-word outline, and preserves the protected 40x40 Reader/Review toolbar contract.
+- Post-fix Review dark evidence:
+  - normal question card face: 12.59:1;
+  - reveal button: 10.27:1;
+  - disabled toolbar: 4.54:1;
+  - correct transition sampled at 0/50/120/250/420ms: every front/back sample was 12.59:1 instead of the pre-fix 1.27:1;
+  - missed transition sampled at the same frame offsets: every front/back sample was 12.59:1;
+  - toolbar buttons remained 40x40 and document width stayed 1280/1280.
+- Post-fix Reader dark evidence:
+  - desktop selected word was 9.24:1, side-panel active stage was 7.08:1, ordinary stage button was 9.87:1, dictionary/no-results text was 12.59:1, toolbar icon was 10.21:1, and document width stayed 1280/1280;
+  - mobile 390x844 selected word was 9.24:1, bottom-sheet surface text was 14.54:1, active bottom-sheet stage button improved from 2.26:1 to 7.08:1, toolbar was 10.21:1, and document width stayed 390/390.
+- Light-theme smoke evidence: Review card text was 12.63:1 on white, reveal button was 10.27:1, toolbar was 40x40 with 12.63:1 text, and document width stayed 1280/1280.
+- Automated verification on 2026-06-29: focused static guard `1 test, 26 assertions`; full PHPUnit `96 tests, 1,088 assertions`; mounted frontend `2 tests`; `npm run check:migration` including production build; `npm run check:css` with zero errors and warning-only legacy CSS debt; `node scripts/check-dark-theme-contrast.js`; and `git diff --check`.
+- Fresh isolated runtime evidence on 2026-06-29:
+  - dev webserver was run from the current checkout as one-off container `linguacafe-review-audit` on port `8181`;
+  - disposable local account/book/chapter/review words were created only in the dev database;
+  - Review dark question state measured card and progress text at 12.59:1, reveal button at 10.27:1, and disabled toolbar icon at 4.54:1;
+  - Review revealed state measured card text at 12.59:1, correct action at 10.27:1, and Again/error action at 5.82:1;
+  - real correct-card transition sampled at 0/50/120/250/420ms kept front and back card text at 12.59:1 for every sampled frame.
+- Fresh Reader browser evidence on 2026-06-29 after the selected-outline fix:
+  - desktop 1280px dark: selected word text was `rgb(18,18,18)` on `rgb(182,182,182)` at 9.24:1 with a 2px `rgb(18,18,18)` outline; hover used the same readable foreground/background but no outline, so selected and hover were visually distinct;
+  - desktop status colors: review-stage word measured 6.33:1 and ordinary/new highlighted word measured 8.81:1;
+  - desktop side panel: panel text measured 12.59:1, active stage button measured 7.08:1, ordinary stage button measured 9.87:1, toolbar icon measured 10.21:1, all eight toolbar buttons remained 40x40 with 50% radius, and document width stayed 1280/1280;
+  - mobile 390x844 dark: selected word kept 9.24:1 with the same 2px outline, bottom-sheet surface text was readable on `rgb(40,39,44)`, active bottom-sheet stage button measured 7.08:1, ordinary bottom-sheet stage text remained readable, toolbar icon measured 10.21:1, all eight toolbar buttons remained 40x40, and document width stayed 390/390;
+  - mobile 390px light smoke: selected word used `rgb(51,51,51)` on `rgb(216,216,216)` with a 2px `rgb(51,51,51)` outline, toolbar text remained readable on white, and document width stayed 390/390.
+- Remaining REG-008 work stays deferred:
+  - feature-local obsolete selectors such as Admin API settings;
+  - broad legacy selector cleanup;
+  - the separate light-palette `on-primary` contrast decision.
+
 ## REG-009: Sidebar/mobile bottom icon alignment
 
 Status: Verified
