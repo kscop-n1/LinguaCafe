@@ -83,6 +83,12 @@ jobs:
             storage/logs \
             bootstrap/cache
 
+      - name: Build frontend assets for PHPUnit
+        run: npm run production
+
+      - name: Assert Vite manifest exists
+        run: test -s public/build/manifest.json
+
       - name: Run full PHPUnit suite
         run: ./vendor/bin/phpunit
 

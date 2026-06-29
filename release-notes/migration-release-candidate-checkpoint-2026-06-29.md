@@ -59,12 +59,12 @@ The latest full PHPUnit count is `1090` assertions. Older summary text that list
 | Invalid-token cleanup apply | Maintenance operation plus product policy | No for code RC | Cleanup apply remains blocked pending exact policy and candidate approval. |
 | Broad metadata backfill | Maintenance operation, prohibited currently | No for code RC | Broad apply remains prohibited; do not run it as part of release candidate. |
 | Release-time browser smoke checks | Release validation | Recommended before tagging | Review, Reader, Library chapters, Vocabulary, and Home should remain in the final smoke list. |
-| First `Protected Baseline CI` GitHub Actions run | CI validation | Yes before final release tagging | The local baseline is green, but RC readiness now depends on the updated workflow passing on GitHub after push. |
+| First `Protected Baseline CI` GitHub Actions run | CI validation | Yes before final release tagging | The first run exposed missing Vite manifest ordering before PHPUnit. The workflow now builds and asserts `public/build/manifest.json` before PHPUnit; RC readiness still depends on the updated workflow passing on GitHub after push. |
 
 ## 5. Recommended Next Execution Order
 
 1. Run the final release smoke checklist against the release-candidate build.
-2. Push and confirm the `Protected Baseline CI` GitHub Actions workflow passes.
+2. Push and confirm the updated `Protected Baseline CI` GitHub Actions workflow passes with `public/build/manifest.json` created before PHPUnit.
 3. Audit feature-local Admin API selectors as a scoped post-release or pre-tag polish task if time allows.
 4. Optionally verify physical iOS safe-area behavior for sidebar/mobile drawer bottom controls.
 5. Execute wrong-owner phrase repair only after explicit approval, fresh backup, matching final dry-run, and rollback readiness.
@@ -80,6 +80,12 @@ Current checkpoint-relevant changed files:
 - `.github/workflows/ci.yml`
 - `tests/README.md`
 - `release-notes/ci-workflow-stabilization-2026-06-29.md`
+
+CI follow-up status:
+
+- The first protected workflow failed because PHPUnit ran before Vite generated `public/build/manifest.json` in a clean checkout.
+- `.github/workflows/ci.yml` now runs `npm run production` and `test -s public/build/manifest.json` before `./vendor/bin/phpunit`.
+- The protected `npm run check:migration` step remains in place and still runs its production build contract.
 
 Package and generated artifact status:
 

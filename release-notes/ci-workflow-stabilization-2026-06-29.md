@@ -33,6 +33,21 @@ Old failing or stale CI commands:
 
 No real production application bug was found during the workflow audit.
 
+## First CI Failure Follow-Up - 2026-06-30
+
+First `Protected Baseline CI` failure:
+
+- Failing command: `./vendor/bin/phpunit`.
+- Failing test: `Tests\Feature\ExampleTest::test_the_application_returns_a_successful_response`.
+- Failure: expected HTTP `200`, received `500`.
+- Root exception: `Illuminate\Foundation\ViteManifestNotFoundException: Vite manifest not found at public/build/manifest.json`.
+
+Root cause: the clean GitHub Actions checkout had no `public/build/manifest.json`, but the workflow ran PHPUnit before any production frontend build. `ExampleTest` requests `/login`, which renders `resources/views/layouts/user.blade.php`; that Blade layout calls `@vite(['resources/js/app.js'])` and therefore requires the manifest unless Vite is explicitly bypassed in the test.
+
+Chosen fix: keep the HTTP feature test behavior intact and update workflow order so `npm run production` creates `public/build/manifest.json` before PHPUnit. The workflow then asserts the manifest exists with `test -s public/build/manifest.json`.
+
+Why this does not weaken the baseline: no tests were removed, no Laravel `withoutVite()` bypass was added, and the protected `npm run check:migration` step still runs later. The workflow intentionally performs an early production build as a PHPUnit prerequisite and then runs the official migration/static/build contract again.
+
 ## Changed Files
 
 - `.github/workflows/ci.yml`: new protected baseline workflow.
@@ -56,14 +71,17 @@ Commands:
 
 1. `composer install --no-interaction --prefer-dist --no-progress`
 2. `npm ci`
-3. `./vendor/bin/phpunit`
-4. `npm run test:frontend`
-5. `npm run check:migration`
-6. `npm run check:css`
-7. `node scripts/check-dark-theme-contrast.js`
-8. `git diff --check`
+3. prepare Laravel runtime directories
+4. `npm run production`
+5. `test -s public/build/manifest.json`
+6. `./vendor/bin/phpunit`
+7. `npm run test:frontend`
+8. `npm run check:migration`
+9. `npm run check:css`
+10. `node scripts/check-dark-theme-contrast.js`
+11. `git diff --check`
 
-Production build remains covered by `npm run check:migration`, whose current contract is `npm run check:deps && npm run check:legacy:hard && npm run production`.
+Production build is now run once before PHPUnit to satisfy Blade/Vite HTTP tests in a clean checkout. It also remains covered by `npm run check:migration`, whose current contract is `npm run check:deps && npm run check:legacy:hard && npm run production`.
 
 ## Local Verification Results
 
@@ -78,9 +96,21 @@ Verified locally on 2026-06-29:
 - `npm run check:css`: passed with `0` errors and `386` warning-only legacy CSS debt entries.
 - `node scripts/check-dark-theme-contrast.js`: passed.
 - `git diff --check`: passed.
-- Tracked dependency/build artifacts: `composer.json`, `composer.lock`, `package.json`, `package-lock.json`, `bootstrap/cache/packages.php`, `bootstrap/cache/services.php`, and `public/build/manifest.json` were unchanged by verification.
+- Tracked dependency/cache artifacts: `composer.json`, `composer.lock`, `package.json`, `package-lock.json`, `bootstrap/cache/packages.php`, and `bootstrap/cache/services.php` were unchanged by verification. The generated `public/build/manifest.json` was restored byte-for-byte after the missing-manifest simulation.
 
 The local host does not have direct `php` or `composer` binaries, so PHP install and PHPUnit verification were run through the existing PHP 8.2 dev container. GitHub Actions cannot be executed fully from this local checkout. The exact workflow to validate after push is `Protected Baseline CI`, job `PHP, frontend, migration, CSS`.
+
+Additional local verification on 2026-06-30 for the missing-manifest failure:
+
+- Temporarily moved `public/build/manifest.json` out of the way to simulate a clean checkout without a Vite manifest.
+- `npm run production`: passed and recreated `public/build/manifest.json`.
+- `test -s public/build/manifest.json`: passed before PHPUnit.
+- Full PHPUnit after manifest creation: `96 tests, 1090 assertions`.
+- `npm run test:frontend`: passed, `1` file and `2` tests.
+- `npm run check:migration`: passed and retained the protected production-build contract.
+- `npm run check:css`: passed with `0` errors and `386` warning-only legacy CSS debt entries.
+- `node scripts/check-dark-theme-contrast.js`: passed.
+- `git diff --check`: passed.
 
 ## Remaining CI Risks
 
