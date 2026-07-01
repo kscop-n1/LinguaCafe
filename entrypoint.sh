@@ -15,7 +15,7 @@ folder_paths="
     ./storage/backup
 "
 
-# Ensure the folders exist
+# Ensure the folders exist in image-only installs and fresh bind mounts.
 for folder_path in $folder_paths; do
     if [ ! -d "$folder_path" ]; then
         mkdir -p "$folder_path"
@@ -24,6 +24,20 @@ for folder_path in $folder_paths; do
         echo "Folder already exists: $folder_path"
     fi
 done
+
+log_paths="
+    ./storage/logs/supervisord.log
+    ./storage/logs/horizon.log
+    ./storage/logs/websockets.log
+    ./storage/logs/laravel.log
+    ./storage/logs/backup.log
+"
+
+for log_path in $log_paths; do
+    touch "$log_path"
+done
+
+chown -R laravel:laravel ./storage
 
 retry_count=0
 
