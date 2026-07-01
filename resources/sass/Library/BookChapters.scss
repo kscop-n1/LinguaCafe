@@ -62,8 +62,8 @@
 }
 
 #books .book.detailed.chapters-card {
-    width: min(1180px, 100%);
-    max-width: 1180px;
+    width: min(800px, 100%);
+    max-width: 800px;
 }
 
 #books .book.detailed.chapters-card > .v-card-text {
@@ -97,6 +97,14 @@
     .chapter-actions {
         gap: 4px;
         min-width: 72px;
+
+        .table-action-button.v-btn {
+            width: 32px !important;
+            height: 32px !important;
+            min-width: 32px !important;
+            min-height: 32px !important;
+            max-width: 32px !important;
+        }
     }
 }
 

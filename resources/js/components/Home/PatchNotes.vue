@@ -5,6 +5,22 @@
         </div>
 
         <v-card variant="outlined" class="rounded-lg mb-8">
+            <v-card-title>v0.6.0-rc1<v-spacer /> 2026.07.01.</v-card-title>
+            <v-card-text>
+                <b>Release candidate:</b>
+                <ul>
+                    <li>Prepared the Docker release candidate for the Vue 3 and Vuetify 3 migration, including production image build fixes, required runtime configuration, and RC update/rollback documentation.</li>
+                    <li>Fixed post-deploy release-candidate UI regressions in book chapter actions, Reader hover vocabulary positioning, and dictionary translation result spacing.</li>
+                </ul>
+
+                <b>Verification:</b>
+                <ul>
+                    <li>Verified the RC Docker runtime with built production assets, Composer autoload, database, Redis, tokenizer service connectivity, and login-page browser smoke coverage.</li>
+                </ul>
+            </v-card-text>
+        </v-card>
+
+        <v-card variant="outlined" class="rounded-lg mb-8">
             <v-card-title>v0.5.48<v-spacer /> 2026.06.17.</v-card-title>
             <v-card-text>
                 <b>Bug fixes:</b>

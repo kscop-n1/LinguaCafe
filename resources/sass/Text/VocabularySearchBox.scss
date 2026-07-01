@@ -19,21 +19,25 @@
             padding-top: 12px !important;
             margin-top: 12px !important;
             border-top: 1px solid rgb(var(--v-theme-gray));
-            height: calc(32px + 12px);
+            min-height: calc(32px + 12px);
         }
 
         .search-result-title {
-            display: inline-block;
-            height: 32px;
-            line-height: 28px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px 8px;
+            min-height: 32px;
+            line-height: 1.25;
             font-size: 14px;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
             
             .dictionary-title-icon {
-                display: inline-block;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 42px;
                 border-radius: 12px;
                 height: 24px;
                 line-height: 22px !important;
@@ -43,12 +47,16 @@
 
 
             .search-result-word {
-                display: inline-block;
-                float: right;
-                max-width: 180px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                display: inline-flex;
+                align-items: center;
+                max-width: 100%;
+                min-height: 24px;
+                padding: 2px 8px;
+                border-radius: 12px;
+                background-color: rgb(var(--v-theme-gray2));
+                color: rgb(var(--v-theme-text));
+                white-space: normal;
+                overflow-wrap: anywhere;
             }
         }
         
@@ -57,12 +65,12 @@
             display: block;
             width: 100%;
             min-height: 30px;
-            line-height: 30px;
+            line-height: 1.35;
             user-select: none;
             cursor: pointer;
-            text-align: right;
-            overflow: hidden;
-            padding-right: 26px;
+            text-align: left;
+            overflow-wrap: anywhere;
+            padding: 6px 30px 6px 8px;
             font-size: 13px;
 
             &:hover {
