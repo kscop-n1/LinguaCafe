@@ -62,8 +62,9 @@
 }
 
 #books .book.detailed.chapters-card {
-    width: min(800px, 100%);
-    max-width: 800px;
+    width: 100%;
+    max-width: 1180px;
+    box-sizing: border-box;
 }
 
 #books .book.detailed.chapters-card > .v-card-text {
@@ -81,11 +82,6 @@
 
     .v-table__wrapper {
         overflow-x: auto;
-    }
-
-    .v-data-table th,
-    .v-data-table td {
-        white-space: nowrap;
     }
 
     .v-data-table th:first-child,
@@ -106,6 +102,18 @@
             max-width: 32px !important;
         }
     }
+}
+
+.book-chapters .book-chapters-table.v-table > .v-table__wrapper > table > thead > tr > th,
+.book-chapters .book-chapters-table.v-table > .v-table__wrapper > table > tbody > tr > td {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    white-space: nowrap;
+}
+
+.book-chapters .book-chapters-table.v-table > .v-table__wrapper > table > thead > tr > th:first-child,
+.book-chapters .book-chapters-table.v-table > .v-table__wrapper > table > tbody > tr > td:first-child {
+    white-space: normal;
 }
 
 @media (max-width: 700px) {
